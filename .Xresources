@@ -1,38 +1,57 @@
-!! Monokai color scheme from https://terminal.sexy
+! Solarized color scheme for the X Window System
+! http://ethanschoonover.com/solarized
 
-! special
-*.foreground:   #f8f8f2
-*.background:   #272822
-*.cursorColor:  #f8f8f2
-! black
-*.color0:       #272822
-*.color8:       #75715e
-! red
-*.color1:       #f92672
-*.color9:       #f92672
-! green
-*.color2:       #a6e22e
-*.color10:      #a6e22e
-! yellow
-*.color3:       #f4bf75
-*.color11:      #f4bf75
-! blue
-*.color4:       #66d9ef
-*.color12:      #66d9ef
-! magenta
-*.color5:       #ae81ff
-*.color13:      #ae81ff
-! cyan
-*.color6:       #a1efe4
-*.color14:      #a1efe4
-! white
-*.color7:       #f8f8f2
-*.color15:      #f9f8f5
+
+! Common
+#define S_yellow        #b58900
+#define S_orange        #cb4b16
+#define S_red           #dc322f
+#define S_magenta       #d33682
+#define S_violet        #6c71c4
+#define S_blue          #268bd2
+#define S_cyan          #2aa198
+#define S_green         #859900
+
+! Dark
+#define S_base03        #002b36
+#define S_base02        #073642
+#define S_base01        #586e75
+#define S_base00        #657b83
+#define S_base0         #839496
+#define S_base1         #93a1a1
+#define S_base2         #eee8d5
+#define S_base3         #fdf6e3
+
+! Apply colors
+*background:              S_base03
+*foreground:              S_base0
+*fading:                  30
+*fadeColor:               S_base03
+*cursorColor:             S_base1
+*pointerColorBackground:  S_base01
+*pointerColorForeground:  S_base1
+
+*color0:                  S_base02
+*color1:                  S_red
+*color2:                  S_green
+*color3:                  S_yellow
+*color4:                  S_blue
+*color5:                  S_magenta
+*color6:                  S_cyan
+*color7:                  S_base2
+*color9:                  S_orange
+*color8:                  S_base03
+*color10:                 S_base01
+*color11:                 S_base00
+*color12:                 S_base0
+*color13:                 S_violet
+*color14:                 S_base1
+*color15:                 S_base3
 
 
 !! urxvt settings
 
-URxvt*termName:			screen-256color
+URxvt*termName:			rxvt-unicode
 URxvt*geometry:			273x78
 URxvt*loginShell:		true
 ! basic behaviour
@@ -48,10 +67,7 @@ URxvt*fading:			30
 ! fonts
 URxvt*letterSpace:		0
 URxvt*lineSpace:		0
-URxvt*font: 			xft:monospace:normal:size=8:antialias=true
-URxvt*boldFont: 		xft:monospace:bold:size=8:antialias=true
-URxvt*italicFont: 		xft:monospace:italic:size=8:antialias=true
-URxvt*boldItalicFont: 		xft:monospace:bold:italic:size=8:antialias=true
+URxvt*font: 			xft:Inconsolata for Powerline:size=10
 ! misc
 URxvt*print-pipe:		cat > $HOME/$(echo urxvt.dump.$(date + '%Y%M%d%H%m%S'))
 

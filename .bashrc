@@ -117,3 +117,9 @@ if ! shopt -oq posix; then
 fi
 
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+
+powerline-daemon -q
+POWERLINE_BASH_CONTINUATION=1
+POWERLINE_BASH_SELECT=1
+. $HOME/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
