@@ -1,0 +1,4 @@
+# Configure my Logitech mouse
+# Swith buttons 2 and 8 because button 2 doesn't work.
+LOGITECH_MOUSE_ID = $(xinput list | grep "Logitech Gaming Mouse G402" | head -n 2 | tail -n 2 | tail -n 1 | sed -r 's/.*id=([0-9]+).*/\1/')
+xinput --set-button-map ${LOGITECH_MOUSE_ID} 1 8 3 4 5 6 7 2 9 10
