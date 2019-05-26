@@ -6,6 +6,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
@@ -42,7 +43,8 @@ set mousehide                   " Hide the mouse cursor while typing
 " Theme
 
 set background=dark
-colorscheme solarized
+colorscheme gruvbox
+let gruvbox_contrast_dark='medium'
 
 
 " Formatting
@@ -70,7 +72,7 @@ nnoremap <leader>s :set invspell<CR>    " Toggle spell checking
 " Plugin vim-airline
 
 let g:airline_powerline_fonts=1
-let g:airline_theme='solarized'
+let g:airline_theme='gruvbox'
 let g:airline_solarized_bg='dark'
 
 " tabline
