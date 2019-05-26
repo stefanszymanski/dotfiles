@@ -51,7 +51,7 @@
 
 !! urxvt settings
 
-URxvt*termName:			rxvt-unicode
+URxvt*termName:		    xterm-256color
 URxvt*geometry:			273x78
 URxvt*loginShell:		true
 ! basic behaviour
@@ -67,7 +67,7 @@ URxvt*fading:			30
 ! fonts
 URxvt*letterSpace:		0
 URxvt*lineSpace:		0
-URxvt*font: 			xft:Inconsolata for Powerline:size=10
+URxvt*font: 			xft:Inconsolata for Powerline:size=10,xft:DejaVu Sans Mono for Powerline:size=10
 ! misc
 URxvt*print-pipe:		cat > $HOME/$(echo urxvt.dump.$(date + '%Y%M%d%H%m%S'))
 
