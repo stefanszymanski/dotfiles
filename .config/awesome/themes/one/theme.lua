@@ -629,4 +629,44 @@ function theme.at_screen_connect(s)
     }
 end
 
+
+theme.layoutlist = awful.widget.layoutlist {
+    base_layout = wibox.widget {
+        spacing         = 5,
+        forced_num_cols = 5,
+        layout          = wibox.layout.grid.vertical,
+    },
+    widget_template = {
+        {
+            {
+                id            = 'icon_role',
+                forced_height = 22,
+                forced_width  = 22,
+                widget        = wibox.widget.imagebox,
+            },
+            margins = 4,
+            widget  = wibox.container.margin,
+        },
+        id              = 'background_role',
+        forced_width    = 24,
+        forced_height   = 24,
+        shape           = gears.shape.rounded_rect,
+        widget          = wibox.container.background,
+    },
+}
+
+theme.layoutpopup = awful.popup {
+    widget = wibox.widget {
+        theme.layoutlist,
+        margins = 4,
+        widget  = wibox.container.margin,
+    },
+    border_color = theme.border_color,
+    border_width = theme.border_width,
+    placement    = awful.placement.centered,
+    ontop        = true,
+    visible      = false,
+    shape        = gears.shape.rounded_rect
+}
+
 return theme
