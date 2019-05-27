@@ -189,6 +189,8 @@ theme.stop                                      = theme.dir .. "/icons/info/stop
 theme.mem                                       = theme.dir .. "/icons/info/mem.png"
 theme.cpu                                       = theme.dir .. "/icons/info/cpu.png"
 theme.net                                       = theme.dir .. "/icons/info/net.png"
+theme.redshift_on								= theme.dir .. "/icons/info/redshift-on.svg"
+theme.redshift_off								= theme.dir .. "/icons/info/redshift-off.svg"
 
 theme.titlebar_close_button_focus               = theme.dir .. "/icons/titlebar/close_focus.png"
 theme.titlebar_close_button_normal              = theme.dir .. "/icons/titlebar/close_normal.png"
@@ -431,6 +433,33 @@ local net = lain.widget.net({
 })
 
 
+-- Redshift
+local myredshift = wibox.widget{
+    checked      = false,
+    check_color  = "#00000000",
+    border_width = 0,
+    shape        = gears.shape.square,
+    widget       = wibox.widget.checkbox
+}
+local myredshift_icon = wibox.widget.imagebox(theme.redshift_on)
+local myredshift_stack = wibox.widget{
+    myredshift,
+    myredshift_icon,
+    layout = wibox.layout.stack
+}
+lain.widget.contrib.redshift:attach(
+    myredshift,
+    function (active)
+        if active then
+            myredshift_icon.image = theme.redshift_on
+        else
+            myredshift_icon.image = theme.redshift_off
+        end
+        myredshift.checked = active
+    end
+)
+
+
 -- Spacing
 local space = wibox.widget.separator {
     orientation = "vertical",
@@ -584,6 +613,8 @@ function theme.at_screen_connect(s)
                     cpuicon, cpuwidget,
                     baticon, batwidget,
                     volicon, volumewidget,
+                    space, vert_sep, space,
+					myredshift_stack,
                     --wibox.widget.systray(),
                     space, vert_sep, space,
                     mytextclock,
