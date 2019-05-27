@@ -3,7 +3,6 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 Plug 'morhetz/gruvbox'
