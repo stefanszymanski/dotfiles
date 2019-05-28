@@ -57,6 +57,7 @@ local function run_once(cmd_arr)
 end
 
 run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
+run_once({ "$HOME/.scripts/lockscreen_auto.sh" })
 
 -- This function implements the XDG autostart specification
 --[[
@@ -78,7 +79,7 @@ local altkey       = "Mod1"
 local terminal     = "urxvtc"
 local editor       = os.getenv("EDITOR") or "vim"
 local browser      = "firefox"
-local scrlocker    = "slock"
+local scrlocker    = "$HOME/.scripts/lockscreen.sh"
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
@@ -234,7 +235,7 @@ globalkeys = my_table.join(
                 {description = "take a screenshot", group = "hotkeys"}),
 
 -- X screen locker
-        awful.key({ altkey, "Control" }, "l", function () os.execute(scrlocker) end,
+        awful.key({ modkey            }, "l", function () os.execute(scrlocker) end,
                 {description = "lock screen", group = "hotkeys"}),
 
 -- Hotkeys
