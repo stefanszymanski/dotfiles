@@ -7,16 +7,20 @@
 # same order they appear in the output of `xrandr`.
 # Only horizontally arranged monitors are supported.
 
-
+lock="$HOME/.cache/i3lock_lock"
 icon="$HOME/.config/i3lock/icon.png"
 image="$HOME/.cache/i3lock_background.png"
+
+# Create a lock
+exec 200>$lock
+flock -n 200 || exit 1
 
 # Take a screenshot
 scrot $image
 
-# Pixelate the image
-#convert $image -scale 10% -scale 1000% $image
-convert $image -filter Gaussian -blur 0x8 $image
+# Pixelate the image (is much faster than using blur)
+convert $image -scale 10% -scale 1000% $image
+#convert $image -filter Gaussian -blur 0x8 $image
 
 # Get the resolutions of all monitors
 res=`xrandr | grep \* |awk '{print $1}' | awk -F'[x]' '{print $1, $2}'`
