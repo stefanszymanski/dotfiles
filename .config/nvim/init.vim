@@ -37,6 +37,7 @@ set scrolloff=3                 " Minimum lines to keep above and below cursor
 set nofoldenable                " Auto fold code
 set mouse=a                     " Automatically enable mouse usage
 set mousehide                   " Hide the mouse cursor while typing
+set nomodeline                  " Disable modeline
 
 
 " Theme
@@ -58,7 +59,6 @@ set nojoinspaces                " Prevents inserting two spaces after punctuatio
 set splitright                  " Puts new vsplit windows to the right of the current
 set splitbelow                  " Puts new split windows to the bottom of the current
 set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-set wildmode=longest,list       " get bash-like tab completions
 set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 "set cc=80                       " set an 80 column border for good coding style
 
