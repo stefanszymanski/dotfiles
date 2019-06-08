@@ -1,81 +1,149 @@
-export ZSH="/home/stefan/.oh-my-zsh"
+# See http://zsh.sourceforge.net/Doc/Release/Options.html
 
-ZSH_THEME="agnoster"
+# A lot was taken from https://github.com/changs/slimzsh and customizing these configs is still in progress
 
-DEFAULT_USER="stefan"
+source ~/.zplug/init.zsh
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Let zplug manage itself
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Add some plugins
+zplug "ael-code/zsh-colored-man-pages", defer:2
+zplug "zdharma/fast-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# Set the theme
+zplug "robobenklein/zinc", as:theme
 
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Set up the theme
+typeset -ga zinc_left zinc_right
+zinc_left=(
+	zincs_cwd_writable
+	zincs_cwd
+	zincs_vcs
+)
+zinc_right=(
+    zincs_retval
+    zincs_virtualenv
+    zincs_time
+)
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
+# COMPLETION
+unsetopt menu_complete
+unsetopt flowcontrol
+setopt auto_menu
+setopt complete_in_word
+setopt always_to_end
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+# case-insensitive (all),partial-word and then substring completion
+if [ "x$CASE_SENSITIVE" = "xtrue" ]; then
+  zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+  unset CASE_SENSITIVE
+else
+  zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+fi
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+zstyle ':completion:*' list-colors ''
 
-# Uncomment the following line to enable command auto-correction.
-#ENABLE_CORRECTION="true"
+zstyle ':completion:*:*:*:*:*' menu select
+# Enhance process completion
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+zstyle ':completion:*:*:*:*:processes' command "ps -u `whoami` -o pid,user,comm,time,command -w -w"
+# Disable named-directories autocompletion
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+# Enhance host name completion
+zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+zstyle ':completion:*' users off
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-DISABLE_UNTRACKED_FILES_DIRTY="true"
+# Use caching so that commands like apt and dpkg complete are useable
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion::complete:*' cache-path $ZSH/cache/
+# Don't complete uninteresting users
+zstyle ':completion:*:*:*:users' ignored-patterns \
+        adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
+        dbus distcache dovecot fax ftp games gdm gkrellmd gopher \
+        hacluster haldaemon halt hsqldb ident junkbust ldap lp mail \
+        mailman mailnull mldonkey mysql nagios \
+        named netdump news nfsnobody nobody nscd ntp nut nx openvpn \
+        operator pcap postfix postgres privoxy pulse pvm quagga radvd \
+        rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs
+# ... unless we really want to.
+zstyle '*' single-ignored show
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-HIST_STAMPS="yyyy-mm-dd"
+if [ "x$COMPLETION_WAITING_DOTS" = "xtrue" ]; then
+  expand-or-complete-with-dots() {
+    echo -n "\e[31m......\e[0m"
+    zle expand-or-complete
+    zle redisplay
+  }
+  zle -N expand-or-complete-with-dots
+  bindkey "^I" expand-or-complete-with-dots
+fi
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Configure plugins.
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
 
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git-prompt scala sudo urltools web-search transfer colored-man-pages zsh-autosuggestions dirhistory)
+# CORRECTION
+setopt correct_all
+alias man='nocorrect man'
+alias mv='nocorrect mv'
+alias mkdir='nocorrect mkdir'
+alias gist='nocorrect gist'
+alias sudo='nocorrect sudo'
 
-source $ZSH/oh-my-zsh.sh
 
-# User configuration
+# HISTORY
+if [ -z $HISTFILE ]; then
+    HISTFILE=$HOME/.zsh_history
+fi
+HISTSIZE=100000
+SAVEHIST=100000
+HISTCONTROL=ignoredups
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
+setopt append_history
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_verify
+setopt inc_append_history
 
-# Create an alias for managing my configuration files with git.
+
+# Enable vi mode
+bindkey -v
+# Set timeout of the escape key to 0.1 seconds
+export KEYTIMEOUT=1
+
+
+# ALIASES
+
+# dotfile versioning
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-# Display tab completion suggestions in a menu and make them selectable.
-zstyle ':completion:*' menu select
+# exa
+if type exa &> /dev/null; then
+	alias ls='exa'                                                         # ls
+	alias l='exa -lbF --git'                                               # list, size, type, git
+	alias ll='exa -lbGF --git'                                             # long list
+	alias la='exa -lbhHigUmuSa --time-style=long-iso --git --color-scale'  # all list
+	alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
+	alias lS='exa -1'                                                      # one column, just names
+	alias lt='exa --tree --level=2'
+	alias lt3='exa --tree --level=3'
+	alias lt4='exa --tree --level=4'
+	alias lt5='exa --tree --level=5'
+fi
 
-# Enable command completion
-#autoload -U compinit
-#compinit
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Load the plugins
+zplug load # --verbose
