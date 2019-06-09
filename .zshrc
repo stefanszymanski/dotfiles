@@ -12,6 +12,7 @@ zplug "ael-code/zsh-colored-man-pages", defer:2
 zplug "zdharma/fast-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
+zplug "peterhurford/up.zsh"
 
 # Set the theme
 zplug "robobenklein/zinc", as:theme
