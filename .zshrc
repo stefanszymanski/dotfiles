@@ -147,3 +147,6 @@ fi
 
 # Load the plugins
 zplug load # --verbose
+
+# Load fzf
+source ~/.fzf.zsh
