@@ -2,11 +2,17 @@
 
 call plug#begin('~/.local/share/nvim/plugged')
 
+" theme
 Plug 'vim-airline/vim-airline'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'tpope/vim-fugitive'
-Plug '~/.fzf'
 Plug 'morhetz/gruvbox'
+" tmux integration
+Plug 'christoomey/vim-tmux-navigator'
+" version control
+Plug 'tpope/vim-fugitive'
+" fzf integration
+Plug '~/.fzf'
+Plug 'junegunn/fzf.vim'
+
 
 call plug#end()
 
