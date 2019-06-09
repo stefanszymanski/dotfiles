@@ -17,7 +17,14 @@ zplug "peterhurford/up.zsh"
 # Set the theme
 zplug "robobenklein/zinc", as:theme
 
-# Set up the theme
+# Add directory for custom prompt segments
+fpath+=("$HOME/.config/zsh/zinc/segments")
+# Modify segment options
+typeset -gA zinc_opts
+zinc_opts=(
+  zincs_execution_time "black;yellow;;;10"      # changed colours and threshold
+)
+# Setup prompt
 typeset -ga zinc_left zinc_right
 zinc_left=(
 	zincs_cwd_writable
@@ -27,6 +34,7 @@ zinc_left=(
 zinc_right=(
     zincs_retval
     zincs_virtualenv
+    zincs_execution_time
     zincs_time
 )
 
