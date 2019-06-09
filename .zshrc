@@ -131,11 +131,15 @@ if type exa &> /dev/null; then
 	alias la='exa -lbhHigUmuSa --time-style=long-iso --git --color-scale'  # all list
 	alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
 	alias lS='exa -1'                                                      # one column, just names
-	alias lt='exa --tree --level=2'
-	alias lt3='exa --tree --level=3'
-	alias lt4='exa --tree --level=4'
-	alias lt5='exa --tree --level=5'
 fi
+# exa tree view
+function lt {
+    if [ -n "$1" ]; then
+        exa --tree --level="$1"
+    else
+        exa --tree --level=2
+    fi
+}
 
 
 # Install plugins if there are plugins that have not been installed
