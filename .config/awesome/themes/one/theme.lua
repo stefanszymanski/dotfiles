@@ -388,7 +388,7 @@ theme.volume = lain.widget.pulsebar {
         unmute       = theme.fg_normal
     }
 }
-theme.volume.tooltip.wibox.fg = theme.fg_focus
+theme.volume.tooltip:remove_from_object(theme.volume.bar)
 theme.volume.bar:buttons(my_table.join (
         awful.button({}, 1, function()
             awful.spawn(string.format("%s -e pulsemixer", awful.util.terminal))
