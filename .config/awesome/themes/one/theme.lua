@@ -11,11 +11,13 @@
 --]]
 
 
-local gears = require("gears")
-local lain  = require("lain")
-local awful = require("awful")
-local wibox = require("wibox")
-local dpi   = require("beautiful.xresources").apply_dpi
+local gears 	= require("gears")
+local lain  	= require("lain")
+local awful 	= require("awful")
+local wibox 	= require("wibox")
+local naughty 	= require("naughty")
+local dpi   	= require("beautiful.xresources").apply_dpi
+local custom	= require("custom")
 
 local awesome, client, os = awesome, client, os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
@@ -62,6 +64,7 @@ local theme                                     = {}
 
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/one"
 theme.wallpaper                                 = theme.dir .. "/wall.png"
+theme.wallpaper_fn								= gears.wallpaper.tiled
 
 local font_name                                 = "Inconsolata for Powerline"
 local font_size                                 = "12"
@@ -150,6 +153,19 @@ theme.bar_bg                                    = colors.bw_0
 theme.bar_fg                                    = colors.bw_5
 theme.bar_height                                = 20
 
+theme.notification_fg                           = theme.fg_normal
+theme.notification_bg                           = theme.bg_normal
+theme.notification_border_color                 = colors.bw_2
+theme.notification_border_width                 = theme.border
+theme.notification_icon_size                    = 80
+theme.notification_opacity                      = 1
+theme.notification_max_width                    = 600
+theme.notification_max_height                   = 400
+theme.notification_margin                       = 10
+theme.notification_shape                        = function(cr, w, h)
+                                                      gears.shape.rounded_rect(cr, w, h, theme.border_radius or 0)
+												  end
+
 theme.layout_cascadetile                        = theme.dir .. "/icons/layouts/cascadetile.png"
 theme.layout_centerwork                         = theme.dir .. "/icons/layouts/centerwork.png"
 theme.layout_cornerne                           = theme.dir .. "/icons/layouts/cornerne.png"
@@ -213,6 +229,67 @@ theme.titlebar_maximized_button_normal_inactive = theme.dir .. "/icons/titlebar/
 
 local infobar_width = dpi(50)
 local infobar_height = dpi(1)
+
+naughty.config.padding                          = 15
+naughty.config.spacing                          = 10
+naughty.config.defaults.timeout                 = 5
+naughty.config.defaults.font                    = theme.font
+naughty.config.defaults.fg                      = theme.notification_fg
+naughty.config.defaults.bg                      = theme.notification_bg
+naughty.config.defaults.border_width            = theme.notification_border_width
+naughty.config.defaults.margin 					= theme.notification_margin
+
+naughty.config.presets.normal                   = {
+                                                      font         = theme.font,
+                                                      fg           = theme.notification_fg,
+                                                      bg           = theme.notification_bg,
+                                                      border_width = theme.notification_border_width,
+                                                      margin       = theme.notification_margin,
+                                                  }
+
+naughty.config.presets.low                      = {
+                                                      font         = theme.font,
+                                                      fg           = theme.notification_fg,
+                                                      bg           = theme.notification_bg,
+                                                      border_width = theme.notification_border_width,
+                                                      margin       = theme.notification_margin,
+                                                  }
+
+naughty.config.presets.ok                       = {
+                                                      font         = theme.font,
+                                                      fg           = colors.aqua_2,
+                                                      bg           = theme.notification_bg,
+                                                      border_width = theme.notification_border_width,
+                                                      margin       = theme.notification_margin,
+                                                      timeout      = 0,
+                                                  }
+
+naughty.config.presets.info                     = {
+                                                      font         = theme.font,
+                                                      fg           = colors.blue_2,
+                                                      bg           = theme.notification_bg,
+                                                      border_width = theme.notification_border_width,
+                                                      margin       = theme.notification_margin,
+                                                      timeout      = 0,
+                                                  }
+
+naughty.config.presets.warn                     = {
+                                                      font         = theme.font,
+                                                      fg           = colors.yellow_2,
+                                                      bg           = theme.notification_bg,
+                                                      border_width = theme.notification_border_width,
+                                                      margin       = theme.notification_margin,
+                                                      timeout      = 0,
+                                                  }
+
+naughty.config.presets.critical                 = {
+                                                      font         = theme.font,
+                                                      fg           = colors.red_2,
+                                                      bg           = theme.notification_bg,
+                                                      border_width = theme.notification_border_width,
+                                                      margin       = theme.notification_margin,
+                                                      timeout      = 0,
+												  }
 
 
 -- Textclock
@@ -358,12 +435,7 @@ local memupd = lain.widget.mem({
 })
 local membg = wibox.container.background(membar, "#474747", gears.shape.rectangle)
 local memwidget = wibox.container.margin(membg, dpi(2), dpi(7), dpi(4), dpi(4))
-local memwidget_tooltip = awful.tooltip {
-    objects = { memwidget },
-    timer_function = function()
-        return markup.font(theme.font, markup.fg.color(theme.fg_normal, " used: " .. mem_now.used .. "MB, free: " .. mem_now.free .. "MB, total: " .. mem_now.total .. "MB "))
-    end,
-}
+
 
 
 -- CPU
@@ -387,13 +459,16 @@ local cpuupd = lain.widget.cpu({
 })
 local cpubg = wibox.container.background(cpubar, "#474747", gears.shape.rectangle)
 local cpuwidget = wibox.container.margin(cpubg, dpi(2), dpi(7), dpi(4), dpi(4))
-local cpuwidget_tooltip = awful.tooltip {
-    objects = { cpuwidget },
-    timer_function = function()
-        return nil
-        --return markup.font(theme.font, markup.fg.color(theme.fg_normal, " " .. load_1 .. " " .. load_5 .. " " .. load_15 .. " "))
-    end,
-}
+
+-- Sysinfo popup
+local sysinfo = custom.widget.sysinfo({
+    attach_to = { memwidget, cpuwidget },
+    notification_preset = {
+        font = theme.font,
+        fg   = theme.fg_normal,
+        bg   = theme.bg_normal
+    }
+})
 
 -- Weather
 theme.weather = lain.widget.weather({
