@@ -300,6 +300,7 @@ mytextclock.font = theme.font
 -- Calendar
 theme.cal = lain.widget.cal({
     attach_to = { mytextclock },
+    followtag = true,
     three = true,
     week_number = "left",
     icons = "",
@@ -459,6 +460,7 @@ local cpuwidget = wibox.container.margin(cpubg, dpi(2), dpi(7), dpi(4), dpi(4))
 -- Sysinfo popup
 local sysinfo = custom.widget.sysinfo({
     attach_to = { memwidget, cpuwidget },
+    followtag = true,
     notification_preset = {
         font = theme.font,
         fg   = theme.fg_normal,
@@ -686,7 +688,7 @@ function theme.at_screen_connect(s)
                     volicon, volumewidget,
                     space, vert_sep, space,
 					myredshift_stack,
-                    --wibox.widget.systray(),
+                    wibox.widget.systray(),
                     space, vert_sep, space,
                     mytextclock,
                 },
