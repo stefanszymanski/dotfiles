@@ -690,7 +690,7 @@ function theme.at_screen_connect(s)
                     volicon, volumewidget,
                     space, vert_sep, space,
 					myredshift_stack,
-                    --wibox.widget.systray(),
+                    wibox.widget.systray(),
                     space, vert_sep, space,
                     mytextclock,
                 },
