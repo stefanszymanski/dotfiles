@@ -393,10 +393,6 @@ theme.volume.bar:buttons(my_table.join (
         awful.button({}, 1, function()
             awful.spawn(string.format("%s -e pulsemixer", awful.util.terminal))
         end),
-        awful.button({}, 2, function()
-            os.execute(string.format("pactl set-sink-volume %d 100%%", theme.volume.device))
-            theme.volume.update()
-        end),
         awful.button({}, 3, function()
             os.execute(string.format("pactl set-sink-mute %d toggle", theme.volume.device))
             theme.volume.update()

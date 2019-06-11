@@ -235,7 +235,7 @@ globalkeys = my_table.join(
                 {description = "take a screenshot", group = "hotkeys"}),
 
 -- X screen locker
-        awful.key({ modkey            }, "l", function () os.execute(scrlocker) end,
+        awful.key({ modkey            }, "F12", function () os.execute(scrlocker) end,
                 {description = "lock screen", group = "hotkeys"}),
 
 -- Hotkeys
@@ -400,31 +400,19 @@ globalkeys = my_table.join(
                     os.execute(string.format("pactl set-sink-volume %d +5%%", beautiful.volume.device))
                     beautiful.volume.update()
                 end,
-                {description = "volume up", group = "hotkeys"}),
+                {description = "volume up", group = "volume"}),
         awful.key({ altkey }, "Down",
                 function ()
                     os.execute(string.format("pactl set-sink-volume %d -5%%", beautiful.volume.device))
                     beautiful.volume.update()
                 end,
-                {description = "volume down", group = "hotkeys"}),
+                {description = "volume down", group = "volume"}),
         awful.key({ altkey }, "m",
                 function ()
                     os.execute(string.format("pactl set-sink-mute %d toggle", beautiful.volume.device))
                     beautiful.volume.update()
                 end,
-                {description = "toggle mute", group = "hotkeys"}),
-        awful.key({ altkey, "Control" }, "m",
-                function ()
-                    os.execute(string.format("pactl set-sink-volume %d 100%%", beautiful.volume.device))
-                    beautiful.volume.update()
-                end,
-                {description = "volume 100%", group = "hotkeys"}),
-        awful.key({ altkey, "Control" }, "0",
-                function ()
-                    os.execute(string.format("pactl set-sink-volume %d 0%%", beautiful.volume.device))
-                    beautiful.volume.update()
-                end,
-                {description = "volume 0%", group = "hotkeys"}),
+                {description = "toggle mute", group = "volume"}),
 
 -- Copy primary to clipboard (terminals to gtk)
         awful.key({ modkey }, "c", function () awful.spawn.with_shell("xsel | xsel -i -b") end,
