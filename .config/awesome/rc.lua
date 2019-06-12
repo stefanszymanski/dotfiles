@@ -230,9 +230,15 @@ awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) 
 -- {{{ Key bindings
 globalkeys = my_table.join(
 -- Take a screenshot
--- https://github.com/lcpz/dots/blob/master/bin/screenshot
-    awful.key({ altkey }, "p", function() os.execute("screenshot") end,
-        {description = "take a screenshot", group = "hotkeys"}),
+    awful.key({         }, "Print", 
+        function() os.execute("scrot -e 'mv $f ~/screenshots/screenshot-screen_%Y-%m-%d_%H-%M-%S_$wx$h.png 2> /dev/null'") end,
+        {description = "take a screenshot of the full screen", group = "screenshots"}),
+    awful.key({ "Shift" }, "Print", 
+        function() os.execute("scrot --focused -e 'mv $f ~/screenshots/screenshot-focused_%Y-%m-%d_%H-%M-%S_$wx$h.png 2> /dev/null'") end,
+        {description = "take a screenshot of the focused window", group = "screenshots"}),
+    awful.key({ "Control" }, "Print", 
+        function() os.execute("sleep 0.1 && scrot -s -e 'mv $f ~/screenshots/screenshot-selection_%Y-%m-%d_%H-%M-%S_$wx$h.png 2> /dev/null'") end,
+        {description = "take a screenshot of a selected area", group = "screenshots"}),
 
 -- X screen locker
     awful.key({ modkey            }, "F12", function () os.execute(scrlocker) end,
