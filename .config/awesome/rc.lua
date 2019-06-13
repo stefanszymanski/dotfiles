@@ -21,6 +21,7 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
                       require("awful.hotkeys_popup.keys")
 local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
 local dpi           = require("beautiful.xresources").apply_dpi
+local custom        = require("custom")
 -- }}}
 
 -- {{{ Error handling
@@ -444,7 +445,7 @@ globalkeys = my_table.join(
         {description = "run browser", group = "launcher"}),
 
 -- Prompt
-    awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
+    awful.key({ modkey }, "r", function () custom.widget.promptbox:run() end,
         {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",

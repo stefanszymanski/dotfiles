@@ -291,6 +291,12 @@ naughty.config.presets.critical                 = {
                                                       timeout      = 0,
 												  }
 
+                                                  
+custom.widget.promptbox:init({ 
+    border_color = colors.bw_2,
+    bg = colors.bw_1
+})
+--custom.widget.promptbox:run()
 
 -- Textclock
 os.setlocale(os.getenv("LANG")) -- to localize the clock
