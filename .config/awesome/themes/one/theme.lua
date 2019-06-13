@@ -291,12 +291,24 @@ naughty.config.presets.critical                 = {
                                                       timeout      = 0,
 												  }
 
-                                                  
-custom.widget.promptbox:init({ 
+        
+theme.prompt = custom.widget.promptbox({ 
     border_color = colors.bw_2,
-    bg = colors.bw_1
+    bg = colors.bw_1,
 })
---custom.widget.promptbox:run()
+
+theme.luaprompt = custom.widget.promptbox({
+    border_color = colors.bw_2,
+    bg = colors.bw_1,
+    prompt = "Run Lua code: ",
+    exe_callback = function(input)
+        local result = awful.util.eval(input)
+        if type(result) == "string" then
+            naughty.notify { title = "Lua prompt", text = result }
+        end
+    end,
+    history_path = awful.util.get_cache_dir() .. "/history_eval"
+})
 
 -- Textclock
 os.setlocale(os.getenv("LANG")) -- to localize the clock
