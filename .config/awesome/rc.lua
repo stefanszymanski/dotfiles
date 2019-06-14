@@ -235,8 +235,19 @@ local function make_screenshot(scrot_cmd, notification_title)
         function(stdout)
             local filename = custom.util.string.trim(stdout)
             local path = "~/screenshots/" .. filename
+            local path2 = "$HOME/screenshots/" .. filename
             local thumb_path = "/tmp/thumb-" .. filename
-            naughty.notify{ title = notification_title, text = path, icon = thumb_path, max_width = 1400, icon_size = 480 }
+            naughty.notify { 
+                title = notification_title, 
+                text = path, icon = thumb_path, 
+                max_width = 1400, 
+                icon_size = 480,
+                run = function(notification) awful.spawn.with_shell("feh " .. path) end,
+                actions = {
+                    edit     = function() awful.spawn.with_shell("pinta " .. path) end,
+                    ranger = function() awful.spawn.with_shell(terminal .. " -e ranger --selectfile=" .. path2) end,
+                }
+            }
             awful.spawn("rm " .. thumb_path)
         end)
 end
