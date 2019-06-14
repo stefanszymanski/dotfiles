@@ -1,7 +1,13 @@
-local helpers  = require("lain.helpers")
-local awful    = require("awful")
-local naughty  = require("naughty")
-local gmatch   = string.gmatch
+-- Audio info notification
+-- custom.widget.audioinfo
+-- Parts are from several lain widgets (https://github.com/lcpz/lain)
+
+local helpers           = require("lain.helpers")
+local awful             = require("awful")
+local naughty           = require("naughty")
+local util              = require("custom.util")
+local gmatch, match     = string.gmatch, string.match
+local pairs             = pairs
 
 local function factory(args)
     local audioinfo = {
@@ -11,30 +17,84 @@ local function factory(args)
             font = "Monospace 10", fg = "#FFFFFF", bg = "#000000"
         }
     }
+    local timeout = args.timeout or 5
+    local text = ""
 
-    function audioinfo.build_text()
-        local data = awful.spawn.easy_async_with_shell("LANG=\"en_US.UTF8\" && pactl list sink-inputs", function(stdout)
-            -- split for each input
+    function audioinfo.update()
+        awful.spawn.easy_async_with_shell("LANG=\"en_US.UTF8\" && pacmd list-sinks && pacmd list-sink-inputs", function(stdout)
+            local sinks = {}
             local inputs = {}
-            local sep = "Sink Input #[%d]+"
             local i = 0
+            local mode = nil
+            -- iterate over the stdout data line by line
             for line in gmatch(stdout, "(.-)[\r\n]+()") do
-                if string.match(line, sep) then
-                    i = i + 1
-                    inputs[i] = ""
+                -- detect the start of the sink or sink-input section
+                if match(line, "sink[(]s[)] available") then mode = "sink"
+                elseif match(line, "sink input[(]s[)] available") then mode = "input"
                 end
-                inputs[i] = inputs[i] .. line .. "\n"
+                if mode == "sink" then
+                    -- detect the start of a sink
+                    local index = match(line, "\\* index: ([%d]+)")
+                    if type(index) == "string" then
+                        i = index
+                        sinks[i] = {}
+                        sinks[i].index = index
+                        sinks[i].inputs = {}
+                    end
+                    -- parse sink properties
+                    local k, v = match(line, "^[%s]*([%s%w-.]+[%w]+)[%s]*[:=] (.+)")
+                    if type(k) == "string" then
+                        if     k == "state"              then sinks[i].state = string.lower(v)
+                        elseif k == "muted"              then sinks[i].muted = v == "yes"
+                        elseif k == "volume"             then sinks[i].volume = match(v, "([%d]+)%%")
+                        elseif k == "device.description" then sinks[i].desc = match(v, "\"([^\"]+)\"")
+                        elseif k == "device.string"      then sinks[i].string = match(v, "\"([^\"]+)\"")
+                        end
+                    end
+                elseif mode == "input" then
+                    -- detect the start of an input
+                    local index = match(line, "index: ([%d]+)")
+                    if type(index) == "string" then
+                        i = index
+                        inputs[i] = {}
+                        inputs[i].index = index
+                    end
+                    -- parse input properties
+                    local k, v = match(line, "^[%s]*([%s%w-.]+[%w]+)[%s]*[:=] (.+)")
+                    if type(k) == "string" then
+                        if     k == "sink"               then inputs[i].sink = match(v, "([%d]+)[%s]+")
+                        elseif k == "state"              then inputs[i].state = string.lower(v)
+                        elseif k == "muted"              then inputs[i].muted = v == "yes"
+                        elseif k == "volume"             then inputs[i].volume = match(v, "([%d]+)%%")
+                        elseif k == "application.name"   then inputs[i].app = match(v, "\"([^\"]+)\"")
+                        elseif k == "application.process.binary" then inputs[i].bin = match(v, "\"([^\"]+)\"")
+                        end
+                    end
+                end
             end
-
-            -- iterate over inputs
-            for index, value in pairs(inputs) do
-                naughty.notify{text = value}
+            -- move inputs to their sink
+            for i, input in pairs(inputs) do
+                table.insert(sinks[input.sink].inputs, input)
             end
-
+            update_text(sinks)
 		end)
-        return "test"
     end
 
+    function update_text(sinks)
+        text = ""
+        for i, s in pairs(sinks) do
+            if s.muted then muted = " muted" else muted = "" end
+            text = text .. string.format("Sink %s: %s (%s%%%s, %s)", s.index, s.desc, s.volume, muted, s.state)
+            for j, t in pairs(s.inputs) do
+                if (t.muted) then tmuted = " muted" else tmuted = "" end
+                text = text .. "\n  - " 
+                text = text .. string.format("Input %s: %s (%s%%%s, %s)", t.index, t.app, t.volume, tmuted, t.state)
+            end
+            if audioinfo.notification then
+                naughty.replace_text(audioinfo.notification, nil, text)
+            end
+        end
+    end
     
     function audioinfo.hide()
         if not audioinfo.notification then return end
@@ -43,9 +103,10 @@ local function factory(args)
     end
 
     function audioinfo.show(seconds, scr)
+        audioinfo.update()
         audioinfo.hide()
         audioinfo.notification = naughty.notify {
-            text    = audioinfo.build_text(),
+            text    = text,
             preset  = audioinfo.notification_preset,
             screen  = audioinfo.followtag and awful.screen.focused() or scr or 1,
             icon    = audioinfo.icon,
@@ -53,15 +114,12 @@ local function factory(args)
         }
     end
 
-    function audioinfo.hover_on() 
+    function on_hover() 
         audioinfo.show(0) 
-    end
-    function audioinfo.move(offset)
-        audioinfo.show(0)
     end
 
     function audioinfo.attach(widget)
-        widget:connect_signal("mouse::enter", audioinfo.hover_on)
+        widget:connect_signal("mouse::enter", on_hover)
         widget:connect_signal("mouse::leave", audioinfo.hide)
     end
 

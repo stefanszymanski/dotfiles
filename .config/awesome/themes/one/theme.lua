@@ -6,7 +6,7 @@
      - Widgets: https://github.com/lcpz/awesome-copycats
 
      Future features
-     - popups for widgets (memory, cpu, network, volume)
+     - popups for widgets (network, volume)
      - Layout list
 --]]
 
@@ -67,7 +67,7 @@ theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.wallpaper_fn								= gears.wallpaper.tiled
 
 local font_name                                 = "Inconsolata for Powerline"
-local font_size                                 = "12"
+local font_size                                 = "13"
 theme.font                                      = font_name .. " " ..                         font_size
 theme.font_bold                                 = font_name .. " " .. "Bold"        .. " " .. font_size
 theme.font_italic                               = font_name .. " " .. "Italic"      .. " " .. font_size
@@ -419,6 +419,28 @@ theme.volume.bar:buttons(my_table.join (
 ))
 local volumebg = wibox.container.background(theme.volume.bar, "#474747", gears.shape.rectangle)
 local volumewidget = wibox.container.margin(volumebg, dpi(2), dpi(7), dpi(4), dpi(4))
+
+-- Volume popup
+local audioinfo = custom.widget.audioinfo({
+    attach_to = { volumewidget },
+    followtag = true,
+    notification_preset = {
+        font = theme.font,
+        fg   = theme.fg_normal,
+        bg   = theme.bg_normal
+    }
+})
+
+-- override the volume widget's update function to also update the popup
+local original_volume_update = theme.volume.update
+theme.volume.update = function(cb)
+    local callback = function()
+        audioinfo.update()
+        if type(cb) == "function" then cb() end
+    end
+    original_volume_update(callback)
+end
+
 
 
 -- Memory
