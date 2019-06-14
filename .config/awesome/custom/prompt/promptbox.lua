@@ -12,6 +12,10 @@ local function factory(args)
     local p_widget = nil
     local p_wibox = nil
 
+    function trim(s)
+        return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
+    end
+
     function default_args()
         return {
             width        = 620,
@@ -23,15 +27,20 @@ local function factory(args)
             bg           = nil,
             shape        = nil,
             prompt       = "Run: ",
-            exe_callback = function(input)
-                local result = awful.spawn(input)
-                if type(result) == "string" then
-                    naughty.notify { title = "Prompt", text = result }
-                end
-            end,
-            history_path = awful.util.get_cache_dir() .. "/history",
             history_max = 1000,
+            history_path = awful.util.get_cache_dir() .. "/history",
             completion_callback = awful.completion.shell,
+            exe_callback = function(input)
+                local result = awful.spawn.easy_async_with_shell(input, function(stdout, stderr, reason, exit_code)
+                    stdout = trim(stdout)
+                    stderr = trim(stderr)
+                    if (exit_code == 0) and string.len(stdout) > 0 then
+                        naughty.notify { title = "Prompt", text = stdout }
+                    elseif (exit_code > 0) then
+                        naughty.notify { title = "Prompt error", text = stderr, preset = naughty.config.presets.critical }
+                    end
+                end)
+            end,
         }
     end
         
