@@ -1,3 +1,7 @@
+-- System info notification
+-- custom.widget.sysinfo
+-- Parts are from several lain widgets (https://github.com/lcpz/lain)
+
 local helpers  = require("lain.helpers")
 local markup   = require("lain.util.markup")
 local awful    = require("awful")
@@ -12,9 +16,6 @@ local type     = type
 local tonumber = tonumber
 local tostring = tostring
 local gmatch, lines, floor = string.gmatch, io.lines, math.floor
-
--- Sysinfo notification
--- custom.widget.sysinfo
 
 local function factory(args)
     args = args or {}
