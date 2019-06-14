@@ -228,17 +228,30 @@ end)
 awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
 -- }}}
 
+-- Takes a screenshot, creates a thumbnail and displays a notification
+local function make_screenshot(scrot_cmd, notification_title)
+    awful.spawn.easy_async_with_shell(
+        scrot_cmd .. " -e 'convert $f -adaptive-resize 480x320 /tmp/thumb-$n && mv $f ~/screenshots/ && echo $n'", 
+        function(stdout)
+            local filename = custom.util.string.trim(stdout)
+            local path = "~/screenshots/" .. filename
+            local thumb_path = "/tmp/thumb-" .. filename
+            naughty.notify{ title = notification_title, text = path, icon = thumb_path, max_width = 1400, icon_size = 480 }
+            awful.spawn("rm " .. thumb_path)
+        end)
+end
+
 -- {{{ Key bindings
 globalkeys = my_table.join(
 -- Take a screenshot
     awful.key({         }, "Print", 
-        function() os.execute("scrot -e 'mv $f ~/screenshots/screenshot-screen_%Y-%m-%d_%H-%M-%S_$wx$h.png 2> /dev/null'") end,
+        function() make_screenshot("scrot 'screenshot-screen_%Y-%m-%d_%H-%M-%S_$wx$h.png'", "Saved screenshot of full screen") end,
         {description = "take a screenshot of the full screen", group = "screenshots"}),
     awful.key({ "Shift" }, "Print", 
-        function() os.execute("scrot --focused -e 'mv $f ~/screenshots/screenshot-focused_%Y-%m-%d_%H-%M-%S_$wx$h.png 2> /dev/null'") end,
+        function() make_screenshot("scrot --focused 'screenshot-focused_%Y-%m-%d_%H-%M-%S_$wx$h.png'", "Saved screenshot of current window") end,
         {description = "take a screenshot of the focused window", group = "screenshots"}),
     awful.key({ "Control" }, "Print", 
-        function() os.execute("sleep 0.1 && scrot -s -e 'mv $f ~/screenshots/screenshot-selection_%Y-%m-%d_%H-%M-%S_$wx$h.png 2> /dev/null'") end,
+        function() make_screenshot("sleep 0.1 && scrot -s 'screenshot-selection_%Y-%m-%d_%H-%M-%S_$wx$h.png'", "Saved screenshot of selected area") end,
         {description = "take a screenshot of a selected area", group = "screenshots"}),
 
 -- X screen locker
