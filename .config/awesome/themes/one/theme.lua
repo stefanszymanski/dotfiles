@@ -67,7 +67,7 @@ theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.wallpaper_fn								= gears.wallpaper.tiled
 
 local font_name                                 = "Inconsolata for Powerline"
-local font_size                                 = "13"
+local font_size                                 = "11"
 theme.font                                      = font_name .. " " ..                         font_size
 theme.font_bold                                 = font_name .. " " .. "Bold"        .. " " .. font_size
 theme.font_italic                               = font_name .. " " .. "Italic"      .. " " .. font_size
@@ -159,7 +159,7 @@ theme.notification_border_color                 = colors.bw_2
 theme.notification_border_width                 = theme.border
 theme.notification_icon_size                    = 80
 theme.notification_opacity                      = 1
-theme.notification_max_width                    = 600
+theme.notification_max_width                    = 800
 theme.notification_max_height                   = 400
 theme.notification_margin                       = 10
 theme.notification_shape                        = function(cr, w, h)
@@ -227,11 +227,11 @@ theme.titlebar_maximized_button_normal_active   = theme.dir .. "/icons/titlebar/
 theme.titlebar_maximized_button_focus_inactive  = theme.dir .. "/icons/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_inactive = theme.dir .. "/icons/titlebar/maximized_normal_inactive.png"
 
-local infobar_width = dpi(50)
-local infobar_height = dpi(1)
+local infobar_width = 50
+local infobar_height = 1
 
-naughty.config.padding                          = 15
-naughty.config.spacing                          = 10
+naughty.config.padding                          = 6
+naughty.config.spacing                          = 6
 naughty.config.defaults.timeout                 = 10
 naughty.config.defaults.font                    = theme.font
 naughty.config.defaults.fg                      = theme.notification_fg
@@ -291,12 +291,13 @@ naughty.config.presets.critical                 = {
                                                       timeout      = 0,
 												  }
 
-        
+-- Floating prompt box
 theme.prompt = custom.prompt.promptbox({ 
     border_color = colors.bw_2,
     bg = colors.bw_1,
 })
 
+-- Floating lua prompt box
 theme.luaprompt = custom.prompt.luapromptbox({
     border_color = colors.bw_2,
     bg = colors.bw_1,
@@ -604,9 +605,6 @@ function theme.at_screen_connect(s)
     -- Tags
     awful.tag(awful.util.tagnames, s, awful.layout.layouts)
 
-    -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
-
     -- Create the wibox
     s.mywibox = awful.wibar {
         position = "top",
@@ -694,8 +692,6 @@ function theme.at_screen_connect(s)
                         bg = theme.bar_bg,
                         widget = wibox.container.background,
                     },
-                    space, vert_sep, space,
-                    s.mypromptbox,
                 },
                 {
                     -- Middle
