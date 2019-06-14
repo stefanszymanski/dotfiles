@@ -232,7 +232,7 @@ local infobar_height = dpi(1)
 
 naughty.config.padding                          = 15
 naughty.config.spacing                          = 10
-naughty.config.defaults.timeout                 = 5
+naughty.config.defaults.timeout                 = 10
 naughty.config.defaults.font                    = theme.font
 naughty.config.defaults.fg                      = theme.notification_fg
 naughty.config.defaults.bg                      = theme.notification_bg
