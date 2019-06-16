@@ -10,9 +10,11 @@ local screenshot    = require("custom.helper.screenshot")
 local volume        = require("custom.helper.volume")
 -- settings
 local apps          = require("apps")
+local config        = require("config")
 
-local modkey       = "Mod4"
-local altkey       = "Mod1"
+local modkey        = config.modkey
+local altkey        = config.altkey
+
 
 globalkeys = gears.table.join(
     -- Take a screenshot
@@ -24,7 +26,7 @@ globalkeys = gears.table.join(
         {description = "take a screenshot of a selected area", group = "screenshots"}),
 
     -- screen locker
-    awful.key({ modkey            }, "F12", function () os.execute(apps.screenlocker) end,
+    awful.key({ modkey            }, "F12", function () os.execute(apps.screenlocker.cmd) end,
         {description = "lock screen", group = "hotkeys"}),
 
     -- Hotkeys
@@ -134,9 +136,9 @@ globalkeys = gears.table.join(
         {description = "delete tag", group = "tag"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(apps.terminal) end,
+    awful.key({ modkey,           }, "Return", function () awful.spawn(apps.terminal.cmd) end,
         {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey, "Control" }, "Return", function () awful.spawn(apps.terminal .. " -e bash -c \"tmux\"") end,
+    awful.key({ modkey, "Control" }, "Return", function () awful.spawn(apps.terminal.cmd .. " -e bash -c \"tmux\"") end,
         {description = "open a terminal with tmux", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
         {description = "reload awesome", group = "awesome"}),
@@ -198,7 +200,7 @@ globalkeys = gears.table.join(
         {description = "copy gtk to terminal", group = "hotkeys"}),
 
     -- User programs
-    awful.key({ modkey }, "q", function () awful.spawn(apps.browser) end,
+    awful.key({ modkey }, "q", function () awful.spawn(apps.browser.cmd) end,
         {description = "run browser", group = "launcher"}),
 
     -- Prompts
@@ -209,36 +211,62 @@ globalkeys = gears.table.join(
         {description = "lua execute prompt", group = "awesome"})
 )
 
-clientkeys = gears.table.join(
-    awful.key({ altkey, "Shift"   }, "m",      lain.util.magnify_client,
-        {description = "magnify client", group = "client"}),
-    awful.key({ modkey,           }, "f",
-        function (c)
-            c.fullscreen = not c.fullscreen
-            c:raise()
-        end,
-        {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
-        {description = "close", group = "client"}),
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
-        {description = "toggle floating", group = "client"}),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
-        {description = "move to master", group = "client"}),
-    awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
-        {description = "move to screen", group = "client"}),
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
-        {description = "toggle keep on top", group = "client"}),
-    awful.key({ modkey,           }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end ,
-        {description = "minimize", group = "client"}),
-    awful.key({ modkey,           }, "m",
-        function (c)
-            c.maximized = not c.maximized
-            c:raise()
-        end ,
-        {description = "maximize", group = "client"})
-)
+-- Bind all key numbers to tags.
+-- Be careful: we use keycodes to make it works on any keyboard layout.
+-- This should map on the top row of your keyboard, usually 1 to 9.
+for i = 1, 9 do
+    -- Hack to only show tags 1 and 9 in the shortcut window (mod+s)
+    local descr_view, descr_toggle, descr_move, descr_toggle_focus
+    if i == 1 or i == 9 then
+        descr_view = {description = "view tag #", group = "tag"}
+        descr_toggle = {description = "toggle tag #", group = "tag"}
+        descr_move = {description = "move focused client to tag #", group = "tag"}
+        descr_toggle_focus = {description = "toggle focused client on tag #", group = "tag"}
+    end
+    globalkeys = gears.table.join(globalkeys,
+        -- View tag only.
+        awful.key({ modkey }, "#" .. i + 9,
+            function ()
+                local screen = awful.screen.focused()
+                local tag = screen.tags[i]
+                if tag then
+                    tag:view_only()
+                end
+            end,
+        descr_view),
+        -- Toggle tag display.
+        awful.key({ modkey, "Control" }, "#" .. i + 9,
+            function ()
+                local screen = awful.screen.focused()
+                local tag = screen.tags[i]
+                if tag then
+                    awful.tag.viewtoggle(tag)
+                end
+            end,
+        descr_toggle),
+        -- Move client to tag.
+        awful.key({ modkey, "Shift" }, "#" .. i + 9,
+            function ()
+                if client.focus then
+                    local tag = client.focus.screen.tags[i]
+                    if tag then
+                        client.focus:move_to_tag(tag)
+                    end
+                end
+            end,
+        descr_move),
+        -- Toggle tag on focused client.
+        awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
+            function ()
+                if client.focus then
+                    local tag = client.focus.screen.tags[i]
+                    if tag then
+                        client.focus:toggle_tag(tag)
+                    end
+                end
+            end,
+        descr_toggle_focus)
+    )
+end
+
+root.keys(globalkeys)
