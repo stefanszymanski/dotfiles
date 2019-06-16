@@ -25,9 +25,9 @@ require("rc.mainmenu")          -- main menu setup
 require("rc.screenshots")       -- screenshot helper setup
 
 -- clients
+require("rc.clientkeys")        -- key bindings
 require("rc.rules")             -- client creation rules
 require("rc.clientbuttons")     -- window decoration buttons
-require("rc.clientkeys")        -- key bindings
 require("rc.client_signals")    -- event handling
 
 -- misc
