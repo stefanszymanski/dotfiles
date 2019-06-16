@@ -1,19 +1,24 @@
 -- libraries
-local awful      = require("awful")
-local beautiful  = require("beautiful")
-local gears      = require("gears")
-local lain       = require("lain")
--- scripts
-local screenshot = require("custom.scripts.screenshot")
-local volume     = require("custom.scripts.volume")
+local awful         = require("awful")
+local beautiful     = require("beautiful")
+local gears         = require("gears")
+local lain          = require("lain")
+local hotkeys_popup = require("awful.hotkeys_popup").widget
+                      require("awful.hotkeys_popup.keys")
+-- helper scripts
+local screenshot    = require("custom.helper.screenshot")
+local volume        = require("custom.helper.volume")
 -- settings
-local apps       = require("apps")
+local apps          = require("apps")
+
+local modkey       = "Mod4"
+local altkey       = "Mod1"
 
 globalkeys = gears.table.join(
     -- Take a screenshot
     awful.key({         }, "Print", screenshot.screen,
         {description = "take a screenshot of the full screen", group = "screenshots"}),
-    awful.key({ "Shift" }, "Print", screenshot.focused_window,
+    awful.key({ "Shift" }, "Print", screenshot.focused,
         {description = "take a screenshot of the focused window", group = "screenshots"}),
     awful.key({ "Control" }, "Print", screenshot.selection,
         {description = "take a screenshot of a selected area", group = "screenshots"}),
@@ -129,9 +134,9 @@ globalkeys = gears.table.join(
         {description = "delete tag", group = "tag"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+    awful.key({ modkey,           }, "Return", function () awful.spawn(apps.terminal) end,
         {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey, "Control" }, "Return", function () awful.spawn(terminal .. " -e bash -c \"tmux\"") end,
+    awful.key({ modkey, "Control" }, "Return", function () awful.spawn(apps.terminal .. " -e bash -c \"tmux\"") end,
         {description = "open a terminal with tmux", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
         {description = "reload awesome", group = "awesome"}),
@@ -179,11 +184,11 @@ globalkeys = gears.table.join(
         {description = "volume up", group = "audio"}),
     awful.key({ altkey }, "Down", function () volume.decrease(5) end,
         {description = "volume down", group = "audio"}),
-    awful.key({ altkey }, "m", volume.toggle_mute
+    awful.key({ altkey }, "m", volume.toggle_mute,
         {description = "toggle mute", group = "audio"}),
-    awful.key({ }, "XF86AudioRaiseVolume", function () volume.increase(5) end,
-    awful.key({ }, "XF86AudioLowerVolume", function () volume.increase(5) end,
-    awful.key({ }, "XF86AudioMute", volume.toggle_mute
+    awful.key({ }, "XF86AudioRaiseVolume", function () volume.increase(5) end),
+    awful.key({ }, "XF86AudioLowerVolume", function () volume.increase(5) end),
+    awful.key({ }, "XF86AudioMute", volume.toggle_mute),
 
     -- Copy primary to clipboard (terminals to gtk)
     awful.key({ modkey }, "c", function () awful.spawn.with_shell("xsel | xsel -i -b") end,
@@ -193,7 +198,7 @@ globalkeys = gears.table.join(
         {description = "copy gtk to terminal", group = "hotkeys"}),
 
     -- User programs
-    awful.key({ modkey }, "q", function () awful.spawn(browser) end,
+    awful.key({ modkey }, "q", function () awful.spawn(apps.browser) end,
         {description = "run browser", group = "launcher"}),
 
     -- Prompts
@@ -204,7 +209,7 @@ globalkeys = gears.table.join(
         {description = "lua execute prompt", group = "awesome"})
 )
 
-clientkeys = my_table.join(
+clientkeys = gears.table.join(
     awful.key({ altkey, "Shift"   }, "m",      lain.util.magnify_client,
         {description = "magnify client", group = "client"}),
     awful.key({ modkey,           }, "f",

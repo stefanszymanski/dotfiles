@@ -94,6 +94,7 @@ local function factory(args)
                 naughty.replace_text(audioinfo.notification, nil, text)
             end
         end
+        if text:len() < 1 then text = "N/A" end
     end
     
     function audioinfo.hide()
