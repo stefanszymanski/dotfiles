@@ -17,6 +17,12 @@ local function default_open_cmd_factory(cmd)
     end
 end
 
+local function run_factory(cmd)
+    return function()
+        spawn(cmd)
+    end
+end
+
 local function terminal_open_cmd_factory(terminal)
     return function(cmd)
         return format("%s -e %s", terminal, cmd)
@@ -75,5 +81,10 @@ apps.terminal = {
     cmd = cmd.terminal,
     open_cmd = terminal_open_cmd_factory(cmd.terminal)
 }
+
+-- add a run function for each app
+for k,app in pairs(apps) do
+    apps[k].run = run_factory(app.cmd)
+end
 
 return apps
