@@ -70,6 +70,9 @@ local function make_screenshot(scrot_cmd, notification_title, args)
     args = get_args(args)
     local cmd = get_cmd(scrot_cmd, args)
     awful.spawn.easy_async_with_shell(cmd, function(stdout)
+        if stdout == "" then
+            do return end
+        end
         local filename = util.string.trim(stdout)
         local path = string.format("%s/%s",args.dir, filename)
         if args.display_notification then
