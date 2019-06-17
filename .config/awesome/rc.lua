@@ -40,7 +40,7 @@ require("rc.screen_signals")    -- event handling
 
 
 -- Layoutlist popup
--- Todo: improve the keybindings, the code from the docs does not work 
+-- Todo: improve the keybindings, the code from the docs does not work
 -- 		 https://awesomewm.org/apidoc/classes/awful.widget.layoutlist.html)
 --       gears.table.iterate_value does not exist
 -- Todo: Add description and group
@@ -53,17 +53,17 @@ awful.keygrabber {
     export_keybindings = false,
     stop_event = 'press',
     stop_key = {'Escape', 'Return', 'Super_L', 'Super_R', 'Space'},
-	mask_modkeys = false,
+    mask_modkeys = false,
     root_keybindings = {
         {{ modkey          } , 'space' , function()
         end},
     },
-	keybindings = {
-		{{					}, 'Right', function()
-			awful.layout.inc(1)
-		end},
-		{{					}, 'Left', function()
-			awful.layout.inc(-1)
-		end}
-	}
+    keybindings = {
+        {{					}, 'Right', function()
+            awful.layout.inc(1)
+        end},
+        {{					}, 'Left', function()
+            awful.layout.inc(-1)
+        end}
+    }
 }
