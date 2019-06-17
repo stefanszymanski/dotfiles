@@ -5,14 +5,17 @@ local awful         = require("awful")
 local beautiful     = require("beautiful")
 local freedesktop   = require("freedesktop")
 local dpi           = require("beautiful.xresources").apply_dpi
+-- widgets
+local hotkeys_popup = require("awful.hotkeys_popup").widget
+                      require("awful.hotkeys_popup.keys")
 -- settings
 local apps          = require("apps")
 
 
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
-    { "manual", apps.terminal.get_open_cmd("man awesome") },
-    { "edit config", apps.editor.get_open_cmd(awesome.conffile) },
+    { "manual", apps.terminal.open_cmd("man awesome") },
+    { "edit config", apps.editor.open_cmd(awesome.conffile) },
     { "restart", awesome.restart },
     { "quit", function() awesome.quit() end }
 }

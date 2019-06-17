@@ -1,6 +1,9 @@
-local awful  = require("awful")
+-- globals
 local format = string.format
+-- libraries
+local awful  = require("awful")
 local spawn  = awful.spawn.with_shell
+
 
 local function default_open_factory(cmd)
     return function(file)
@@ -14,10 +17,17 @@ local function default_open_cmd_factory(cmd)
     end
 end
 
+local function terminal_open_cmd_factory(terminal)
+    return function(cmd)
+        return format("%s -e %s", terminal, cmd)
+    end
+end
+
 local terminal = "urxvtc"
+local editor   = os.getenv("EDITOR") or "nvim"
 local cmd = {
     terminal     = terminal,
-    editor       = os.getenv("EDITOR") or "nvim",
+    editor       = terminal_open_cmd_factory(terminal)(editor),
     browser      = "firefox",
     screenlocker = "$HOME/.scripts/lockscreen.sh",
     filemanager  = terminal .. " -e ranger",
@@ -31,7 +41,7 @@ local apps = {}
 apps.editor = {
     cmd = cmd.editor,
     open = default_open_factory(cmd.editor),
-    get_open_cmd = default_open_cmd_factory(cmd.editor),
+    open_cmd = default_open_cmd_factory(cmd.editor),
 }
 
 apps.filemanager = {
@@ -63,9 +73,7 @@ apps.browser = {
 
 apps.terminal = {
     cmd = cmd.terminal,
-    get_open_cmd = function(command)
-        return format("%s -e '%s'", cmd.terminal, command)
-    end,
+    open_cmd = terminal_open_cmd_factory(cmd.terminal)
 }
 
 return apps
