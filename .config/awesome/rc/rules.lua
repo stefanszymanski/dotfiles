@@ -25,12 +25,5 @@ awful.rules.rules = {
             size_hints_honor  = false,
             titlebars_enabled = true,
         },
-    },
-
-    -- Titlebars
-    { rule_any = { type = { "dialog", "normal" } },
-      properties = { titlebars_enabled = true } },
-
-    { rule = { class = "Gimp", role = "gimp-image-window" },
-      properties = { maximized = true } },
+    }
 }
