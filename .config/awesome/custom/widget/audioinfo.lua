@@ -67,6 +67,7 @@ local function factory(args)
                         elseif k == "muted"              then inputs[i].muted = v == "yes"
                         elseif k == "volume"             then inputs[i].volume = match(v, "([%d]+)%%")
                         elseif k == "application.name"   then inputs[i].app = match(v, "\"([^\"]+)\"")
+                        elseif k == "media.name"         then inputs[i].media = match(v, "\"([^\"]+)\"")
                         elseif k == "application.process.binary" then inputs[i].bin = match(v, "\"([^\"]+)\"")
                         end
                     end
@@ -92,7 +93,7 @@ local function factory(args)
             for j, t in ipairs(s.inputs) do
                 if (t.muted) then tmuted = " muted" else tmuted = "" end
                 text = text .. "\n  - " 
-                text = text .. string.format("Input %s: %s (%s%%%s, %s)", t.index, t.app, t.volume, tmuted, t.state)
+                text = text .. string.format("Input %s: %s (%s%%%s, %s)", t.index, t.app or t.media, t.volume, tmuted, t.state)
             end
             if audioinfo.notification then
                 naughty.replace_text(audioinfo.notification, nil, text)
