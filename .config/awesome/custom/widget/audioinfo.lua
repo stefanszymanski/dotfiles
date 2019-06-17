@@ -36,7 +36,7 @@ local function factory(args)
                     -- detect the start of a sink
                     local index = match(line, "\\* index: ([%d]+)")
                     if type(index) == "string" then
-                        i = index
+                        i = tonumber(index) + 1
                         sinks[i] = {}
                         sinks[i].index = index
                         sinks[i].inputs = {}
@@ -55,14 +55,14 @@ local function factory(args)
                     -- detect the start of an input
                     local index = match(line, "index: ([%d]+)")
                     if type(index) == "string" then
-                        i = index
+                        i = tonumber(index) + 1
                         inputs[i] = {}
                         inputs[i].index = index
                     end
                     -- parse input properties
                     local k, v = match(line, "^[%s]*([%s%w-.]+[%w]+)[%s]*[:=] (.+)")
                     if type(k) == "string" then
-                        if     k == "sink"               then inputs[i].sink = match(v, "([%d]+)[%s]+")
+                        if     k == "sink"               then inputs[i].sink = tonumber(match(v, "([%d]+)[%s]+"))
                         elseif k == "state"              then inputs[i].state = string.lower(v)
                         elseif k == "muted"              then inputs[i].muted = v == "yes"
                         elseif k == "volume"             then inputs[i].volume = match(v, "([%d]+)%%")
@@ -74,7 +74,7 @@ local function factory(args)
             end
             -- move inputs to their sink
             for i, input in pairs(inputs) do
-                table.insert(sinks[input.sink].inputs, input)
+                table.insert(sinks[input.sink + 1].inputs, input)
             end
             update_text(sinks)
 		end)
@@ -82,10 +82,14 @@ local function factory(args)
 
     function update_text(sinks)
         text = ""
-        for i, s in pairs(sinks) do
+        local i = 0
+        for _, s in ipairs(sinks) do
+            if i > 0 then
+                text = text .. "\n\n"
+            end
             if s.muted then muted = " muted" else muted = "" end
             text = text .. string.format("Sink %s: %s (%s%%%s, %s)", s.index, s.desc, s.volume, muted, s.state)
-            for j, t in pairs(s.inputs) do
+            for j, t in ipairs(s.inputs) do
                 if (t.muted) then tmuted = " muted" else tmuted = "" end
                 text = text .. "\n  - " 
                 text = text .. string.format("Input %s: %s (%s%%%s, %s)", t.index, t.app, t.volume, tmuted, t.state)
@@ -93,6 +97,7 @@ local function factory(args)
             if audioinfo.notification then
                 naughty.replace_text(audioinfo.notification, nil, text)
             end
+            i = i + 1
         end
         if text:len() < 1 then text = "N/A" end
     end
