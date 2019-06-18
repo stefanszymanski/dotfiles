@@ -66,7 +66,7 @@ theme.dir                                       = os.getenv("HOME") .. "/.config
 theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.wallpaper_fn								= gears.wallpaper.tiled
 
-local font_name                                 = "Inconsolata for Powerline"
+local font_name                                 = "monospace"
 local font_size                                 = "11"
 theme.font                                      = font_name .. " " ..                         font_size
 theme.font_bold                                 = font_name .. " " .. "Bold"        .. " " .. font_size
