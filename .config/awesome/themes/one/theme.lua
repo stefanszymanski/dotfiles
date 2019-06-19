@@ -67,7 +67,7 @@ theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.wallpaper_fn								= gears.wallpaper.tiled
 
 local font_name                                 = "monospace"
-local font_size                                 = "11"
+local font_size                                 = "10"
 theme.font                                      = font_name .. " " ..                         font_size
 theme.font_bold                                 = font_name .. " " .. "Bold"        .. " " .. font_size
 theme.font_italic                               = font_name .. " " .. "Italic"      .. " " .. font_size
