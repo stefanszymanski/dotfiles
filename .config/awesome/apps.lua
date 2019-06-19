@@ -29,7 +29,7 @@ local function terminal_open_cmd_factory(terminal)
     end
 end
 
-local terminal = "alacritty"
+local terminal = "urxvtc"
 local editor   = os.getenv("EDITOR") or "nvim"
 local cmd = {
     terminal     = terminal,
