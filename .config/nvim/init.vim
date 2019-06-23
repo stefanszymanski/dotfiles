@@ -12,7 +12,8 @@ Plug 'tpope/vim-fugitive'
 " fzf integration
 Plug '~/.fzf'
 Plug 'junegunn/fzf.vim'
-
+" git integration
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
@@ -53,6 +54,9 @@ set background=dark
 colorscheme gruvbox
 let gruvbox_contrast_dark='medium'
 
+set fillchars+=vert:│                               " Vertical split view divider
+highlight EndOfBuffer ctermfg=black ctermbg=black   " Hide empty line indicator ~
+
 
 " Formatting
 
@@ -86,4 +90,10 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#show_close_button = 0
+
+
+" Diff view
+if &diff
+    highlight! link DiffText MatchParen
+endif
 
