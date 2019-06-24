@@ -1,0 +1,56 @@
+##############
+### Posteo ###
+##############
+
+IMAPAccount posteo
+Host posteo.de
+User stefan.szymanski@posteo.de
+PassCmd "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.private/passwords/posteo-password.gpg"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+# Remote storage
+IMAPStore posteo-remote
+Account posteo
+
+# Local storage
+MaildirStore posteo-local
+Path ~/.mail/posteo/
+Inbox ~/.mail/posteo/Inbox
+
+Channel posteo-inbox
+Master :posteo-remote:"INBOX"
+Slave :posteo-local:inbox
+Create Both
+Expunge Both
+
+Channel posteo-archive
+Master :posteo-remote:"Archive"
+Slave :posteo-local:archive
+Create Both
+Expunge Both
+
+Channel posteo-drafts
+Master :posteo-remote:"Drafts"
+Slave :posteo-local:drafts
+Create Both
+Expunge Both
+
+Channel posteo-sent
+Master :posteo-remote:"Sent"
+Slave :posteo-local:sent
+Create Both
+Expunge Both
+
+Channel posteo-trash
+Master :posteo-remote:"Trash"
+Slave :posteo-local:trash
+Create Both
+Expunge Both
+
+Group posteo
+Channel posteo-inbox
+Channel posteo-archive
+Channel posteo-drafts
+Channel posteo-sent
+Channel posteo-trash

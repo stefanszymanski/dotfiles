@@ -1,0 +1,24 @@
+set from = "stefan.szymanski@posteo.de"
+set sendmail = "msmtp -a posteo"
+
+# Set folders
+set spoolfile = "+posteo/inbox"
+set mbox = "+posteo/archive"
+set postponed = "+posteo/drafts"
+set record = "+posteo/sent"
+set trash = "+posteo/trash"
+
+# custom signaure
+set signature = ~/.config/neomutt/signatures/private
+
+color status cyan default
+
+macro index o "<shell-escape>mbsync posteo<enter>" "run mbsync to sync mail for this account"
+
+macro index,pager A \
+  "<save-message>+posteo/archive<enter>"  \
+  "move message to the archive"
+
+macro index,pager I \
+  "<save-message>+posteo/inbox<enter>"  \
+    "move message to the inbox"
