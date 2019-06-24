@@ -15,7 +15,7 @@ URxvt*internalBorder:		6
 URxvt*fading:			30
 URxvt*intensityStyles: false
 ! fonts
-URxvt*letterSpace:		-1
+URxvt*letterSpace:		0
 URxvt*lineSpace:		0
 ! Inconsolata works with letterSpace=0 relativly nice, the other fonts always have some bug when
 ! rendering powerline symbols
