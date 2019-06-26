@@ -26,7 +26,7 @@ globalkeys = gears.table.join(
         {description = "take a screenshot of a selected area", group = "screenshots"}),
 
     -- screen locker
-    awful.key({ modkey            }, "F12", function () os.execute(apps.screenlocker.cmd) end,
+    awful.key({ modkey            }, "F12", apps.screenlocker.run,
         {description = "lock screen", group = "hotkeys"}),
 
     -- Hotkeys
@@ -212,15 +212,15 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey }, ",", function () awful.spawn.with_shell("rofi -show run") end,
         {description = "show command launcher", group = "launcher"}),
-
     awful.key({ modkey }, ".", function () awful.spawn.with_shell("rofi -show drun") end,
         {description = "show application launcher", group = "launcher"}),
-
     awful.key({ modkey }, "-", function () awful.spawn.with_shell("rofi -show ssh") end,
         {description = "show ssh launcher", group = "launcher"}),
-
     awful.key({ modkey }, "#", function () awful.spawn.with_shell("rofi -show window") end,
+        {description = "show window switcher", group = "launcher"}),
+    awful.key({ modkey }, "+", function () awful.spawn.with_shell("$HOME/.bin/sessionmenu") end,
         {description = "show window switcher", group = "launcher"})
+
 )
 
 -- Bind all key numbers to tags.

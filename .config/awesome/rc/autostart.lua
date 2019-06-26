@@ -8,8 +8,8 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
-run_once({ "$HOME/.bin/autolockscreen" })
+--run_once({ "urxvtd" }) -- entries must be separated by commas
+run_once({ "$HOME/.bin/autolock" })
 
 -- This function implements the XDG autostart specification
 --[[
