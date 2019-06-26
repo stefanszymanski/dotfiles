@@ -23,7 +23,7 @@ URxvt*lineSpace:		0
 !URxvt*font: 			xft:Inconsolata for Powerline:size=10,xft:DejaVu Sans Mono for Powerline:size=10
 !URxvt*font: 			xft:SauceCodePro Nerd Font:pixelsize=13:antialias=true:hinting=true
 !URxvt*font: 			xft:monospace:pixelsize=13:antialias=true:hinting=true
-URxvt*font:             xft:Source Code Pro Medium:pixelsize=13:antialias=true:hinting=true
+URxvt*font:             xft:Hack:size=10,xft:Hack Nerd Font:size=10
 ! misc
 URxvt*print-pipe:		cat > $HOME/$(echo urxvt.dump.$(date + '%Y%M%d%H%m%S'))
 

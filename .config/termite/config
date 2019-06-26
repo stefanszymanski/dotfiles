@@ -18,7 +18,7 @@ hyperlinks = true
 filter_unmatched_urls = true
 cursor_blink = system
 cursor_shape = block
-font = Monospace 9
+font = monospace 10
 
 [colors]
 background = #282828
