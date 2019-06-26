@@ -1,0 +1,8 @@
+#!/bin/sh
+
+exec xautolock \
+    -detectsleep \
+    -time 3 \
+    -locker "$HOME/.bin/lockscreen" \
+    -notify 30 \
+    -notifier "notify-send -u critical -t 10000 -- 'Locking the screen in 30 seconds'"
