@@ -28,8 +28,8 @@ choice_by_rofi
 [[ -z "$choice" ]] && exit 1
 
 case "$choice" in
-    0) xautolock -locknow & ;;
-    1) systemctl hibernate & ;;
+    0) ~/.bin/lock ;;
+    1) systemc hibernate & ;;
     2) systemctl suspend & ;;
     3) systemctl kill "$(pgrep X)" & ;;
     4) systemctl reboot & ;;
