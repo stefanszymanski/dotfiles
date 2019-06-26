@@ -138,7 +138,7 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(apps.terminal.cmd) end,
         {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey, "Control" }, "Return", function () awful.spawn(apps.terminal.cmd .. " -e bash -c \"tmux\"") end,
+    awful.key({ modkey, "Control" }, "Return", function () awful.spawn(apps.terminal.cmd .. " -e tmux") end,
         {description = "open a terminal with tmux", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
         {description = "reload awesome", group = "awesome"}),
@@ -208,7 +208,19 @@ globalkeys = gears.table.join(
         {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x", function () beautiful.luaprompt.run() end,
-        {description = "lua execute prompt", group = "awesome"})
+        {description = "run lua execute prompt", group = "awesome"}),
+
+    awful.key({ modkey }, ",", function () awful.spawn.with_shell("rofi -show run") end,
+        {description = "show command launcher", group = "launcher"}),
+
+    awful.key({ modkey }, ".", function () awful.spawn.with_shell("rofi -show drun") end,
+        {description = "show application launcher", group = "launcher"}),
+
+    awful.key({ modkey }, "-", function () awful.spawn.with_shell("rofi -show ssh") end,
+        {description = "show ssh launcher", group = "launcher"}),
+
+    awful.key({ modkey }, "#", function () awful.spawn.with_shell("rofi -show window") end,
+        {description = "show window switcher", group = "launcher"})
 )
 
 -- Bind all key numbers to tags.
