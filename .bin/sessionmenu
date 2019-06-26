@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-# Copied from https://github.com/alfunx/.dotfiles/blob/master/.bin/rofi-session
+# Initially copied from https://github.com/alfunx/.dotfiles/blob/master/.bin/rofi-session
+
+lock() {
+    ~/.bin/lock
+}
 
 choice_by_rofi() {
     output=(
@@ -28,10 +32,10 @@ choice_by_rofi
 [[ -z "$choice" ]] && exit 1
 
 case "$choice" in
-    0) ~/.bin/lock ;;
-    1) systemc hibernate & ;;
-    2) systemctl suspend & ;;
-    3) systemctl kill "$(pgrep X)" & ;;
+    0) lock ;;
+    1) lock && systemctl hibernate & ;;
+    2) lock && systemctl suspend & ;;
+    3) awesome-client "awesome.quit()" & ;;
     4) systemctl reboot & ;;
     5) systemctl poweroff & ;;
     6) xset s off & ;;
