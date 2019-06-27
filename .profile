@@ -26,6 +26,9 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# make capslock an additional escape key
+setxkbmap -option caps:escape
+
 # set XDG_CONFIG_* variables
 export XDG_CONFIG_HOME="$HOME/.config"
 
