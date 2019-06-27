@@ -189,7 +189,7 @@ globalkeys = gears.table.join(
     awful.key({ altkey }, "m", volume.toggle_mute,
         {description = "toggle mute", group = "audio"}),
     awful.key({ }, "XF86AudioRaiseVolume", function () volume.increase(5) end),
-    awful.key({ }, "XF86AudioLowerVolume", function () volume.increase(5) end),
+    awful.key({ }, "XF86AudioLowerVolume", function () volume.decrease(5) end),
     awful.key({ }, "XF86AudioMute", volume.toggle_mute),
 
     -- Copy primary to clipboard (terminals to gtk)
