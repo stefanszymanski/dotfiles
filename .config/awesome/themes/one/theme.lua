@@ -303,6 +303,23 @@ theme.luaprompt = custom.prompt.luapromptbox({
     bg = colors.bw_1,
 })
 
+-- Drink reminder
+local preset = {
+    font = "monospace Bold 24",
+    position = "top_middle",
+    timeout = 0,
+    margin = 20,
+    fg = colors.red_1,
+    bg = colors.bw_9,
+    border_width = 4,
+}
+local drink_reminder = custom.widget.reminder {
+    --text = "  ⊻    ",
+    text = " ⊻ ",
+    interval = 3600,
+    preset = preset,
+}
+
 -- Textclock
 os.setlocale(os.getenv("LANG")) -- to localize the clock
 local mytextclock = wibox.widget.textclock(" <span fgcolor='#d5c4a1'>%A, %Y-%m-%d <b>%H:%M</b></span> ")
