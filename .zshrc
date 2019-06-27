@@ -131,6 +131,9 @@ export KEYTIMEOUT=1
 # dotfile versioning
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
+# vim as pager
+alias vless='/usr/share/nvim/runtime/macros/less.sh'
+
 # exa
 if type exa &> /dev/null; then
 	alias ls='exa'                                                         # ls
