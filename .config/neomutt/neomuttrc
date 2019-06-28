@@ -75,18 +75,23 @@ set sidebar_format = "%B %* [%?N?%N / ?%S]"
 mailboxes =posteo
 mailboxes =posteo/inbox =posteo/archive =posteo/sent =posteo/drafts =posteo/trash
 
+source ~/.config/neomutt/bindings
+source ~/.config/neomutt/colors-gruvbox
+source ~/.config/neomutt/powerline
+source ~/.config/neomutt/gpg
+
 # GPG/PGP 
-set pgp_sign_as = 108515D6397109CC33EE659F6B182E20B91404C3
+set pgp_self_encrypt_as = 0x0B1107A58B58F3E3
+set pgp_self_encrypt = yes
+set pgp_sign_as = 0xD202F413FC8BA7A8 
 set crypt_use_gpgme = yes
 set crypt_autosign = yes
 set crypt_verify_sig = yes
 set crypt_replysign = yes
 set crypt_replyencrypt = yes
 set crypt_replysignencrypted = yes
-
-source ~/.config/neomutt/bindings
-source ~/.config/neomutt/colors-gruvbox
-source ~/.config/neomutt/powerline
+set crypt_opportunistic_encrypt = yes
+set pgp_use_gpg_agent = yes
 
 # by default, use posteo
 set realname = "Stefan Szymanski"
