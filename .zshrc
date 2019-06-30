@@ -125,6 +125,9 @@ bindkey -v
 # Set timeout of the escape key to 0.1 seconds
 export KEYTIMEOUT=1
 
+# see https://dev.gnupg.org/T3412
+GPG_TTY=$(tty)
+export GPG_TTY
 
 # ALIASES
 

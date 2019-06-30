@@ -117,3 +117,7 @@ if ! shopt -oq posix; then
 fi
 
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+# see https://dev.gnupg.org/T3412
+GPG_TTY=$(tty)
+export GPG_TTY

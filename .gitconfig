@@ -3,7 +3,7 @@
 [user]
 	name = Stefan Szymanski
 	email = stefan.szymanski@posteo.de
-	signingkey = stefan.szymanski@posteo.de
+	signingkey = 0xD202F413FC8BA7A8
 
 [core]
     editor = nvim
