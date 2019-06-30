@@ -17,7 +17,7 @@ bind index,pager <right> sidebar-open
 # global index and pager shortcuts
 bind index,pager @ compose-to-sender
 bind index,pager R group-reply
-bind index,pager D purge-message
+#bind index,pager D purge-message
 bind index <tab> sync-mailbox
 bind index <space> collapse-thread
 
