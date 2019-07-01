@@ -71,23 +71,8 @@ set sidebar_divider_char = ' | '
 set sidebar_indent_string = '  ''
 set sidebar_format = "%B %* [%?N?%N / ?%S]"
 
-# Mailboxes to show in the sidebar.
-named-mailboxes Posteo =posteo/inbox
-mailboxes =posteo/sent =posteo/drafts =posteo/archive =posteo/trash
-named-mailboxes Gmail =gmail/inbox
-mailboxes =gmail/sent =gmail/drafts =gmail/archive =gmail/trash
-#named-mailboxes Posteo =posteo
-#named-mailboxes Archive =posteo/archive Sent =posteo/sent Drafts =posteo/drafts Trash =posteo/trash
-
-source ~/.config/neomutt/bindings
-source ~/.config/neomutt/colors-gruvbox
-source ~/.config/neomutt/powerline
-source ~/.config/neomutt/gpg
-
 # GPG/PGP 
-set pgp_self_encrypt_as = 0x0B1107A58B58F3E3
 set pgp_self_encrypt = yes
-set pgp_sign_as = 0xD202F413FC8BA7A8 
 set crypt_use_gpgme = yes
 set crypt_autosign = yes
 set crypt_verify_sig = yes
@@ -96,11 +81,8 @@ set crypt_replyencrypt = yes
 set crypt_replysignencrypted = yes
 set crypt_opportunistic_encrypt = yes
 
-# by default, use posteo
-set realname = "Stefan Szymanski"
-set spoolfile = "+posteo/inbox"
-source ~/.config/neomutt/accounts/posteo
-
-# when changing into other mailboxes, use different adresses etc.
-folder-hook posteo/* source ~/.config/neomutt/accounts/posteo
-folder-hook gmail/* source ~/.config/neomutt/accounts/gmail
+source ~/.config/neomutt/bindings
+source ~/.config/neomutt/colors-gruvbox
+source ~/.config/neomutt/powerline
+source ~/.config/neomutt/gpg
+source ~/.config/neomutt/mailboxes
