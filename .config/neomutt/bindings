@@ -27,3 +27,5 @@ macro pager S "<pipe-message> ripmime -i - -d ~/Downloads && rm ~/Downloads/text
 macro pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
 # Sync all email
 macro index,pager O "<shell-escape>mbsync -a<enter>" "run mbsync to sync all mail"
+# Purge selected messages
+macro index,pager X "<purge-message><enter>" "purge message"
