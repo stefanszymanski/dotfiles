@@ -28,4 +28,4 @@ macro pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs ou
 # Sync all email
 macro index,pager O "<shell-escape>mbsync -a<enter>" "run mbsync to sync all mail"
 # Purge selected messages
-macro index,pager X "<purge-message><enter>" "purge message"
+macro index,pager X "<purge-message>" "purge message"
