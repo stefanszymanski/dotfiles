@@ -1,0 +1,14 @@
+#!/bin/bash
+
+acc=$1
+
+if [ -z $acc ]
+then
+    mbsync -a
+    muacrypt scandir-incoming ~/.mail/posteo/inbox/new
+    muacrypt scandir-incoming ~/.mail/gmail/inbox/new
+    muacrypt scandir-incoming ~/.mail/work/inbox/new
+else
+    mbsync $acc
+    muacrypt scandir-incoming ~/.mail/$acc/inbox/new
+fi

@@ -73,7 +73,7 @@ set sidebar_format = "%B %* [%?N?%N / ?%S]"
 
 # GPG/PGP 
 set pgp_self_encrypt = yes
-set crypt_use_gpgme = yes
+set crypt_use_gpgme = no
 set crypt_autosign = yes
 set crypt_verify_sig = yes
 set crypt_replysign = yes
@@ -81,8 +81,15 @@ set crypt_replyencrypt = yes
 set crypt_replysignencrypted = yes
 set crypt_opportunistic_encrypt = yes
 
+# Enable memory hole support
+set crypt_protected_headers_read = yes
+set crypt_protected_headers_save = yes
+set crypt_protected_headers_write = yes
+set crypt_protected_headers_subject = "..."
+
 source ~/.config/neomutt/bindings
 source ~/.config/neomutt/colors-gruvbox
 source ~/.config/neomutt/powerline
 source ~/.config/neomutt/gpg
+source ~/.config/neomutt/smime
 source ~/.config/neomutt/mailboxes
