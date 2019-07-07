@@ -67,8 +67,8 @@ set sidebar_visible
 set sidebar_short_path
 set sidebar_folder_indent
 set sidebar_width = 30
-set sidebar_divider_char = ' | '
-set sidebar_indent_string = '  ''
+set sidebar_divider_char = " ▏"
+set sidebar_indent_string = "  "
 set sidebar_format = "%B %* [%?N?%N / ?%S]"
 
 # GPG/PGP 
@@ -88,7 +88,7 @@ set crypt_protected_headers_write = yes
 set crypt_protected_headers_subject = "..."
 
 source ~/.config/neomutt/bindings
-source ~/.config/neomutt/colors-gruvbox
+source ~/.config/neomutt/colors
 source ~/.config/neomutt/powerline
 source ~/.config/neomutt/gpg
 source ~/.config/neomutt/smime

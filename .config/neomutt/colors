@@ -1,0 +1,73 @@
+# Copied from https://github.com/sheoak/neomutt-powerline-nerdfonts/blob/master/colors/gruvbox-powerline.neomuttrc
+
+color error         red				color235                # message line error text
+color message       green			color235				# message line success text
+color attachment    color109  		default                 # attachment headers
+color search        color232		brightyellow            # search patterns in pager
+color indicator     black			white                   # selected email in index
+
+
+# index colors
+color index 		color223 		default 	~Q					# replied to
+color index 		color223 		default 	~P					# from me
+color index 		color223 		default 	~O					# old
+color index 		color223 		default 	~F          		# flagged
+color index 		color223 		default 	~N					# new
+color index 		color109 		default 	"~P !~T !~D"		# from me, not tagged nor deleted
+color index 		color243 		default 	"~Q !~T !~D"        # replied to, not tagged nor deleted
+color index 		brightcolor142 	default 	"~N !~T !~D"        # new, not tagged nor deleted
+color index 		color142 		default 	"~O !~T !~D"        # old, not tagged nor deleted
+color index 		color214 		default 	"~F !~T !~D"        # flagged, not tagged nor deleted
+color index 		brightcolor214 	default 	"~F ~N !~T !~D"     # flagged and new, not tagged nor deleted
+color index 		color167 		default 	"~= !~T !~D"        # duplicated, not tagged nor deleted
+color index 		brightcolor109 	default 	"~P ~N !~T !~D"     # from me and new, not tagged nor deleted
+color index 		black 			color223 	"~T"                # tagged
+color index 		color229 		color124 	"~D"                # deleted
+
+
+# message headers
+color hdrdefault    color222  		color235
+color header        cyan	   		color235    "^(From|To|Cc|Bcc)"
+color header 		brightcyan 		color235 	"^(Subject|Date)"
+
+
+# message body
+color quoted        white           color235
+color quoted1       white	        color235
+color quoted2       white	        color235
+color quoted3       white	        color235
+color quoted4       white	        color235
+color signature     default         default
+
+color bold			default			default
+color underline     default			default
+color normal 		default	 		default
+
+# URLs
+color body          color188   		default     "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+# mail adresses
+color body          color188	    default	    "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
+
+
+# signature checks
+color body          brightred       default		"(BAD signature)"
+color body          brightgreen     default     "(Good signature)"
+color body          brightgreen	    default     "^gpg: Good signature .*"
+color body          brightred		default     "^gpg: "
+color body          brightred		default     "^gpg: BAD signature from.*"
+color body     		brightgreen     default     "Good signature from.*"
+color body     		brightred       default     "Bad signature from.*"
+color body     		brightred       default     "BAD signature from.*"
+color body     		brightred       default     "Note: This key has expired!"
+color body     		brightmagenta   default     "Problem signature from.*"
+color body     		brightmagenta   default     "WARNING: This key is not certified with a trusted signature!"
+color body     		brightmagenta   default     "         There is no indication that the signature belongs to the owner."
+color body			brightmagenta	default		"WARNING: We have NO indication whether the key belongs to the person named as shown above"
+color body     		brightmagenta   default     "can't handle these multiple signatures"
+color body     		brightmagenta   default     "signature verification suppressed"
+color body 	   		brightmagenta   default 	"invalid node with packet of type"
+
+
+# sidebar
+color sidebar_new		green		default
+color sidebar_highlight	color243	default	
