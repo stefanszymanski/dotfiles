@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Encrypts a disk with luks and creates a ext4 filesystem.
+#
+# Example usage: path/to/script /dev/sdc
+
+mapname="crypt-${1//\//-}"
+
+printf "# Start encryption of device $1\n"
+cryptsetup -v \
+    --cipher aes-xts-plain64 \
+    --key-size 512 \
+    --hash sha512 \
+    --iter-time 10000 \
+    --use-random \
+    --verify-passphrase luksFormat $1
+
+printf "# Open encrypted device\n"
+cryptsetup luksOpen $1 $mapname
+
+printf "# Should the device get filled with zeros? [y/n]: "
+read shouldfill
+if [ $shouldfill == "y" ]
+then
+    printf "# Fill the device with zeros\n"
+    dd if=/dev/zero of=/dev/mapper/$mapname status=progress
+fi
+
+printf "# Create ext4 filesystem\n"
+mkfs.ext4 /dev/mapper/$mapname
+
+printf "# Finished!\n\n"
+
+printf "# Do you want to use the device now? [y/n]: "
+read usenow
+if [ $usenow == "y" ]
+then
+    printf "# Where to mount the partition? [enter a path]: "
+    read mountpath
+    mount /dev/mapper/$mapname $mountpath
+    printf "# Device was mounted at $mountpath.\n"
+else
+    cryptsetup luksClose $mapname
+    printf "# Device was closed.\n"
+fi
