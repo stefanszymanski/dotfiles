@@ -61,6 +61,7 @@ unhdr_order *
 hdr_order from: to: cc: bcc: date: subject:
 alternative_order text/plain text/enriched text/html
 auto_view text/html
+my_hdr Openpgp: preference=signencrypt
 
 # sidebar patch config
 set sidebar_visible
