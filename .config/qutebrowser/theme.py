@@ -227,7 +227,7 @@ c.colors.tabs.indicator.error = base08
 c.colors.tabs.odd.fg = base05
 
 # Background color of unselected odd tabs.
-c.colors.tabs.odd.bg = base03
+c.colors.tabs.odd.bg = base00
 
 # Foreground color of unselected even tabs.
 c.colors.tabs.even.fg = base05
@@ -249,4 +249,4 @@ c.colors.tabs.selected.even.bg = base05
 
 # Background color for webpages if unset (or empty to use the theme's
 # color).
-c.colors.webpage.bg = base00
+#c.colors.webpage.bg = base00

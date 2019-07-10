@@ -160,15 +160,16 @@ config.unbind('<Ctrl-q>')
 # clone the current tab
 config.bind('<Ctrl-Shift-T>', 'tab-clone')
 # open link in VLC
-config.bind(';m', 'hint media spawn vlc {hint-url}')
-config.bind(';M', 'hint --rapid media spawn vlc {hint-url}')
+config.bind(';m', 'hint links spawn mpv {hint-url}')
+config.bind(';M', 'hint --rapid links spawn mpv {hint-url}')
 # open link in a new window
 config.bind(';w', 'hint links run :open -w {hint-url}')
 # open link in a private window
 config.bind(';p', 'hint links run :open -p {hint-url}')
-
-config.bind('<Alt-p>', 'spawn --userscript qute-pass')
-config.bind('<Alt-Shift-p>', 'spawn --userscript qute-pass --password-only')
+# fill in username and password
+config.bind('<Alt-p>p', 'spawn --userscript qute-pass')
+config.bind('<Alt-p>o', 'spawn --userscript qute-pass --username-only')
+config.bind('<Alt-p>l', 'spawn --userscript qute-pass --password-only')
 
 
 ###########
