@@ -6,6 +6,8 @@ local awful         = require("awful")
 local beautiful     = require("beautiful")
 
 
+awful.key.ignore_modifiers = { "Mod2" }
+
 -- startup
 require("rc.errorhandling")
 require("rc.autostart")
