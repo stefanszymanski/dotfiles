@@ -14,11 +14,12 @@ local config        = require("config")
 
 local modkey        = config.modkey
 local altkey        = config.altkey
+local altgrkey      = config.altgrkey
 
 
 globalkeys = gears.table.join(
     -- Take a screenshot
-    awful.key({         }, "Print", screenshot.screen,
+    awful.key({ }, "Print", screenshot.screen,
         {description = "take a screenshot of the full screen", group = "screenshots"}),
     awful.key({ "Shift" }, "Print", screenshot.focused,
         {description = "take a screenshot of the focused window", group = "screenshots"}),
@@ -26,33 +27,33 @@ globalkeys = gears.table.join(
         {description = "take a screenshot of a selected area", group = "screenshots"}),
 
     -- screen locker
-    awful.key({ modkey            }, "F12", apps.screenlocker.run,
+    awful.key({ modkey }, "F12", apps.screenlocker.run,
         {description = "lock screen", group = "hotkeys"}),
 
     -- Hotkeys
-    awful.key({ modkey,           }, "s", hotkeys_popup.show_help,
+    awful.key({ modkey }, "s", hotkeys_popup.show_help,
         {description = "show help", group="awesome"}),
 
     -- Tag browsing
-    awful.key({ modkey,           }, "Left", awful.tag.viewprev,
+    awful.key({ modkey }, "Left", awful.tag.viewprev,
         {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "Right", awful.tag.viewnext,
+    awful.key({ modkey }, "Right", awful.tag.viewnext,
         {description = "view next", group = "tag"}),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
+    awful.key({ modkey }, "Escape", awful.tag.history.restore,
         {description = "go back", group = "tag"}),
     -- Non-empty tag browsing
-    awful.key({ altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
-        {description = "view  previous nonempty", group = "tag"}),
-    awful.key({ altkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
-        {description = "view  previous nonempty", group = "tag"}),
+    awful.key({ altgrkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
+        {description = "view previous nonempty", group = "tag"}),
+    awful.key({ altgrkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
+        {description = "view previous nonempty", group = "tag"}),
 
     -- Default client focus
-    awful.key({ altkey,           }, "j",
+    awful.key({ modkey, altkey }, "j",
         function ()
             awful.client.focus.byidx( 1)
         end,
         {description = "focus next by index", group = "client navigation"}),
-    awful.key({ altkey,           }, "k",
+    awful.key({ modkey, altkey }, "k",
         function ()
             awful.client.focus.byidx(-1)
         end,
@@ -86,17 +87,17 @@ globalkeys = gears.table.join(
         {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
-    awful.key({ modkey, altkey   }, "j", function () awful.client.swap.byidx(  1)    end,
-        {description = "swap with next client by index", group = "client navigation"}),
-    awful.key({ modkey, altkey   }, "k", function () awful.client.swap.byidx( -1)    end,
-        {description = "swap with previous client by index", group = "client navigation"}),
+    awful.key({ modkey, altkey }, "h", function () awful.client.swap.byidx(  1)    end,
+        {description = "swap with next by index", group = "client navigation"}),
+    awful.key({ modkey, altkey }, "l", function () awful.client.swap.byidx( -1)    end,
+        {description = "swap with previous by index", group = "client navigation"}),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
         {description = "focus the next screen", group = "screen"}),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
         {description = "focus the previous screen", group = "screen"}),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
+    awful.key({ modkey }, "u", awful.client.urgent.jumpto,
         {description = "jump to urgent client", group = "client navigation"}),
-    awful.key({ modkey,           }, "Tab",
+    awful.key({ modkey }, "Tab",
         function ()
             awful.client.focus.history.previous()
             if client.focus then
@@ -118,25 +119,25 @@ globalkeys = gears.table.join(
         {description = "toggle wibox", group = "awesome"}),
 
     -- On the fly useless gaps change
-    awful.key({ altkey, "Control" }, "+", function () lain.util.useless_gaps_resize(1) end,
-        {description = "increment useless gaps", group = "tag"}),
-    awful.key({ altkey, "Control" }, "-", function () lain.util.useless_gaps_resize(-1) end,
-        {description = "decrement useless gaps", group = "tag"}),
+--    awful.key({ altkey, "Control" }, "+", function () lain.util.useless_gaps_resize(1) end,
+--        {description = "increment useless gaps", group = "tag"}),
+--    awful.key({ altkey, "Control" }, "-", function () lain.util.useless_gaps_resize(-1) end,
+--        {description = "decrement useless gaps", group = "tag"}),
 
     -- Dynamic tagging
-    awful.key({ modkey, "Control", "Shift" }, "n", function () lain.util.add_tag() end,
+    awful.key({ altgrkey, "Control" }, "n", function () lain.util.add_tag() end,
         {description = "add new tag", group = "tag"}),
-    awful.key({ modkey, "Control", "Shift" }, "r", function () lain.util.rename_tag() end,
+    awful.key({ altgrkey, "Control" }, "r", function () lain.util.rename_tag() end,
         {description = "rename tag", group = "tag"}),
-    awful.key({ modkey, "Control", "Shift" }, "Left", function () lain.util.move_tag(-1) end,
+    awful.key({ altgrkey, "Control" }, "Left", function () lain.util.move_tag(-1) end,
         {description = "move tag to the left", group = "tag"}),
-    awful.key({ modkey, "Control", "Shift" }, "Right", function () lain.util.move_tag(1) end,
+    awful.key({ altgrkey, "Control" }, "Right", function () lain.util.move_tag(1) end,
         {description = "move tag to the right", group = "tag"}),
-    awful.key({ modkey, "Control", "Shift" }, "d", function () lain.util.delete_tag() end,
+    awful.key({ altgrkey, "Control" }, "d", function () lain.util.delete_tag() end,
         {description = "delete tag", group = "tag"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(apps.terminal.cmd) end,
+    awful.key({ modkey }, "Return", function () awful.spawn(apps.terminal.cmd) end,
         {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "Return", function () awful.spawn(apps.terminal.cmd .. " -e tmux") end,
         {description = "open a terminal with tmux", group = "launcher"}),
@@ -145,9 +146,9 @@ globalkeys = gears.table.join(
     --awful.key({ modkey, "Shift"   }, "q", awesome.quit,
     --    {description = "quit awesome", group = "awesome"}),
 
-    awful.key({ altkey, "Shift"   }, "l",     function () awful.tag.incmwfact( 0.05)          end,
+    awful.key({ altgrkey, "Shift" }, "l",     function () awful.tag.incmwfact( 0.05)          end,
         {description = "increase master width factor", group = "layout"}),
-    awful.key({ altkey, "Shift"   }, "h",     function () awful.tag.incmwfact(-0.05)          end,
+    awful.key({ altgrkey, "Shift" }, "h",     function () awful.tag.incmwfact(-0.05)          end,
         {description = "decrease master width factor", group = "layout"}),
     --awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
     --    {description = "increase the number of master clients", group = "layout"}),
@@ -158,7 +159,7 @@ globalkeys = gears.table.join(
     --awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
     --    {description = "decrease the number of columns", group = "layout"}),
 
-    awful.key({ modkey, "Control" }, "n",
+    awful.key({ modkey }, "n",
         function ()
             local c = awful.client.restore()
             -- Focus restored client
@@ -170,11 +171,11 @@ globalkeys = gears.table.join(
         {description = "restore minimized", group = "tag"}),
 
     -- Widgets popups
-    awful.key({ altkey, }, "c", function () if beautiful.cal then beautiful.cal.show(7) end end,
+    awful.key({ altgrkey }, "c", function () if beautiful.cal then beautiful.cal.show(7) end end,
         {description = "show calendar", group = "widgets"}),
-    awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
+    awful.key({ altgrkey }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
         {description = "show filesystem", group = "widgets"}),
-    awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
+    awful.key({ altgrkey }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
         {description = "show weather", group = "widgets"}),
 
     -- Brightness
@@ -182,11 +183,11 @@ globalkeys = gears.table.join(
     awful.key({ }, "XF86MonBrightnessDown", function () os.execute("xbacklight -dec 10") end),
 
     -- ALSA volume control
-    awful.key({ altkey }, "Up", function () volume.increase(5) end,
+    awful.key({ altgrkey }, "Up", function () volume.increase(5) end,
         {description = "volume up", group = "audio"}),
-    awful.key({ altkey }, "Down", function () volume.decrease(5) end,
+    awful.key({ altgrkey }, "Down", function () volume.decrease(5) end,
         {description = "volume down", group = "audio"}),
-    awful.key({ altkey }, "m", volume.toggle_mute,
+    awful.key({ altgrkey }, "m", volume.toggle_mute,
         {description = "toggle mute", group = "audio"}),
     awful.key({ }, "XF86AudioRaiseVolume", function () volume.increase(5) end),
     awful.key({ }, "XF86AudioLowerVolume", function () volume.decrease(5) end),
@@ -194,10 +195,10 @@ globalkeys = gears.table.join(
 
     -- Copy primary to clipboard (terminals to gtk)
     awful.key({ modkey }, "c", function () awful.spawn.with_shell("xsel | xsel -i -b") end,
-        {description = "copy terminal to gtk", group = "hotkeys"}),
+        {description = "copy primary to clipboard", group = "hotkeys"}),
     -- Copy clipboard to primary (gtk to terminals)
     awful.key({ modkey }, "v", function () awful.spawn.with_shell("xsel -b | xsel") end,
-        {description = "copy gtk to terminal", group = "hotkeys"}),
+        {description = "copy clipboard to primary", group = "hotkeys"}),
 
     -- User programs
     awful.key({ modkey }, "q", function () awful.spawn(apps.browser.cmd) end,
@@ -232,8 +233,8 @@ for i = 1, 9 do
     if i == 1 or i == 9 then
         descr_view = {description = "view tag #", group = "tag"}
         descr_toggle = {description = "toggle tag #", group = "tag"}
-        descr_move = {description = "move to tag #", group = "client movement"}
-        descr_toggle_focus = {description = "toggle on tag #", group = "client movement"}
+        descr_move = {description = "move to tag #", group = "client"}
+        descr_toggle_focus = {description = "toggle on tag #", group = "client"}
     end
     globalkeys = gears.table.join(globalkeys,
         -- View tag only.
@@ -247,7 +248,7 @@ for i = 1, 9 do
             end,
         descr_view),
         -- Toggle tag display.
-        awful.key({ modkey, "Control" }, "#" .. i + 9,
+        awful.key({ altgrkey }, "#" .. i + 9,
             function ()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -268,7 +269,7 @@ for i = 1, 9 do
             end,
         descr_move),
         -- Toggle tag on focused client.
-        awful.key({ modkey, "Shift", "Control" }, "#" .. i + 9,
+        awful.key({ altgrkey, "Shift" }, "#" .. i + 9,
             function ()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]

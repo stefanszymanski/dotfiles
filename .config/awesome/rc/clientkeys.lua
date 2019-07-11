@@ -38,7 +38,7 @@ clientkeys = gears.table.join(
         {description = "move to master", group = "client"}),
 
     awful.key({ modkey, "Shift" }, "o", function (c) c:move_to_screen() end,
-        {description = "move to screen", group = "client movement"}),
+        {description = "move to screen", group = "client"}),
 
     awful.key({ modkey, "Shift" }, "n", function (c) c.minimized = true end,
         {description = "minimize", group = "client"}),

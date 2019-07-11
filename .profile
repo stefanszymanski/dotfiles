@@ -26,8 +26,9 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# make capslock an additional escape key
-setxkbmap -option caps:escape
+# make capslock an mod5 key for combinations and an escape when pressed and released on its own
+xmodmap -e "keycode 66 = ISO_Level3_Shift"
+xcape -e "ISO_Level3_Shift=Escape"
 
 # set XDG_CONFIG_* variables
 export XDG_CONFIG_HOME="$HOME/.config"
