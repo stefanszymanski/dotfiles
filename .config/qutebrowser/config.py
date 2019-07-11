@@ -1,4 +1,6 @@
-config.source('theme.py')
+from os.path import expanduser
+config.source(expanduser('~/.config/qutebrowser/theme.py'))
+
 
 terminal = 'termite'
 
