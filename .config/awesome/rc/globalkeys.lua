@@ -39,24 +39,30 @@ globalkeys = gears.table.join(
         {description = "view previous", group = "tag"}),
     awful.key({ modkey }, "k", awful.tag.viewnext,
         {description = "view next", group = "tag"}),
+    awful.key({ modkey }, "Left", awful.tag.viewprev,
+        {description = "view previous", group = "tag"}),
+    awful.key({ modkey }, "Right", awful.tag.viewnext,
+        {description = "view next", group = "tag"}),
     awful.key({ modkey }, "Escape", awful.tag.history.restore,
         {description = "go back", group = "tag"}),
     -- Non-empty tag browsing
-    awful.key({ modkey, altkey }, "j", function () lain.util.tag_view_nonempty(-1) end,
+    awful.key({ modkey, "Shift" }, "j", function () lain.util.tag_view_nonempty(-1) end,
         {description = "view previous nonempty", group = "tag"}),
-    awful.key({ modkey, altkey }, "k", function () lain.util.tag_view_nonempty(1) end,
+    awful.key({ modkey, "Shift" }, "k", function () lain.util.tag_view_nonempty(1) end,
+        {description = "view next nonempty", group = "tag"}),
+    awful.key({ modkey, "Shift" }, "Left", function () lain.util.tag_view_nonempty(-1) end,
         {description = "view previous nonempty", group = "tag"}),
+    awful.key({ modkey, "Shift" }, "Right", function () lain.util.tag_view_nonempty(1) end,
+        {description = "view next nonempty", group = "tag"}),
 
     -- Default client focus
-    awful.key({ altgrkey, altkey }, "j",
-        function ()
-            awful.client.focus.byidx( 1)
-        end,
+    awful.key({ altgrkey, altkey }, "j", function () awful.client.focus.byidx( 1) end,
         {description = "focus next by index", group = "client navigation"}),
-    awful.key({ altgrkey, altkey }, "k",
-        function ()
-            awful.client.focus.byidx(-1)
-        end,
+    awful.key({ altgrkey, altkey }, "k", function () awful.client.focus.byidx(-1) end,
+        {description = "focus previous by index", group = "client navigation"}),
+    awful.key({ altgrkey, altkey }, "Left", function () awful.client.focus.byidx( 1) end,
+        {description = "focus next by index", group = "client navigation"}),
+    awful.key({ altgrkey, altkey }, "Right", function () awful.client.focus.byidx(-1) end,
         {description = "focus previous by index", group = "client navigation"}),
     -- By direction client focus
     awful.key({ altgrkey }, "j",
@@ -83,7 +89,31 @@ globalkeys = gears.table.join(
             if client.focus then client.focus:raise() end
         end,
         {description = "focus right", group = "client navigation"}),
-    awful.key({ altgrkey,           }, "w", function () awful.util.mymainmenu:show() end,
+    awful.key({ altgrkey }, "Down",
+        function()
+            awful.client.focus.global_bydirection("down")
+            if client.focus then client.focus:raise() end
+        end,
+        {description = "focus down", group = "client navigation"}),
+    awful.key({ altgrkey }, "Up",
+        function()
+            awful.client.focus.global_bydirection("up")
+            if client.focus then client.focus:raise() end
+        end,
+        {description = "focus up", group = "client navigation"}),
+    awful.key({ altgrkey }, "Left",
+        function()
+            awful.client.focus.global_bydirection("left")
+            if client.focus then client.focus:raise() end
+        end,
+        {description = "focus left", group = "client navigation"}),
+    awful.key({ altgrkey }, "Right",
+        function()
+            awful.client.focus.global_bydirection("right")
+            if client.focus then client.focus:raise() end
+        end,
+        {description = "focus right", group = "client navigation"}),
+    awful.key({ modkey }, "w", function () awful.util.mymainmenu:show() end,
         {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
@@ -183,9 +213,9 @@ globalkeys = gears.table.join(
     awful.key({ }, "XF86MonBrightnessDown", function () os.execute("xbacklight -dec 10") end),
 
     -- ALSA volume control
-    awful.key({ altgrkey }, "Up", function () volume.increase(5) end,
+    awful.key({ altgrkey }, "+", function () volume.increase(5) end,
         {description = "volume up", group = "audio"}),
-    awful.key({ altgrkey }, "Down", function () volume.decrease(5) end,
+    awful.key({ altgrkey }, "-", function () volume.decrease(5) end,
         {description = "volume down", group = "audio"}),
     awful.key({ altgrkey }, "m", volume.toggle_mute,
         {description = "toggle mute", group = "audio"}),
@@ -208,8 +238,8 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "r", function () beautiful.prompt.run() end,
         {description = "run prompt", group = "launcher"}),
 
-    awful.key({ modkey }, "x", function () beautiful.luaprompt.run() end,
-        {description = "run lua execute prompt", group = "awesome"}),
+--    awful.key({ modkey }, "x", function () beautiful.luaprompt.run() end,
+--        {description = "run lua execute prompt", group = "awesome"}),
 
     awful.key({ modkey }, ",", function () awful.spawn.with_shell("rofi -show run") end,
         {description = "show command launcher", group = "launcher"}),
@@ -220,7 +250,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "#", function () awful.spawn.with_shell("rofi -show window") end,
         {description = "show window switcher", group = "launcher"}),
     awful.key({ modkey }, "+", function () awful.spawn.with_shell("$HOME/.bin/sessionmenu") end,
-        {description = "show window switcher", group = "launcher"})
+        {description = "show session menu", group = "launcher"})
 
 )
 
