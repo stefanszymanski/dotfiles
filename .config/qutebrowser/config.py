@@ -172,7 +172,9 @@ config.bind(';p', 'hint links run :open -p {hint-url}')
 config.bind('<Alt-p>p', 'spawn --userscript qute-pass')
 config.bind('<Alt-p>o', 'spawn --userscript qute-pass --username-only')
 config.bind('<Alt-p>l', 'spawn --userscript qute-pass --password-only')
-
+# edit the current URL
+config.bind('<Alt-o>', 'set-cmd-text -s :open {url}')
+config.bind('<Alt-O>', 'set-cmd-text -s :open -t {url}')
 
 ###########
 # Aliases #
