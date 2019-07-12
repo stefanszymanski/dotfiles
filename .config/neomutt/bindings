@@ -33,3 +33,25 @@ macro pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs ou
 macro index,pager O "<shell-escape>~/.bin/syncmail<enter>" "run mbsync to sync all mail"
 # Purge selected messages
 macro index,pager X "<purge-message>" "purge message"
+
+# Reset limit: show all messages again
+macro index a "<limit>all\n" "show all messages (undo limit)"
+
+###########
+# notmuch #
+###########
+
+# Show complete thread of current message
+macro index <F9> \
+    "<enter-command>set my_old_pipe_decode=\$pipe_decode my_old_wait_key=\$wait_key nopipe_decode nowait_key<enter>\
+    <pipe-message>notmuch-mutt -r thread<enter>\
+    <change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>\
+    <enter-command>set pipe_decode=\$my_old_pipe_decode wait_key=\$my_old_wait_key<enter>" \
+    "notmuch: reconstruct thread"
+
+# Limit messages in current folder
+macro index L \
+	"<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter> \
+	<limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" \
+	"notmuch: show only messages matching a pattern"
+
