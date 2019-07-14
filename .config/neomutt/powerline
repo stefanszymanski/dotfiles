@@ -33,10 +33,17 @@ tag-transforms "replied" "↻ "  \
                "attachment" "" \
 
 # The formats must start with 'G' and the entire sequence is case sensitive.
-tag-formats "replied" "GR" \
+tag-formats "inbox" "GI" \
+            "unread" "GU" \
+            "replied" "GR" \
+            "sent" "GS" \
             "encrypted" "GE" \
-            "signed" "GS" \
+            "signed" "Gs" \
             "attachment" "GA" \
+            "archive" "Ga" \
+            "deleted" "GD" \
+            "todo" "Gt" \
+            "reminder" "Gr"
 
 # powerline status bar hack
 color status white black

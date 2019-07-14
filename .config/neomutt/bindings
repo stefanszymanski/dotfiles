@@ -30,28 +30,30 @@ macro pager S "<pipe-message> ripmime -i - -d ~/Downloads && rm ~/Downloads/text
 # opening urls with urlscan
 macro pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
 # Sync all email
-macro index,pager O "<shell-escape>~/.bin/syncmail<enter>" "run mbsync to sync all mail"
+macro index,pager O "<shell-escape>~/.bin/syncmail all<enter>" "sync all mail"
 # Purge selected messages
 macro index,pager X "<purge-message>" "purge message"
 
 # Reset limit: show all messages again
 macro index a "<limit>all\n" "show all messages (undo limit)"
 
+
 ###########
 # notmuch #
 ###########
 
-# Show complete thread of current message
-macro index <F9> \
-    "<enter-command>set my_old_pipe_decode=\$pipe_decode my_old_wait_key=\$wait_key nopipe_decode nowait_key<enter>\
-    <pipe-message>notmuch-mutt -r thread<enter>\
-    <change-folder-readonly>`echo ${XDG_CACHE_HOME:-$HOME/.cache}/notmuch/mutt/results`<enter>\
-    <enter-command>set pipe_decode=\$my_old_pipe_decode wait_key=\$my_old_wait_key<enter>" \
-    "notmuch: reconstruct thread"
+# read entire thread of the current message
+bind index,pager + entire-thread
 
-# Limit messages in current folder
-macro index L \
-	"<enter-command>unset wait_key<enter><shell-escape>read -p 'notmuch query: ' x; echo \$x >~/.cache/mutt_terms<enter> \
-	<limit>~i \"\`notmuch search --output=messages \$(cat ~/.cache/mutt_terms) | head -n 600 | perl -le '@a=<>;chomp@a;s/\^id:// for@a;$,=\"|\";print@a'\`\"<enter>" \
-	"notmuch: show only messages matching a pattern"
-
+# tag as inbox
+macro index,pager <ESC>I "<modify-labels-then-hide>+inbox -archive -trash -spam<enter>"
+# tag as archive
+macro index,pager <ESC>A "<modify-labels-then-hide>+archive -inbox -unread -todo -reminder -trash -spam<enter>"
+# tag as todo
+macro index,pager <ESC>T "<modify-labels>+inbox +todo -archive -reminder -trash -spam<enter>"
+# tag as reminder
+macro index,pager <ESC>R "<modify-labels>+inbox +reminder -archive -todo -trash -spam<enter>"
+# tag as trash
+macro index,pager <ESC>D "<modify-labels>+trash -spam -inbox -unread -archive<enter>"
+# tag as spam
+macro index,pager <ESC>J "<modify-labels>+spam -inbox -unread -archive -trash<enter>"
