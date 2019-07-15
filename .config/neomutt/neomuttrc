@@ -36,7 +36,7 @@ unset sig_dashes                     # no dashes before sig
 unset mime_forward                   # forward attachments as part of body
 
 # status bar, date format, finding stuff etc.
-set date_format = "%d.%m.%Y %H:%M"
+set date_format = "%Y-%m-%d %H:%M"
 set sort = threads
 set sort_aux = reverse-last-date-received
 set uncollapse_jump
