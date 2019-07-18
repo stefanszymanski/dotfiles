@@ -10,9 +10,9 @@ bind pager G bottom
 bind index G last-entry
 
 # sidebar Navigation
-bind index,pager <down> sidebar-next
-bind index,pager <up> sidebar-prev
-bind index,pager <right> sidebar-open
+bind index,pager <ESC>j sidebar-next
+bind index,pager <ESC>k sidebar-prev
+bind index,pager <ESC><space> sidebar-open
 
 # global index and pager shortcuts
 bind index,pager @ compose-to-sender
@@ -32,7 +32,7 @@ macro pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs ou
 # Sync all email
 macro index,pager O "<shell-escape>~/.bin/syncmail all<enter>" "sync all mail"
 # Purge selected messages
-macro index,pager X "<purge-message>" "purge message"
+macro index,pager <ESC>X "<purge-message>" "purge message"
 
 # Reset limit: show all messages again
 macro index a "<limit>all\n" "show all messages (undo limit)"
@@ -50,10 +50,10 @@ macro index,pager <ESC>I "<modify-labels-then-hide>+inbox -archive -trash -spam<
 # tag as archive
 macro index,pager <ESC>A "<modify-labels-then-hide>+archive -inbox -unread -todo -reminder -trash -spam<enter>"
 # tag as todo
-macro index,pager <ESC>T "<modify-labels>+inbox +todo -archive -reminder -trash -spam<enter>"
+macro index,pager <ESC>T "<modify-labels-then-hide>+inbox +todo -archive -reminder -trash -spam<enter>"
 # tag as reminder
-macro index,pager <ESC>R "<modify-labels>+inbox +reminder -archive -todo -trash -spam<enter>"
+macro index,pager <ESC>R "<modify-labels-then-hide>+inbox +reminder -archive -todo -trash -spam<enter>"
 # tag as trash
-macro index,pager <ESC>D "<modify-labels>+trash -spam -inbox -unread -archive<enter>"
+macro index,pager <ESC>D "<modify-labels-then-hide>+trash -spam -inbox -unread -archive<enter>"
 # tag as spam
-macro index,pager <ESC>J "<modify-labels>+spam -inbox -unread -archive -trash<enter>"
+macro index,pager <ESC>J "<modify-labels-then-hide>+spam -inbox -unread -archive -trash<enter>"

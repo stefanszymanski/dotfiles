@@ -45,7 +45,7 @@ set scrolloff=3                 " Minimum lines to keep above and below cursor
 set nofoldenable                " Auto fold code
 set mouse=a                     " Automatically enable mouse usage
 set mousehide                   " Hide the mouse cursor while typing
-set nomodeline                  " Disable modeline
+set modeline                    " Enable modeline
 
 
 " Theme
@@ -60,7 +60,7 @@ highlight EndOfBuffer ctermfg=black ctermbg=black   " Hide empty line indicator 
 
 " Formatting
 
-set nowrap                      " Do not wrap long lines
+set wrap                        " Wrap long lines
 set autoindent                  " Indent at the same level of the previous line
 set shiftwidth=4                " Use auto indents of 4 spaces
 set expandtab                   " Tabs are spaces, not tabs

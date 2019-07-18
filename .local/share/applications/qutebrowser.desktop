@@ -6,3 +6,4 @@ Categories=Qt;Network;WebBrowser
 Exec=env PINENTRY_USER_DATA=gtk qutebrowser
 Name=Qutebrowser
 GenericName=Web Browser
+MimeType=x-scheme-handler/https;x-scheme-handler/http;text/html;
