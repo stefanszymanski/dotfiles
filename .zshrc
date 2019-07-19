@@ -38,6 +38,17 @@ zinc_right=(
     zincs_time
 )
 
+# Change cursor shape depending on vi mode
+function zle-keymap-select zle-line-init {
+  case $KEYMAP in
+    vicmd) echo -ne '\e[1 q';; # block cursor
+    viins|main) echo -ne '\e[5 q';; # beam cursor
+    #*) echo -ne '\e[5 q';; # beam cursor
+  esac
+}
+zle -N zle-keymap-select
+zle -N zle-line-init
+
 
 # COMPLETION
 unsetopt menu_complete
@@ -91,7 +102,6 @@ if [ "x$COMPLETION_WAITING_DOTS" = "xtrue" ]; then
   zle -N expand-or-complete-with-dots
   bindkey "^I" expand-or-complete-with-dots
 fi
-
 
 
 # CORRECTION
