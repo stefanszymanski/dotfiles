@@ -15,7 +15,7 @@ zplug "zsh-users/zsh-completions"
 zplug "peterhurford/up.zsh"
 
 # Set the theme
-zplug "robobenklein/zinc", as:theme
+zplug "stefanszymanski/zinc", as:theme
 
 # Add directory for custom prompt segments
 fpath+=("$HOME/.config/zsh/zinc/segments")
@@ -29,26 +29,32 @@ typeset -ga zinc_left zinc_right
 zinc_left=(
 	zincs_cwd_writable
 	zincs_cwd
-	zincs_vcs
+	#zincs_vcs
+	zincs_vi_mode_indicator
 )
 zinc_right=(
-    zincs_retval
-    zincs_virtualenv
-    zincs_execution_time
-    zincs_time
+    #zincs_retval
+    #zincs_virtualenv
+    #zincs_execution_time
+    #zincs_time
 )
 
 # Change cursor shape depending on vi mode
-function zle-keymap-select zle-line-init {
-  case $KEYMAP in
-    vicmd) echo -ne '\e[1 q';; # block cursor
-    viins|main) echo -ne '\e[5 q';; # beam cursor
-    #*) echo -ne '\e[5 q';; # beam cursor
-  esac
-}
-zle -N zle-keymap-select
-zle -N zle-line-init
+#function zle-keymap-select zle-line-init {
+#  case $KEYMAP in
+#    vicmd) echo -ne '\e[1 q';; # block cursor
+#    viins|main) echo -ne '\e[5 q';; # beam cursor
+#    #*) echo -ne '\e[5 q';; # beam cursor
+#  esac
+#}
+#zle -N zle-keymap-select
+#zle -N zle-line-init
 
+source ~/.config/zsh/vi_mode_indicator
+
+MODE_CURSOR_VICMD="steady block"
+MODE_CURSOR_VIINS="steady bar"
+MODE_CURSOR_SEARCH="steady underline"
 
 # COMPLETION
 unsetopt menu_complete
@@ -132,12 +138,24 @@ setopt inc_append_history
 
 # Enable vi mode
 bindkey -v
+
 # Set timeout of the escape key to 0.1 seconds
 export KEYTIMEOUT=1
 
 # see https://dev.gnupg.org/T3412
 GPG_TTY=$(tty)
 export GPG_TTY
+
+# BINDINGS
+
+bindkey '^P' up-history
+bindkey '^N' down-history
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+bindkey '^r' history-incremental-search-backward
+bindkey '^s' history-incremental-search-forward
+
 
 # ALIASES
 
