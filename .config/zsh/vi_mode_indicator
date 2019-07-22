@@ -1,3 +1,5 @@
+# Copied from https://github.com/softmoth/zsh-vim-mode/blob/master/zsh-vim-mode.plugin.zsh and modified
+
 # Identifying the editing mode {{{1
 
 autoload -Uz add-zsh-hook
@@ -301,3 +303,5 @@ else
     add-zsh-hook        precmd      vim-mode-cursor-init-hook
     add-zle-hook-widget line-finish vim-mode-cursor-finish-hook
 fi
+
+# vim:set ft=zsh sw=4 et fdm=marker:
