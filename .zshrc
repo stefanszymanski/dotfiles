@@ -15,7 +15,7 @@ zplug "zsh-users/zsh-completions"
 zplug "peterhurford/up.zsh"
 
 # Set the theme
-zplug "stefanszymanski/zinc", as:theme
+zplug "robobenklein/zinc", as:theme, at:dev
 
 # Add directory for custom prompt segments
 fpath+=("$HOME/.config/zsh/zinc/segments")
@@ -33,9 +33,9 @@ zinc_left=(
 	zincs_vi_mode_indicator
 )
 zinc_right=(
-    #zincs_retval
+    zincs_retval
     #zincs_virtualenv
-    #zincs_execution_time
+    zincs_execution_time
     #zincs_time
 )
 
