@@ -1,0 +1,66 @@
+{
+  "coc.preferences.diagnostic.signOffset": 3000,
+  "coc.preferences.diagnostic.errorSign": "×",
+  "coc.preferences.diagnostic.warningSign": "⚠",
+  "coc.preferences.diagnostic.infoSign": "ℹ",
+  "coc.preferences.diagnostic.hintSign": "•",
+
+  "coc.preferences.useQuickfixForLocations": true,
+
+  "coc.preferences.triggerAfterInsertEnter": true,
+  "coc.preferences.hyphenAsKeyword": true,
+
+  "coc.preferences.timeout": 2000,
+  "coc.preferences.acceptSuggestionOnCommitCharacter": true,
+
+  "coc.preferences.snippetIndicator": " ★",
+
+  "coc.preferences.formatOnType": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "html",
+    "javascript",
+    "json",
+    "less",
+    "markdown",
+    "python",
+    "reason",
+    "typescript",
+    "typescript.tsx",
+    "yaml",
+	"lua"
+  ],
+
+  "python.jediEnabled": false,
+  "python.formatting.provider": "yapf",
+
+  "tslint.enable": true,
+
+  "tsserver.typingsCacheLocation": "~/.cache/tsserver",
+  "tsserver.log": "normal",
+  "tsserver.orgnizeImportOnSave": true,
+
+  "languageserver": {
+	"lua": {
+      "command": "java",
+      "args": ["-cp", ".languageserver/EmmyLua-LanguageServer/EmmyLua-LS/build/libs/EmmyLua-LS-all.jar", "com.tang.vscode.MainKt"],
+	  "cwd": "../../",
+      "filetypes": ["lua"],
+      "rootPatterns": [".git"]
+	},
+	"php": {
+	  "command": "intelephense",
+	  "args": ["--stdio"],
+	  "filetypes": ["php"],
+	  "initializationOptions": {
+	    "storagePath": "/tmp/intelephense"
+	  },
+	  "rootPatterns": [".git", ".svn"]
+	},
+    "bash": {
+      "command": "bash-language-server",
+      "filetypes": ["sh"],
+      "args": ["start"]
+    }
+  }
+}
