@@ -1,9 +1,12 @@
 {
-  "coc.preferences.diagnostic.signOffset": 3000,
-  "coc.preferences.diagnostic.errorSign": "×",
-  "coc.preferences.diagnostic.warningSign": "⚠",
-  "coc.preferences.diagnostic.infoSign": "ℹ",
-  "coc.preferences.diagnostic.hintSign": "•",
+  "diagnostic.signOffset": 3000,
+  "diagnostic.errorSign": "×",
+  "diagnostic.warningSign": "",
+  "diagnostic.infoSign": "ℹ",
+  "diagnostic.hintSign": "•",
+  "diagnostic.messageTarget": "echo",
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextPrefix": " ❯❯ ",
 
   "coc.preferences.useQuickfixForLocations": true,
 
@@ -14,6 +17,9 @@
   "coc.preferences.acceptSuggestionOnCommitCharacter": true,
 
   "coc.preferences.snippetIndicator": " ★",
+
+  "coc.preferences.hoverTarget": "float",
+  "coc.preferences.enableFloatHighlight": true,
 
   "coc.preferences.formatOnType": false,
   "coc.preferences.formatOnSaveFiletypes": [
@@ -28,8 +34,12 @@
     "typescript",
     "typescript.tsx",
     "yaml",
-	"lua"
+	"lua",
+    "php",
+    "vim"
   ],
+
+  "coc.preferences.enableFloatHighlight": true,
 
   "python.jediEnabled": false,
   "python.formatting.provider": "yapf",
@@ -39,6 +49,12 @@
   "tsserver.typingsCacheLocation": "~/.cache/tsserver",
   "tsserver.log": "normal",
   "tsserver.orgnizeImportOnSave": true,
+
+  "suggest.floatEnable": true,
+  "suggest.echodocSupport": true,
+
+  "signature.target": "echo",
+  "signature.hideOnTextChange": true,
 
   "languageserver": {
 	"lua": {
@@ -53,9 +69,17 @@
 	  "args": ["--stdio"],
 	  "filetypes": ["php"],
 	  "initializationOptions": {
-	    "storagePath": "/tmp/intelephense"
+	    "storagePath": "/tmp/intelephense",
+        "clearCache": false
 	  },
-	  "rootPatterns": [".git", ".svn"]
+	  "rootPatterns": [".git", ".svn"],
+      "settings": {
+          "intelephense": {
+              "files": {
+                "exclude": ["_tmp"]
+              }
+          }
+      }
 	},
     "bash": {
       "command": "bash-language-server",

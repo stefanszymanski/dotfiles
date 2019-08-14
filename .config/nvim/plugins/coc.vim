@@ -3,6 +3,8 @@
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
+"highlight link CocFloating Gruvbox
+
 
 " === Bindings === "
 
@@ -51,6 +53,10 @@ nnoremap <silent> <leader>lD :call <SID>show_documentation()<CR>
 " Formatting
 xmap <silent> <leader>lf <Plug>(coc-format-selected)
 nmap <silent> <leader>lf <Plug>(coc-format-selected)
+
+" Refactoring
+"   <leader>rf   - Open refactoring view
+nmap <silent> <leader>rf <Plug>(coc-refactor)
 
 
 " === Commands === "

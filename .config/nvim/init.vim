@@ -26,6 +26,9 @@ Plug 'mhinz/vim-startify'
 Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
 Plug 'Rican7/php-doc-modded', {'for': 'php'}
 
+" Language documentation integration
+Plug 'Shougo/echodoc.vim'
+
 " COC language server
 function! CocSetup(info)
   " Initial setup
@@ -42,8 +45,6 @@ endfunction
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release', 'do': function('CocSetup')}
 
 call plug#end()
-
-let g:deoplete#enable_at_startup = 1
 
 
 " Encoding
@@ -107,7 +108,8 @@ set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
 set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 "set cc=80                       " set an 80 column border for good coding style
 
-for f in ['coc', 'denite', 'airline', 'phpactor', 'phpdoc']
+" Load custom plugin configurations
+for f in ['coc', 'echodoc', 'denite', 'airline', 'phpactor', 'phpdoc']
     execute 'source $HOME/.config/nvim/plugins/'.f.'.vim'
 endfor
 
