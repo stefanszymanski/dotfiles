@@ -1,252 +1,171 @@
-# base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
-# Base16 qutebrowser template by theova
 # Gruvbox dark, medium scheme by Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
 
-base00 = "#282828"
-base01 = "#3c3836"
-base02 = "#504945"
-base03 = "#665c54"
-base04 = "#bdae93"
-base05 = "#d5c4a1"
-base06 = "#ebdbb2"
-base07 = "#fbf1c7"
-base08 = "#fb4934"
-base09 = "#fe8019"
-base0A = "#fabd2f"
-base0B = "#b8bb26"
-base0C = "#8ec07c"
-base0D = "#83a598"
-base0E = "#d3869b"
-base0F = "#d65d0e"
-
-# set qutebrowser colors
-
-# Text color of the completion widget. May be a single color to use for
-# all columns or a list of three colors, one for each column.
-c.colors.completion.fg = base05
-
-# Background color of the completion widget for odd rows.
-c.colors.completion.odd.bg = base03
-
-# Background color of the completion widget for even rows.
-c.colors.completion.even.bg = base00
-
-# Foreground color of completion widget category headers.
-c.colors.completion.category.fg = base0A
-
-# Background color of the completion widget category headers.
-c.colors.completion.category.bg = base00
-
-# Top border color of the completion widget category headers.
-c.colors.completion.category.border.top = base00
-
-# Bottom border color of the completion widget category headers.
-c.colors.completion.category.border.bottom = base00
-
-# Foreground color of the selected completion item.
-c.colors.completion.item.selected.fg = base01
-
-# Background color of the selected completion item.
-c.colors.completion.item.selected.bg = base0A
-
-# Top border color of the completion widget category headers.
-c.colors.completion.item.selected.border.top = base0A
-
-# Bottom border color of the selected completion item.
-c.colors.completion.item.selected.border.bottom = base0A
-
-# Foreground color of the matched text in the completion.
-c.colors.completion.match.fg = base0B
-
-# Color of the scrollbar handle in the completion view.
-c.colors.completion.scrollbar.fg = base05
-
-# Color of the scrollbar in the completion view.
-c.colors.completion.scrollbar.bg = base00
-
-# Background color for the download bar.
-c.colors.downloads.bar.bg = base00
-
-# Color gradient start for download text.
-c.colors.downloads.start.fg = base00
-
-# Color gradient start for download backgrounds.
-c.colors.downloads.start.bg = base0D
-
-# Color gradient end for download text.
-c.colors.downloads.stop.fg = base00
-
-# Color gradient stop for download backgrounds.
-c.colors.downloads.stop.bg = base0C
-
-# Foreground color for downloads with errors.
-c.colors.downloads.error.fg = base08
-
-# Font color for hints.
-c.colors.hints.fg = base00
-
-# Background color for hints. Note that you can use a `rgba(...)` value
-# for transparency.
-c.colors.hints.bg = base0A
-
-# Font color for the matched part of hints.
-c.colors.hints.match.fg = base05
-
-# Text color for the keyhint widget.
-c.colors.keyhint.fg = base05
-
-# Highlight color for keys to complete the current keychain.
-c.colors.keyhint.suffix.fg = base05
-
-# Background color of the keyhint widget.
-c.colors.keyhint.bg = base00
-
-# Foreground color of an error message.
-c.colors.messages.error.fg = base00
-
-# Background color of an error message.
-c.colors.messages.error.bg = base08
-
-# Border color of an error message.
-c.colors.messages.error.border = base08
-
-# Foreground color of a warning message.
-c.colors.messages.warning.fg = base00
-
-# Background color of a warning message.
-c.colors.messages.warning.bg = base0E
-
-# Border color of a warning message.
-c.colors.messages.warning.border = base0E
-
-# Foreground color of an info message.
-c.colors.messages.info.fg = base05
-
-# Background color of an info message.
-c.colors.messages.info.bg = base00
-
-# Border color of an info message.
-c.colors.messages.info.border = base00
-
-# Foreground color for prompts.
-c.colors.prompts.fg = base05
-
-# Border used around UI elements in prompts.
-c.colors.prompts.border = base00
-
-# Background color for prompts.
-c.colors.prompts.bg = base00
-
-# Background color for the selected item in filename prompts.
-c.colors.prompts.selected.bg = base0A
-
-# Foreground color of the statusbar.
-c.colors.statusbar.normal.fg = base0B
-
-# Background color of the statusbar.
-c.colors.statusbar.normal.bg = base00
-
-# Foreground color of the statusbar in insert mode.
-c.colors.statusbar.insert.fg = base00
-
-# Background color of the statusbar in insert mode.
-c.colors.statusbar.insert.bg = base0D
-
-# Foreground color of the statusbar in passthrough mode.
-c.colors.statusbar.passthrough.fg = base00
-
-# Background color of the statusbar in passthrough mode.
-c.colors.statusbar.passthrough.bg = base0C
-
-# Foreground color of the statusbar in private browsing mode.
-c.colors.statusbar.private.fg = base00
-
-# Background color of the statusbar in private browsing mode.
-c.colors.statusbar.private.bg = base03
-
-# Foreground color of the statusbar in command mode.
-c.colors.statusbar.command.fg = base05
-
-# Background color of the statusbar in command mode.
-c.colors.statusbar.command.bg = base00
-
-# Foreground color of the statusbar in private browsing + command mode.
-c.colors.statusbar.command.private.fg = base05
-
-# Background color of the statusbar in private browsing + command mode.
-c.colors.statusbar.command.private.bg = base00
-
-# Foreground color of the statusbar in caret mode.
-c.colors.statusbar.caret.fg = base00
-
-# Background color of the statusbar in caret mode.
-c.colors.statusbar.caret.bg = base0E
-
-# Foreground color of the statusbar in caret mode with a selection.
-c.colors.statusbar.caret.selection.fg = base00
-
-# Background color of the statusbar in caret mode with a selection.
-c.colors.statusbar.caret.selection.bg = base0D
-
-# Background color of the progress bar.
-c.colors.statusbar.progress.bg = base0D
-
-# Default foreground color of the URL in the statusbar.
-c.colors.statusbar.url.fg = base05
-
-# Foreground color of the URL in the statusbar on error.
-c.colors.statusbar.url.error.fg = base08
-
-# Foreground color of the URL in the statusbar for hovered links.
-c.colors.statusbar.url.hover.fg = base05
-
-# Foreground color of the URL in the statusbar on successful load
-# (http).
-c.colors.statusbar.url.success.http.fg = base0C
-
-# Foreground color of the URL in the statusbar on successful load
-# (https).
-c.colors.statusbar.url.success.https.fg = base0B
-
-# Foreground color of the URL in the statusbar when there's a warning.
-c.colors.statusbar.url.warn.fg = base0E
-
-# Background color of the tab bar.
-c.colors.tabs.bar.bg = base00
-
-# Color gradient start for the tab indicator.
-c.colors.tabs.indicator.start = base0D
-
-# Color gradient end for the tab indicator.
-c.colors.tabs.indicator.stop = base0C
-
-# Color for the tab indicator on errors.
-c.colors.tabs.indicator.error = base08
-
-# Foreground color of unselected odd tabs.
-c.colors.tabs.odd.fg = base05
-
-# Background color of unselected odd tabs.
-c.colors.tabs.odd.bg = base00
-
-# Foreground color of unselected even tabs.
-c.colors.tabs.even.fg = base05
-
-# Background color of unselected even tabs.
-c.colors.tabs.even.bg = base00
-
-# Foreground color of selected odd tabs.
-c.colors.tabs.selected.odd.fg = base00
-
-# Background color of selected odd tabs.
-c.colors.tabs.selected.odd.bg = base05
-
-# Foreground color of selected even tabs.
-c.colors.tabs.selected.even.fg = base00
-
-# Background color of selected even tabs.
-c.colors.tabs.selected.even.bg = base05
-
-# Background color for webpages if unset (or empty to use the theme's
-# color).
-#c.colors.webpage.bg = base00
+# ============== #
+# Gruvbox colors #
+# ============== #
+
+dark0 = "#282828"
+dark1 = "#3c3836"
+dark2 = "#504945"
+dark3 = "#665c54"
+dark4 = "#7c6f64"
+dark_gray = "#928374"
+
+light0 = "#fbf1c7"
+light1 = "#ebdbb2"
+light2 = "#d5c4a1"
+light3 = "#bdae93"
+light4 = "#a89984"
+light_gray = "#928374"
+
+bright_red      = "#fb4934"
+bright_green    = "#b8bb26"
+bright_yellow   = "#fabd2f"
+bright_blue     = "#83a598"
+bright_purple   = "#d3869b"
+bright_aqua     = "#8ec07c"
+bright_orange   = "#fe8019"
+
+neutral_red     = "#cc241d"
+neutral_green   = "#98971a"
+neutral_yellow  = "#d79921"
+neutral_blue    = "#458588"
+neutral_purple  = "#b16286"
+neutral_aqua    = "#689d6a"
+neutral_orange  = "#d65d0e"
+
+faded_red     = "#9d0006"
+faded_green   = "#79740e"
+faded_yellow  = "#b57614"
+faded_blue    = "#076678"
+faded_purple  = "#8f3f71"
+faded_aqua    = "#427b58"
+faded_orange  = "#af3a03"
+
+
+# ================== #
+# Gruvbox dark theme #
+# ================== #
+
+bg0 = dark0
+bg1 = dark1
+bg2 = dark2
+bg3 = dark3
+bg4 = dark4
+
+fg0 = light0
+fg1 = light1
+fg2 = light2
+fg3 = light3
+fg4 = light4
+
+gray = dark_gray
+red = bright_red
+green = bright_green
+yellow = bright_yellow
+blue = bright_blue
+purple = bright_purple
+aqua = bright_aqua
+orange = bright_orange
+
+
+# ========================== #
+# Qutebrowser color settings #
+# ========================== #
+
+c.colors.completion.fg = fg2
+c.colors.completion.odd.bg = bg3
+c.colors.completion.even.bg = bg0
+c.colors.completion.category.fg = yellow
+c.colors.completion.category.bg = bg0
+c.colors.completion.category.border.top = bg0
+c.colors.completion.category.border.bottom = bg0
+c.colors.completion.item.selected.fg = bg1
+c.colors.completion.item.selected.bg = yellow
+c.colors.completion.item.selected.border.top = yellow
+c.colors.completion.item.selected.border.bottom = yellow
+c.colors.completion.match.fg = green
+c.colors.completion.scrollbar.fg = fg2
+c.colors.completion.scrollbar.bg = bg0
+
+c.colors.downloads.bar.bg = bg0
+c.colors.downloads.start.fg = bg0
+c.colors.downloads.start.bg = blue
+c.colors.downloads.stop.fg = bg0
+c.colors.downloads.stop.bg = aqua
+c.colors.downloads.error.fg = red
+
+c.colors.hints.fg = bg0
+c.colors.hints.bg = yellow
+c.colors.hints.match.fg = fg2
+
+c.colors.keyhint.fg = fg2
+c.colors.keyhint.suffix.fg = fg2
+c.colors.keyhint.bg = bg0
+
+c.colors.messages.error.fg = bg0
+c.colors.messages.error.bg = red
+c.colors.messages.error.border = red
+c.colors.messages.warning.fg = bg0
+c.colors.messages.warning.bg = purple
+c.colors.messages.warning.border = purple
+c.colors.messages.info.fg = fg2
+c.colors.messages.info.bg = bg0
+c.colors.messages.info.border = bg0
+
+c.colors.prompts.fg = fg2
+c.colors.prompts.border = bg0
+c.colors.prompts.bg = bg0
+c.colors.prompts.selected.bg = yellow
+
+c.colors.statusbar.normal.fg = green
+c.colors.statusbar.normal.bg = bg0
+c.colors.statusbar.insert.fg = bg0
+c.colors.statusbar.insert.bg = blue
+c.colors.statusbar.passthrough.fg = bg0
+c.colors.statusbar.passthrough.bg = aqua
+c.colors.statusbar.private.fg = bg0
+c.colors.statusbar.private.bg = bg3
+c.colors.statusbar.command.fg = fg2
+c.colors.statusbar.command.bg = bg0
+c.colors.statusbar.command.private.fg = fg2
+c.colors.statusbar.command.private.bg = bg0
+c.colors.statusbar.caret.fg = bg0
+c.colors.statusbar.caret.bg = purple
+c.colors.statusbar.caret.selection.fg = bg0
+c.colors.statusbar.caret.selection.bg = blue
+c.colors.statusbar.progress.bg = blue
+c.colors.statusbar.url.fg = fg2
+c.colors.statusbar.url.error.fg = red
+c.colors.statusbar.url.hover.fg = fg2
+c.colors.statusbar.url.success.http.fg = aqua
+c.colors.statusbar.url.success.https.fg = green
+c.colors.statusbar.url.warn.fg = purple
+
+# Tab bar
+c.colors.tabs.bar.bg = bg0
+
+# Tab indicators
+c.colors.tabs.indicator.start = blue
+c.colors.tabs.indicator.stop = aqua
+c.colors.tabs.indicator.error = red
+
+# Tabs
+c.colors.tabs.odd.bg = bg0
+c.colors.tabs.odd.fg = fg2
+c.colors.tabs.even.bg = bg0
+c.colors.tabs.even.fg = fg2
+c.colors.tabs.pinned.even.bg = bg0
+c.colors.tabs.pinned.even.fg = fg2
+c.colors.tabs.pinned.odd.bg = bg0
+c.colors.tabs.pinned.odd.fg = fg2
+
+# Selected tabs
+c.colors.tabs.selected.odd.bg = fg2
+c.colors.tabs.selected.odd.fg = bg0
+c.colors.tabs.selected.even.bg = fg2
+c.colors.tabs.selected.even.fg = bg0
+c.colors.tabs.pinned.selected.odd.bg = fg2
+c.colors.tabs.pinned.selected.odd.fg = bg0
+c.colors.tabs.pinned.selected.even.bg = fg2
+c.colors.tabs.pinned.selected.even.fg = bg0
