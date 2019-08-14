@@ -36,11 +36,11 @@ c.spellcheck.languages = ['en-US', 'de-DE']
 c.zoom.text_only = False
 
 # tabs
-c.tabs.background = False
+c.tabs.background = True
 c.tabs.last_close = 'startpage'
 c.tabs.new_position.related = 'next'
 c.tabs.new_position.stacking = True
-c.tabs.new_position.unrelated = 'next'
+c.tabs.new_position.unrelated = 'last'
 c.tabs.pinned.frozen = False
 c.tabs.pinned.shrink = True
 c.tabs.select_on_remove = 'last-used'
