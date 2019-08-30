@@ -1,6 +1,7 @@
 -- libraries
 local awful         = require("awful")
 local beautiful     = require("beautiful")
+local naughty       = require("naughty")
 local gears         = require("gears")
 local lain          = require("lain")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
@@ -14,7 +15,7 @@ local config        = require("config")
 
 local modkey        = config.modkey
 local altkey        = config.altkey
-local lockkey      = config.lockkey
+local lockkey       = config.lockkey
 
 
 globalkeys = gears.table.join(
@@ -207,6 +208,10 @@ globalkeys = gears.table.join(
         {description = "show filesystem", group = "widgets"}),
     awful.key({ lockkey }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
         {description = "show weather", group = "widgets"}),
+    
+    -- Notifictations
+    awful.key({ lockkey }, "x", naughty.destroy_all_notifications,
+        {description = "close nofitications", group = "hotkeys"}),
 
     -- Brightness
     awful.key({ }, "XF86MonBrightnessUp", function () os.execute("xbacklight -inc 10") end),
