@@ -1,48 +1,57 @@
 " Load plugins with vim-plug
-
 call plug#begin('~/.local/share/nvim/plugged')
 
-" theme
-Plug 'vim-airline/vim-airline'
-Plug 'morhetz/gruvbox'
-" tmux integration
-Plug 'christoomey/vim-tmux-navigator'
-" version control
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-" fzf integration
-"Plug '~/.fzf'
-"Plug 'junegunn/fzf.vim'
-" Fuzzy file finding, file management, project searching
-Plug 'Shougo/denite.nvim'
-" auto linting
-"Plug 'w0rp/ale'
-" syntax highlighting
-Plug 'sheerun/vim-polyglot'
-" fancy start screen
-Plug 'mhinz/vim-startify'
+    " libraries
+    Plug 'tpope/vim-repeat'
 
-" PHP language support
-Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
-Plug 'Rican7/php-doc-modded', {'for': 'php'}
+    " basic editing
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-commentary'
+    Plug 'christoomey/vim-titlecase'
+    Plug 'christoomey/vim-sort-motion'
+    Plug 'christoomey/vim-system-copy'
 
-" Language documentation integration
-Plug 'Shougo/echodoc.vim'
+    " theming
+    Plug 'vim-airline/vim-airline'
+    Plug 'morhetz/gruvbox'
 
-" COC language server
-function! CocSetup(info)
-  " Initial setup
-  call coc#util#install()
-  " Install extensions on installation, update otherwise
-  if a:info.status == 'installed' || a:info.force
-    call coc#add_extension('coc-css', 'coc-highlight', 'coc-html', 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint', 'coc-tslint',
-        \ 'coc-tsserver', 'coc-ultisnips', 'coc-yaml', 'coc-vimlsp', 'coc-xml', 'coc-lists')
-  else
-    execute 'CocUpdateSync'
-  endif
-endfunction
+    " fancy start screen
+    Plug 'mhinz/vim-startify'
 
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release', 'do': function('CocSetup')}
+    " tmux integration
+    Plug 'christoomey/vim-tmux-navigator'
+
+    " version control
+    Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
+
+    " searching
+    Plug 'Shougo/denite.nvim'
+
+    " auto linting
+    "Plug 'w0rp/ale'
+
+    " syntax highlighting
+    Plug 'sheerun/vim-polyglot'
+
+    " PHP language support
+    Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+    Plug 'Rican7/php-doc-modded', {'for': 'php'}
+
+    " Language documentation integration
+    Plug 'Shougo/echodoc.vim'
+
+    " COC language server
+    function! CocSetup(info)
+        call coc#util#install()
+        if a:info.status == 'installed' || a:info.force
+            call coc#add_extension('coc-css', 'coc-highlight', 'coc-html', 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint', 'coc-tslint',
+                \ 'coc-tsserver', 'coc-ultisnips', 'coc-yaml', 'coc-vimlsp', 'coc-xml', 'coc-lists')
+        else
+            execute 'CocUpdateSync'
+        endif
+    endfunction
+    Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release', 'do': function('CocSetup')}
 
 call plug#end()
 
@@ -81,6 +90,7 @@ set cmdheight=2                 " Display the command bar 2 lines height
 set hidden
 set shortmess+=c
 set signcolumn=yes              " Always display the sign column
+set relativenumber              " Use relative line numbers
 
 
 " Theme
