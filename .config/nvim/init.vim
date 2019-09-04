@@ -3,6 +3,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " libraries
     Plug 'tpope/vim-repeat'
+    Plug 'glts/vim-magnum'
 
     " basic editing
     Plug 'tpope/vim-surround'
@@ -10,6 +11,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'christoomey/vim-titlecase'
     Plug 'christoomey/vim-sort-motion'
     Plug 'christoomey/vim-system-copy'
+    Plug 'vim-scripts/ReplaceWithRegister'
 
     " theming
     Plug 'vim-airline/vim-airline'
@@ -25,8 +27,18 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
 
-    " searching
+    " searching and file browsing
     Plug 'Shougo/denite.nvim'
+    Plug 'tpope/vim-vinegar'
+
+    " value manipulation and conversion
+    Plug 'glts/vim-radical'
+    Plug 'tpope/vim-speeddating'
+
+    " text objects and motions
+    Plug 'bkad/CamelCaseMotion'
+    Plug 'michaeljsmith/vim-indent-object'
+    Plug 'vim-scripts/argtextobj.vim'
 
     " auto linting
     "Plug 'w0rp/ale'
@@ -91,6 +103,17 @@ set hidden
 set shortmess+=c
 set signcolumn=yes              " Always display the sign column
 set relativenumber              " Use relative line numbers
+
+
+" Misc
+
+let g:netrw_liststyle = 3       " Tree style file browser
+let g:netrw_banner = 0          " Remove those information that are shown above the file list
+let g:netrw_browse_split = 0    " By default open files in current window
+
+let g:titlecase_map_keys = 0    " Disable default mappings
+
+let g:camelcasemotion_key = '<leader>'
 
 
 " Theme
