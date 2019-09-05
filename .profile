@@ -26,6 +26,10 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+if [ -d "$HOME/.bin" ] ; then
+    PATH="$HOME/.bin:$PATH"
+fi
+
 # make CapsLock the Hyper_L key, make it behave as Escape when pressed and released alone
 setxkbmap -option
 xmodmap -e "keycode 66 = Hyper_L" 

@@ -184,6 +184,11 @@ function lt {
     fi
 }
 
+# khal
+alias iwcal='ikhal -a work_me'
+alias ipcal='ikhal -a private_main'
+alias pcal='khal list -a private_main'
+
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then

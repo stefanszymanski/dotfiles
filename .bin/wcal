@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Simple khal wrapper script for quick access to specific calendars
+
+show-help() {
+    echo 'Usage: wcal [CALENDAR=me] [PERIOD=5]'
+    echo 'Example: wcal general 14'
+}
+
+is-valid-calendar() {
+    CALENDAR=$1
+    CALENDARS=$(khal printcalendars | sed 's/work_//g')
+    [[ $CALENDARS =~ (^|[[:space:]])"$CALENDAR"($|[[:space:]]) ]] && echo 1 || echo 0
+}
+
+list-calendars() {
+    CALENDARS=$(khal printcalendars | awk -vORS=", " '{ print $1 }'  | sed 's/work_//g' | sed 's/, $//')
+    echo 'Available calendars:'
+    echo "    $CALENDARS"
+}
+
+show-calendar() {
+    if [ $(is-valid-calendar $1) -eq 1 ]
+    then
+        if [[ $2 =~ ^[0-9]*$ ]]
+        then
+            khal list -a work_$1 today ${2}d
+        else
+            echo "'$2' is not a valid number of days."
+        fi
+    else
+        echo "Calendar '$1' not found."
+        list-calendars
+    fi
+}
+
+if [[ $1 =~ ^[0-9]+$ ]]
+then
+    CAL='me'
+    PERIOD=$1
+else
+    CAL=${1:-me}
+    PERIOD=${2:-5}
+fi
+
+case $CAL in
+    "help") show-help ;;
+    "list") list-calendars ;;
+    *) show-calendar $CAL $PERIOD ;;
+esac
