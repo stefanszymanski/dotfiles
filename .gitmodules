@@ -4,3 +4,6 @@
 [submodule ".config/awesome/lain"]
 	path = .config/awesome/lain
 	url = https://github.com/lcpz/lain
+[submodule ".config/neomutt/scripts/mutt-ical"]
+	path = .config/neomutt/scripts/mutt-ical
+	url = https://github.com/asciiphil/mutt-ical

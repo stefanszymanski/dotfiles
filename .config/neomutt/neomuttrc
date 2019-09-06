@@ -68,9 +68,12 @@ ignore *
 unignore from: to: cc: bcc: date: subject:
 unhdr_order *
 hdr_order from: to: cc: bcc: date: subject:
-alternative_order text/plain text/enriched text/html
-auto_view text/html
 my_hdr Openpgp: preference=signencrypt
+
+auto_view text/html
+auto_view text/calendar
+auto_view application/ics
+alternative_order text/calendar text/plain text/enriched text/html
 
 # sidebar patch config
 set sidebar_visible
