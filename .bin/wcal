@@ -1,50 +1,113 @@
 #!/bin/bash
 
-# Simple khal wrapper script for quick access to specific calendars
+# A simple khal wrapper script for quick access to specific calendars
 
+# Default settings
+DEFAULT_DAYS=1
+DEFAULT_CALENDAR="me"
+CONFIG_FILE="$HOME/.config/khal/config-work"
+
+# Event line formats for the single calendar view
+FORMAT_SINGLE=" {cancelled:<2.2} {start-end-time-style:<11.11} {repeat-symbol:<3.3} {title}"
+FORMAT_SINGLE_V=" {cancelled:<2.2} {start-end-time-style:<13.13} {repeat-symbol:<3.3} {title} [{location}]"
+FORMAT_SINGLE_VV=" {cancelled:<2.2} {start-end-time-style:<13.13} {repeat-symbol:<3.3} {title} [{location}] {description-separator} {description}"
+
+# Event line formats for the all calendars view
+FORMAT_ALL=" {calendar-color}{cancelled:<2.2} {start-end-time-style:<13.13} {calendar:<15.15} {repeat-symbol:<3.3} {title}"
+FORMAT_ALL_V=" {calendar-color}{cancelled:<2.2} {start-end-time-style:<13.13} {calendar:<15.15} {repeat-symbol:<3.3} {title} [{location}]"
+FORMAT_ALL_VV=" {calendar-color}{cancelled:<2.2} {start-end-time-style:<13.13} {calendar:<15.15} {repeat-symbol:<3.3} {title} [{location}] {reset}{description-separator} {description}"
+
+
+# Display the help text
 show-help() {
-    echo 'Usage: wcal [CALENDAR=me] [PERIOD=5]'
-    echo 'Example: wcal general 14'
+    echo "Usage: wcal [CALENDAR=$DEFAULT_CALENDAR] [DAYS=$DEFAULT_DAYS]"
+    echo ''
+    echo '  -v   Show location'
+    echo '  -vv  Show location and description'
+    echo ''
+    echo 'Examples:'
+    echo '  `wcal stefan 14`   prints stefans events of the next 14 days'
+    echo '  `wcal list`        lists the names of available calendars'
+    echo '  `wcal all`         prints all events of the current day'
 }
 
+# Check if $1 is the name of a calendar
 is-valid-calendar() {
     CALENDAR=$1
-    CALENDARS=$(khal printcalendars | sed 's/work\///g')
+    CALENDARS=$(khal -c $CONFIG_FILE printcalendars)
     [[ $CALENDARS =~ (^|[[:space:]])"$CALENDAR"($|[[:space:]]) ]] && echo 1 || echo 0
 }
 
-list-calendars() {
-    CALENDARS=$(khal printcalendars | awk -vORS=", " '{ print $1 }'  | sed 's/work\///g' | sed 's/, $//')
-    echo 'Available calendars:'
-    echo "    $CALENDARS"
+# Get list of available calendars separated by $1
+get-calendars() {
+    echo $(khal -c $CONFIG_FILE printcalendars | awk -vORS="$1" '{ print $1 }'  | sed "s/$1$//")
 }
 
+# Display the names of available calendars
+list-calendars() {
+    echo 'Available calendars:'
+    echo "    $(get-calendars ', ')"
+}
+
+# Display events from calendar $1 in the next $2 days
 show-calendar() {
     if [ $(is-valid-calendar $1) -eq 1 ]
     then
         if [[ $2 =~ ^[0-9]*$ ]]
         then
-            khal list -a "work/$1" today ${2}d
+            khal -c $CONFIG_FILE list -a "$1" --format "$FORMAT_SINGLE" today ${2}d
         else
             echo "'$2' is not a valid number of days."
         fi
     else
         echo "Calendar '$1' not found."
-        list-calendars
+        show-help
     fi
 }
 
-if [[ $1 =~ ^[0-9]+$ ]]
-then
-    CAL='me'
-    PERIOD=$1
-else
-    CAL=${1:-me}
-    PERIOD=${2:-5}
-fi
+# Display all events in the next $1 days
+show-all-calendars() {
+    if [[ $2 =~ ^[0-9]*$ ]]
+    then
+        khal -c $CONFIG_FILE list --format "$FORMAT_ALL" today ${1}d
+    else
+        echo "'$2' is not a valid number of days."
+    fi
+}
 
+
+# Parse arguments
+while [ -n "$1" ]
+do
+    case "$1" in
+        "-v")
+            FORMAT_SINGLE=$FORMAT_SINGLE_V
+            FORMAT_ALL=$FORMAT_ALL_V
+            ;;
+        "-vv")
+            FORMAT_SINGLE=$FORMAT_SINGLE_VV
+            FORMAT_ALL=$FORMAT_ALL_VV
+            ;;
+        *)
+            if [[ $1 =~ ^[0-9]+$ ]]
+            then
+                DAYS=$1
+            else
+                CAL=$1
+            fi
+            ;;
+    esac
+    shift
+done
+
+# Set default values if necessary
+CAL=${CAL:-$DEFAULT_CALENDAR}
+DAYS=${DAYS:-$DEFAULT_DAYS}
+
+# Route command
 case $CAL in
     "help") show-help ;;
     "list") list-calendars ;;
-    *) show-calendar $CAL $PERIOD ;;
+    "all") show-all-calendars $DAYS;;
+    *) show-calendar $CAL $DAYS ;;
 esac

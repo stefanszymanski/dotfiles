@@ -184,10 +184,10 @@ function lt {
     fi
 }
 
-# khal
-alias iwcal='ikhal -a work_me'
-alias ipcal='ikhal -a private_main'
-alias pcal='khal list -a private_main'
+# khal (wip)
+alias iwcal='ikhal -c $HOME/.config/khal/config-work'
+alias ipcal='ikhal'
+alias pcal='khal list'
 
 
 # Install plugins if there are plugins that have not been installed
