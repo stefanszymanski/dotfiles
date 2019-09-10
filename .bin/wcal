@@ -9,12 +9,12 @@ show-help() {
 
 is-valid-calendar() {
     CALENDAR=$1
-    CALENDARS=$(khal printcalendars | sed 's/work_//g')
+    CALENDARS=$(khal printcalendars | sed 's/work\///g')
     [[ $CALENDARS =~ (^|[[:space:]])"$CALENDAR"($|[[:space:]]) ]] && echo 1 || echo 0
 }
 
 list-calendars() {
-    CALENDARS=$(khal printcalendars | awk -vORS=", " '{ print $1 }'  | sed 's/work_//g' | sed 's/, $//')
+    CALENDARS=$(khal printcalendars | awk -vORS=", " '{ print $1 }'  | sed 's/work\///g' | sed 's/, $//')
     echo 'Available calendars:'
     echo "    $CALENDARS"
 }
@@ -24,7 +24,7 @@ show-calendar() {
     then
         if [[ $2 =~ ^[0-9]*$ ]]
         then
-            khal list -a work_$1 today ${2}d
+            khal list -a "work/$1" today ${2}d
         else
             echo "'$2' is not a valid number of days."
         fi
