@@ -14,6 +14,10 @@ bind index,pager <ESC>j sidebar-next
 bind index,pager <ESC>k sidebar-prev
 bind index,pager <ESC><space> sidebar-open
 
+# jump to specific folders
+macro index,pager <F3> <change-vfolder>Work<enter>
+macro index,pager <F4> <change-vfolder>Private<enter>
+
 # global index and pager shortcuts
 bind index,pager @ compose-to-sender
 bind index,pager R group-reply
