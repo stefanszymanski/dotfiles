@@ -39,12 +39,15 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'bkad/CamelCaseMotion'
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'vim-scripts/argtextobj.vim'
+    Plug 'machakann/vim-textobj-functioncall'
 
     " auto linting
     "Plug 'w0rp/ale'
 
     " syntax highlighting
     Plug 'sheerun/vim-polyglot'
+    Plug 'vim-scripts/icalendar.vim'
+    
 
     " PHP language support
     Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
@@ -150,6 +153,10 @@ endfor
 " Key bindings
 
 nnoremap <leader>s :set invspell<CR>    " Toggle spell checking
+
+
+" Syntax highlighting
+autocmd! BufRead,BufNewFile *.ics setfiletype icalendar
 
 
 " Diff view
