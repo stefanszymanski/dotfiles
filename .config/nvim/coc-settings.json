@@ -42,7 +42,10 @@
   "coc.preferences.enableFloatHighlight": true,
 
   "python.jediEnabled": false,
-  "python.formatting.provider": "yapf",
+  "python.linting.enabled": true,
+  "python.analysis.diagnosticEnabled": true,
+  "python.formatting.provider": "autopep8",
+
 
   "tslint.enable": true,
 
