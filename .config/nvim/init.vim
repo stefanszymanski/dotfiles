@@ -8,10 +8,10 @@ call plug#begin('~/.local/share/nvim/plugged')
     " basic editing
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
-    Plug 'christoomey/vim-titlecase'
     Plug 'christoomey/vim-sort-motion'
     Plug 'christoomey/vim-system-copy'
-    Plug 'vim-scripts/ReplaceWithRegister'
+    Plug 'inkarkat/vim-ReplaceWithRegister'
+    Plug 'tpope/vim-unimpaired'
 
     " theming
     Plug 'vim-airline/vim-airline'
@@ -34,6 +34,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     " value manipulation and conversion
     Plug 'glts/vim-radical'
     Plug 'tpope/vim-speeddating'
+    Plug 'tpope/vim-abolish'
+    Plug 'arthurxavierx/vim-caser'
 
     " text objects and motions
     Plug 'bkad/CamelCaseMotion'
@@ -72,7 +74,6 @@ call plug#end()
 
 
 " Encoding
-
 set encoding=utf-8  		    " The encoding displayed.
 set fileencoding=utf-8 		    " The encoding written to file.
 scriptencoding utf-8
@@ -114,9 +115,19 @@ let g:netrw_liststyle = 3       " Tree style file browser
 let g:netrw_banner = 0          " Remove those information that are shown above the file list
 let g:netrw_browse_split = 0    " By default open files in current window
 
-let g:titlecase_map_keys = 0    " Disable default mappings
 
+" Plugins
+
+let g:titlecase_map_keys = 0    " Disable default mappings
 let g:camelcasemotion_key = '<leader>'
+let g:abolish_no_mappings = 1   " Disable coercion mappings from tpope/vim-abolish
+let g:caser_prefix = '<leader>gs'
+
+" Replace with register
+" e.g. "2riw replaces the iw with register 2
+nmap r  <Plug>ReplaceWithRegisterOperator
+nmap rr <Plug>ReplaceWithRegisterLine
+xmap r  <Plug>ReplaceWithRegisterVisual
 
 
 " Theme
@@ -154,8 +165,17 @@ endfor
 
 nnoremap <leader>s :set invspell<CR>    " Toggle spell checking
 
+" Delete without yanking
+nmap <silent> x "_d
+xmap <silent> x "_d
+nmap <silent> xx "_dd
+nmap <silent> xX 0"_d$
+nmap <silent> X "_D
+xmap <silent> X "_D
+
 
 " Syntax highlighting
+
 autocmd! BufRead,BufNewFile *.ics setfiletype icalendar
 
 
