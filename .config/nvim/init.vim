@@ -16,6 +16,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " theming
     Plug 'vim-airline/vim-airline'
     Plug 'morhetz/gruvbox'
+    Plug 'ryanoasis/vim-devicons'
 
     " fancy start screen
     Plug 'mhinz/vim-startify'
@@ -27,9 +28,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
 
+    " project management
+    Plug 'airblade/vim-rooter'
+
     " searching and file browsing
     Plug 'Shougo/denite.nvim'
-    Plug 'tpope/vim-vinegar'
+    Plug 'scrooloose/nerdtree'
+    "Plug 'tpope/vim-vinegar'
 
     " value manipulation and conversion
     Plug 'glts/vim-radical'
@@ -50,7 +55,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'sheerun/vim-polyglot'
     Plug 'vim-scripts/icalendar.vim'
     
-
     " PHP language support
     Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
     Plug 'Rican7/php-doc-modded', {'for': 'php'}
@@ -103,17 +107,22 @@ set mousehide                   " Hide the mouse cursor while typing
 set modeline                    " Enable modeline
 set updatetime=300
 set cmdheight=2                 " Display the command bar 2 lines height
-set hidden
+set hidden                      " Allow to hide modified buffers
+set confirm                     " Ask for confirmation when closing a modified buffer
 set shortmess+=c
 set signcolumn=yes              " Always display the sign column
 set relativenumber              " Use relative line numbers
+" set exrc
 
 
 " Misc
 
-let g:netrw_liststyle = 3       " Tree style file browser
-let g:netrw_banner = 0          " Remove those information that are shown above the file list
-let g:netrw_browse_split = 0    " By default open files in current window
+" let g:netrw_liststyle = 3       " Tree style file browser
+" let g:netrw_banner = 0          " Remove those information that are shown above the file list
+" let g:netrw_browse_split = 4    " Open in vertical split
+" let g:netrw_altv = 1
+" let g:netrw_winsize = 20
+" let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 
 " Plugins
@@ -122,12 +131,6 @@ let g:titlecase_map_keys = 0    " Disable default mappings
 let g:camelcasemotion_key = '<leader>'
 let g:abolish_no_mappings = 1   " Disable coercion mappings from tpope/vim-abolish
 let g:caser_prefix = '<leader>gs'
-
-" Replace with register
-" e.g. "2riw replaces the iw with register 2
-nmap r  <Plug>ReplaceWithRegisterOperator
-nmap rr <Plug>ReplaceWithRegisterLine
-xmap r  <Plug>ReplaceWithRegisterVisual
 
 
 " Theme
@@ -155,15 +158,8 @@ set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
 set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 "set cc=80                       " set an 80 column border for good coding style
 
-" Load custom plugin configurations
-for f in ['coc', 'echodoc', 'denite', 'airline', 'phpactor', 'phpdoc']
-    execute 'source $HOME/.config/nvim/plugins/'.f.'.vim'
-endfor
-
 
 " Key bindings
-
-nnoremap <leader>s :set invspell<CR>    " Toggle spell checking
 
 " Delete without yanking
 nmap <silent> x "_d
