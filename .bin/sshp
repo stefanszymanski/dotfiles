@@ -1,0 +1,43 @@
+#!/usr/bin/expect
+
+log_user 0
+
+if {[llength $argv] == 0} {
+    send_user "Usage: sshp {ssh-args}\n"
+    exit 1
+}
+
+set server [lindex $argv 0]
+
+spawn pass "ssh/$server"
+expect {
+    "not in the password store" {
+        puts "\[Error\] pass: there is no stored password for ssh/$server"
+        exit
+    }
+    -re "(^.+$)" {
+        set password $expect_out(1,string)
+    }
+}
+
+spawn ssh "$server"
+expect {
+    "assword:" {
+        send "$password\r"
+        expect {
+            "assword:" {
+                puts "\[Error\] It looks like the stored password is incorrect. Check `pass ssh/$server`"
+                exit
+            }
+            -re ".*" {
+                interact
+                exit
+            }
+        }
+    }
+    -re "(^.+$)" {
+        set err $expect_out(buffer)
+        puts "\[Error\] $err"
+        exit
+    }
+}
