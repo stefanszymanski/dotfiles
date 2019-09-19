@@ -9,7 +9,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
     Plug 'christoomey/vim-sort-motion'
-    Plug 'christoomey/vim-system-copy'
     Plug 'inkarkat/vim-ReplaceWithRegister'
     Plug 'tpope/vim-unimpaired'
 
@@ -29,7 +28,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'airblade/vim-gitgutter'
 
     " project management
-    Plug 'airblade/vim-rooter'
+    " Plug 'airblade/vim-rooter'
+    Plug 'vim-scripts/autocwd.vim'
 
     " searching and file browsing
     Plug 'Shougo/denite.nvim'
@@ -112,7 +112,13 @@ set confirm                     " Ask for confirmation when closing a modified b
 set shortmess+=c
 set signcolumn=yes              " Always display the sign column
 set relativenumber              " Use relative line numbers
-" set exrc
+set exrc
+
+set nocompatible
+filetype plugin on
+
+set path+=**
+set wildmenu
 
 
 " Misc
@@ -131,6 +137,9 @@ let g:titlecase_map_keys = 0    " Disable default mappings
 let g:camelcasemotion_key = '<leader>'
 let g:abolish_no_mappings = 1   " Disable coercion mappings from tpope/vim-abolish
 let g:caser_prefix = '<leader>gs'
+
+" autocwd
+let g:autocwd_patternwd_pairs = [['*/.config/*', '~/.config'], ['*', '*REPO*']]
 
 
 " Theme
