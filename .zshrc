@@ -15,29 +15,29 @@ zplug "zsh-users/zsh-completions"
 zplug "peterhurford/up.zsh"
 
 # Set the theme
-zplug "robobenklein/zinc", as:theme, at:dev
+# zplug "robobenklein/zinc", as:theme, at:dev
 
-# Add directory for custom prompt segments
-fpath+=("$HOME/.config/zsh/zinc/segments")
-# Modify segment options
-typeset -gA zinc_opts
-zinc_opts=(
-  zincs_execution_time "black;yellow;;;10"      # changed colours and threshold
-)
-# Setup prompt
-typeset -ga zinc_left zinc_right
-zinc_left=(
-	zincs_cwd_writable
-	zincs_cwd
-	#zincs_vcs
-	zincs_vi_mode_indicator
-)
-zinc_right=(
-    zincs_retval
-    #zincs_virtualenv
-    zincs_execution_time
-    #zincs_time
-)
+## Add directory for custom prompt segments
+#fpath+=("$HOME/.config/zsh/zinc/segments")
+## Modify segment options
+#typeset -gA zinc_opts
+#zinc_opts=(
+#  zincs_execution_time "black;yellow;;;10"      # changed colours and threshold
+#)
+## Setup prompt
+#typeset -ga zinc_left zinc_right
+#zinc_left=(
+#	zincs_cwd_writable
+#	zincs_cwd
+#	#zincs_vcs
+#	zincs_vi_mode_indicator
+#)
+#zinc_right=(
+#    zincs_retval
+#    #zincs_virtualenv
+#    zincs_execution_time
+#    #zincs_time
+#)
 
 # Change cursor shape depending on vi mode
 #function zle-keymap-select zle-line-init {
@@ -50,11 +50,11 @@ zinc_right=(
 #zle -N zle-keymap-select
 #zle -N zle-line-init
 
-source ~/.config/zsh/vi_mode_indicator
+# source ~/.config/zsh/vi_mode_indicator
 
-MODE_CURSOR_VICMD="steady block"
-MODE_CURSOR_VIINS="steady bar"
-MODE_CURSOR_SEARCH="steady underline"
+# MODE_CURSOR_VICMD="steady block"
+# MODE_CURSOR_VIINS="steady bar"
+# MODE_CURSOR_SEARCH="steady underline"
 
 # COMPLETION
 unsetopt menu_complete
@@ -198,8 +198,11 @@ if ! zplug check --verbose; then
     fi
 fi
 
+
 # Load the plugins
 zplug load # --verbose
 
 # Load fzf
 source ~/.fzf.zsh
+
+eval "$(starship init zsh)"

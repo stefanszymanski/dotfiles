@@ -1,0 +1,11 @@
+[directory]
+truncation_length = 12
+
+[battery]
+disabled = true
+
+[command_duration]
+min_time = 10
+
+[python]
+disabled = true

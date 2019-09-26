@@ -43,6 +43,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # set PATH so it includes JetBrain products
 PATH="$HOME/.local/share/JetBrains/Toolbox/bin:$PATH"
 
+# set PATH so it includes cargo binaries
+PATH="$HOME/.cargo/bin:$PATH"
+
 # set ripgrep configuration file
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
 
