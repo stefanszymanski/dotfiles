@@ -1,6 +1,5 @@
 " Load plugins with vim-plug
 call plug#begin('~/.local/share/nvim/plugged')
-
     " libraries
     Plug 'tpope/vim-repeat'
     Plug 'glts/vim-magnum'
@@ -12,10 +11,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'inkarkat/vim-ReplaceWithRegister'
     Plug 'tpope/vim-unimpaired'
 
-    " theming
+    " theming and visualization
     Plug 'vim-airline/vim-airline'
     Plug 'morhetz/gruvbox'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'nathanaelkane/vim-indent-guides'
 
     " fancy start screen
     Plug 'mhinz/vim-startify'
@@ -45,8 +45,19 @@ call plug#begin('~/.local/share/nvim/plugged')
     " text objects and motions
     Plug 'bkad/CamelCaseMotion'
     Plug 'michaeljsmith/vim-indent-object'
-    Plug 'vim-scripts/argtextobj.vim'
+    " Plug 'vim-scripts/argtextobj.vim'
+    Plug 'wellle/targets.vim'
     Plug 'machakann/vim-textobj-functioncall'
+
+    " auto close (quotes, braces, tags, ...)
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'alvan/vim-closetag'
+
+    " unix shell commands
+    Plug 'tpope/vim-eunuch'
+
+    " undo history
+    Plug 'mbbill/undotree'
 
     " auto linting
     "Plug 'w0rp/ale'
@@ -54,6 +65,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     " syntax highlighting
     Plug 'sheerun/vim-polyglot'
     Plug 'vim-scripts/icalendar.vim'
+
+    " natural language
+    Plug 'rhysd/vim-grammarous'
     
     " PHP language support
     Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
@@ -98,7 +112,7 @@ set ignorecase                  " Case insensitive search
 set smartcase                   " Case sensitive when uc present
 set wildmenu                    " Show list instead of just completing
 set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap
 set scrolljump=5                " Lines to scroll when cursor leaves screen
 set scrolloff=3                 " Minimum lines to keep above and below cursor
 set nofoldenable                " Auto fold code
@@ -107,7 +121,7 @@ set mousehide                   " Hide the mouse cursor while typing
 set modeline                    " Enable modeline
 set updatetime=300
 set cmdheight=2                 " Display the command bar 2 lines height
-set hidden                      " Allow to hide modified buffers
+set hidden                      " Allow hiding modified buffers
 set confirm                     " Ask for confirmation when closing a modified buffer
 set shortmess+=c
 set signcolumn=yes              " Always display the sign column
@@ -140,6 +154,32 @@ let g:caser_prefix = '<leader>gs'
 
 " autocwd
 let g:autocwd_patternwd_pairs = [['*/.config/*', '~/.config'], ['*', '*REPO*']]
+
+" indent guides
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+
+" undotree
+let g:undotree_SplitWidth = 55
+let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_ShortIndicators = 1
+nnoremap <silent> <leader>u :UndotreeToggle<CR>
+
+" grammarous
+let g:grammarous#use_vim_spelllang = 1
+let g:grammarous#use_location_list = 1
+let g:grammarous#show_first_error = 1
+let g:grammarous#default_comments_only_filetypes = {'*': 1, 'help': 0, 'markdown': 0, 'mail': 0}
+let g:grammarous#hooks = {}
+function! g:grammarous#hooks.on_check(errs) abort
+    nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
+    nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
+endfunction
+function! g:grammarous#hooks.on_reset(errs) abort
+    nunmap <buffer><C-n>
+    nunmap <buffer><C-p>
+endfunction
 
 
 " Theme
