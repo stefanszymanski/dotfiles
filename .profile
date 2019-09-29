@@ -16,12 +16,10 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-# set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
@@ -30,21 +28,18 @@ if [ -d "$HOME/.bin" ] ; then
     PATH="$HOME/.bin:$PATH"
 fi
 
-# make CapsLock the Hyper_L key, make it behave as Escape when pressed and released alone
-setxkbmap -option
-xmodmap -e "keycode 66 = Hyper_L" 
-xmodmap -e "remove Mod4 = Hyper_L" 
-xcape -e "Hyper_L=Escape"
+if [ -d "$HOME/.local/share/JetBrains/Toolbox/bin" ] ; then
+    PATH="$HOME/.local/share/JetBrains/Toolbox/bin:$PATH"
+fi
 
+if [ -d "$HOME/.cargo/bin" ] ; then
+    PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+export PATH
 
 # set XDG_CONFIG_* variables
 export XDG_CONFIG_HOME="$HOME/.config"
-
-# set PATH so it includes JetBrain products
-PATH="$HOME/.local/share/JetBrains/Toolbox/bin:$PATH"
-
-# set PATH so it includes cargo binaries
-PATH="$HOME/.cargo/bin:$PATH"
 
 # set ripgrep configuration file
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"

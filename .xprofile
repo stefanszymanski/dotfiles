@@ -1,3 +1,9 @@
+# make CapsLock the Hyper_L key, make it behave as Escape when pressed and released alone
+setxkbmap -option
+xmodmap -e "keycode 66 = Hyper_L"
+xmodmap -e "remove Mod4 = Hyper_L"
+xcape -e "Hyper_L=Escape"
+
 # Configure my Logitech mouse
 # Swith buttons 2 and 8 because button 2 doesn't work.
 for id in $(xinput list | grep "Logitech Gaming Mouse G402" | head -n 2 | sed -r 's/.*id=([0-9]+).*/\1/')
