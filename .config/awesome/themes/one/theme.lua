@@ -289,7 +289,7 @@ naughty.config.presets.critical                 = {
                                                       border_width = theme.notification_border_width,
                                                       margin       = theme.notification_margin,
                                                       timeout      = 0,
-												  }
+	                                              }
 
 -- Floating prompt box
 theme.prompt = custom.prompt.promptbox({ 
@@ -315,7 +315,7 @@ local preset = {
 }
 local drink_reminder = custom.widget.reminder {
     --text = "  ⊻    ",
-    text = " ⊻ ",
+    text = " ⊻  ",
     interval = 3600,
     preset = preset,
 }
