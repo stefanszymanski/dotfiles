@@ -23,7 +23,6 @@ local theme = "one"
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), theme))
 
 -- misc
-require("rc.mainmenu")          -- main menu setup
 require("rc.screenshots")       -- screenshot helper setup
 
 -- clients
