@@ -162,6 +162,7 @@ bindkey '^s' history-incremental-search-forward
 # dotfile versioning
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias config-mail='/usr/bin/git --git-dir=$HOME/.dotfiles-mail/ --work-tree=$HOME'
+alias pconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-private/ --work-tree=$HOME'
 
 # vim as pager
 alias vless='/usr/share/nvim/runtime/macros/less.sh'
