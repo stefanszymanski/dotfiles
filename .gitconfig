@@ -200,7 +200,7 @@
 	slf = stash list --pretty=rlf --color --date=default
 
 	d = diff -c
-	ds = diff --find-renames --stat -c
+	ds = diff --staged -c
 	dc = diff --cached -c
 	dl = diff --cached -c HEAD~
 	du = diff --cached -c @{u}
