@@ -8,34 +8,11 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
-fi
-
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [ -d "$HOME/.bin" ] ; then
-    PATH="$HOME/.bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/share/JetBrains/Toolbox/bin" ] ; then
-    PATH="$HOME/.local/share/JetBrains/Toolbox/bin:$PATH"
-fi
-
-if [ -d "$HOME/.cargo/bin" ] ; then
-    PATH="$HOME/.cargo/bin:$PATH"
-fi
-
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/.bin" ] && PATH="$HOME/.bin:$PATH"
+[ -d "$HOME/.local/share/JetBrains/Toolbox/bin" ] && PATH="$HOME/.local/share/JetBrains/Toolbox/bin:$PATH"
+[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
 export PATH
 
 # set XDG_CONFIG_* variables

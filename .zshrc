@@ -169,12 +169,14 @@ alias vless='/usr/share/nvim/runtime/macros/less.sh'
 
 # exa
 if type exa &> /dev/null; then
-	alias ls='exa'                                                         # ls
-	alias l='exa -lbF --git'                                               # list, size, type, git
-	alias ll='exa -lbGF --git'                                             # long list
-	alias la='exa -lbhHigUmuSa --time-style=long-iso --git --color-scale'  # all list
-	alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
-	alias lS='exa -1'                                                      # one column, just names
+	alias ls='exa'
+	alias l='exa --long --binary --classify --git --time-style=long-iso'
+	alias ll='l --group --modified --accessed --header'
+	alias la='l --all'
+    alias lla='ll --all'
+	alias lx='ll --links --inode --blocks --extended --color-scale'
+    alias lxa='lx --all'
+	alias lS='exa -1'
 fi
 # exa tree view
 function lt {
