@@ -7,3 +7,6 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 . "$HOME/.profile"
+
+export SHELL=/usr/bin/zsh
+exec /usr/bin/zsh -l
