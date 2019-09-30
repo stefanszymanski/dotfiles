@@ -108,7 +108,7 @@ set crypt_protected_headers_subject = "..."
 
 source ~/.config/neomutt/bindings
 source ~/.config/neomutt/colors
-source ~/.config/neomutt/powerline
+source ~/.config/neomutt/formats
 source ~/.config/neomutt/gpg
 source ~/.config/neomutt/smime
 source ~/.config/neomutt/mailboxes

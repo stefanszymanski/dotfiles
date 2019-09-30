@@ -1,31 +1,23 @@
-# ----------------------------------------------------------------------------
-# Powerline / nerdfont
-# This is a bit "hackish" due to neomutt limitations
-#
-# Author: Sheoak <contact [at] sheoak.fr>
-#
-# Copied from https://github.com/sheoak/neomutt-powerline-nerdfonts/blob/master/powerline.neomuttrc
-# ----------------------------------------------------------------------------
-
 set index_format=" %zs %zc %zt %-6@date@ . %-28.28L  %?M?(%1M)&  ? %?X?&·? %s"
 index-format-hook date "~d<1d"  "    Today %[%H:%M]"
 index-format-hook date "~d<2d"  "Yesterday %[%H:%M]"
 index-format-hook date "~A"     " %[%y-%m-%d %H:%M]"
 
 
-set pager_format=" %n %zc  %T %s%*  %{!%d %b · %H:%M} %?X?  %X ? %P  "
-set status_format = " %f%?r? %r?   %m %?n?  %n ?  %?d?  %d ?%?t?  %t ?%?F?  %F? %> %?p?   %p ?"
+# set pager_format=" %n %zc %T %s%*  %{!%d %b · %H:%M} %?X?  %X ? %P  "
+set pager_format="%* %P  "
+set status_format = " %f %r  %m%?n?  %n? %?d?  %d ?%?t?  %t ?%?F?  %F? %> %?p?   %p? "
 set vfolder_format = " %N %?n?%3n&   ?  %8m  · %f"
-set attach_format = "%u%D  %T%-75.75d %?T?%&   ? %5s · %m/%M"
+set attach_format = "%n %u%D  %T%-75.75d %?T?%&   ? %5s · %m/%M %?C?[%C]?"
 
 # no addressed to me, to me, group, cc, sent by me, mailing list
 set to_chars=""
 # unchanged mailbox, changed, read only, attach mode
-set status_chars = " "
+set status_chars = "-"
 
 # signed and verified, encrypted, signed, contains public key, no info
 # default is "SPsK "
-set crypt_chars = " "
+set crypt_chars = "-"
 
 # tagged, important, deletion, attachment deletion, replied, old, new, thread old, thread new, read %S, read %Z
 # default is "*!DdrONon- "
@@ -51,17 +43,6 @@ tag-formats "inbox" "GI" \
             "reminder" "Gr"
 
 # powerline status bar hack
+
 color status white black
-color status green black ''
-color status yellow black ''
-color status red black ''
-color status black blue '(.*)' 1
-color status blue black '.*()' 1
-color status black blue '\s* [0-9]+\s*'
-color status blue black '().*$' 1
-color status yellow black '()\s*\s*[0-9]+\s*' 1
-color status black yellow '\s*\s*[0-9]+\s*'
-color status blue yellow '() ([0-9]+%|all|end) \s*' 1
-color status black blue ' ([0-9]+%|all|end) \s*'
-color status yellow black '()\s*' 1
-color status default black ''
+color status black white '(\s+.*\s+)' 1
