@@ -63,6 +63,12 @@ set nm_exclude_tags = "trash,spam"
 set nm_unread_tag = "unread"
 set vfolder_format = "%6n(%6N) %f"
 
+# header cache
+set header_cache_backend = tokyocabinet
+set header_cache = $HOME/.cache/neomutt/headers
+set header_cache_compress = no
+set read_inc = 1000
+
 # email headers and attachments
 ignore *
 unignore from: to: cc: bcc: date: subject:
@@ -75,7 +81,7 @@ auto_view text/calendar
 auto_view application/ics
 alternative_order text/calendar text/plain text/enriched text/html
 
-# sidebar patch config
+# sidebar
 set sidebar_visible
 set sidebar_short_path
 set sidebar_folder_indent
