@@ -76,13 +76,14 @@ c.content.headers.do_not_track = True
 c.content.headers.referer = 'same-domain'
 
 # downloads
-c.downloads.location.directory = '~/downloads'
+c.downloads.location.directory = '~/Downloads'
 c.downloads.location.prompt = False
 c.downloads.location.remember = True
-c.downloads.location.suggestion = 'path'
-c.downloads.open_dispatcher = '%s -e ranger --selectfile {}'.format(terminal)
+c.downloads.location.suggestion = 'filename'
+c.downloads.open_dispatcher = '{} -e "ranger --selectfile {{}}"'.format(
+    terminal)
 c.downloads.position = 'bottom'
-c.downloads.remove_finished = 15000
+c.downloads.remove_finished = -1
 
 # editor
 c.editor.command = [terminal, '-e', 'nvim', '{}']
