@@ -11,8 +11,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'inkarkat/vim-ReplaceWithRegister'
     Plug 'tpope/vim-unimpaired'
 
-    " theming and visualization
-    Plug 'vim-airline/vim-airline'
+    " theme and visualization
+    Plug 'itchyny/lightline.vim'
+    Plug 'shinchu/lightline-gruvbox.vim'
     Plug 'morhetz/gruvbox'
     Plug 'ryanoasis/vim-devicons'
     Plug 'nathanaelkane/vim-indent-guides'
