@@ -45,4 +45,5 @@ tag-formats "inbox" "GI" \
 # powerline status bar hack
 
 color status white black
-color status black white '(\s+.*\s+)' 1
+#color status black white '(\s+.*\s+)' 1
+color status color223 color237 '(\s+.*\s+)' 1
