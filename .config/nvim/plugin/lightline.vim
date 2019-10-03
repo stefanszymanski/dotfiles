@@ -19,7 +19,7 @@ let g:lightline = {
     \ },
     \ 'component_function': {
     \   'gitbranch': 'fugitive#head',
-    \   'cwd': 'LightlineCwd'
+    \   'cwd': 'LightlineCwd',
     \ }
     \ }
 

@@ -76,7 +76,7 @@ c.content.headers.do_not_track = True
 c.content.headers.referer = 'same-domain'
 
 # downloads
-c.downloads.location.directory = '~/Downloads'
+c.downloads.location.directory = '~/downloads'
 c.downloads.location.prompt = False
 c.downloads.location.remember = True
 c.downloads.location.suggestion = 'filename'
