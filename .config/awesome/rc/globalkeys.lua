@@ -36,35 +36,35 @@ globalkeys = gears.table.join(
         {description = "show help", group="awesome"}),
 
     -- Tag browsing
-    awful.key({ modkey }, "j", awful.tag.viewprev,
+    awful.key({ modkey }, "h", awful.tag.viewprev,
         {description = "view previous", group = "tag"}),
-    awful.key({ modkey }, "k", awful.tag.viewnext,
+    awful.key({ modkey }, "l", awful.tag.viewnext,
         {description = "view next", group = "tag"}),
-    awful.key({ modkey }, "Left", awful.tag.viewprev,
-        {description = "view previous", group = "tag"}),
-    awful.key({ modkey }, "Right", awful.tag.viewnext,
-        {description = "view next", group = "tag"}),
+    -- awful.key({ modkey }, "Left", awful.tag.viewprev,
+    --     {description = "view previous", group = "tag"}),
+    -- awful.key({ modkey }, "Right", awful.tag.viewnext,
+    --     {description = "view next", group = "tag"}),
     awful.key({ modkey }, "Escape", awful.tag.history.restore,
         {description = "go back", group = "tag"}),
     -- Non-empty tag browsing
-    awful.key({ modkey, "Shift" }, "j", function () lain.util.tag_view_nonempty(-1) end,
+    awful.key({ modkey, "Shift" }, "h", function () lain.util.tag_view_nonempty(-1) end,
         {description = "view previous nonempty", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "k", function () lain.util.tag_view_nonempty(1) end,
+    awful.key({ modkey, "Shift" }, "l", function () lain.util.tag_view_nonempty(1) end,
         {description = "view next nonempty", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "Left", function () lain.util.tag_view_nonempty(-1) end,
-        {description = "view previous nonempty", group = "tag"}),
-    awful.key({ modkey, "Shift" }, "Right", function () lain.util.tag_view_nonempty(1) end,
-        {description = "view next nonempty", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "Left", function () lain.util.tag_view_nonempty(-1) end,
+    --     {description = "view previous nonempty", group = "tag"}),
+    -- awful.key({ modkey, "Shift" }, "Right", function () lain.util.tag_view_nonempty(1) end,
+    --     {description = "view next nonempty", group = "tag"}),
 
     -- Default client focus
     awful.key({ lockkey, altkey }, "j", function () awful.client.focus.byidx( 1) end,
         {description = "focus next by index", group = "client navigation"}),
     awful.key({ lockkey, altkey }, "k", function () awful.client.focus.byidx(-1) end,
         {description = "focus previous by index", group = "client navigation"}),
-    awful.key({ lockkey, altkey }, "Left", function () awful.client.focus.byidx( 1) end,
-        {description = "focus next by index", group = "client navigation"}),
-    awful.key({ lockkey, altkey }, "Right", function () awful.client.focus.byidx(-1) end,
-        {description = "focus previous by index", group = "client navigation"}),
+    -- awful.key({ lockkey, altkey }, "Left", function () awful.client.focus.byidx( 1) end,
+        -- {description = "focus next by index", group = "client navigation"}),
+    -- awful.key({ lockkey, altkey }, "Right", function () awful.client.focus.byidx(-1) end,
+        -- {description = "focus previous by index", group = "client navigation"}),
     -- By direction client focus
     awful.key({ lockkey }, "j",
         function()
@@ -90,30 +90,30 @@ globalkeys = gears.table.join(
             if client.focus then client.focus:raise() end
         end,
         {description = "focus right", group = "client navigation"}),
-    awful.key({ lockkey }, "Down",
-        function()
-            awful.client.focus.global_bydirection("down")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "focus down", group = "client navigation"}),
-    awful.key({ lockkey }, "Up",
-        function()
-            awful.client.focus.global_bydirection("up")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "focus up", group = "client navigation"}),
-    awful.key({ lockkey }, "Left",
-        function()
-            awful.client.focus.global_bydirection("left")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "focus left", group = "client navigation"}),
-    awful.key({ lockkey }, "Right",
-        function()
-            awful.client.focus.global_bydirection("right")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "focus right", group = "client navigation"}),
+    -- awful.key({ lockkey }, "Down",
+    --     function()
+    --         awful.client.focus.global_bydirection("down")
+    --         if client.focus then client.focus:raise() end
+    --     end,
+    --     {description = "focus down", group = "client navigation"}),
+    -- awful.key({ lockkey }, "Up",
+    --     function()
+    --         awful.client.focus.global_bydirection("up")
+    --         if client.focus then client.focus:raise() end
+    --     end,
+    --     {description = "focus up", group = "client navigation"}),
+    -- awful.key({ lockkey }, "Left",
+    --     function()
+    --         awful.client.focus.global_bydirection("left")
+    --         if client.focus then client.focus:raise() end
+    --     end,
+    --     {description = "focus left", group = "client navigation"}),
+    -- awful.key({ lockkey }, "Right",
+    --     function()
+    --         awful.client.focus.global_bydirection("right")
+    --         if client.focus then client.focus:raise() end
+    --     end,
+    --     {description = "focus right", group = "client navigation"}),
     -- awful.key({ modkey }, "w", function () awful.util.mymainmenu:show() end,
     --     {description = "show main menu", group = "awesome"}),
 
@@ -160,10 +160,14 @@ globalkeys = gears.table.join(
         {description = "add new tag", group = "tag"}),
     awful.key({ lockkey, "Control" }, "r", function () lain.util.rename_tag() end,
         {description = "rename tag", group = "tag"}),
-    awful.key({ lockkey, "Control" }, "Left", function () lain.util.move_tag(-1) end,
+    awful.key({ lockkey, "Control" }, "h", function () lain.util.move_tag(-1) end,
         {description = "move tag to the left", group = "tag"}),
-    awful.key({ lockkey, "Control" }, "Right", function () lain.util.move_tag(1) end,
+    awful.key({ lockkey, "Control" }, "l", function () lain.util.move_tag(1) end,
         {description = "move tag to the right", group = "tag"}),
+    -- awful.key({ lockkey, "Control" }, "Left", function () lain.util.move_tag(-1) end,
+    --     {description = "move tag to the left", group = "tag"}),
+    -- awful.key({ lockkey, "Control" }, "Right", function () lain.util.move_tag(1) end,
+    --     {description = "move tag to the right", group = "tag"}),
     awful.key({ lockkey, "Control" }, "d", function () lain.util.delete_tag() end,
         {description = "delete tag", group = "tag"}),
 
