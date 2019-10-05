@@ -1,9 +1,9 @@
 let g:lightline = {
-    \ 'colorscheme': 'gruvbox',
+    \ 'colorscheme': 'wombat',
     \ 'active': {
     \   'left': [ ['mode', 'paste'],
-    \             ['readonly', 'bufnum', 'cwd', 'relativepath', 'spell', 'modified'],
-    \             ['gitbranch']
+    \             ['readonly', 'bufnum', 'relativepath', 'spell', 'modified', 'cocstatus'],
+    \             ['gitbranch'],
     \   ],
     \   'right': [ ['percent', 'lineinfo'],
     \              ['fileformat', 'fileencoding', 'filetype']
@@ -20,6 +20,7 @@ let g:lightline = {
     \ 'component_function': {
     \   'gitbranch': 'fugitive#head',
     \   'cwd': 'LightlineCwd',
+    \   'cocstatus': 'coc#status',
     \ }
     \ }
 

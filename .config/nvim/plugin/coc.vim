@@ -3,7 +3,7 @@
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-"highlight link CocFloating Gruvbox
+" highlight link CocFloating Gruvbox
 
 
 " === Bindings === "
