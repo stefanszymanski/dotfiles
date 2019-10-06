@@ -64,9 +64,9 @@
 	"lua": {
       "command": "java",
       "args": ["-cp", ".languageserver/EmmyLua-LanguageServer/EmmyLua-LS/build/libs/EmmyLua-LS-all.jar", "com.tang.vscode.MainKt"],
-	  "cwd": "../../",
+	  "cwd": "~",
       "filetypes": ["lua"],
-      "rootPatterns": [".git"]
+      "rootPatterns": [".git/"]
 	},
 	"php": {
 	  "command": "intelephense",
