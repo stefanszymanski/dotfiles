@@ -356,11 +356,12 @@ local mytextclock = wibox.widget {
             font = theme.font,
             format = "%A, %Y-%m-%d <b>%H:%M</b>"
         },
-        right = 4,
-        left = 4,
+        right = 8,
+        left = 8,
         widget = wibox.container.margin
     },
-    fg = colors.white_2,
+    fg = colors.black_1,
+    bg = colors.blue_2,
     widget = wibox.container.background
 }
 
@@ -425,7 +426,7 @@ local batupd = lain.widget.bat({
     end
 })
 local batbg = wibox.container.background(batbar, "#474747", gears.shape.rectangle)
-local batwidget = wibox.container.margin(batbg, dpi(2), dpi(7), dpi(2), dpi(2))
+local batwidget = wibox.container.margin(batbg, dpi(2), dpi(7), dpi(3), dpi(3))
 
 
 -- Volume bar
@@ -475,7 +476,7 @@ theme.volume.bar:buttons(my_table.join (
         end)
 ))
 local volumebg = wibox.container.background(theme.volume.bar, "#474747", gears.shape.rectangle)
-local volumewidget = wibox.container.margin(volumebg, dpi(2), dpi(7), dpi(2), dpi(2))
+local volumewidget = wibox.container.margin(volumebg, dpi(2), dpi(7), dpi(3), dpi(3))
 
 -- Volume popup
 local audioinfo = custom.widget.audioinfo({
@@ -501,49 +502,93 @@ end
 
 
 -- Memory
-local memicon = wibox.widget.imagebox(theme.mem)
-local membar = wibox.widget {
-    forced_height    = infobar_height,
-    forced_width     = infobar_width,
-    color            = theme.fg_normal,
-    background_color = theme.bg_normal,
-    margins          = 1,
-    paddings         = 1,
-    ticks            = true,
-    ticks_size       = dpi(6),
-    widget           = wibox.widget.progressbar,
-}
-local memupd = lain.widget.mem({
+-- local memicon = wibox.widget.imagebox(theme.mem)
+-- local membar = wibox.widget {
+--     forced_height    = infobar_height,
+--     forced_width     = infobar_width,
+--     color            = theme.fg_normal,
+--     background_color = theme.bg_normal,
+--     margins          = 1,
+--     paddings         = 1,
+--     ticks            = true,
+--     ticks_size       = dpi(6),
+--     widget           = wibox.widget.progressbar,
+-- }
+-- local memupd = lain.widget.mem({
+--     timeout = 5,
+--     settings = function()
+--         membar:set_value(mem_now.perc / 100)
+--     end
+-- })
+-- local membg = wibox.container.background(membar, "#474747", gears.shape.rectangle)
+-- local memwidget = wibox.container.margin(membg, dpi(2), dpi(7), dpi(3), dpi(3))
+
+local mem = lain.widget.mem({
     timeout = 5,
     settings = function()
-        membar:set_value(mem_now.perc / 100)
+        widget:set_markup("mem " .. mem_now.perc .. "%")
     end
 })
-local membg = wibox.container.background(membar, "#474747", gears.shape.rectangle)
-local memwidget = wibox.container.margin(membg, dpi(2), dpi(7), dpi(2), dpi(2))
+local memwidget = wibox.widget {
+    {
+        {
+            widget = mem.widget,
+            font = theme.font,
+        },
+        left = 8,
+        right = 8,
+        top = 2,
+        bottom = 2,
+        widget = wibox.container.margin,
+    },
+    bg = colors.bw_1,
+    fg = theme.fg_normal,
+    widget = wibox.container.background
+}
 
 
 -- CPU
-local cpuicon = wibox.widget.imagebox(theme.cpu)
-local cpubar = wibox.widget {
-    forced_height    = infobar_height,
-    forced_width     = infobar_width,
-    color            = theme.fg_normal,
-    background_color = theme.bg_normal,
-    margins          = 1,
-    paddings         = 1,
-    ticks            = true,
-    ticks_size       = dpi(6),
-    widget           = wibox.widget.progressbar,
-}
-local cpuupd = lain.widget.cpu({
+-- local cpuicon = wibox.widget.imagebox(theme.cpu)
+-- local cpubar = wibox.widget {
+--     forced_height    = infobar_height,
+--     forced_width     = infobar_width,
+--     color            = theme.fg_normal,
+--     background_color = theme.bg_normal,
+--     margins          = 1,
+--     paddings         = 1,
+--     ticks            = true,
+--     ticks_size       = dpi(6),
+--     widget           = wibox.widget.progressbar,
+-- }
+-- local cpuupd = lain.widget.cpu({
+--     timeout = 5,
+--     settings = function()
+--         cpubar:set_value(cpu_now.usage / 100)
+--     end
+-- })
+-- local cpubg = wibox.container.background(cpubar, "#474747", gears.shape.rectangle)
+-- local cpuwidget = wibox.container.margin(cpubg, dpi(2), dpi(7), dpi(3), dpi(3))
+
+local cpu = lain.widget.cpu({
     timeout = 5,
     settings = function()
-        cpubar:set_value(cpu_now.usage / 100)
+        widget:set_markup("cpu " .. cpu_now.usage .. "%")
     end
 })
-local cpubg = wibox.container.background(cpubar, "#474747", gears.shape.rectangle)
-local cpuwidget = wibox.container.margin(cpubg, dpi(2), dpi(7), dpi(2), dpi(2))
+local cpuwidget = wibox.widget {
+    {
+        {
+            widget = cpu.widget,
+            font = theme.font,
+        },
+        left = 8,
+        right = 8,
+        widget = wibox.container.margin
+    },
+    fg = theme.fg_normal,
+    bg = colors.bw_1,
+    widget = wibox.container.background
+}
 
 -- Sysinfo popup
 local sysinfo = custom.widget.sysinfo({
@@ -588,10 +633,25 @@ end
 
 local net = lain.widget.net({
     settings = function()
-        widget:set_markup(markup.fontfg(theme.font, theme.fg_normal, " " .. formatbytes(net_now.received) .. " ↓↑ " .. formatbytes(net_now.sent) .. " "))
+        widget:set_markup(formatbytes(net_now.received) .. " ↓↑ " .. formatbytes(net_now.sent))
         --widget:set_markup(markup.fontfg(theme.font, theme.fg_normal, " " .. net_now.received .. " ↓↑ " .. net_now.sent .. " "))
     end
 })
+
+local netwidget = wibox.widget {
+    {
+        {
+            widget = net.widget,
+            font = theme.font,
+        },
+        left = 8,
+        right = 8,
+        widget = wibox.container.margin
+    },
+    bg = colors.bw_1,
+    fg = theme.fg_normal,
+    widget = wibox.container.background
+}
 
 
 -- Redshift
@@ -624,8 +684,8 @@ lain.widget.contrib.redshift:attach(
 -- Spacing
 local space = wibox.widget.separator {
     orientation = "vertical",
-    forced_width = 8,
-    thickness = 8,
+    forced_width = 4,
+    thickness = 4,
     color = "#00000000",
 }
 
@@ -767,16 +827,20 @@ function theme.at_screen_connect(s)
                 {
                     -- Right widgets
                     layout = wibox.layout.fixed.horizontal,
-                    neticon, net,
-                    space, vert_sep, space,
-                    memicon, memwidget,
-                    cpuicon, cpuwidget,
-                    baticon, batwidget,
-                    volicon, volumewidget,
-                    space, vert_sep, space,
+                    netwidget,
+                    space,
+                    memwidget,
+                    space,
+                    cpuwidget,
+                    space,
+                    batwidget,
+                    space,
+                    volumewidget,
+                    space,
 					myredshift_stack,
+                    space,
                     wibox.widget.systray(),
-                    space, vert_sep, space,
+                    space,
                     mytextclock,
                 },
             },
@@ -785,7 +849,8 @@ function theme.at_screen_connect(s)
         -- bottom = s.mywibox.position == "top" and theme.border or 0,
         -- top = s.mywibox.position == "bottom" and theme.border or 0,
         -- color = colors.bw_2,
-        widget = wibox.container.margin,
+        -- bg = colors.red_1,
+        widget = wibox.container.background,
     }
 end
 
