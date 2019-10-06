@@ -79,6 +79,7 @@ theme.border_normal                             = colors.bw_2
 theme.border_focus                              = colors.bw_5
 theme.border_marked                             = colors.bw_5
 
+-- TODO adjust?
 theme.titlebar_fg_normal                        = colors.bw_5
 theme.titlebar_fg_focus                         = colors.bw_8
 theme.titlebar_fg_marked                        = colors.bw_8
@@ -95,6 +96,12 @@ theme.bg_normal                                 = colors.bw_0
 theme.bg_focus                                  = colors.bw_2
 theme.bg_urgent                                 = colors.bw_2
 
+-- TODO other settings
+-- theme.bg_normal = colors.bw_1
+-- theme.fg_normal = colors.white_1
+-- theme.bg_focus = colors.yellow_1
+-- theme.fg_focus = colors.black_1
+
 theme.taglist_font                              = theme.font_bold
 theme.taglist_fg_normal                         = colors.bw_5
 theme.taglist_fg_occupied                       = colors.bw_5
@@ -109,19 +116,33 @@ theme.taglist_bg_volatile                       = colors.bw_0
 theme.taglist_bg_focus                          = colors.bw_0
 theme.taglist_bg_urgent                         = colors.bw_1
 
+theme.taglist_bg_focus = colors.yellow_1
+theme.taglist_fg_focus = colors.black_1
+theme.taglist_bg_normal = colors.bw_1
+theme.taglist_fg_normal = colors.white_1
+theme.taglist_bg_occupied = colors.bw_1
+theme.taglist_fg_occupied = colors.white_1
+
 theme.tasklist_font_normal                      = theme.font
 theme.tasklist_font_focus                       = theme.font_bold
 theme.tasklist_font_minimized                   = theme.font
 theme.tasklist_font_urgent                      = theme.font_bold
 
-theme.tasklist_fg_normal                        = colors.bw_5
-theme.tasklist_fg_focus                         = colors.bw_8
-theme.tasklist_fg_minimize                      = colors.bw_2
-theme.tasklist_fg_urgent                        = colors.red_2
-theme.tasklist_bg_normal                        = colors.bw_0
-theme.tasklist_bg_focus                         = colors.bw_0
-theme.tasklist_bg_minimize                      = colors.bw_0
-theme.tasklist_bg_urgent                        = colors.bw_0
+-- theme.tasklist_fg_normal                        = colors.bw_5
+-- theme.tasklist_fg_focus                         = colors.bw_8
+-- theme.tasklist_fg_minimize                      = colors.bw_2
+-- theme.tasklist_fg_urgent                        = colors.red_2
+-- theme.tasklist_bg_normal                        = colors.bw_0
+-- theme.tasklist_bg_focus                         = colors.bw_0
+-- theme.tasklist_bg_minimize                      = colors.bw_0
+-- theme.tasklist_bg_urgent                        = colors.bw_0
+
+theme.tasklist_bg_focus = colors.yellow_1
+theme.tasklist_fg_focus = colors.black_1
+theme.tasklist_bg_normal = colors.bw_3
+theme.tasklist_fg_normal = colors.white_2
+theme.tasklist_bg_minimize = colors.bw_1
+theme.tasklist_fg_minimize = colors.white_1
 
 theme.tasklist_shape_border_color               = colors.purple_2
 theme.tasklist_shape_border_color_focus         = colors.green_2
@@ -152,6 +173,8 @@ theme.systray_icon_spacing                      = 4
 theme.bar_bg                                    = colors.bw_0
 theme.bar_fg                                    = colors.bw_5
 theme.bar_height                                = 20
+
+theme.bar_height                                = 16
 
 theme.notification_fg                           = theme.fg_normal
 theme.notification_bg                           = theme.bg_normal
@@ -322,8 +345,24 @@ local drink_reminder = custom.widget.reminder {
 
 -- Textclock
 os.setlocale(os.getenv("LANG")) -- to localize the clock
-local mytextclock = wibox.widget.textclock(" <span fgcolor='#d5c4a1'>%A, %Y-%m-%d <b>%H:%M</b></span> ")
-mytextclock.font = theme.font
+-- local mytextclock = wibox.widget.textclock(" <span fgcolor='#d5c4a1'>%A, %Y-%m-%d <b>%H:%M</b></span> ")
+-- local mytextclock = wibox.widget.textclock("%A, %Y-%m-%d <b>%H:%M</b>")
+-- mytextclock.font = theme.font
+
+local mytextclock = wibox.widget {
+    {
+        {
+            widget = wibox.widget.textclock,
+            font = theme.font,
+            format = "%A, %Y-%m-%d <b>%H:%M</b>"
+        },
+        right = 4,
+        left = 4,
+        widget = wibox.container.margin
+    },
+    fg = colors.white_2,
+    widget = wibox.container.background
+}
 
 -- Calendar
 theme.cal = lain.widget.cal({
@@ -386,7 +425,7 @@ local batupd = lain.widget.bat({
     end
 })
 local batbg = wibox.container.background(batbar, "#474747", gears.shape.rectangle)
-local batwidget = wibox.container.margin(batbg, dpi(2), dpi(7), dpi(4), dpi(4))
+local batwidget = wibox.container.margin(batbg, dpi(2), dpi(7), dpi(2), dpi(2))
 
 
 -- Volume bar
@@ -436,7 +475,7 @@ theme.volume.bar:buttons(my_table.join (
         end)
 ))
 local volumebg = wibox.container.background(theme.volume.bar, "#474747", gears.shape.rectangle)
-local volumewidget = wibox.container.margin(volumebg, dpi(2), dpi(7), dpi(4), dpi(4))
+local volumewidget = wibox.container.margin(volumebg, dpi(2), dpi(7), dpi(2), dpi(2))
 
 -- Volume popup
 local audioinfo = custom.widget.audioinfo({
@@ -481,8 +520,7 @@ local memupd = lain.widget.mem({
     end
 })
 local membg = wibox.container.background(membar, "#474747", gears.shape.rectangle)
-local memwidget = wibox.container.margin(membg, dpi(2), dpi(7), dpi(4), dpi(4))
-
+local memwidget = wibox.container.margin(membg, dpi(2), dpi(7), dpi(2), dpi(2))
 
 
 -- CPU
@@ -505,7 +543,7 @@ local cpuupd = lain.widget.cpu({
     end
 })
 local cpubg = wibox.container.background(cpubar, "#474747", gears.shape.rectangle)
-local cpuwidget = wibox.container.margin(cpubg, dpi(2), dpi(7), dpi(4), dpi(4))
+local cpuwidget = wibox.container.margin(cpubg, dpi(2), dpi(7), dpi(2), dpi(2))
 
 -- Sysinfo popup
 local sysinfo = custom.widget.sysinfo({
@@ -586,8 +624,8 @@ lain.widget.contrib.redshift:attach(
 -- Spacing
 local space = wibox.widget.separator {
     orientation = "vertical",
-    forced_width = 4,
-    thickness = 4,
+    forced_width = 8,
+    thickness = 8,
     color = "#00000000",
 }
 
@@ -657,6 +695,10 @@ function theme.at_screen_connect(s)
         filter = awful.widget.tasklist.filter.currenttags,
         buttons = awful.util.tasklist_buttons,
         bg_focus = theme.tasklist_bg_focus,
+        layout = {
+            spacing = 4,
+            layout = wibox.layout.fixed.horizontal,
+        },
         widget_template = {
             {
                 {
@@ -668,7 +710,7 @@ function theme.at_screen_connect(s)
                 },
                 left  = 10,
                 right = 10,
-                widget = wibox.container.margin
+                widget = wibox.container.margin,
             },
             id     = 'background_role',
             widget = wibox.container.background,
@@ -684,17 +726,17 @@ function theme.at_screen_connect(s)
                 {
                     -- Left widgets
                     layout = wibox.layout.fixed.horizontal,
-                    space,
                     {
                         -- Layoutbox
                         {
                             s.mylayoutbox,
                             left = 2,
-                            top = 3,
-                            bottom = 3,
+                            top = 2,
+                            bottom = 2,
                             widget = wibox.container.margin,
                         },
-                        bg = theme.bar_bg,
+                        bg = colors.bw_0,
+                        fg = colors.black_1,
                         widget = wibox.container.background,
                     },
                     space,
@@ -709,6 +751,7 @@ function theme.at_screen_connect(s)
                         bg = theme.bar_bg,
                         widget = wibox.container.background,
                     },
+                    space,
                 },
                 {
                     -- Middle
@@ -724,7 +767,6 @@ function theme.at_screen_connect(s)
                 {
                     -- Right widgets
                     layout = wibox.layout.fixed.horizontal,
-                    space, vert_sep, space,
                     neticon, net,
                     space, vert_sep, space,
                     memicon, memwidget,
@@ -739,10 +781,10 @@ function theme.at_screen_connect(s)
                 },
             },
         },
-        id = "border",
-        bottom = s.mywibox.position == "top" and theme.border or 0,
-        top = s.mywibox.position == "bottom" and theme.border or 0,
-        color = colors.bw_2,
+        -- id = "border",
+        -- bottom = s.mywibox.position == "top" and theme.border or 0,
+        -- top = s.mywibox.position == "bottom" and theme.border or 0,
+        -- color = colors.bw_2,
         widget = wibox.container.margin,
     }
 end
