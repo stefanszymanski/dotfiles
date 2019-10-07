@@ -349,12 +349,28 @@ os.setlocale(os.getenv("LANG")) -- to localize the clock
 -- local mytextclock = wibox.widget.textclock("%A, %Y-%m-%d <b>%H:%M</b>")
 -- mytextclock.font = theme.font
 
-local mytextclock = wibox.widget {
+local datewidget = wibox.widget {
     {
         {
             widget = wibox.widget.textclock,
             font = theme.font,
-            format = "%A, %Y-%m-%d <b>%H:%M</b>"
+            format = "%A, %Y-%m-%d"
+        },
+        right = 8,
+        left = 8,
+        widget = wibox.container.margin
+    },
+    fg = colors.black_1,
+    bg = colors.blue_2,
+    widget = wibox.container.background
+}
+
+local timewidget = wibox.widget {
+    {
+        {
+            widget = wibox.widget.textclock,
+            font = theme.font_bold,
+            format = "%H:%M"
         },
         right = 8,
         left = 8,
@@ -367,7 +383,7 @@ local mytextclock = wibox.widget {
 
 -- Calendar
 theme.cal = lain.widget.cal({
-    attach_to = { mytextclock },
+    attach_to = { datewidget },
     followtag = true,
     three = true,
     week_number = "left",
@@ -430,35 +446,72 @@ local batwidget = wibox.container.margin(batbg, dpi(2), dpi(7), dpi(3), dpi(3))
 
 
 -- Volume bar
-local volicon = wibox.widget.imagebox(theme.vol)
-theme.volume = lain.widget.pulsebar {
-    width = infobar_width,
-    border_width = 0,
-    ticks = true,
-    ticks_size = dpi(6),
-    notification_preset = { font = theme.font },
-    settings = function()
-        if volume_now.level == nil then
-            return
-        end
-        if volume_now.status == "off" then
-            volicon:set_image(theme.vol_mute)
-        elseif volume_now.level == 0 then
-            volicon:set_image(theme.vol_no)
-        elseif volume_now.level <= 50 then
-            volicon:set_image(theme.vol_low)
+-- local volicon = wibox.widget.imagebox(theme.vol)
+-- theme.volume = lain.widget.pulsebar {
+--     width = infobar_width,
+--     border_width = 0,
+--     ticks = true,
+--     ticks_size = dpi(6),
+--     notification_preset = { font = theme.font },
+--     settings = function()
+--         if volume_now.level == nil then
+--             return
+--         end
+--         if volume_now.status == "off" then
+--             volicon:set_image(theme.vol_mute)
+--         elseif volume_now.level == 0 then
+--             volicon:set_image(theme.vol_no)
+--         elseif volume_now.level <= 50 then
+--             volicon:set_image(theme.vol_low)
+--         else
+--             volicon:set_image(theme.vol)
+--         end
+--     end,
+--     colors = {
+--         background   = theme.bg_normal,
+--         mute         = colors.red_1,
+--         unmute       = theme.fg_normal
+--     }
+-- }
+theme.volume = lain.widget.pulse {
+    timeout = 5,
+	settings = function()
+        if volume_now.index == nil then
+            widget:set_markup("vol n/a")
         else
-            volicon:set_image(theme.vol)
+            if volume_now.left == volume_now.right then
+                volume = volume_now.left
+            else
+                volume = volume_now.left .. "/" .. volume_now.right
+            end
+            if volume_now.muted == "yes" then
+                widget:set_markup("<span strikethrough='true'>vol " .. volume .. "</span>")
+            else
+                widget:set_markup("vol " .. volume)
+            end
         end
-    end,
-    colors = {
-        background   = theme.bg_normal,
-        mute         = colors.red_1,
-        unmute       = theme.fg_normal
-    }
+	end
 }
-theme.volume.tooltip:remove_from_object(theme.volume.bar)
-theme.volume.bar:buttons(my_table.join (
+-- local volumebg = wibox.container.background(theme.volume.bar, "#474747", gears.shape.rectangle)
+-- local volumewidget = wibox.container.margin(volumebg, dpi(2), dpi(7), dpi(3), dpi(3))
+
+local volumewidget = wibox.widget {
+    {
+        {
+            widget = theme.volume.widget,
+            font = theme.font,
+        },
+        widget = wibox.container.margin,
+        left = 8,
+        right = 8,
+        top = 2,
+        bottom = 2,
+    },
+    widget = wibox.container.background,
+    bg = colors.bw_1,
+    fg = theme.fg_normal,
+}
+volumewidget:buttons(my_table.join (
         awful.button({}, 1, function()
             awful.spawn(string.format("%s -e pulsemixer", awful.util.terminal))
         end),
@@ -475,8 +528,6 @@ theme.volume.bar:buttons(my_table.join (
             theme.volume.update()
         end)
 ))
-local volumebg = wibox.container.background(theme.volume.bar, "#474747", gears.shape.rectangle)
-local volumewidget = wibox.container.margin(volumebg, dpi(2), dpi(7), dpi(3), dpi(3))
 
 -- Volume popup
 local audioinfo = custom.widget.audioinfo({
@@ -537,8 +588,6 @@ local memwidget = wibox.widget {
         },
         left = 8,
         right = 8,
-        top = 2,
-        bottom = 2,
         widget = wibox.container.margin,
     },
     bg = colors.bw_1,
@@ -648,14 +697,40 @@ local netwidget = wibox.widget {
         right = 8,
         widget = wibox.container.margin
     },
+    widget = wibox.container.background,
     bg = colors.bw_1,
     fg = theme.fg_normal,
-    widget = wibox.container.background
 }
 
 
 -- Redshift
-local myredshift = wibox.widget{
+-- local myredshift = wibox.widget{
+--     checked      = false,
+--     check_color  = "#00000000",
+--     border_width = 0,
+--     shape        = gears.shape.square,
+--     widget       = wibox.widget.checkbox
+-- }
+-- local myredshift_icon = wibox.widget.imagebox(theme.redshift_on)
+-- local myredshift_stack = wibox.widget{
+--     myredshift,
+--     myredshift_icon,
+--     layout = wibox.layout.stack
+-- }
+-- lain.widget.contrib.redshift:attach(
+--     myredshift,
+--     function (active)
+--         if active then
+--             myredshift_icon.image = theme.redshift_on
+--         else
+--             myredshift_icon.image = theme.redshift_off
+--         end
+--         myredshift.checked = active
+--     end
+-- )
+
+
+local redshift_checkbox = wibox.widget{
     checked      = false,
     check_color  = "#00000000",
     border_width = 0,
@@ -663,22 +738,33 @@ local myredshift = wibox.widget{
     widget       = wibox.widget.checkbox
 }
 local myredshift_icon = wibox.widget.imagebox(theme.redshift_on)
-local myredshift_stack = wibox.widget{
-    myredshift,
-    myredshift_icon,
-    layout = wibox.layout.stack
+local redshiftwidget = wibox.widget {
+    {
+        {
+            redshift_checkbox,
+            myredshift_icon,
+            layout = wibox.layout.stack
+        },
+        widget = wibox.container.margin,
+        left = 8,
+        right = 8,
+    },
+    widget = wibox.container.background,
+    bg = colors.bw_1,
+    fg = theme.fg_normal,
 }
 lain.widget.contrib.redshift:attach(
-    myredshift,
+    redshift_checkbox,
     function (active)
         if active then
             myredshift_icon.image = theme.redshift_on
         else
             myredshift_icon.image = theme.redshift_off
         end
-        myredshift.checked = active
+        redshift_checkbox.checked = active
     end
 )
+
 
 
 -- Spacing
@@ -833,15 +919,17 @@ function theme.at_screen_connect(s)
                     space,
                     cpuwidget,
                     space,
-                    batwidget,
-                    space,
+                    -- batwidget,
+                    -- space,
                     volumewidget,
                     space,
-					myredshift_stack,
+					redshiftwidget,
                     space,
                     wibox.widget.systray(),
                     space,
-                    mytextclock,
+                    datewidget,
+                    space,
+                    timewidget
                 },
             },
         },
