@@ -206,8 +206,11 @@ fi
 zplug load # --verbose
 
 # Load fzf
-# source ~/.fzf.zsh
-source /usr/share/doc/fzf/key-bindings.zsh
-source /usr/share/doc/fzf/completion.zsh
+if [ -r ~/.fzf.zsh ]; then
+    source ~/.fzf.zsh
+else
+    source /usr/share/doc/fzf/key-bindings.zsh
+    source /usr/share/doc/fzf/completion.zsh
+fi
 
 eval "$(starship init zsh)"
