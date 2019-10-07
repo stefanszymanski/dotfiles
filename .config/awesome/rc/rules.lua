@@ -25,5 +25,11 @@ awful.rules.rules = {
             size_hints_honor  = false,
             titlebars_enabled = true,
         },
+    },
+    {
+        rule = { instance = "nagstamon" },
+        properties = {
+            focusable = false
+        }
     }
 }
