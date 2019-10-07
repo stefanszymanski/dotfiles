@@ -161,11 +161,11 @@ c.colors.tabs.pinned.odd.bg = bg0
 c.colors.tabs.pinned.odd.fg = fg2
 
 # Selected tabs
-c.colors.tabs.selected.odd.bg = fg2
+c.colors.tabs.selected.odd.bg = yellow
 c.colors.tabs.selected.odd.fg = bg0
-c.colors.tabs.selected.even.bg = fg2
+c.colors.tabs.selected.even.bg = yellow
 c.colors.tabs.selected.even.fg = bg0
-c.colors.tabs.pinned.selected.odd.bg = fg2
+c.colors.tabs.pinned.selected.odd.bg = yellow
 c.colors.tabs.pinned.selected.odd.fg = bg0
-c.colors.tabs.pinned.selected.even.bg = fg2
+c.colors.tabs.pinned.selected.even.bg = yellow
 c.colors.tabs.pinned.selected.even.fg = bg0

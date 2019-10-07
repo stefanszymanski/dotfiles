@@ -146,10 +146,11 @@ c.statusbar.padding = {'bottom': 2, 'top': 2, 'left': 0, 'right': 0}
 
 # tabs
 c.tabs.position = 'top'
-c.tabs.padding = {'bottom': 2, 'top': 2, 'left': 0, 'right': 4}
+c.tabs.padding = {'bottom': 2, 'top': 2, 'left': 8, 'right': 8}
 c.tabs.title.alignment = 'left'
 c.tabs.title.format = '{audio}{index}: {current_title}'
 c.tabs.title.format_pinned = '{audio}{index}'
+c.tabs.indicator.width = 0
 
 
 ############
