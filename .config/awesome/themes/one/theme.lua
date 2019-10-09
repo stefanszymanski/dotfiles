@@ -1,12 +1,8 @@
 --[[
-     Custom Layout One (WIP)
-
-     Heavily copied from
-     - Colors, Sizes: https://github.com/alfunx/.dotfiles/blob/master/.config/awesome/themes/blackout/theme.lua
-     - Widgets: https://github.com/lcpz/awesome-copycats
+     Custom Layout One (still wip)
 
      Future features
-     - popups for widgets (network, volume)
+     - popups for widgets (network, battery)
      - Layout list
 --]]
 
@@ -96,53 +92,34 @@ theme.bg_normal                                 = colors.bw_0
 theme.bg_focus                                  = colors.bw_2
 theme.bg_urgent                                 = colors.bw_2
 
--- TODO other settings
--- theme.bg_normal = colors.bw_1
--- theme.fg_normal = colors.white_1
--- theme.bg_focus = colors.yellow_1
--- theme.fg_focus = colors.black_1
-
-theme.taglist_font                              = theme.font_bold
-theme.taglist_fg_normal                         = colors.bw_5
-theme.taglist_fg_occupied                       = colors.bw_5
-theme.taglist_fg_empty                          = colors.bw_1
-theme.taglist_fg_volatile                       = colors.aqua_2
-theme.taglist_fg_focus                          = colors.bw_9
-theme.taglist_fg_urgent                         = colors.red_2
-theme.taglist_bg_normal                         = colors.bw_0
-theme.taglist_bg_occupied                       = colors.bw_0
-theme.taglist_bg_empty                          = colors.bw_0
-theme.taglist_bg_volatile                       = colors.bw_0
-theme.taglist_bg_focus                          = colors.bw_0
-theme.taglist_bg_urgent                         = colors.bw_1
-
+theme.taglist_font = theme.font_bold
 theme.taglist_bg_focus = colors.yellow_1
 theme.taglist_fg_focus = colors.black_1
 theme.taglist_bg_normal = colors.bw_1
 theme.taglist_fg_normal = colors.white_1
 theme.taglist_bg_occupied = colors.bw_1
 theme.taglist_fg_occupied = colors.white_1
+theme.taglist_bg_empty = colors.bw_2
+theme.taglist_fg_empty = colors.white_1
+theme.taglist_bg_urgent = colors.orange_1
+theme.taglist_fg_urgent = colors.black_1
+theme.taglist_bg_volatile = colors.red_1
+theme.taglist_fg_volatile = colors.black_1
 
-theme.tasklist_font_normal                      = theme.font
-theme.tasklist_font_focus                       = theme.font_bold
-theme.tasklist_font_minimized                   = theme.font
-theme.tasklist_font_urgent                      = theme.font_bold
-
--- theme.tasklist_fg_normal                        = colors.bw_5
--- theme.tasklist_fg_focus                         = colors.bw_8
--- theme.tasklist_fg_minimize                      = colors.bw_2
--- theme.tasklist_fg_urgent                        = colors.red_2
--- theme.tasklist_bg_normal                        = colors.bw_0
--- theme.tasklist_bg_focus                         = colors.bw_0
--- theme.tasklist_bg_minimize                      = colors.bw_0
--- theme.tasklist_bg_urgent                        = colors.bw_0
-
+theme.tasklist_font_normal = theme.font
+theme.tasklist_font_focus = theme.font_bold
+theme.tasklist_font_minimized = theme.font
+theme.tasklist_font_urgent = theme.font_bold
 theme.tasklist_bg_focus = colors.yellow_1
 theme.tasklist_fg_focus = colors.black_1
-theme.tasklist_bg_normal = colors.bw_3
-theme.tasklist_fg_normal = colors.white_2
-theme.tasklist_bg_minimize = colors.bw_1
+theme.tasklist_bg_normal = colors.bw_1
+theme.tasklist_fg_normal = colors.white_1
+theme.tasklist_bg_minimize = colors.bw_2
 theme.tasklist_fg_minimize = colors.white_1
+theme.tasklist_bg_urgent = colors.orange_1
+theme.tasklist_fg_urgent = colors.black_1
+theme.tasklist_plain_task_name = true
+-- theme.tasklist_disable_task_name = true
 
 theme.tasklist_shape_border_color               = colors.purple_2
 theme.tasklist_shape_border_color_focus         = colors.green_2
@@ -153,9 +130,11 @@ theme.hotkeys_border_width                      = theme.border
 theme.hotkeys_border_color                      = colors.bw_5
 theme.hotkeys_group_margin                      = 50
 
-theme.prompt_bg                                 = colors.bw_0
+theme.prompt_bg                                 = colors.bw_1
 theme.prompt_fg                                 = theme.fg_normal
+theme.prompt_border_color                       = colors.bw_2
 theme.bg_systray                                = colors.bw_0
+theme.bg_systray                                = colors.bw_1
 
 theme.border                                    = 2
 theme.border_width                              = 2
@@ -320,6 +299,7 @@ theme.prompt = custom.prompt.promptbox({
     bg = colors.bw_1,
 })
 
+
 -- Floating lua prompt box
 theme.luaprompt = custom.prompt.luapromptbox({
     border_color = colors.bw_2,
@@ -343,12 +323,9 @@ local drink_reminder = custom.widget.reminder {
     preset = preset,
 }
 
--- Textclock
-os.setlocale(os.getenv("LANG")) -- to localize the clock
--- local mytextclock = wibox.widget.textclock(" <span fgcolor='#d5c4a1'>%A, %Y-%m-%d <b>%H:%M</b></span> ")
--- local mytextclock = wibox.widget.textclock("%A, %Y-%m-%d <b>%H:%M</b>")
--- mytextclock.font = theme.font
 
+-- Date and time widgets
+os.setlocale(os.getenv("LANG")) -- to localize the clock
 local datewidget = wibox.widget {
     {
         {
@@ -364,7 +341,6 @@ local datewidget = wibox.widget {
     bg = colors.blue_2,
     widget = wibox.container.background
 }
-
 local timewidget = wibox.widget {
     {
         {
@@ -381,7 +357,7 @@ local timewidget = wibox.widget {
     widget = wibox.container.background
 }
 
--- Calendar
+-- Calendar popup
 theme.cal = lain.widget.cal({
     attach_to = { datewidget },
     followtag = true,
@@ -445,34 +421,7 @@ local batbg = wibox.container.background(batbar, "#474747", gears.shape.rectangl
 local batwidget = wibox.container.margin(batbg, dpi(2), dpi(7), dpi(3), dpi(3))
 
 
--- Volume bar
--- local volicon = wibox.widget.imagebox(theme.vol)
--- theme.volume = lain.widget.pulsebar {
---     width = infobar_width,
---     border_width = 0,
---     ticks = true,
---     ticks_size = dpi(6),
---     notification_preset = { font = theme.font },
---     settings = function()
---         if volume_now.level == nil then
---             return
---         end
---         if volume_now.status == "off" then
---             volicon:set_image(theme.vol_mute)
---         elseif volume_now.level == 0 then
---             volicon:set_image(theme.vol_no)
---         elseif volume_now.level <= 50 then
---             volicon:set_image(theme.vol_low)
---         else
---             volicon:set_image(theme.vol)
---         end
---     end,
---     colors = {
---         background   = theme.bg_normal,
---         mute         = colors.red_1,
---         unmute       = theme.fg_normal
---     }
--- }
+-- Volume widget
 theme.volume = lain.widget.pulse {
     timeout = 5,
 	settings = function()
@@ -492,9 +441,6 @@ theme.volume = lain.widget.pulse {
         end
 	end
 }
--- local volumebg = wibox.container.background(theme.volume.bar, "#474747", gears.shape.rectangle)
--- local volumewidget = wibox.container.margin(volumebg, dpi(2), dpi(7), dpi(3), dpi(3))
-
 local volumewidget = wibox.widget {
     {
         {
@@ -504,8 +450,6 @@ local volumewidget = wibox.widget {
         widget = wibox.container.margin,
         left = 8,
         right = 8,
-        top = 2,
-        bottom = 2,
     },
     widget = wibox.container.background,
     bg = colors.bw_1,
@@ -552,28 +496,7 @@ end
 
 
 
--- Memory
--- local memicon = wibox.widget.imagebox(theme.mem)
--- local membar = wibox.widget {
---     forced_height    = infobar_height,
---     forced_width     = infobar_width,
---     color            = theme.fg_normal,
---     background_color = theme.bg_normal,
---     margins          = 1,
---     paddings         = 1,
---     ticks            = true,
---     ticks_size       = dpi(6),
---     widget           = wibox.widget.progressbar,
--- }
--- local memupd = lain.widget.mem({
---     timeout = 5,
---     settings = function()
---         membar:set_value(mem_now.perc / 100)
---     end
--- })
--- local membg = wibox.container.background(membar, "#474747", gears.shape.rectangle)
--- local memwidget = wibox.container.margin(membg, dpi(2), dpi(7), dpi(3), dpi(3))
-
+-- Memory widget 
 local mem = lain.widget.mem({
     timeout = 5,
     settings = function()
@@ -586,38 +509,17 @@ local memwidget = wibox.widget {
             widget = mem.widget,
             font = theme.font,
         },
+        widget = wibox.container.margin,
         left = 8,
         right = 8,
-        widget = wibox.container.margin,
     },
+    widget = wibox.container.background,
     bg = colors.bw_1,
     fg = theme.fg_normal,
-    widget = wibox.container.background
 }
 
 
--- CPU
--- local cpuicon = wibox.widget.imagebox(theme.cpu)
--- local cpubar = wibox.widget {
---     forced_height    = infobar_height,
---     forced_width     = infobar_width,
---     color            = theme.fg_normal,
---     background_color = theme.bg_normal,
---     margins          = 1,
---     paddings         = 1,
---     ticks            = true,
---     ticks_size       = dpi(6),
---     widget           = wibox.widget.progressbar,
--- }
--- local cpuupd = lain.widget.cpu({
---     timeout = 5,
---     settings = function()
---         cpubar:set_value(cpu_now.usage / 100)
---     end
--- })
--- local cpubg = wibox.container.background(cpubar, "#474747", gears.shape.rectangle)
--- local cpuwidget = wibox.container.margin(cpubg, dpi(2), dpi(7), dpi(3), dpi(3))
-
+-- CPU widget
 local cpu = lain.widget.cpu({
     timeout = 5,
     settings = function()
@@ -630,13 +532,13 @@ local cpuwidget = wibox.widget {
             widget = cpu.widget,
             font = theme.font,
         },
+        widget = wibox.container.margin,
         left = 8,
         right = 8,
-        widget = wibox.container.margin
     },
+    widget = wibox.container.background,
     fg = theme.fg_normal,
     bg = colors.bw_1,
-    widget = wibox.container.background
 }
 
 -- Sysinfo popup
@@ -693,9 +595,9 @@ local netwidget = wibox.widget {
             widget = net.widget,
             font = theme.font,
         },
+        widget = wibox.container.margin,
         left = 8,
         right = 8,
-        widget = wibox.container.margin
     },
     widget = wibox.container.background,
     bg = colors.bw_1,
@@ -703,33 +605,7 @@ local netwidget = wibox.widget {
 }
 
 
--- Redshift
--- local myredshift = wibox.widget{
---     checked      = false,
---     check_color  = "#00000000",
---     border_width = 0,
---     shape        = gears.shape.square,
---     widget       = wibox.widget.checkbox
--- }
--- local myredshift_icon = wibox.widget.imagebox(theme.redshift_on)
--- local myredshift_stack = wibox.widget{
---     myredshift,
---     myredshift_icon,
---     layout = wibox.layout.stack
--- }
--- lain.widget.contrib.redshift:attach(
---     myredshift,
---     function (active)
---         if active then
---             myredshift_icon.image = theme.redshift_on
---         else
---             myredshift_icon.image = theme.redshift_off
---         end
---         myredshift.checked = active
---     end
--- )
-
-
+-- Redshift widget
 local redshift_checkbox = wibox.widget{
     checked      = false,
     check_color  = "#00000000",
@@ -739,19 +615,9 @@ local redshift_checkbox = wibox.widget{
 }
 local myredshift_icon = wibox.widget.imagebox(theme.redshift_on)
 local redshiftwidget = wibox.widget {
-    {
-        {
-            redshift_checkbox,
-            myredshift_icon,
-            layout = wibox.layout.stack
-        },
-        widget = wibox.container.margin,
-        left = 8,
-        right = 8,
-    },
-    widget = wibox.container.background,
-    bg = colors.bw_1,
-    fg = theme.fg_normal,
+    redshift_checkbox,
+    myredshift_icon,
+    layout = wibox.layout.stack
 }
 lain.widget.contrib.redshift:attach(
     redshift_checkbox,
@@ -766,32 +632,13 @@ lain.widget.contrib.redshift:attach(
 )
 
 
-
--- Spacing
+-- Spacing widget
 local space = wibox.widget.separator {
     orientation = "vertical",
     forced_width = 4,
     thickness = 4,
     color = "#00000000",
 }
-
--- Separator
-local vert_sep = wibox.widget.separator {
-    orientation = "vertical",
-    forced_width = theme.border,
-    thickness = theme.border,
-    color = colors.bw_2,
-}
-
-
--- Eminent-like task filtering
-local orig_filter = awful.widget.taglist.filter.all
--- Taglist label functions
-awful.widget.taglist.filter.all = function (t, args)
-    if t.selected or #t:clients() > 0 then
-        return orig_filter(t, args)
-    end
-end
 
 
 -- Create the layout
@@ -816,29 +663,58 @@ function theme.at_screen_connect(s)
     }
 
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
     s.mylayoutbox:buttons(my_table.join(
-            awful.button({}, 1, function () awful.layout.inc( 1) end),
-            awful.button({}, 2, function () awful.layout.set( awful.layout.layouts[1] ) end),
-            awful.button({}, 3, function () awful.layout.inc(-1) end),
-            awful.button({}, 4, function () awful.layout.inc( 1) end),
-            awful.button({}, 5, function () awful.layout.inc(-1) end)))
+        awful.button({}, 1, function () awful.layout.inc( 1) end),
+        awful.button({}, 2, function () awful.layout.set( awful.layout.layouts[1] ) end),
+        awful.button({}, 3, function () awful.layout.inc(-1) end),
+        awful.button({}, 4, function () awful.layout.inc( 1) end),
+        awful.button({}, 5, function () awful.layout.inc(-1) end)))
 
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
         screen = s,
         filter = awful.widget.taglist.filter.all,
-        buttons = awful.util.taglist_buttons
+        buttons = awful.util.taglist_buttons,
+        layout = {
+            spacing = 4,
+            layout = wibox.layout.fixed.horizontal
+        },
+        update_function = function(w, buttons, label, data, tags, args)
+            local label2 = function(c, style)
+                -- backup the tag name, prepend it with the tag index and
+                -- restore it after the label was created
+                local name_bkp = c.name or ""
+                if c.name then
+                    c.name = c.index .. " | " .. c.name
+                else
+                    c.name = c.index
+                end
+                local text, bg, bg_image, icon, item_args = label(c, style)
+                c.name = name_bkp
+                return text, bg, bg_image, icon, item_args
+            end
+            awful.widget.common.list_update(w, buttons, label2, data, tags, args)
+        end,
+        widget_template = {
+            {
+                {
+                    id = "text_role",
+                    widget = wibox.widget.textbox
+                },
+                widget = wibox.container.margin,
+                left = 10,
+                right = 10
+            },
+            id = "background_role",
+            widget = wibox.container.background,
+        }
     }
-
-    -- Create a tasklist widget
-    --s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
      -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
         screen = s,
-        filter = awful.widget.tasklist.filter.currenttags,
+        filter = awful.widget.tasklist.filter.minimizedcurrenttags,
         buttons = awful.util.tasklist_buttons,
         bg_focus = theme.tasklist_bg_focus,
         layout = {
@@ -849,18 +725,36 @@ function theme.at_screen_connect(s)
             {
                 {
                     {
-                        id     = 'text_role',
+                        id = "text_role",
                         widget = wibox.widget.textbox,
                     },
-                    layout = wibox.layout.fixed.horizontal,
+                    widget = wibox.container.constraint,
+                    strategy = "max",
+                    width = 200,
                 },
-                left  = 10,
-                right = 10,
                 widget = wibox.container.margin,
+                left = 10,
+                right = 10,
             },
-            id     = 'background_role',
+            id = 'background_role',
             widget = wibox.container.background,
         },
+    }
+
+    local systray = wibox.widget {
+        {
+            {
+                redshiftwidget,
+                wibox.widget.systray(),
+                layout = wibox.layout.fixed.horizontal
+            },
+            widget = wibox.container.margin,
+            left = 6,
+            right = 6,
+        },
+        widget = wibox.container.background,
+        bg = colors.bw_1,
+        fg = theme.fg_normal,
     }
 
     -- Add widgets to the wibox
@@ -885,6 +779,10 @@ function theme.at_screen_connect(s)
                         fg = colors.black_1,
                         widget = wibox.container.background,
                     },
+                },
+                {
+                    -- Middle
+                    layout = wibox.layout.fixed.horizontal,
                     space,
                     {
                         -- Taglist
@@ -898,17 +796,12 @@ function theme.at_screen_connect(s)
                         widget = wibox.container.background,
                     },
                     space,
-                },
-                {
-                    -- Middle
                     {
                         s.mytasklist,
                         left = 2,
                         right = 2,
                         widget = wibox.container.margin,
                     },
-                    bg = theme.bar_bg,
-                    widget = wibox.container.background,
                 },
                 {
                     -- Right widgets
@@ -923,9 +816,7 @@ function theme.at_screen_connect(s)
                     -- space,
                     volumewidget,
                     space,
-					redshiftwidget,
-                    space,
-                    wibox.widget.systray(),
+                    systray,
                     space,
                     datewidget,
                     space,

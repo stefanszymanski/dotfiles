@@ -9,7 +9,7 @@ local config = require("config")
 local modkey = config.modkey
 
 
-awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
+awful.util.tagnames = { "default" }
 
 awful.util.taglist_buttons = gears.table.join(
     awful.button({ }, 1, function(t) t:view_only() end),
