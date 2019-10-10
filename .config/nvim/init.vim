@@ -68,7 +68,10 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/icalendar.vim'
 
     " natural language
-    Plug 'rhysd/vim-grammarous'
+    " Plug 'rhysd/vim-grammarous'
+    
+    " editor config
+    Plug 'editorconfig/editorconfig-vim'
     
     " PHP language support
     Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
@@ -179,20 +182,23 @@ let g:gitgutter_sign_removed_first_line='◥'
 let g:gitgutter_sign_modified_removed='◢'
 nnoremap <silent> yoG :GitGutterLineHighlightsToggle<CR>
 
+" editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
+
 " grammarous
-let g:grammarous#use_vim_spelllang = 1
-let g:grammarous#use_location_list = 1
-let g:grammarous#show_first_error = 1
-let g:grammarous#default_comments_only_filetypes = {'*': 1, 'help': 0, 'markdown': 0, 'mail': 0}
-let g:grammarous#hooks = {}
-function! g:grammarous#hooks.on_check(errs) abort
-    nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
-    nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
-endfunction
-function! g:grammarous#hooks.on_reset(errs) abort
-    nunmap <buffer><C-n>
-    nunmap <buffer><C-p>
-endfunction
+" let g:grammarous#use_vim_spelllang = 1
+" let g:grammarous#use_location_list = 1
+" let g:grammarous#show_first_error = 1
+" let g:grammarous#default_comments_only_filetypes = {'*': 1, 'help': 0, 'markdown': 0, 'mail': 0}
+" let g:grammarous#hooks = {}
+" function! g:grammarous#hooks.on_check(errs) abort
+"     nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
+"     nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
+" endfunction
+" function! g:grammarous#hooks.on_reset(errs) abort
+"     nunmap <buffer><C-n>
+"     nunmap <buffer><C-p>
+" endfunction
 
 
 " Theme
