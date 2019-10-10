@@ -136,6 +136,10 @@ set path+=**
 set wildmenu
 
 
+let g:python3_host_prog = '~/.virtualenvs/nvim3/bin/python'
+" let g:python_host_prog = '~/.virtualenvs/nvim2/bin/python'
+
+
 " Misc
 
 " let g:netrw_liststyle = 3       " Tree style file browser
@@ -166,6 +170,14 @@ let g:undotree_SplitWidth = 55
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_ShortIndicators = 1
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
+
+" gitgutter
+let g:gitgutter_sign_added='┃'
+let g:gitgutter_sign_modified='┃'
+let g:gitgutter_sign_removed='◢'
+let g:gitgutter_sign_removed_first_line='◥'
+let g:gitgutter_sign_modified_removed='◢'
+nnoremap <silent> yoG :GitGutterLineHighlightsToggle<CR>
 
 " grammarous
 let g:grammarous#use_vim_spelllang = 1
