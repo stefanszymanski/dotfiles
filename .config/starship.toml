@@ -9,9 +9,6 @@ disabled = true
 [command_duration]
 min_time = 10
 
-[python]
-disabled = true
-
 [nodejs]
 disabled = true
 

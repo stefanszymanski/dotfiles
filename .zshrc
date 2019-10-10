@@ -13,6 +13,7 @@ zplug "zdharma/fast-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "peterhurford/up.zsh"
+zplug "MichaelAquilina/zsh-autoswitch-virtualenv"
 
 # Set the theme
 # zplug "robobenklein/zinc", as:theme, at:dev
@@ -187,6 +188,10 @@ function lt {
     fi
 }
 
+# fasd
+alias v='fasd -e nvim'
+alias o='fasd -a -e xdg-open'
+
 # khal (wip)
 alias iwcal='ikhal -c $HOME/.config/khal/config-work'
 alias ipcal='ikhal'
@@ -214,3 +219,4 @@ else
 fi
 
 eval "$(starship init zsh)"
+eval "$(fasd --init auto)"
