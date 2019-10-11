@@ -46,11 +46,11 @@ inoremap <expr><S-TAB> pumvisible() ? '<C-p>' : '<C-h>'
 "   <leader>gb   - grep in current buffer 
 "   <leader>Gw   - grep, interactive
 "   <leader>Gb   - grep in current buffer, interactive 
-nnoremap <silent> <leader>lc <Plug>(coc-references)
-nnoremap <silent> <leader>lj <Plug>(coc-definition)
-nnoremap <silent> <leader>li <Plug>(coc-implementation)
-nnoremap <silent> <leader>lr <Plug>(coc-rename)
-nnoremap <silent> <leader>lt <Plug>(coc-type-definition)
+nmap <silent> <leader>lc <Plug>(coc-references)
+nmap <silent> <leader>lj <Plug>(coc-definition)
+nmap <silent> <leader>li <Plug>(coc-implementation)
+nmap <silent> <leader>lr <Plug>(coc-rename)
+nmap <silent> <leader>lt <Plug>(coc-type-definition)
 nnoremap <silent> <leader>ll :call <SID>show_documentation()<CR>
 nnoremap <silent> <Leader>gw :exe 'CocList -A --normal --input='.expand('<cword>').' grep'<CR>
 nnoremap <silent> <space>gb :exe 'CocList -A --normal --input='.expand('<cword>').' words'<CR>
@@ -58,12 +58,12 @@ nnoremap <silent> <Leader>Gw :exe 'CocList -I -A --input='.expand('<cword>').' g
 nnoremap <silent> <space>Gb  :exe 'CocList -I -A --input='.expand('<cword>').' words'<CR>
 
 " Formatting
-xnoremap <silent> <leader>lf <Plug>(coc-format-selected)
-nnoremap <silent> <leader>lf <Plug>(coc-format-selected)
+xmap <silent> <leader>lf <Plug>(coc-format-selected)
+nmap <silent> <leader>lf <Plug>(coc-format-selected)
 
 " Refactoring
 "   <leader>rf   - Open refactoring view
-nnoremap <silent> <leader>rf <Plug>(coc-refactor)
+nmap <silent> <leader>rf <Plug>(coc-refactor)
 
 
 " === Commands === "

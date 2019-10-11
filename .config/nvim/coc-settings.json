@@ -51,6 +51,7 @@
   "python.analysis.openFilesOnly": false,
   "python.formatting.provider": "autopep8",
   "python.linting.pydocstyleEnabled": true,
+  "python.venvPath": "~/.virtualenvs",
 
   "suggest.floatEnable": true,
   "suggest.echodocSupport": true,
