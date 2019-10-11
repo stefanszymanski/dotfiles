@@ -84,8 +84,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     function! CocSetup(info)
         call coc#util#install()
         if a:info.status == 'installed' || a:info.force
-            call coc#add_extension('coc-css', 'coc-highlight', 'coc-html', 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint', 'coc-tslint',
-                \ 'coc-tsserver', 'coc-yaml', 'coc-vimlsp', 'coc-xml', 'coc-lists')
+            call coc#add_extension('coc-css', 'coc-highlight', 'coc-html',
+                \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint', 'coc-phpls',
+                \ 'coc-tslint', 'coc-tsserver', 'coc-yaml', 'coc-vimlsp', 'coc-xml', 'coc-lists')
         else
             execute 'CocUpdateSync'
         endif

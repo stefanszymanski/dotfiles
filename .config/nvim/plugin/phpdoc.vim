@@ -28,7 +28,7 @@ let g:pdv_cfg_Author = "Stefan Szymanski <stefan.szymanski@form4.de>"
 " === Bindings === "
 
 "  <Leader>rcd   - Create PHPDoc for symbol under cursor
-nnoremap <Leader>rcd :call UpdatePhpDocIfExists()<CR>
+nnoremap <Leader>gpd :call UpdatePhpDocIfExists()<CR>
 
 
 " === Helper functions === "

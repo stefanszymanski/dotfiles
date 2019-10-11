@@ -10,16 +10,17 @@ let g:phpactorBranch = "develop"
 " === Bindings === "
 
 " Refactoring
-"   <Leader>rmm   - Display context menu
+"   <Leader>lp    - Display context menu
+"   <Leader>ln    - Display navigation menu
 "   <Leader>ree   - Extract expression (in normal and visual mode)
 "   <Leader>rem   - Extract method (visual mode)
-"   <Leader>rv    - Change visibility (cycles through them)
-"   <Leader>rcc   - Complete constructor (create and assign properties)
-"   <Leader>ric   - Implement constracts (creates methods for interfaces)
-nmap <silent> <Leader>rmm :call phpactor#ContextMenu()<CR>
+"   <Leader>rau   - Add missing use statement for class under cursor
+"   <Leader>rt    - Display transform menu
+nmap <silent> <Leader>lp :call phpactor#ContextMenu()<CR>
+nmap <silent> <Leader>ln :call phpactor#Navigate()<CR>
 nmap <silent> <Leader>ree :call phpactor#ExtractExpression(v:false)<CR>
-vmap <silent><Leader>ree :<C-U>call phpactor#ExtractExpression(v:true)<CR>
-vmap <silent><Leader>rem :<C-U>call phpactor#ExtractMethod()<CR>
-nmap <silent> <Leader>rv :call phpactor#ChangeVisibility()<CR>
-nmap <silent> <Leader>rcc :call phpactor#Transform('complete_constructor')<CR>
-nmap <silent> <Leader>ric :call phpactor#Transform('implement_contracts')<CR>
+vmap <silent> <Leader>ree :<C-U>call phpactor#ExtractExpression(v:true)<CR>
+vmap <silent> <Leader>rem :<C-U>call phpactor#ExtractMethod()<CR>
+nmap <silent> <Leader>rau :call phpactor#UseAdd()<CR>
+nmap <silent> <Leader>rt :call phpactor#Transform()<CR>
+

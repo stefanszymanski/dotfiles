@@ -8,6 +8,8 @@
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": " ❯❯ ",
 
+  "coc.preferences.rootPatterns": [".vim",".git",".svn",".hg",".projections.json"],
+
   "coc.preferences.useQuickfixForLocations": true,
 
   "coc.preferences.triggerAfterInsertEnter": true,
@@ -40,7 +42,6 @@
     "vim"
   ],
 
-
   "python.jediEnabled": true,
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,
@@ -60,6 +61,7 @@
   "signature.enable": true,
   "signature.target": "echo",
   "signature.triggerSignatureWait": 300,
+
   
   "languageserver": {
 	"lua": {
@@ -68,23 +70,6 @@
 	  "cwd": "~",
       "filetypes": ["lua"],
       "rootPatterns": [".git/"]
-	},
-	"php": {
-	  "command": "intelephense",
-	  "args": ["--stdio"],
-	  "filetypes": ["php"],
-	  "initializationOptions": {
-	    "storagePath": "/tmp/intelephense",
-        "clearCache": false
-	  },
-	  "rootPatterns": [".git", ".svn"],
-      "settings": {
-          "intelephense": {
-              "files": {
-                "exclude": ["_tmp"]
-              }
-          }
-      }
 	},
     "bash": {
       "command": "bash-language-server",
