@@ -8,7 +8,7 @@
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": " ❯❯ ",
 
-  "coc.preferences.rootPatterns": [".vim",".git",".svn",".hg",".projections.json"],
+  "coc.preferences.rootPatterns": [".vim",".git/",".svn/",".hg",".projections.json"],
 
   "coc.preferences.useQuickfixForLocations": true,
 
@@ -19,6 +19,8 @@
   "coc.preferences.acceptSuggestionOnCommitCharacter": true,
 
   "coc.preferences.snippetIndicator": " ★",
+
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
 
   "coc.preferences.hoverTarget": "float",
   "coc.preferences.enableFloatHighlight": true,
@@ -41,6 +43,8 @@
     "php",
     "vim"
   ],
+
+  "codeLens.enable": true,
 
   "python.jediEnabled": true,
   "python.linting.enabled": true,

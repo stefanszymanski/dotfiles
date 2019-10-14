@@ -60,8 +60,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     " undo history
     Plug 'mbbill/undotree'
 
-    " auto linting
-    "Plug 'w0rp/ale'
+    " snippets
+    Plug 'SirVer/ultisnips'
 
     " syntax highlighting
     Plug 'sheerun/vim-polyglot'
@@ -72,10 +72,14 @@ call plug#begin('~/.local/share/nvim/plugged')
     
     " editor config
     Plug 'editorconfig/editorconfig-vim'
-    
+
+    " tags
+    Plug 'ludovicchabant/vim-gutentags'
+
     " PHP language support
-    Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
-    Plug 'Rican7/php-doc-modded', {'for': 'php'}
+    " Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+    " Plug 'Rican7/php-doc-modded', {'for': 'php'}
+    " Plug 'brett-griffin/phpdocblocks.vim'
 
     " Language documentation integration
     Plug 'Shougo/echodoc.vim'
@@ -85,8 +89,9 @@ call plug#begin('~/.local/share/nvim/plugged')
         call coc#util#install()
         if a:info.status == 'installed' || a:info.force
             call coc#add_extension('coc-css', 'coc-highlight', 'coc-html',
-                \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint', 'coc-phpls',
-                \ 'coc-tslint', 'coc-tsserver', 'coc-yaml', 'coc-vimlsp', 'coc-xml', 'coc-lists')
+                \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint',
+                \ 'coc-phpls', 'coc-tslint', 'coc-tsserver', 'coc-yaml', 
+                \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists')
         else
             execute 'CocUpdateSync'
         endif
@@ -183,6 +188,10 @@ let g:gitgutter_sign_removed_first_line='◥'
 let g:gitgutter_sign_modified_removed='◢'
 nnoremap <silent> yoG :GitGutterLineHighlightsToggle<CR>
 
+" ultisnips
+let g:UltiSnipsExpandTrigger="<c-q>"
+let g:UltiSnipsJumpForwardTrigger="<c-v>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
 

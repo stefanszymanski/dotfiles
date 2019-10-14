@@ -48,6 +48,8 @@ inoremap <expr><S-TAB> pumvisible() ? '<C-p>' : '<C-h>'
 "   <leader>Gb   - grep in current buffer, interactive 
 nmap <silent> <leader>lc <Plug>(coc-references)
 nmap <silent> <leader>lj <Plug>(coc-definition)
+nmap <silent> <leader>lD <Plug>(coc-declaration)
+nmap <silent> <leader>lC <Plug>(coc-codelens-action)
 nmap <silent> <leader>li <Plug>(coc-implementation)
 nmap <silent> <leader>lr <Plug>(coc-rename)
 nmap <silent> <leader>lt <Plug>(coc-type-definition)

@@ -85,7 +85,7 @@ endfunction
 "   <leader>fw      - Search word under cursor in working directory
 "   <leader>/       - Search by pattern in working directory
 "   <leader>fr      - Resume latest search
-nnoremap <C-p> :<C-u>Denite file/rec -start-filter<CR>
+nnoremap <leader>ff :<C-u>Denite file/rec -start-filter<CR>
 nnoremap <leader>fb :<C-u>Denite buffer<CR>
 nnoremap <leader>fd :<C-u>DeniteBufferDir file/rec -start-filter<CR>
 nnoremap <leader>fw :<C-u>DeniteCursorWord grep:.<CR>
