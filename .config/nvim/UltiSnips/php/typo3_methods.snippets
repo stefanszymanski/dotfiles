@@ -1,0 +1,32 @@
+global !p
+from typo3_snippet_functions import *
+endglobal
+
+snippet t3init_method "TYPO3 Extbase initialize method" b
+public function initialize(): void
+{
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet t3lll_method "TYPO3 Translation helper method" b
+/**
+ * @param string $key
+ * @param array $variables 
+ * @return string|null
+ */
+protected function lll(string $key, array $variables) : ?string
+{
+	return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, '${1:`!p snip.rv = typo3_extension_name(path)`}', $variables);
+}
+endsnippet
+
+snippet t3db_method "TYPO3 DatabaseConnection helper method" b
+/**
+ * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+ */
+protected function getDatabaseConnection() : \TYPO3\CMS\Core\Database\DatabaseConnection
+{
+	return $GLOBALS['TYPO3_DB'];
+}
+endsnippet

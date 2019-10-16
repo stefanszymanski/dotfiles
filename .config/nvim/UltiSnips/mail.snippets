@@ -1,0 +1,57 @@
+global !p
+def is_email_address(string):
+	import re
+	return bool(re.search(r'[@.]', string))
+
+def search_email_with_khard(email):
+	def decode(line):
+		return (line.split('\t')[1].split())
+	import subprocess
+	res = subprocess.run(['khard', 'email', '--parsable', email], capture_output=True)
+	lines = res.stdout.decode().splitlines()[1:] if res.returncode == 0 else []
+	return list(map(decode, lines))
+
+def recipients(email_file_path):
+	import os
+	with open(email_file_path) as file:
+		for line in file:
+			if line.startswith('To: '):
+				return line[4:]
+	return None
+
+def recipient_firstname(path):
+	recipient_line = recipients(path)
+	first_name = recipient_line.split()[0]
+	if is_email_address(first_name):
+		names = search_email_with_khard(first_name)
+		first_name = names[0][0] if names else None
+	return first_name
+
+def recipient_lastname(path):
+	recipient_line = recipients(path)
+	first_name = recipient_line.split()[0]
+	if is_email_address(first_name):
+		names = search_email_with_khard(first_name)
+		last_name = names[0][1] if names else None
+	else:
+		last_name = recipient_line.split()[1]
+	return last_name
+endglobal
+
+snippet hi "Mail per Du" b
+Hallo ${1:`!p snip.rv = recipient_firstname(path) or '???'`},
+
+${0:${VISUAL}}
+
+Viele Grüße
+Stefan
+endsnippet
+
+snippet dear "Mail per Sie" b
+Hallo ${1:Herr|Frau} ${2:`!p snip.rv = recipient_lastname(path) or '???'`},
+
+${0:${VISUAL}}
+
+Mit freundlichen Grüßen
+Stefan Szymanski
+endsnippet

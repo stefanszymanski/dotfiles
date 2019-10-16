@@ -3,6 +3,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " libraries
     Plug 'tpope/vim-repeat'
     Plug 'glts/vim-magnum'
+    Plug 'seletskiy/vim-pythonx'
 
     " basic editing
     Plug 'tpope/vim-surround'
