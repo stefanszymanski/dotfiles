@@ -1,18 +1,3 @@
-def docblock_method(snip, desc, args, ret):
-    def format_arg(arg):
-        return ' * @param ' + arg
-    args = [arg.strip() for arg in args.split(',') if arg]
-    snip.rv = '/**'
-    snip += ' * ' + desc
-    snip += ' *'
-    if len(args):
-        tags = map(format_arg, args)
-        for tag in tags:
-            snip += tag
-    snip += ' * @return ' + ret
-    snip += ' */'
-
-
 def find_file(name, path):
     import os
     dir = os.path.join(os.getcwd(), os.path.dirname(path))
@@ -69,6 +54,10 @@ def parse_property_definition(line):
     return list(vars)
 
 
+#
+# Property and method generation
+#
+
 def property(snip, type, name, optional):
     nullable = '|null' if optional else ''
     snip += '/**'
@@ -99,3 +88,22 @@ def setter(snip, type, name, optional):
     snip += '{'
     snip += '\t$this->{} = ${};'.format(name, name)
     snip += '}'
+
+
+#
+# docblock generation
+#
+
+def docblock_method(snip, desc, args, ret):
+    def format_arg(arg):
+        return ' * @param ' + arg
+    args = [arg.strip() for arg in args.split(',') if arg]
+    snip.rv = '/**'
+    snip += ' * ' + desc
+    snip += ' *'
+    if len(args):
+        tags = map(format_arg, args)
+        for tag in tags:
+            snip += tag
+    snip += ' * @return ' + ret
+    snip += ' */'

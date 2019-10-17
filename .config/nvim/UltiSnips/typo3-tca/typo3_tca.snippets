@@ -1,22 +1,128 @@
 global !p
 import px.snippets
-import os
+import os, re
 
-def is_tca_file(path):
-	dir = os.path.dirname(path)
-	return dir.endswith('/Configuration/TCA') or dir.endswith('Configuration/TCA/Override')
+def create_ast(code):
+	import subprocess, json
+	cmd = '/home/stefan/projects/php_ast_parser/vendor/bin/php-parse'
+	res = subprocess.run([cmd, '-P', '-j', '-r', code], stdout=subprocess.PIPE)
+	if res.returncode == 0:
+		json_data = res.stdout.decode()
+	else:
+		return None
+	data = json.loads(json_data)
+	return data
 
-def is_inside_select_items(snip):
-	in_items = re.match('(\],\s*)|([\'\"]items[\'\"]\s*=>\s*\[\s*)', snip.buffer[snip.line-1])
+def find_node(ast, line):
+	latest = None
+	for node in ast: 
+		startline = node['attributes']['startLine']
+		if startline < line:
+			latest = node
+			continue
+		if startline > line:
+			break
+		if startline == line:
+			# latest = node
+			return [node]
+			break
+	if latest:
+		next = None
+		node_type = latest['nodeType']
+		if node_type in ['Stmt_Expression', 'Expr_Assign']:
+			next = [latest['expr']]
+		elif node_type in ['Expr_Array']:
+			next = latest['items']
+		elif node_type in ['Expr_ArrayItem'] and latest['value']['nodeType'] in ['Expr_Array']:
+			next = latest['value']['items']
+			# next = [latest['value']]
+		if next:
+			rootline = find_node(next, line)
+			rootline.append(latest)
+			return rootline
+		else:
+			return []
+	else:
+		return []
+
+def flatten_rootline(rootline):
+	data = []
+	# TODO refactor
+	for node in rootline:
+		node_type = node['nodeType']
+		# data.append(node_type)
+		if node_type == 'Expr_ArrayItem':
+			if node['key'] and 'value' in node['key'].keys():
+				name = node['key']['value']
+			else:
+				name = None
+			value_type = node['value']['nodeType']
+			if 'value' in node['value'].keys():
+				value = node['value']['value']
+			elif value_type == 'Expr_Array':
+				value = []
+				# for item in node['value']['items']:
+				# 	if item['key'] and 'value' in item['key'].keys():
+				# 		item_name = item['key']['value']
+				# 	else:
+				# 		item_name = None
+				# 	item_type = item['value']['nodeType']
+				# 	if 'value' in item['value'].keys():
+				# 		item_value = item['value']['value']
+				# 	else:
+				# 		item_value = None
+				# 	value.append((item_name, item_value, item_type))
+			else:
+				value = None
+			data.append((name, value, value_type))
+	return data
+
+def create_rootline(snip):
+	code = buffer_text(snip)
+	ast = create_ast(code)
+	rootline = find_node(ast, snip.line)
+	# return rootline
+	frootline = flatten_rootline(rootline)
+	return frootline
+
+def buffer_text(snip):
+	code = ''
+	for n in range(0, len(snip.buffer)):
+		if n == snip.line:
+			continue
+		code += snip.buffer[n] + '\n'
+	return code
+
+def find_column_name(snip, context_key, path):
+	path = [('Expr_Array', name) for name in path]
+	target = 'Expr_Array'
+	snip.context[context_key] = get_node_name(snip, path, target)
+
+def get_node_name(snip, path, target):
+	rootline = create_rootline(snip)
+	# return rootline
+	rootline.reverse()
+	if rootline[:-1][0] != 'Expr_Array':
+		rootline.pop()
+	for type, name in path:
+		rname, rvalue, rtype = rootline.pop()
+		if rname != name or rtype != type:
+			break
+	rname, rvalue, rtype = rootline.pop()
+	if rtype == target:
+		column_name = rname
+	return column_name
+
+def cc2sc(name):
+	s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+	return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+def tablename(snip):
+	return cc2sc(snip.basename)
 endglobal
 
-post_jump "px.snippets.expand(snip)"
-snippet test "" be
-tca_table${1}
-endsnippet
 
-
-snippet tca_table "TYPO3 TCA table boilerplate" b
+snippet table "TYPO3 TCA table boilerplate" b
 <?php
 $lll = 'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:',
 
@@ -54,55 +160,138 @@ return [
 ];
 endsnippet
 
-snippet tca_column "TYPO3 TCA column"
+snippet col "Column"
 '${1}' => [
-	'label' => $lll . '`!p snip.rv = snip.basename`.$1',
+	'label' => $lll . '`!p snip.rv = tablename(snip)`.$1',
 	'exclude' => ${2:false},
-	'config' => [
-		${3}
-	]
+	'config' => ${3}
 ],${0}
 endsnippet
 
-snippet tca_input_config "TYPO3 TCA input column" b
-'type' => 'input',
-'size' => ${1:25},
-'max' => ${2:255},
-'eval' => 'trim${3:,required}',
+
+#
+# Input fields
+#
+
+snippet input "Input config" w
+[
+	'type' => 'input',
+	'size' => ${1:25},
+	'max' => ${2:255},
+	'eval' => 'trim${3:,required}',
+],
 endsnippet
 
-snippet tca_text_config "TYPO3 TCA text column" b
-'type' => 'text',
-'rows' => ${1:5},
-'cols' => ${2:25},
+snippet datetime "Datetime input config" w
+[
+	'type' => 'input',
+	'renderType' => 'inputDateTime',
+	'eval' => 'datetime,int',
+	'default' => 0
+],
 endsnippet
 
-snippet tca_rte_config "TYPO3 TCA text with RTE column" b
-'type' => 'text',
-'rows' => ${1:5},
-'cols' => ${2:25},
-'enableRichtext' => ${3:true},
+snippet link "Link input config" w
+[
+	'type' => 'input',
+	'renderType' => 'inputLink',
+	'size' => ${1:50},
+	'max' => ${2:1024},
+	'eval' => 'trim',
+	'fieldControl' => [
+		'linkPopup' => [
+			'options' => [
+				'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:header_link_formlabel',
+			],
+		],
+	],
+	'softref' => 'typolink'
+],
 endsnippet
 
-snippet tca_select_config "TYPO3 TCA select column" b
-'type' => 'select',
-'renderType' => '${1:selectSingle}',
-'items' => [${2}],
-'default' => ''
+
+#
+# Text fields
+#
+
+snippet text "Text config" w
+[
+	'type' => 'text',
+	'rows' => ${1:5},
+	'cols' => ${2:25},
+],
 endsnippet
 
-# snippet tca_select_item "TYPO3 TCA select item" b
-# [
-# 	$lll . '`!p snip.rv = snip.basename`.${1}.I.`!p snip.rv = t[2].strip('"\'').replace(' ', '_')`',
-# 	${2},$3
-# ],
-# endsnippet
+snippet rte "RTE text config" w
+[
+	'type' => 'text',
+	'rows' => ${1:5},
+	'cols' => ${2:25},
+	'enableRichtext' => ${3:true},
+],
+endsnippet
 
-# context "is_inside_select_items(snip)"
-# snippet [ "TYPO3 TCA select item" be
-# [
-# 	$lll . '`!p snip.rv = snip.basename`.${1}.I.`!p snip.rv = t[2].strip('"\'').replace(' ', '_')`',
-# 	${2},$3
-# ],
-# endsnippet
+#
+# Select fields
+#
 
+snippet select "Single select config" w
+[
+	'type' => 'select',
+	'renderType' => 'selectSingle',
+	'items' => [${1}],
+	'default' => ''
+],
+endsnippet
+
+snippet select-multi "Multi select config" w
+[
+	'type' => 'select',
+	'renderType' => 'selectMultipleSideBySide',
+	'size' => ${1:5},
+	'maxitems' => ${2:999},
+	'items' => [${3}],
+],
+endsnippet
+
+context "{'column': None}"
+pre_expand "find_column_name(snip, 'column', ['items', 'config'])"
+snippet item "Item" b
+[
+	$lll . '`!p snip.rv = '{}.{}.{}'.format(tablename(snip), context['column'], t[2].strip('"\'').replace(' ', '_'))`',
+	${2},$3
+],
+endsnippet
+
+
+#
+# Checkbox fields
+#
+
+snippet check "Check box config" w
+[
+	'type' => 'check',
+	'renderType' => '${1:checkboxToggle}',
+	'items' => [
+		[
+			${2:0 => '',
+			1 => ''},
+		]
+	],
+]
+endsnippet
+
+
+#
+# Inline fields
+#
+
+context "{'column': None}"
+pre_expand "find_column_name(snip, 'column', [])"
+snippet image "Media inline config" w
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('`!p snip.rv = context['column']`', [
+	'appearance' => [
+		'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+		],
+), $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'])
+endsnippet
