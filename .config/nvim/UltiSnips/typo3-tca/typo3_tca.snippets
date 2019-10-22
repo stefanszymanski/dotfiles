@@ -1,10 +1,14 @@
 global !p
 import px.snippets
 import os, re
+from typing import Callable, Union, List, Tuple
 
-def create_ast(code):
+
+def _create_ast(code: str) -> dict:
+	"""Create an AST from the given code using PHP-Parse"""
 	import subprocess, json
 	cmd = '/home/stefan/projects/php_ast_parser/vendor/bin/php-parse'
+	# cmd = '/home/users/stefan.szymanski/private/projects/php_ast_provider/vendor/bin/php-parse'
 	res = subprocess.run([cmd, '-P', '-j', '-r', code], stdout=subprocess.PIPE)
 	if res.returncode == 0:
 		json_data = res.stdout.decode()
@@ -13,7 +17,8 @@ def create_ast(code):
 	data = json.loads(json_data)
 	return data
 
-def find_node(ast, line):
+
+def _find_node(ast, line):
 	latest = None
 	for node in ast: 
 		startline = node['attributes']['startLine']
@@ -37,7 +42,7 @@ def find_node(ast, line):
 			next = latest['value']['items']
 			# next = [latest['value']]
 		if next:
-			rootline = find_node(next, line)
+			rootline = _find_node(next, line)
 			rootline.append(latest)
 			return rootline
 		else:
@@ -45,12 +50,12 @@ def find_node(ast, line):
 	else:
 		return []
 
-def flatten_rootline(rootline):
+
+def _flatten_rootline(rootline):
 	data = []
 	# TODO refactor
 	for node in rootline:
 		node_type = node['nodeType']
-		# data.append(node_type)
 		if node_type == 'Expr_ArrayItem':
 			if node['key'] and 'value' in node['key'].keys():
 				name = node['key']['value']
@@ -61,6 +66,8 @@ def flatten_rootline(rootline):
 				value = node['value']['value']
 			elif value_type == 'Expr_Array':
 				value = []
+				# TODO is this code needed? it adds the direct children of a
+				#      node to the data
 				# for item in node['value']['items']:
 				# 	if item['key'] and 'value' in item['key'].keys():
 				# 		item_name = item['key']['value']
@@ -77,49 +84,133 @@ def flatten_rootline(rootline):
 			data.append((name, value, value_type))
 	return data
 
-def create_rootline(snip):
-	code = buffer_text(snip)
-	ast = create_ast(code)
-	rootline = find_node(ast, snip.line)
-	# return rootline
-	frootline = flatten_rootline(rootline)
-	return frootline
 
-def buffer_text(snip):
+def _buffer_text(snip):
+	"""Returns the buffer content but with the current snippet removed."""
 	code = ''
+	sl, sc = snip.snippet_start
+	el, ec = snip.snippet_end
 	for n in range(0, len(snip.buffer)):
-		if n == snip.line:
+		if n == sl:
+			line = snip.buffer[n][:sc]
+		elif n > sl and n < el:
 			continue
-		code += snip.buffer[n] + '\n'
+		elif n == el:
+			line = snip.buffer[n][ec:]
+		else:
+			line = snip.buffer[n]
+		code += line + '\n'
 	return code
 
-def find_column_name(snip, context_key, path):
-	path = [('Expr_Array', name) for name in path]
-	target = 'Expr_Array'
-	snip.context[context_key] = get_node_name(snip, path, target)
 
-def get_node_name(snip, path, target):
-	rootline = create_rootline(snip)
+def _create_rootline(snip):
+	code = _buffer_text(snip)
+	ast = _create_ast(code)
+	# return ast
+	rootline = _find_node(ast, snip.line)
 	# return rootline
+	frootline = _flatten_rootline(rootline)
+	return frootline
+
+
+def _get_node_name(snip, path: List[Tuple[str, str]], target: str) -> Union[str, None]:
+	"""Find the node key in a given rootline path relative to the current line.
+
+	This function uses create_rootline() for creating the AST relative to the
+	current buffer line.
+	Values of `path` are pairs of type and name of parent nodes.
+
+	Arguments:
+	snip   -- snippet object
+	path   -- the rootline path relative to the current line
+	target -- type of the searched node
+
+	"""
+	rootline = _create_rootline(snip)
 	rootline.reverse()
-	if rootline[:-1][0] != 'Expr_Array':
+	column_name = None
+	if rootline and rootline[:-1] and rootline[:-1][0] != 'Expr_Array':
 		rootline.pop()
 	for type, name in path:
+		if not rootline:
+			break
 		rname, rvalue, rtype = rootline.pop()
 		if rname != name or rtype != type:
 			break
-	rname, rvalue, rtype = rootline.pop()
-	if rtype == target:
-		column_name = rname
+	if rootline:
+		rname, rvalue, rtype = rootline.pop()
+		if rtype == target:
+			column_name = rname
 	return column_name
 
-def cc2sc(name):
+
+def find_column_name(context_key: str, path: List[str]) -> None:
+	"""Find the name of the current table column.
+
+	This function is intended to be used as post expand action.
+
+	Arguments:
+	context_key -- name of the context variable the column name is saved as
+	path        -- names of the parent array elements
+	"""
+	path = [('Expr_Array', name) for name in path]
+	target = 'Expr_Array'
+	snip.context[context_key] = _get_node_name(snip, path, target)
+
+
+def cc2sc(name: str) -> str:
+	"""Convert camelCase to snake_case"""
 	s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
 	return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
-def tablename(snip):
+
+def tablename() -> str:
+	"""Determine the table name from the file name."""
 	return cc2sc(snip.basename)
+
+
+def cond_context_not(key: str, value) -> Callable:
+	"""Create a function that returns if given context variable equals a given
+	value.
+
+	The returned function is intended to be used as argument for
+	remove_tabstop.
+
+	Arguments:
+	key   -- the key of the context variable
+	value -- the value that must not equal the context variable
+	"""
+	def func():
+		return snip.context[key] != value
+	return func
+
+
+def remove_tabstop(tabstop: int, on: int, condition: Callable) -> None:
+	"""Delete a tabstop when a given condition is fulfilled.
+
+	Intended to be used as post jump action.
+
+	Arguments:
+	tabstop   -- number of the tabstop to delete
+	on        -- number of a tabstop on which the deletion gets triggered
+	condition -- condition to fulfill
+	"""
+	if snip.tabstop == on and condition():
+		del snip.tabstops[tabstop]
+		if tabstop == on:
+			vim.eval('feedkeys("\<C-R>=UltiSnips#JumpForwards()\<CR>")')
 endglobal
+
+
+# context "{'test': 'eyh'}"
+# post_jump "remove_tabstop(1, 2, cond_context_not('test', None))"
+# snippet test "" b
+# START
+# ${2:`!p snip.rv = context['test'] or '???'`}
+# MIDDLE
+# ${1}
+# END
+# endsnippet
 
 
 snippet table "TYPO3 TCA table boilerplate" b
@@ -162,7 +253,7 @@ endsnippet
 
 snippet col "Column"
 '${1}' => [
-	'label' => $lll . '`!p snip.rv = tablename(snip)`.$1',
+	'label' => $lll . '`!p snip.rv = tablename()`.$1',
 	'exclude' => ${2:false},
 	'config' => ${3}
 ],${0}
@@ -255,11 +346,15 @@ snippet select-multi "Multi select config" w
 endsnippet
 
 context "{'column': None}"
-pre_expand "find_column_name(snip, 'column', ['items', 'config'])"
+post_expand "find_column_name('column', ['items', 'config'])"
+post_jump "remove_tabstop(2, 1, cond_context_not('column', None))"
 snippet item "Item" b
-[
-	$lll . '`!p snip.rv = '{}.{}.{}'.format(tablename(snip), context['column'], t[2].strip('"\'').replace(' ', '_'))`',
-	${2},$3
+`!p
+def lllkey() -> str:
+	return t[1].strip('"\'').strip().replace(' ', '_')
+`[
+	$lll . '`!p snip.rv = tablename()`.${2:`!p snip.rv = context['column'] or '???'`}.`!p snip.rv = lllkey()`',
+	${1},$3
 ],
 endsnippet
 
@@ -275,7 +370,7 @@ snippet check "Check box config" w
 	'items' => [
 		[
 			${2:0 => '',
-			1 => ''},
+			1 => '',}
 		]
 	],
 ]
@@ -286,12 +381,14 @@ endsnippet
 # Inline fields
 #
 
+# FIXME parts of the first tabstop get deleted when it gets removed by remove_tabstop() 
 context "{'column': None}"
-pre_expand "find_column_name(snip, 'column', [])"
+post_expand "find_column_name('column', [])"
+post_jump "remove_tabstop(1, 1, cond_context_not('column', None))"
 snippet image "Media inline config" w
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('`!p snip.rv = context['column']`', [
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('${1:`!p snip.rv = context['column']`}', [
 	'appearance' => [
 		'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
-		],
-), $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'])
+	],
+], $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']),
 endsnippet
