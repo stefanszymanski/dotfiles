@@ -238,15 +238,34 @@ set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 "set cc=80                       " set an 80 column border for good coding style
 
 
-" Key bindings
+" Additional Key bindings
 
 " Delete without yanking
-nmap <silent> x "_d
-xmap <silent> x "_d
-nmap <silent> xx "_dd
-nmap <silent> xX 0"_d$
-nmap <silent> X "_D
-xmap <silent> X "_D
+nmap <silent> <leader>d "_d
+xmap <silent> <leader>d "_d
+nmap <silent> <leader>dd "_dd
+nmap <silent> <leader>D "_D
+xmap <silent> <leader>D "_D
+" Change without yanking
+nmap <silent> <leader>c "_c
+xmap <silent> <leader>c "_c
+nmap <silent> <leader>cc "_cc
+nmap <silent> <leader>C "_C
+xmap <silent> <leader>C "_C
+
+
+" Shadowing Key bindings
+
+" Delete character without yanking
+nmap <silent> x "_x
+xmap <silent> x "_x
+nmap <silent> X "_X
+xmap <silent> X "_X
+" Change character without yanking
+nmap <silent> s "_s
+xmap <silent> s "_s
+nmap <silent> S "_S
+xmap <silent> S "_S
 
 
 " Syntax highlighting
