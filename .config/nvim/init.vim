@@ -9,7 +9,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
     Plug 'christoomey/vim-sort-motion'
-    Plug 'inkarkat/vim-ReplaceWithRegister'
+    Plug 'svermeulen/vim-subversive'
     Plug 'tpope/vim-unimpaired'
 
     " theme and visualization
@@ -257,15 +257,15 @@ xmap <silent> <leader>C "_C
 " Shadowing Key bindings
 
 " Delete character without yanking
-nmap <silent> x "_x
-xmap <silent> x "_x
-nmap <silent> X "_X
-xmap <silent> X "_X
+nnoremap <silent> x "_x
+xnoremap <silent> x "_x
+nnoremap <silent> X "_X
+xnoremap <silent> X "_X
 " Change character without yanking
-nmap <silent> s "_s
-xmap <silent> s "_s
-nmap <silent> S "_S
-xmap <silent> S "_S
+nnoremap <silent> s "_s
+xnoremap <silent> s "_s
+nnoremap <silent> S "_S
+xnoremap <silent> S "_S
 
 
 " Syntax highlighting
