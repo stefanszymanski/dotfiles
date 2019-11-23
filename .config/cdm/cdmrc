@@ -14,19 +14,14 @@
 #   '/usr/bin/fbterm'                # or start a frame buffer console,
 #   '/usr/bin/cdm ~/.submenu.cdmrc'  # or go to a submenu :)
 # )
-
 binlist=('~/.xinitrc awesome' '/bin/bash' '/bin/zsh')
-#binlist('awesome' '/bin/bash' '/bin/zsh')
-
-namelist=(Awesome Bash Zsh)
-
-flaglist=(X C C)
 
 # List all program display names, one-by-one matched with $binlist.
 # Names with whitespaces should be quoted or escaped.
 #
 # (Continued example:)
 # namelist=('X session' Console FBTerm 'Sub menu')
+namelist=(Awesome Bash Zsh)
 
 # Type of the programs, one-by-one matched with $binlist.
 # `C' for *C*onsole programs, which would be `exec'ed.
@@ -34,11 +29,12 @@ flaglist=(X C C)
 #
 # (Continued example:)
 # flaglist=(X C C C)
+flaglist=(X C C)
 
 # Style for the cdm dialog, which is printed with dialog(1).
 # Default to unset, causing dialog(1) to use the system wide default.
 # See /usr/share/doc/cdm/themes for some nice choices.
-dialogrc=
+dialogrc="/usr/share/doc/cdm/themes/blackandwhite"
 
 # Index of the first item in the menu.
 countfrom=0
@@ -55,7 +51,6 @@ locktty=no
 
 # Use ConsoleKit for X session?
 consolekit=yes
-#usexinit=yes
 
 # Timeout for waiting for X session to register with ConsoleKit.
 cktimeout=10
