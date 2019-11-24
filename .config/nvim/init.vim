@@ -68,6 +68,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'sheerun/vim-polyglot'
     Plug 'vim-scripts/icalendar.vim'
 
+    " LaTeX
+    Plug 'lervag/vimtex'
+
     " natural language
     " Plug 'rhysd/vim-grammarous'
     
@@ -92,6 +95,7 @@ call plug#begin('~/.local/share/nvim/plugged')
             call coc#add_extension('coc-css', 'coc-highlight', 'coc-html',
                 \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint',
                 \ 'coc-phpls', 'coc-tslint', 'coc-tsserver', 'coc-yaml', 
+                \ 'coc-vimtex',
                 \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists')
         else
             execute 'CocUpdateSync'
@@ -266,11 +270,6 @@ nnoremap <silent> s "_s
 xnoremap <silent> s "_s
 nnoremap <silent> S "_S
 xnoremap <silent> S "_S
-
-
-" Syntax highlighting
-
-autocmd! BufRead,BufNewFile *.ics setfiletype icalendar
 
 
 " Diff view
