@@ -1,9 +1,3 @@
-" === Gneral behaviour === "
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-
 " === Bindings === "
 
 " Diagnostics
@@ -42,10 +36,6 @@ inoremap <expr><S-TAB> pumvisible() ? '<C-p>' : '<C-h>'
 "   <leader>lr   - rename
 "   <leader>lt   - type definition
 "   <leader>ld   - show documentation
-"   <leader>gw   - grep
-"   <leader>gb   - grep in current buffer 
-"   <leader>Gw   - grep, interactive
-"   <leader>Gb   - grep in current buffer, interactive 
 nmap <silent> <leader>lc <Plug>(coc-references)
 nmap <silent> <leader>lj <Plug>(coc-definition)
 nmap <silent> <leader>lD <Plug>(coc-declaration)
@@ -54,10 +44,6 @@ nmap <silent> <leader>li <Plug>(coc-implementation)
 nmap <silent> <leader>lr <Plug>(coc-rename)
 nmap <silent> <leader>lt <Plug>(coc-type-definition)
 nnoremap <silent> <leader>ll :call <SID>show_documentation()<CR>
-nnoremap <silent> <Leader>gw :exe 'CocList -A --normal --input='.expand('<cword>').' grep'<CR>
-nnoremap <silent> <space>gb :exe 'CocList -A --normal --input='.expand('<cword>').' words'<CR>
-nnoremap <silent> <Leader>Gw :exe 'CocList -I -A --input='.expand('<cword>').' grep'<CR>
-nnoremap <silent> <space>Gb  :exe 'CocList -I -A --input='.expand('<cword>').' words'<CR>
 
 " Formatting
 xmap <silent> <leader>lf <Plug>(coc-format-selected)

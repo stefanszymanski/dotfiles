@@ -22,6 +22,8 @@ call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
 call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
 
+call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
+
 " Set date format for buffer list
 call denite#custom#var('buffer', 'date_format', '%Y-%m-%d %H:%M:%S')
 
@@ -71,6 +73,7 @@ function! s:denite_my_settings() abort
     nnoremap <silent><buffer><expr> d    denite#do_map('do_action', 'delete')
     nnoremap <silent><buffer><expr> p    denite#do_map('do_action', 'preview')
     nnoremap <silent><buffer><expr> q    denite#do_map('quit')
+    nnoremap <silent><buffer><expr> <ESC>    denite#do_map('quit')
     nnoremap <silent><buffer><expr> i    denite#do_map('open_filter_buffer')
     nnoremap <silent><buffer><expr> h    denite#do_map('do_action', 'split')
     nnoremap <silent><buffer><expr> v    denite#do_map('do_action', 'vsplit')
@@ -79,15 +82,15 @@ endfunction
 
 
 " === Denite bindings === "
-"   <ctrl+p>        - Browse files in working directory
-"   <leader>fb      - Browse open buffers
-"   <leader>fd      - Search open buffers
-"   <leader>fw      - Search word under cursor in working directory
+"   <leader>bp      - Browse files in working directory
+"   <leader>bb      - Browse open buffers
+"   <leader>bc      - Browse directory of current buffer
 "   <leader>/       - Search by pattern in working directory
+"   <leader>fw      - Search word under cursor in working directory
 "   <leader>fr      - Resume latest search
-nnoremap <leader>ff :<C-u>Denite file/rec -start-filter<CR>
-nnoremap <leader>fb :<C-u>Denite buffer<CR>
-nnoremap <leader>fd :<C-u>DeniteBufferDir file/rec -start-filter<CR>
+nnoremap <leader>bp :<C-u>Denite file/rec -start-filter<CR>
+nnoremap <leader>bb :<C-u>Denite buffer<CR>
+nnoremap <leader>bc :<C-u>DeniteBufferDir file/rec -start-filter<CR>
+nnoremap <leader>/  :<C-u>Denite grep:.<CR>
 nnoremap <leader>fw :<C-u>DeniteCursorWord grep:.<CR>
-nnoremap <leader>/ :<C-u>Denite grep:.<CR>
 nnoremap <leader>fr :<C-u>Denite -resume -cursor-pos=+1<CR>
