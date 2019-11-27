@@ -34,7 +34,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/autocwd.vim'
 
     " searching and file browsing
-    Plug 'Shougo/denite.nvim'
+    " Plug 'Shougo/denite.nvim'
+    Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
     Plug 'scrooloose/nerdtree'
     "Plug 'tpope/vim-vinegar'
 
@@ -196,6 +197,7 @@ nnoremap <silent> yoG :GitGutterLineHighlightsToggle<CR>
 let g:UltiSnipsExpandTrigger="<c-q>"
 let g:UltiSnipsJumpForwardTrigger="<c-v>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
 
