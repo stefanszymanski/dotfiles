@@ -25,7 +25,7 @@ let g:Lf_RgConfig = [
 "   <leader>fr   - Browse recent files
 "   ;            - Browse buffers
 nnoremap <leader>/   :call <SID>rgInteractive()<CR>
-nnoremap <leader>fc  :<C-u>Leaderf rg --recall-i --fullScreen<CR>
+nnoremap <leader>fc  :<C-u>Leaderf rg --recall --fullScreen<CR>
 nnoremap <leader>ff  :<C-u>Leaderf file --fullScreen<CR>
 nnoremap <leader>fr  :<C-u>Leaderf mru --cwd --fullScreen<CR>
 nnoremap ;           :<C-u>Leaderf buffer<CR>
@@ -42,7 +42,7 @@ function! s:rgInteractive()
         if glob =~ '^\s*$'
             return
         endif
-        if glob =~ '*'
+        if glob == '*'
             let globs = ''
         else
             let globList = map(split(glob, '[ ,]\+'), 'v:val =~ ''^".*"$'' ? v:val : ''"''.v:val.''"''')
