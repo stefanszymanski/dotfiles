@@ -86,21 +86,10 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Language documentation integration
     Plug 'Shougo/echodoc.vim'
 
-    " COC language server
-    function! CocSetup(info)
-        call coc#util#install()
-        if a:info.status == 'installed' || a:info.force
-            call coc#add_extension('coc-css', 'coc-html', 'coc-vimtex',
-                \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint',
-                \ 'coc-phpls', 'coc-tslint', 'coc-tsserver', 'coc-yaml',
-                \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists')
-        else
-            execute 'CocUpdateSync'
-        endif
-    endfunction
-    Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release', 'do': function('CocSetup')}
-
+    " COC language client
+    Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
 call plug#end()
+
 
 
 " Encoding
@@ -197,6 +186,12 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
+
+" COC language client
+let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
+    \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint',
+    \ 'coc-phpls', 'coc-tslint', 'coc-tsserver', 'coc-yaml',
+    \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists']
 
 " grammarous
 " let g:grammarous#use_vim_spelllang = 1
