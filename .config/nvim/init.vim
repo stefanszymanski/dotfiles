@@ -83,11 +83,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     " tags
     Plug 'ludovicchabant/vim-gutentags'
 
-    " PHP language support
-    " Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
-    " Plug 'Rican7/php-doc-modded', {'for': 'php'}
-    " Plug 'brett-griffin/phpdocblocks.vim'
-
     " Language documentation integration
     Plug 'Shougo/echodoc.vim'
 
