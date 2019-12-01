@@ -3,6 +3,7 @@
 
 local awful     = require("awful")
 local wibox     = require("wibox")
+local beautiful = require("beautiful")
 local naughty   = require("naughty")
 local gears     = require("gears")
 local unpack    = unpack or table.unpack
@@ -55,9 +56,9 @@ local function factory(args)
         p_wibox = wibox {
             ontop = true,
             border_width = args.border_width,
-            border_color = args.border_color,
-            bg = args.bg,
-            fg = args.fg,
+            border_color = args.border_color or beautiful.prompt_border_color,
+            bg = args.bg or beautiful.prompt_bg,
+            fg = args.fg or beautiful.prompt_fg,
             shape = args.shape,
             width = args.width,
             height = args.height,

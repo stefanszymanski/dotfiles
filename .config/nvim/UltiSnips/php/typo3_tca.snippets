@@ -1,0 +1,106 @@
+global !p
+import px.snippets
+
+def is_inside_select_items(snip):
+	return re.match('(\],\s*)|([\'\"]items[\'\"]\s*=>\s*\[\s*)', snip.buffer[snip.line-1])
+endglobal
+
+
+snippet a "" be
+
+endsnippet
+
+snippet b "" be
+
+endsnippet
+
+snippet tca_table "TYPO3 TCA table boilerplate" b
+<?php
+$lll = 'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:',
+
+return [
+	'ctrl' => [
+		'title' => $lll . '`!p snip.rv = snip.basename`',
+		'label' => 'title',
+		'descriptionColumn' => 'description',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'versioningWS' => true,
+		'origUid' => 't3_origuid',
+		'sortby' => 'sorting',
+		'delete' => 'deleted',
+		'enablecolumns' => [
+			'disabled' => 'hidden'
+		],
+		'typeicon_classes' => [
+			'default' => '${1:icon-`!p snip.rv = snip.basename`}'
+		],
+		'selicon_field' => 'icon'
+	],
+	'interface' => [
+		'showRecordFieldList' => '${3}'
+	],
+	'columns' => [
+		${2}
+	]
+	'types' => [
+		'1' => [
+			'showitem' => '${4}'
+		],
+	]
+];
+endsnippet
+
+snippet tca_column "TYPO3 TCA column"
+'${1}' => [
+	'label' => $lll . '`!p snip.rv = snip.basename`.$1',
+	'exclude' => ${2:false},
+	'config' => [
+		${3}
+	]
+],${0}
+endsnippet
+
+snippet tca_input_config "TYPO3 TCA input column" b
+'type' => 'input',
+'size' => ${1:25},
+'max' => ${2:255},
+'eval' => 'trim${3:,required}',
+endsnippet
+
+snippet tca_text_config "TYPO3 TCA text column" b
+'type' => 'text',
+'rows' => ${1:5},
+'cols' => ${2:25},
+endsnippet
+
+snippet tca_rte_config "TYPO3 TCA text with RTE column" b
+'type' => 'text',
+'rows' => ${1:5},
+'cols' => ${2:25},
+'enableRichtext' => ${3:true},
+endsnippet
+
+snippet tca_select_config "TYPO3 TCA select column" b
+'type' => 'select',
+'renderType' => '${1:selectSingle}',
+'items' => [${2}],
+'default' => ''
+endsnippet
+
+snippet tca_select_item "TYPO3 TCA select item" b
+[
+	$lll . '`!p snip.rv = snip.basename`.${1}.I.`!p snip.rv = t[2].strip('"\'').replace(' ', '_')`',
+	${2},$3
+],
+endsnippet
+
+context "is_inside_select_items(snip)"
+snippet [ "TYPO3 TCA select item" be
+[
+	$lll . '`!p snip.rv = snip.basename`.${1}.I.`!p snip.rv = t[2].strip('"\'').replace(' ', '_')`',
+	${2},$3
+],
+endsnippet
+

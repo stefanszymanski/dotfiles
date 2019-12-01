@@ -1,0 +1,72 @@
+global !p
+def docblock(snip, desc, args, ret):
+	def format_arg(arg):
+		return ' * @param ' + arg
+	args = [arg.strip() for arg in args.split(',') if arg]
+	snip.rv = '/**'
+	snip += ' * ' + desc
+	snip += ' *'
+	if len(args):
+		tags = map(format_arg, args)
+		for tag in tags:
+			snip += tag
+	snip += ' * @return ' + ret
+	snip += ' */'
+
+def find_file(name, path):
+	import os
+	dir = os.path.join(os.getcwd(), os.path.dirname(path))
+	rel_dir = ''
+	while dir != '/':
+		file = os.path.join(dir, name)
+		if os.path.isfile(file): return (file, rel_dir)
+		rel_dir = os.path.join(os.path.basename(dir), rel_dir)
+		dir = os.path.dirname(dir)
+	return (None, None)
+
+def composer_namespace(path):
+	import json
+	composer_file_path, rel_dir = find_file('composer.json', path)
+	if composer_file_path:
+		with open(composer_file_path) as composer_file:
+			json_data = json.load(composer_file)
+			if 'autoload' in json_data and 'psr-4' in json_data['autoload']:
+				for k, v in json_data['autoload']['psr-4'].items():
+					if rel_dir.startswith(v):
+						return k + rel_dir[len(v):].replace('/', '\\').strip('\\')
+
+def namespace(path):
+	ns = composer_namespace(path)
+	if ns: return 'namespace %s;\n' % ns
+	return ''
+endglobal
+
+snippet t3controller "TYPO3 Action Controller" b
+<?php declare(strict_types=1);
+`!p snip.rv = namespace(path)`
+class `!p snip.rv = snip.basename` extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
+    ${0:${VISUAL}}
+}
+endsnippet
+
+snippet t3debug "TYPO3 var_dump" b
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility(${0:${VISUAL}})
+endsnippet
+
+snippet method "PHP Method" b
+`!p docblock(snip, t[1], t[2], t[3])`
+protected function ${1}(${2}): ${3:void}
+{
+    ${0:${VISUAL}}
+}
+endsnippet
+
+snippet class "PHP class" b
+<?php declare(strict_types=1);
+`!p snip.rv = namespace(path)`
+class `!p snip.rv = snip.basename`${1}
+{
+	${0}
+}
+endsnippet

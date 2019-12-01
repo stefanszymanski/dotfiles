@@ -13,6 +13,7 @@ zplug "zdharma/fast-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "peterhurford/up.zsh"
+zplug "MichaelAquilina/zsh-autoswitch-virtualenv"
 
 # Set the theme
 # zplug "robobenklein/zinc", as:theme, at:dev
@@ -161,7 +162,6 @@ bindkey '^s' history-incremental-search-forward
 
 # dotfile versioning
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias config-mail='/usr/bin/git --git-dir=$HOME/.dotfiles-mail/ --work-tree=$HOME'
 alias pconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-private/ --work-tree=$HOME'
 
 # vim as pager
@@ -187,6 +187,10 @@ function lt {
     fi
 }
 
+# fasd
+alias v='fasd -e nvim'
+alias o='fasd -a -e xdg-open'
+
 # khal (wip)
 alias iwcal='ikhal -c $HOME/.config/khal/config-work'
 alias ipcal='ikhal'
@@ -206,6 +210,12 @@ fi
 zplug load # --verbose
 
 # Load fzf
-source ~/.fzf.zsh
+if [ -r ~/.fzf.zsh ]; then
+    source ~/.fzf.zsh
+else
+    source /usr/share/doc/fzf/key-bindings.zsh
+    source /usr/share/doc/fzf/completion.zsh
+fi
 
 eval "$(starship init zsh)"
+eval "$(fasd --init auto)"

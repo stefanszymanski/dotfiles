@@ -3,12 +3,13 @@ call plug#begin('~/.local/share/nvim/plugged')
     " libraries
     Plug 'tpope/vim-repeat'
     Plug 'glts/vim-magnum'
+    Plug 'seletskiy/vim-pythonx'
 
     " basic editing
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
     Plug 'christoomey/vim-sort-motion'
-    Plug 'inkarkat/vim-ReplaceWithRegister'
+    Plug 'svermeulen/vim-subversive'
     Plug 'tpope/vim-unimpaired'
 
     " theme and visualization
@@ -25,15 +26,18 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'christoomey/vim-tmux-navigator'
 
     " version control
-    Plug 'tpope/vim-fugitive'
+    " Plug 'tpope/vim-fugitive'
+    Plug 'jreybert/vimagit'
     Plug 'airblade/vim-gitgutter'
+    Plug 'rhysd/git-messenger.vim'
 
     " project management
     " Plug 'airblade/vim-rooter'
     Plug 'vim-scripts/autocwd.vim'
 
     " searching and file browsing
-    Plug 'Shougo/denite.nvim'
+    " Plug 'Shougo/denite.nvim'
+    Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
     Plug 'scrooloose/nerdtree'
     "Plug 'tpope/vim-vinegar'
 
@@ -60,36 +64,32 @@ call plug#begin('~/.local/share/nvim/plugged')
     " undo history
     Plug 'mbbill/undotree'
 
-    " auto linting
-    "Plug 'w0rp/ale'
+    " snippets
+    Plug 'SirVer/ultisnips'
 
     " syntax highlighting
     Plug 'sheerun/vim-polyglot'
     Plug 'vim-scripts/icalendar.vim'
 
+    " LaTeX
+    Plug 'lervag/vimtex'
+
     " natural language
-    Plug 'rhysd/vim-grammarous'
+    " Plug 'rhysd/vim-grammarous'
     
-    " PHP language support
-    Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
-    Plug 'Rican7/php-doc-modded', {'for': 'php'}
+    " editor config
+    Plug 'editorconfig/editorconfig-vim'
+
+    " tags
+    Plug 'ludovicchabant/vim-gutentags'
 
     " Language documentation integration
     Plug 'Shougo/echodoc.vim'
 
-    " COC language server
-    function! CocSetup(info)
-        call coc#util#install()
-        if a:info.status == 'installed' || a:info.force
-            call coc#add_extension('coc-css', 'coc-highlight', 'coc-html', 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint', 'coc-tslint',
-                \ 'coc-tsserver', 'coc-ultisnips', 'coc-yaml', 'coc-vimlsp', 'coc-xml', 'coc-lists')
-        else
-            execute 'CocUpdateSync'
-        endif
-    endfunction
-    Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release', 'do': function('CocSetup')}
-
+    " COC language client
+    Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
 call plug#end()
+
 
 
 " Encoding
@@ -136,6 +136,10 @@ set path+=**
 set wildmenu
 
 
+let g:python3_host_prog = '~/.virtualenvs/nvim3/bin/python'
+" let g:python_host_prog = '~/.virtualenvs/nvim2/bin/python'
+
+
 " Misc
 
 " let g:netrw_liststyle = 3       " Tree style file browser
@@ -167,20 +171,42 @@ let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_ShortIndicators = 1
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
 
+" gitgutter
+let g:gitgutter_sign_added='┃'
+let g:gitgutter_sign_modified='┃'
+let g:gitgutter_sign_removed='◢'
+let g:gitgutter_sign_removed_first_line='◥'
+let g:gitgutter_sign_modified_removed='◢'
+nnoremap <silent> yoG :GitGutterLineHighlightsToggle<CR>
+
+" ultisnips
+let g:UltiSnipsExpandTrigger="<c-q>"
+let g:UltiSnipsJumpForwardTrigger="<c-v>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+
+" editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
+
+" COC language client
+let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
+    \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint',
+    \ 'coc-phpls', 'coc-tslint', 'coc-tsserver', 'coc-yaml',
+    \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists']
+
 " grammarous
-let g:grammarous#use_vim_spelllang = 1
-let g:grammarous#use_location_list = 1
-let g:grammarous#show_first_error = 1
-let g:grammarous#default_comments_only_filetypes = {'*': 1, 'help': 0, 'markdown': 0, 'mail': 0}
-let g:grammarous#hooks = {}
-function! g:grammarous#hooks.on_check(errs) abort
-    nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
-    nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
-endfunction
-function! g:grammarous#hooks.on_reset(errs) abort
-    nunmap <buffer><C-n>
-    nunmap <buffer><C-p>
-endfunction
+" let g:grammarous#use_vim_spelllang = 1
+" let g:grammarous#use_location_list = 1
+" let g:grammarous#show_first_error = 1
+" let g:grammarous#default_comments_only_filetypes = {'*': 1, 'help': 0, 'markdown': 0, 'mail': 0}
+" let g:grammarous#hooks = {}
+" function! g:grammarous#hooks.on_check(errs) abort
+"     nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
+"     nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
+" endfunction
+" function! g:grammarous#hooks.on_reset(errs) abort
+"     nunmap <buffer><C-n>
+"     nunmap <buffer><C-p>
+" endfunction
 
 
 " Theme
@@ -209,20 +235,34 @@ set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 "set cc=80                       " set an 80 column border for good coding style
 
 
-" Key bindings
+" Additional Key bindings
 
 " Delete without yanking
-nmap <silent> x "_d
-xmap <silent> x "_d
-nmap <silent> xx "_dd
-nmap <silent> xX 0"_d$
-nmap <silent> X "_D
-xmap <silent> X "_D
+nmap <silent> <leader>d "_d
+xmap <silent> <leader>d "_d
+nmap <silent> <leader>dd "_dd
+nmap <silent> <leader>D "_D
+xmap <silent> <leader>D "_D
+" Change without yanking
+nmap <silent> <leader>c "_c
+xmap <silent> <leader>c "_c
+nmap <silent> <leader>cc "_cc
+nmap <silent> <leader>C "_C
+xmap <silent> <leader>C "_C
 
 
-" Syntax highlighting
+" Shadowing Key bindings
 
-autocmd! BufRead,BufNewFile *.ics setfiletype icalendar
+" Delete character without yanking
+nnoremap <silent> x "_x
+xnoremap <silent> x "_x
+nnoremap <silent> X "_X
+xnoremap <silent> X "_X
+" Change character without yanking
+nnoremap <silent> s "_s
+xnoremap <silent> s "_s
+nnoremap <silent> S "_S
+xnoremap <silent> S "_S
 
 
 " Diff view

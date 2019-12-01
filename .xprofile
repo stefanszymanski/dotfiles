@@ -1,7 +1,9 @@
 # make CapsLock the Hyper_L key, make it behave as Escape when pressed and released alone
 setxkbmap -option
+xmodmap -e "clear Lock"
 xmodmap -e "keycode 66 = Hyper_L"
 xmodmap -e "remove Mod4 = Hyper_L"
+xmodmap -e "add mod3 = Hyper_L"
 xcape -e "Hyper_L=Escape"
 
 # Configure my Logitech mouse

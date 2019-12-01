@@ -1,0 +1,30 @@
+global !p
+from php_snippet_functions import *
+endglobal
+
+snippet t3controller "TYPO3 Extbase ActionController" b
+<?php declare(strict_types=1);
+`!p snip.rv = namespace(path)`
+class `!p snip.rv = snip.basename` extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet t3model "TYPO3 Extbase persistent Model" b
+<?php declare(strict_types=1);
+`!p snip.rv = namespace(path)`
+class `!p snip.rv = snip.basename` extends \TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject
+{
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet t3repository "TYPO3 Extbase Repository" b
+<?php declare(strict_types=1);
+`!p snip.rv = namespace(path)`
+class `!p snip.rv = snip.basename` extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
+	${0:${VISUAL}}
+}
+endsnippet

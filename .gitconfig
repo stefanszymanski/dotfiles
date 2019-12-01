@@ -9,6 +9,9 @@
     editor = nvim
     whitespace = fix,trailing-space,cr-at-eol
 
+[gpg]
+	program = gpg2
+
 [color]
 	advice = true
 	branch = true

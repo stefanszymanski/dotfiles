@@ -3,7 +3,7 @@ local awesome = awesome
 -- libraries
 local awful         = require("awful")
 local beautiful     = require("beautiful")
-local freedesktop   = require("freedesktop")
+-- local freedesktop   = require("freedesktop")
 local dpi           = require("beautiful.xresources").apply_dpi
 -- widgets
 local hotkeys_popup = require("awful.hotkeys_popup").widget
@@ -32,5 +32,5 @@ awful.util.mymainmenu = freedesktop.menu.build({
     }
 })
 
--- hide menu when mouse leaves it
---awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function() awful.util.mymainmenu:hide() end)
+hide menu when mouse leaves it
+awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function() awful.util.mymainmenu:hide() end)

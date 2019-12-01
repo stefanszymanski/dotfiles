@@ -8,6 +8,8 @@
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": " ❯❯ ",
 
+  "coc.preferences.rootPatterns": [".vim",".git/",".svn/",".hg",".projections.json"],
+
   "coc.preferences.useQuickfixForLocations": true,
 
   "coc.preferences.triggerAfterInsertEnter": true,
@@ -18,8 +20,11 @@
 
   "coc.preferences.snippetIndicator": " ★",
 
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+
   "coc.preferences.hoverTarget": "float",
   "coc.preferences.enableFloatHighlight": true,
+  "coc.preferences.echodocSupport": true,
 
   "coc.preferences.formatOnType": false,
   "coc.preferences.formatOnSaveFiletypes": [
@@ -39,50 +44,36 @@
     "vim"
   ],
 
-  "coc.preferences.enableFloatHighlight": true,
+  "codeLens.enable": true,
 
-  "python.jediEnabled": false,
+  "python.jediEnabled": true,
   "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8CategorySeverity.F": "Warning",
+  "python.linting.flake8CategorySeverity.E": "Warning",
+  "python.linting.mypyEnabled": true,
   "python.analysis.diagnosticEnabled": true,
+  "python.analysis.openFilesOnly": false,
   "python.formatting.provider": "autopep8",
-
-
-  "tslint.enable": true,
-
-  "tsserver.typingsCacheLocation": "~/.cache/tsserver",
-  "tsserver.log": "normal",
-  "tsserver.orgnizeImportOnSave": true,
+  "python.linting.pydocstyleEnabled": true,
+  "python.venvPath": "~/.virtualenvs",
 
   "suggest.floatEnable": true,
   "suggest.echodocSupport": true,
 
+  "coc.preferences.triggerSignatureHelp": true,
+  "signature.enable": true,
   "signature.target": "echo",
-  "signature.hideOnTextChange": true,
+  "signature.triggerSignatureWait": 300,
 
+  
   "languageserver": {
 	"lua": {
       "command": "java",
       "args": ["-cp", ".languageserver/EmmyLua-LanguageServer/EmmyLua-LS/build/libs/EmmyLua-LS-all.jar", "com.tang.vscode.MainKt"],
-	  "cwd": "../../",
+	  "cwd": "~",
       "filetypes": ["lua"],
-      "rootPatterns": [".git"]
-	},
-	"php": {
-	  "command": "intelephense",
-	  "args": ["--stdio"],
-	  "filetypes": ["php"],
-	  "initializationOptions": {
-	    "storagePath": "/tmp/intelephense",
-        "clearCache": false
-	  },
-	  "rootPatterns": [".git", ".svn"],
-      "settings": {
-          "intelephense": {
-              "files": {
-                "exclude": ["_tmp"]
-              }
-          }
-      }
+      "rootPatterns": [".git/"]
 	},
     "bash": {
       "command": "bash-language-server",
