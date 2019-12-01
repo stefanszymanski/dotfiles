@@ -15,7 +15,7 @@ local config        = require("config")
 
 local modkey        = config.modkey
 local altkey        = config.altkey
-local lockkey       = config.lockkey
+local hyperkey       = config.hyperkey
 
 
 local custom = require("custom")
@@ -52,29 +52,29 @@ globalkeys = gears.table.join(
         {description = "view next nonempty", group = "tag"}),
 
     -- Default client focus
-    awful.key({ lockkey, altkey }, "k", function () awful.client.focus.byidx( 1) end,
+    awful.key({ hyperkey, altkey }, "k", function () awful.client.focus.byidx( 1) end,
         {description = "focus next by index", group = "client navigation"}),
-    awful.key({ lockkey, altkey }, "j", function () awful.client.focus.byidx(-1) end,
+    awful.key({ hyperkey, altkey }, "j", function () awful.client.focus.byidx(-1) end,
         {description = "focus previous by index", group = "client navigation"}),
-    awful.key({ lockkey }, "j",
+    awful.key({ hyperkey }, "j",
         function()
             awful.client.focus.global_bydirection("down")
             if client.focus then client.focus:raise() end
         end,
         {description = "focus down", group = "client navigation"}),
-    awful.key({ lockkey }, "k",
+    awful.key({ hyperkey }, "k",
         function()
             awful.client.focus.global_bydirection("up")
             if client.focus then client.focus:raise() end
         end,
         {description = "focus up", group = "client navigation"}),
-    awful.key({ lockkey }, "h",
+    awful.key({ hyperkey }, "h",
         function()
             awful.client.focus.global_bydirection("left")
             if client.focus then client.focus:raise() end
         end,
         {description = "focus left", group = "client navigation"}),
-    awful.key({ lockkey }, "l",
+    awful.key({ hyperkey }, "l",
         function()
             awful.client.focus.global_bydirection("right")
             if client.focus then client.focus:raise() end
@@ -82,17 +82,17 @@ globalkeys = gears.table.join(
         {description = "focus right", group = "client navigation"}),
 
     -- Layout manipulation
-    awful.key({ lockkey, altkey }, "h", function () awful.client.swap.byidx(  1)    end,
+    awful.key({ hyperkey, altkey }, "h", function () awful.client.swap.byidx(  1)    end,
         {description = "swap with next by index", group = "client navigation"}),
-    awful.key({ lockkey, altkey }, "l", function () awful.client.swap.byidx( -1)    end,
+    awful.key({ hyperkey, altkey }, "l", function () awful.client.swap.byidx( -1)    end,
         {description = "swap with previous by index", group = "client navigation"}),
     awful.key({ modkey }, "h", function () awful.screen.focus_relative( 1) end,
         {description = "focus the next screen", group = "screen"}),
     awful.key({ modkey }, "l", function () awful.screen.focus_relative(-1) end,
         {description = "focus the previous screen", group = "screen"}),
-    awful.key({ lockkey }, "u", awful.client.urgent.jumpto,
+    awful.key({ hyperkey }, "u", awful.client.urgent.jumpto,
         {description = "jump to urgent client", group = "client navigation"}),
-    awful.key({ lockkey }, "Tab",
+    awful.key({ hyperkey }, "Tab",
         function ()
             awful.client.focus.history.previous()
             if client.focus then
@@ -152,9 +152,9 @@ globalkeys = gears.table.join(
     --awful.key({ modkey, "Shift"   }, "q", awesome.quit,
     --    {description = "quit awesome", group = "awesome"}),
 
-    awful.key({ lockkey, "Shift" }, "l",     function () awful.tag.incmwfact( 0.05)          end,
+    awful.key({ hyperkey, "Shift" }, "l",     function () awful.tag.incmwfact( 0.05)          end,
         {description = "increase master width factor", group = "layout"}),
-    awful.key({ lockkey, "Shift" }, "h",     function () awful.tag.incmwfact(-0.05)          end,
+    awful.key({ hyperkey, "Shift" }, "h",     function () awful.tag.incmwfact(-0.05)          end,
         {description = "decrease master width factor", group = "layout"}),
     --awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
     --    {description = "increase the number of master clients", group = "layout"}),
@@ -165,7 +165,7 @@ globalkeys = gears.table.join(
     --awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
     --    {description = "decrease the number of columns", group = "layout"}),
 
-    awful.key({ lockkey }, "n",
+    awful.key({ hyperkey }, "n",
         function ()
             local c = awful.client.restore()
             -- Focus restored client
@@ -177,15 +177,15 @@ globalkeys = gears.table.join(
         {description = "restore minimized", group = "tag"}),
 
     -- Widgets popups
-    awful.key({ lockkey }, "c", function () if beautiful.cal then beautiful.cal.show(7) end end,
+    awful.key({ hyperkey }, "c", function () if beautiful.cal then beautiful.cal.show(7) end end,
         {description = "show calendar", group = "widgets"}),
-    awful.key({ lockkey }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
+    awful.key({ hyperkey }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
         {description = "show filesystem", group = "widgets"}),
-    awful.key({ lockkey }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
+    awful.key({ hyperkey }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
         {description = "show weather", group = "widgets"}),
     
     -- Notifictations
-    awful.key({ lockkey }, "x", naughty.destroy_all_notifications,
+    awful.key({ hyperkey }, "x", naughty.destroy_all_notifications,
         {description = "close nofitications", group = "hotkeys"}),
 
     -- Brightness
@@ -193,11 +193,11 @@ globalkeys = gears.table.join(
     awful.key({ }, "XF86MonBrightnessDown", function () os.execute("xbacklight -dec 10") end),
 
     -- ALSA volume control
-    awful.key({ lockkey }, "+", function () volume.increase(5) end,
+    awful.key({ hyperkey }, "+", function () volume.increase(5) end,
         {description = "volume up", group = "audio"}),
-    awful.key({ lockkey }, "-", function () volume.decrease(5) end,
+    awful.key({ hyperkey }, "-", function () volume.decrease(5) end,
         {description = "volume down", group = "audio"}),
-    awful.key({ lockkey }, "m", volume.toggle_mute,
+    awful.key({ hyperkey }, "m", volume.toggle_mute,
         {description = "toggle mute", group = "audio"}),
     awful.key({ }, "XF86AudioRaiseVolume", function () volume.increase(5) end),
     awful.key({ }, "XF86AudioLowerVolume", function () volume.decrease(5) end),
@@ -268,7 +268,7 @@ for i = 1, 9 do
             end,
         descr_toggle),
         -- Move client to tag.
-        awful.key({ lockkey }, "#" .. i + 9,
+        awful.key({ hyperkey }, "#" .. i + 9,
             function ()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]
@@ -279,7 +279,7 @@ for i = 1, 9 do
             end,
         descr_move),
         -- Toggle tag on focused client.
-        awful.key({ lockkey, "Shift" }, "#" .. i + 9,
+        awful.key({ hyperkey, "Shift" }, "#" .. i + 9,
             function ()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]
