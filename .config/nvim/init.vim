@@ -62,7 +62,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-eunuch'
 
     " undo history
-    Plug 'mbbill/undotree'
+    Plug 'simnalamburt/vim-mundo'
 
     " snippets
     Plug 'SirVer/ultisnips'
@@ -165,11 +165,12 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 
-" undotree
-let g:undotree_SplitWidth = 55
-let g:undotree_SetFocusWhenToggle = 1
-let g:undotree_ShortIndicators = 1
-nnoremap <silent> <leader>u :UndotreeToggle<CR>
+" mundo
+nnoremap <silent> <leader>u :MundoToggle<CR>
+let g:mundo_width = 55
+let g:mundo_preview_height = 40
+let g:mundo_right = 1
+let g:mundo_preview_bottom = 1
 
 " gitgutter
 let g:gitgutter_sign_added='┃'
