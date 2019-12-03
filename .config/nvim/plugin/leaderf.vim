@@ -2,6 +2,7 @@ let g:Lf_StlColorscheme = 'gruvbox_material'
 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_WorkingDirectoryMode = "Ac"
+let g:Lf_NoChdir = 1
 
 let g:Lf_ShortcutF = 0
 let g:Lf_ShortcutB = 0
