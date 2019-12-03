@@ -35,6 +35,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Plug 'airblade/vim-rooter'
     Plug 'vim-scripts/autocwd.vim'
     Plug 'tpope/vim-projectionist'
+    Plug 'thaerkh/vim-workspace'
+
 
     " searching and file browsing
     " Plug 'Shougo/denite.nvim'
@@ -197,6 +199,11 @@ let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
     \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint',
     \ 'coc-phpls', 'coc-tslint', 'coc-tsserver', 'coc-yaml',
     \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists']
+
+" workspace
+let g:workspace_session_name = '.session.vim'
+let g:workspace_session_disable_on_args = 1
+let g:workspace_autosave_untrailspaces = 0
 
 " grammarous
 " let g:grammarous#use_vim_spelllang = 1
