@@ -29,7 +29,6 @@
   "coc.preferences.formatOnType": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
-    "html",
     "javascript",
     "json",
     "less",
