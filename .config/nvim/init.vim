@@ -29,11 +29,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'rhysd/git-messenger.vim'
 
     " project management
-    " Plug 'airblade/vim-rooter'
-    Plug 'vim-scripts/autocwd.vim'
     Plug 'tpope/vim-projectionist'
-    Plug 'thaerkh/vim-workspace'
-
+    " Plug 'tpope/vim-obsession'
+    Plug 'mhinz/vim-startify'
 
     " searching and file browsing
     " Plug 'Shougo/denite.nvim'
@@ -157,9 +155,6 @@ let g:camelcasemotion_key = '<leader>'
 let g:abolish_no_mappings = 1   " Disable coercion mappings from tpope/vim-abolish
 let g:caser_prefix = '<leader>gs'
 
-" autocwd
-let g:autocwd_patternwd_pairs = [['*/.config/*', '~/.config'], ['*', '*REPO*']]
-
 " indent guides
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
@@ -197,10 +192,25 @@ let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
     \ 'coc-phpls', 'coc-tslint', 'coc-tsserver', 'coc-yaml',
     \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists']
 
-" workspace
-let g:workspace_session_name = '.session.vim'
-let g:workspace_session_disable_on_args = 1
-let g:workspace_autosave_untrailspaces = 0
+" obsession
+" let g:obsession_no_bufenter = 1
+" let g:session_dir = '~/.vim-sessions/'
+" exec 'nnoremap <Leader>ss :Obsession ' . g:session_dir . '/*.vim<C-D><BS><BS><BS><BS><BS><BS>'
+" exec 'nnoremap <Leader>sr :so ' . g:session_dir. '/*.vim<C-D><BS><BS><BS><BS><BS><BS>'
+" nnoremap <Leader>sp :Obsession<CR>
+
+" startify
+let g:startify_session_dir = '~/.vim-sessions'
+let g:startify_session_persistence = 1
+let g:startify_session_delete_buffers = 1
+let g:startify_change_to_dir = 1
+let g:startify_change_to_vcs_root = 1
+let g:startify_lists = [
+    \ { 'type': 'sessions',  'header': ['   Sessions']       },
+    \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+    \ { 'type': 'commands',  'header': ['   Commands']       },
+    \ ]
+
 
 " grammarous
 " let g:grammarous#use_vim_spelllang = 1
