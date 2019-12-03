@@ -34,6 +34,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     " project management
     " Plug 'airblade/vim-rooter'
     Plug 'vim-scripts/autocwd.vim'
+    Plug 'tpope/vim-projectionist'
+
 
     " searching and file browsing
     " Plug 'Shougo/denite.nvim'
@@ -208,6 +210,7 @@ let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
 "     nunmap <buffer><C-n>
 "     nunmap <buffer><C-p>
 " endfunction
+
 
 
 " Theme
