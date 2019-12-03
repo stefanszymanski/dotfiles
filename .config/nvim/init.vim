@@ -19,9 +19,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'ryanoasis/vim-devicons'
     Plug 'nathanaelkane/vim-indent-guides'
 
-    " fancy start screen
-    Plug 'mhinz/vim-startify'
-
     " tmux integration
     Plug 'christoomey/vim-tmux-navigator'
 
