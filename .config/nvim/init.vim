@@ -36,7 +36,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/autocwd.vim'
     Plug 'tpope/vim-projectionist'
 
-
     " searching and file browsing
     " Plug 'Shougo/denite.nvim'
     Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
@@ -189,6 +188,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
+
+" gutentags
+let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
 
 " COC language client
 let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
