@@ -1,9 +1,40 @@
-let g:Lf_StlColorscheme = 'gruvbox_material'
-let g:Lf_StlSeparator = { 'left': '', 'right': '' }
+" General behaviour
 let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_WorkingDirectoryMode = "Ac"
 let g:Lf_NoChdir = 1
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 1
 
+" Statusline
+let g:Lf_StlColorscheme = 'gruvbox_material'
+let g:Lf_StlSeparator = { 'left': '', 'right': '' }
+
+" Popup windows
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_PopupPreviewPosition = 'bottom'
+let g:Lf_PopupColorscheme = 'gruvbox_material'
+let g:Lf_PopupPosition = [10, 0]
+let g:Lf_PopupWidth = 0.85
+let g:Lf_PopupHeight = 0.4
+let g:Lf_PreviewPopupWidth = 10
+
+" Enable preview for specific types
+let g:Lf_PreviewResult = {
+    \ 'File': 0,
+    \ 'Buffer': 0,
+    \ 'Mru': 0,
+    \ 'Tag': 0,
+    \ 'BufTag': 1,
+    \ 'Function': 1,
+    \ 'Line': 0,
+    \ 'Colorscheme': 0,
+    \ 'Rg': 1,
+    \ 'Gtags': 0
+\}
+
+
+" Disable default bindings
 let g:Lf_ShortcutF = 0
 let g:Lf_ShortcutB = 0
 
@@ -19,6 +50,7 @@ let g:Lf_RgConfig = [
     \ "--glob=!.idea/*",
     \ ]
 
+
 " === Bindings ===
 "   <leader>/    - Grep in CWD
 "   <leader>fc   - Continue last grep
@@ -26,9 +58,9 @@ let g:Lf_RgConfig = [
 "   <leader>fr   - Browse recent files
 "   ;            - Browse buffers
 nnoremap <leader>/   :call <SID>rgInteractive()<CR>
-nnoremap <leader>fc  :<C-u>Leaderf rg --recall --fullScreen<CR>
-nnoremap <leader>ff  :<C-u>Leaderf file --fullScreen<CR>
-nnoremap <leader>fr  :<C-u>Leaderf mru --cwd --fullScreen<CR>
+nnoremap <leader>fc  :<C-u>Leaderf rg --recall<CR>
+nnoremap <leader>ff  :<C-u>Leaderf file<CR>
+nnoremap <leader>fr  :<C-u>Leaderf mru --cwd<CR>
 nnoremap ;           :<C-u>Leaderf buffer<CR>
 
 " Modified version of `leaderf#Rg#Interactive`
