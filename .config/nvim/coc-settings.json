@@ -28,10 +28,6 @@
 
   "coc.preferences.formatOnType": false,
   "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "javascript",
-    "json",
-    "less",
     "markdown",
     "python",
     "reason",
