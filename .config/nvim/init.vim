@@ -159,6 +159,7 @@ let g:caser_prefix = '<leader>gs'
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
+let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
 
 " mundo
 nnoremap <silent> <leader>u :MundoToggle<CR>
@@ -174,6 +175,9 @@ let g:gitgutter_sign_removed='◢'
 let g:gitgutter_sign_removed_first_line='◥'
 let g:gitgutter_sign_modified_removed='◢'
 nnoremap <silent> yoG :GitGutterLineHighlightsToggle<CR>
+
+" git-messenger
+let g:git_messenger_always_into_popup = 1
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<c-q>"

@@ -56,9 +56,8 @@
   "suggest.floatEnable": true,
   "suggest.echodocSupport": true,
 
-  "coc.preferences.triggerSignatureHelp": true,
   "signature.enable": true,
-  "signature.target": "echo",
+  "signature.target": "float",
   "signature.triggerSignatureWait": 300,
 
   
