@@ -53,7 +53,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'machakann/vim-textobj-functioncall'
 
     " auto close (quotes, braces, tags, ...)
-    Plug 'jiangmiao/auto-pairs'
+    Plug 'tmsvg/pear-tree'
     Plug 'alvan/vim-closetag'
 
     " unix shell commands
@@ -185,6 +185,11 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
 
 " gutentags
 let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
+
+" pear-tree
+let g:pear_tree_smart_openers = 1
+let g:pear_tree_smart_closers = 1
+let g:pear_tree_smart_backspace = 1
 
 " COC language client
 let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
