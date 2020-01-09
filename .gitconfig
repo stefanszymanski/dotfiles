@@ -8,6 +8,7 @@
 [core]
     editor = nvim
     whitespace = fix,trailing-space,cr-at-eol
+    pager = diff-so-fancy | less --tabs=4 -RFX
 
 [gpg]
 	program = gpg2
