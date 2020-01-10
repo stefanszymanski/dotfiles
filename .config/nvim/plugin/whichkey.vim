@@ -94,6 +94,7 @@ call s:register_map(' ', 'map_leader')
 call s:register_map('y', 'map_y')
 call s:register_map('[', 'map_sqo')
 call s:register_map(']', 'map_sqc')
+call s:register_map('g', 'map_g')
 
 nnoremap <silent> <leader> :<c-u>WhichKey2 '<Space>'<CR>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual2 '<Space>'<CR>
@@ -267,3 +268,13 @@ let s:map_sqc = {
 \}
 let s:map_sqc.o = copy(s:unimpaired_bindings)
 let s:map_sqc.o.n.name = '+disable'
+
+let s:map_g = {
+    \ 'c': 'comment [m]',
+    \ 'cc': {'n': 'comment line'},
+    \ 's': {'n': 'sort [m]', 'v': 'sort selected lines'},
+    \ 'ss': {'n': 'sort [c] lines'},
+    \ 'A': {'n': 'show conersions for number under cursor', 'v': 'show conversions for selected number'},
+    \ 'S': {'v': 'surround selection with [...] and wrap'},
+    \ '%': 'which_key_ignore',
+\}
