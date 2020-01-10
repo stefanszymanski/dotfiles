@@ -139,14 +139,9 @@ let g:python3_host_prog = '~/.virtualenvs/nvim3/bin/python'
 " let g:python_host_prog = '~/.virtualenvs/nvim2/bin/python'
 
 
-" Misc
-
-" let g:netrw_liststyle = 3       " Tree style file browser
-" let g:netrw_banner = 0          " Remove those information that are shown above the file list
-" let g:netrw_browse_split = 4    " Open in vertical split
-" let g:netrw_altv = 1
-" let g:netrw_winsize = 20
-" let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+" disable netrw
+let g:loaded_netrw       = 1
+let g:loaded_netrwPlugin = 1
 
 
 " Plugins
