@@ -18,6 +18,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'morhetz/gruvbox'
     Plug 'ryanoasis/vim-devicons'
     Plug 'nathanaelkane/vim-indent-guides'
+	Plug 'liuchengxu/vim-which-key'
 
     " tmux integration
     Plug 'christoomey/vim-tmux-navigator'
@@ -153,13 +154,13 @@ let g:python3_host_prog = '~/.virtualenvs/nvim3/bin/python'
 let g:titlecase_map_keys = 0    " Disable default mappings
 let g:camelcasemotion_key = '<leader>'
 let g:abolish_no_mappings = 1   " Disable coercion mappings from tpope/vim-abolish
-let g:caser_prefix = '<leader>gs'
+let g:caser_prefix = '<leader>G'
 
 " indent guides
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
-let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
+let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'which_key']
 
 " mundo
 nnoremap <silent> <leader>u :MundoToggle<CR>
@@ -219,7 +220,6 @@ let g:startify_lists = [
     \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
     \ { 'type': 'commands',  'header': ['   Commands']       },
     \ ]
-
 
 " grammarous
 " let g:grammarous#use_vim_spelllang = 1
