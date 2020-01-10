@@ -2,8 +2,8 @@
 
 "   Ctrl+n    - toggle sidebar
 "   <leader>n - toggle sidebar, show current file
-map <silent><leader>n :call <SID>toggle()<CR>
-map <silent><leader>N :call <SID>find()<CR>
+nmap <silent><leader>n :call <SID>toggle()<CR>
+nmap <silent><leader>N :call <SID>find()<CR>
 
 
 " === Settings === "

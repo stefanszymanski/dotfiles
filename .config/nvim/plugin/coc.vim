@@ -55,7 +55,7 @@ nmap <silent> <leader>lf <Plug>(coc-format-selected)
 
 " Refactoring
 "   <leader>rf   - Open refactoring view
-nmap <silent> <leader>rf <Plug>(coc-refactor)
+nmap <silent> <leader>lR <Plug>(coc-refactor)
 
 
 " === Commands === "
