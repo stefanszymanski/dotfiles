@@ -79,7 +79,7 @@
 
 [diff]
 	algorithm = histogram
-	tool = fugitive
+	tool = vimdiff
 	colorMoved = default
 	renames = copy
 	mnemonicPrefix = true
@@ -91,21 +91,21 @@
 [difftool]
 	prompt = false
 
-[difftool "fugitive"]
-    cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
+[difftool "vimdiff"]
+    cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
 
 [merge]
 	ff = false
 	conflictStyle = merge
-	tool = fugitive
+	tool = vimdiff
 
 [mergetool]
 	prompt = false
 	keepBackup = false
 	writeToTemp = true
 
-[mergetool "fugitive"]
-	cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
+[mergetool "vimdiff"]
+	cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 	trustExitCode = true
 
 [rebase]
