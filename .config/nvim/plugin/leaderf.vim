@@ -61,7 +61,7 @@ nnoremap <leader>/   :call <SID>rgInteractive()<CR>
 nnoremap <leader>fc  :<C-u>Leaderf rg --recall<CR>
 nnoremap <leader>ff  :<C-u>Leaderf file<CR>
 nnoremap <leader>fr  :<C-u>Leaderf mru --cwd<CR>
-nnoremap ;           :<C-u>Leaderf buffer<CR>
+nnoremap <leader>fb  :<C-u>Leaderf buffer<CR>
 
 " Modified version of `leaderf#Rg#Interactive`
 " Doesn't adds a glob argument when the user enters '*'.

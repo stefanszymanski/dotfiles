@@ -18,14 +18,14 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'morhetz/gruvbox'
     Plug 'ryanoasis/vim-devicons'
     Plug 'nathanaelkane/vim-indent-guides'
-	Plug 'liuchengxu/vim-which-key'
+	Plug 'stefanszymanski/vim-which-key'
 
     " tmux integration
     Plug 'christoomey/vim-tmux-navigator'
 
     " version control
     " Plug 'tpope/vim-fugitive'
-    Plug 'jreybert/vimagit'
+    " Plug 'jreybert/vimagit'
     Plug 'airblade/vim-gitgutter'
     Plug 'rhysd/git-messenger.vim'
 
@@ -96,7 +96,6 @@ set encoding=utf-8  		    " The encoding displayed.
 set fileencoding=utf-8 		    " The encoding written to file.
 scriptencoding utf-8
 
-
 " General behaviour
 
 syntax enable
@@ -147,15 +146,9 @@ let g:loaded_netrwPlugin = 1
 " Plugins
 
 let g:titlecase_map_keys = 0    " Disable default mappings
-let g:camelcasemotion_key = '<leader>'
+let g:camelcasemotion_key = '<leader>c'
 let g:abolish_no_mappings = 1   " Disable coercion mappings from tpope/vim-abolish
-let g:caser_prefix = '<leader>G'
-
-" indent guides
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
-let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'which_key']
+let g:caser_prefix = '<leader>C'
 
 " mundo
 nnoremap <silent> <leader>u :MundoToggle<CR>
@@ -164,16 +157,10 @@ let g:mundo_preview_height = 40
 let g:mundo_right = 1
 let g:mundo_preview_bottom = 1
 
-" gitgutter
-let g:gitgutter_sign_added='┃'
-let g:gitgutter_sign_modified='┃'
-let g:gitgutter_sign_removed='◢'
-let g:gitgutter_sign_removed_first_line='◥'
-let g:gitgutter_sign_modified_removed='◢'
-nnoremap <silent> yoG :GitGutterLineHighlightsToggle<CR>
-
 " git-messenger
+let g:git_messenger_no_default_mappings = 1
 let g:git_messenger_always_into_popup = 1
+nmap <Leader>gb <Plug>(git-messenger)
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<c-q>"
@@ -262,17 +249,22 @@ set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 " Additional Key bindings
 
 " Delete without yanking
-nmap <silent> <leader>d "_d
-xmap <silent> <leader>d "_d
-nmap <silent> <leader>dd "_dd
-nmap <silent> <leader>D "_D
-xmap <silent> <leader>D "_D
+nmap <silent> <leader>bd "_d
+xmap <silent> <leader>bd "_d
+nmap <silent> <leader>bdd "_dd
+nmap <silent> <leader>bD "_D
+xmap <silent> <leader>bD "_D
 " Change without yanking
-nmap <silent> <leader>c "_c
-xmap <silent> <leader>c "_c
-nmap <silent> <leader>cc "_cc
-nmap <silent> <leader>C "_C
-xmap <silent> <leader>C "_C
+nmap <silent> <leader>bc "_c
+xmap <silent> <leader>bc "_c
+nmap <silent> <leader>bcc "_cc
+nmap <silent> <leader>bC "_C
+xmap <silent> <leader>bC "_C
+" yield and paste for system clipboard
+nmap <silent> <leader>y "+y
+xmap <silent> <leader>y "+y
+nmap <silent> <leader>p "+p
+xmap <silent> <leader>p "+p
 
 
 " Shadowing Key bindings
