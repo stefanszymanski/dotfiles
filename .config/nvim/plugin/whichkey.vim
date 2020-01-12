@@ -121,7 +121,7 @@ nnoremap <silent> y :<c-u>WhichKey2 'y'<CR>
 
 " === Maps === "
 
-let s:map_leader =  {
+let s:map_leader = {
     \ '/': 'search in project',
     \ 'u': {'n': 'toggle Mundo buffer'},
     \ 'n': {'n': 'toggle Nerdtree'},
@@ -130,6 +130,22 @@ let s:map_leader =  {
     \ 'p': 'paste from system clipboard',
 \ }
 let s:map_leader.b = {
+    \ 'name': '+buffers',
+    \ 'a': 'switch to alternate',
+    \ 'd': 'delete current',
+    \ 'D': 'delete all',
+    \ 'o': 'delete others',
+    \ 'O': 'wipeout others',
+    \ 'p': 'replace with clipboard',
+    \ 'W': 'wipeout all',
+    \ 'w': 'wipeout current',
+    \ 'y': 'yank',
+\ }
+let s:map_leader.w = {
+    \ 'name': '+windows',
+    \ 'o': 'close others',
+\ }
+let s:map_leader.h = {
     \ 'name': '+blackhole-actions',
     \ 'c': 'c',
     \ 'C': 'C',

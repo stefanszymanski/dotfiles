@@ -246,28 +246,44 @@ set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
 "set cc=80                       " set an 80 column border for good coding style
 
 
-" Additional Key bindings
+" === Additional key bindings === "
 
 " Delete without yanking
-nmap <silent> <leader>bd "_d
-xmap <silent> <leader>bd "_d
-nmap <silent> <leader>bdd "_dd
-nmap <silent> <leader>bD "_D
-xmap <silent> <leader>bD "_D
+nmap <silent> <leader>hd "_d
+xmap <silent> <leader>hd "_d
+nmap <silent> <leader>hdd "_dd
+nmap <silent> <leader>hD "_D
+xmap <silent> <leader>hD "_D
+
 " Change without yanking
-nmap <silent> <leader>bc "_c
-xmap <silent> <leader>bc "_c
-nmap <silent> <leader>bcc "_cc
-nmap <silent> <leader>bC "_C
-xmap <silent> <leader>bC "_C
+nmap <silent> <leader>hc "_c
+xmap <silent> <leader>hc "_c
+nmap <silent> <leader>hcc "_cc
+nmap <silent> <leader>hC "_C
+xmap <silent> <leader>hC "_C
+
 " yield and paste for system clipboard
 nmap <silent> <leader>y "+y
 xmap <silent> <leader>y "+y
 nmap <silent> <leader>p "+p
 xmap <silent> <leader>p "+p
 
+" buffers
+nmap <silent> <leader>ba :e#<CR>
+nmap <silent> <leader>bd :bdelete<CR>
+nmap <silent> <leader>bD :%bdelete<CR>
+nmap <silent> <leader>bw :bwipeout<CR>
+nmap <silent> <leader>bW :%bwipeout<CR>
+nmap <silent> <leader>bo :%bdelete\|edit #\|normal `"<CR>
+nmap <silent> <leader>bO :%bwipeout\|edit #\|normal `"<CR>
+nmap <silent> <leader>by :normal! ggVG"+y``<CR>
+nmap <silent> <leader>bp :normal! ggdG"+P<CR>
 
-" Shadowing Key bindings
+" windows
+nmap <silent> <leader>wo :only<CR>
+
+
+" === Shadowing Key bindings === "
 
 " Delete character without yanking
 nnoremap <silent> x "_x
