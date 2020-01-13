@@ -85,8 +85,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Language documentation integration
     Plug 'Shougo/echodoc.vim'
 
-    " COC language client
+    " Language server protocol integration
     Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
+    Plug 'liuchengxu/vista.vim'
 call plug#end()
 
 
