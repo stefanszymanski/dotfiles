@@ -5,19 +5,20 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " === Bindings === "
 
 " Diagnostics
-"   <leader>ldp  - previous error or warning
-"   <leader>ldn  - next error or warning
-"   <leader>lda  - list all diagnostics
-"   <leader>ldo  - show outline
-"   <leader>lds  - search symbol in workspace 
-"   <leader>ldr  - resume latest coc list
-nnoremap <silent> <leader>ldp <Plug>(coc-diagnostic-prev)
-nnoremap <silent> <leader>ldp <Plug>(coc-diagnostic-prev)
-nnoremap <silent> <leader>ldn <Plug>(coc-diagnostic-next)
-nnoremap <silent> <leader>lda :<C-u>CocList diagnostics<CR>
-nnoremap <silent> <leader>ldo :<C-u>CocList -A outline<CR>
-nnoremap <silent> <leader>lds :<C-u>CocList -I -A symbols<CR>
-nnoremap <silent> <leader>ldr  :<C-u>CocListResume<CR>
+"   [d  - previous error or warning
+"   ]d  - next error or warning
+"   <leader>lD   - list all diagnostics
+"   <leader>lo   - search outline
+"   <leader>ls   - search symbol in workspace 
+"   <leader>lC   - resume latest coc list
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
+nmap <silent> [D <Plug>(coc-diagnostic-prev-error)
+nmap <silent> ]D <Plug>(coc-diagnostic-next-error)
+nnoremap <silent> <leader>ld :<C-u>CocList -A diagnostics<CR>
+nnoremap <silent> <leader>lo :<C-u>CocList -A outline<CR>
+nnoremap <silent> <leader>ls :<C-u>CocList -I -A symbols<CR>
+nnoremap <silent> <leader>lC  :<C-u>CocListResume<CR>
 
 " Completion
 "   <ctrl+space> - show completion candidates
@@ -38,12 +39,13 @@ inoremap <expr><S-TAB> pumvisible() ? '<C-p>' : '<C-h>'
 "   <leader>lj   - jump to definition
 "   <leader>li   - list implementations
 "   <leader>lr   - rename
-"   <leader>lt   - type definition
+"   <leader>lt   - jump to type definition
 "   <leader>ld   - show documentation
+"   <leader>ll   - show documentation
 nmap <silent> <leader>lc <Plug>(coc-references)
 nmap <silent> <leader>lj <Plug>(coc-definition)
 nmap <silent> <leader>lD <Plug>(coc-declaration)
-nmap <silent> <leader>lC <Plug>(coc-codelens-action)
+" nmap <silent> <leader>lC <Plug>(coc-codelens-action)
 nmap <silent> <leader>li <Plug>(coc-implementation)
 nmap <silent> <leader>lr <Plug>(coc-rename)
 nmap <silent> <leader>lt <Plug>(coc-type-definition)
@@ -52,11 +54,19 @@ nnoremap <silent> <leader>ll :call <SID>show_documentation()<CR>
 " Formatting
 xmap <silent> <leader>lf <Plug>(coc-format-selected)
 nmap <silent> <leader>lf <Plug>(coc-format-selected)
+nmap <silent> <leader>lF <Plug>(coc-format)
 
 " Refactoring
 "   <leader>rf   - Open refactoring view
 nmap <silent> <leader>lR <Plug>(coc-refactor)
 
+
+" === Text objects === "
+
+omap <silent> if <Plug>(coc-funcobj-i)
+omap <silent> af <Plug>(coc-funcobj-a)
+vmap <silent> if <Plug>(coc-funcobj-i)
+vmap <silent> af <Plug>(coc-funcobj-a)
 
 " === Commands === "
 

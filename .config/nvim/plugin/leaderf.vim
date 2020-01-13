@@ -52,16 +52,13 @@ let g:Lf_RgConfig = [
 
 
 " === Bindings ===
-"   <leader>/    - Grep in CWD
-"   <leader>fc   - Continue last grep
-"   <leader>ff   - Browse files
-"   <leader>fr   - Browse recent files
-"   ;            - Browse buffers
-nnoremap <leader>/   :call <SID>rgInteractive()<CR>
-nnoremap <leader>fc  :<C-u>Leaderf rg --recall<CR>
-nnoremap <leader>ff  :<C-u>Leaderf file<CR>
-nnoremap <leader>fr  :<C-u>Leaderf mru --cwd<CR>
-nnoremap <leader>fb  :<C-u>Leaderf buffer<CR>
+
+nnoremap <silent> <leader>/   :call <SID>rgInteractive()<CR>
+nnoremap <silent> <leader>sc  :<C-u>Leaderf rg --recall<CR>
+nnoremap <silent> <leader>sf  :<C-u>Leaderf file<CR>
+nnoremap <silent> <leader>sr  :<C-u>Leaderf mru --cwd<CR>
+nnoremap <silent> <leader>bb  :<C-u>Leaderf buffer<CR>
+
 
 " Modified version of `leaderf#Rg#Interactive`
 " Doesn't adds a glob argument when the user enters '*'.

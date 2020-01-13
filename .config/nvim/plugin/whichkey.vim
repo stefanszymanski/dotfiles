@@ -129,8 +129,9 @@ let s:map_leader = {
     \ 'y': 'yield to system clipboard',
     \ 'p': 'paste from system clipboard',
 \ }
-let s:map_leader.b = {
+let s:map_leader.b = { 'n': {
     \ 'name': '+buffers',
+    \ 'b': 'list',
     \ 'a': 'switch to alternate',
     \ 'd': 'delete current',
     \ 'D': 'delete all',
@@ -140,11 +141,11 @@ let s:map_leader.b = {
     \ 'W': 'wipeout all',
     \ 'w': 'wipeout current',
     \ 'y': 'yank',
-\ }
-let s:map_leader.w = {
+\ }}
+let s:map_leader.w = { 'n': {
     \ 'name': '+windows',
     \ 'o': 'close others',
-\ }
+\ }}
 let s:map_leader.h = {
     \ 'name': '+blackhole-actions',
     \ 'c': 'c',
@@ -168,39 +169,35 @@ let s:map_leader.r = {
     \ 'W': {'n': 'replace word in [m] and confirm'},
 \ }
 let s:map_leader.l = {
-    \ 'name': '+language',
-    \ 'c': {'n': 'list references'},
-    \ 'j': {'n': 'jump to definition'},
-    \ 'i': {'n': 'list implementations'},
-    \ 'r': {'n': 'rename'},
-    \ 't': {'n': 'show type definition'},
-    \ 'l': {'n': 'show documentation'},
-    \ 'D': {'n': 'jump to declaration'},
+\ 'name': '+language',
+    \ 'c': {'n': 'list references of (suc)'},
+    \ 'j': {'n': 'jump to definition of (suc)'},
+    \ 'i': {'n': 'list implementations of (suc)'},
+    \ 'r': {'n': 'rename (suc)'},
+    \ 't': {'n': 'show type definition of (suc)'},
+    \ 'l': {'n': 'show documentation of (suc)'},
+    \ 'D': {'n': 'jump to declaration of (suc)'},
     \ 'R': {'n': 'open refactoring buffer'},
     \ 'f': {'n': 'format [m]', 'v': 'format selection'},
+    \ 'F': {'n': 'format buffer'},
+    \ 'o': {'n': 'search outline'},
+    \ 'O': {'n': 'show outline'},
+    \ 's': {'n': 'search symbols'},
+    \ 'C': {'n': 'resume latest search'},
+    \ 'd': {'n': 'list errors and warnings'},
 \ }
-let s:map_leader.l.d = {'n': {
-    \ 'name': '+diagnostics',
-    \ 'p': 'previous error or warning',
-    \ 'n': 'next error or warning',
-    \ 'a': 'list all diagnostics',
-    \ 'o': 'display outline',
-    \ 's': 'search symbols',
-    \ 'r': 'resume latest search',
-\}}
-let s:map_leader.f = {'n': {
-    \ 'name': '+find',
-    \ 'b': 'list buffers',
+let s:map_leader.s = {'n': {
+    \ 'name': '+search',
     \ 'c': 'continue latest search',
     \ 'f': 'list files in workspace',
     \ 'r': 'list mru files'
 \}}
 let s:map_leader.g = {
     \ 'name': '+git',
-    \ 'b': {'n': 'blame'},
-    \ 's': 'stage hunk',
-    \ 'u': {'n': 'undo hunk'},
-    \ 'p': {'n': 'preview hunk'},
+    \ 'b': {'n': 'blame line'},
+    \ 's': 'stage hunk (uc)',
+    \ 'u': {'n': 'undo hunk (uc)'},
+    \ 'p': {'n': 'preview hunk (uc)'},
 \ }
 let s:map_leader.C = {
     \ 'name': '+case-manipulation',
@@ -243,14 +240,15 @@ let s:unimpaired_bindings = {'n': {
 \}}
 
 let s:map_y = {
-    \ 's': 'surround [m] with [...]',
-    \ 'S': 'surround [m] and wrap with [...]',
-    \ 'Ss': 'surround line with [...] and wrap',
-    \ 'ss': 'surround line with [...]',
+    \ 's': 'surround [m] with [c]',
+    \ 'S': 'surround [m] and wrap with [c]',
+    \ 'Ss': 'surround line with [c] and wrap',
+    \ 'ss': 'surround line with [c]',
 \}
 let s:map_y.o = copy(s:unimpaired_bindings)
 let s:map_y.o.n.name = '+toggle'
 
+" TODO add some core bindings
 let s:map_sqo = {
     \ 'a': {'n': ':previous'},
     \ 'A': {'n': ':first'},
@@ -279,6 +277,8 @@ let s:map_sqo = {
     \ 'n': 'previous SCM conflict',
     \ '[': {'n': 'previous function or class'},
     \ 'c': {'n': 'previous git hunk'},
+    \ 'd': {'n': 'previous error or warning'},
+    \ 'D': {'n': 'previous error'},
     \ '%': 'which_key_ignore',
 \}
 let s:map_sqo.o = copy(s:unimpaired_bindings)
@@ -312,18 +312,36 @@ let s:map_sqc = {
     \ 'n': 'next SCM conflict',
     \ ']': {'n': 'next function or class'},
     \ 'c': {'n': 'next git hunk'},
+    \ 'd': {'n': 'next error or warning'},
+    \ 'D': {'n': 'next error'},
     \ '%': 'which_key_ignore',
 \}
 let s:map_sqc.o = copy(s:unimpaired_bindings)
 let s:map_sqc.o.n.name = '+disable'
 
+" Mark [n] in gss different because it's a count before the binding
 let s:map_g = {
     \ 'c': 'comment [m]',
     \ 'cc': {'n': 'comment line'},
     \ 's': {'n': 'sort [m]', 'v': 'sort selected lines'},
-    \ 'ss': {'n': 'sort [c] lines'},
-    \ 'A': {'n': 'show conersions for number under cursor', 'v': 'show conversions for selected number'},
+    \ 'ss': {'n': 'sort [n] lines'},
+    \ 'A': {'n': 'show conversions for number (uc)', 'v': 'show conversions for selected number'},
     \ 'S': {'v': 'surround selection with [...] and wrap'},
+    \ '8': {'n': 'show UTF8 hey value of (cuc)'},
+    \ 'J': {'n': 'join [n=2] lines without fixing spacing'},
+    \ 'P': {'n': 'paste before cursor'},
+    \ 't': {'n': 'goto next tab'},
+    \ 'T': {'n': 'goto previous tab'},
+    \ 'f': {'n': 'edit file whose name is (uc)'},
+    \ 'F': {'n': 'like gf but also jump to line'},
+    \ 'g': {'n': 'goto top of file', 'v': 'select to top of file'},
+    \ 'i': {'n': 'edit where last left editing'},
+    \ 'q': {'n': 'format [m]', 'v': 'format selection'},
+    \ 'r': {'n': 'replace (cuc) with [c]'},
+    \ 'u': {'n': 'lowercase [m]', 'v': 'lowercase selection'},
+    \ 'U': {'n': 'uppercase [m]', 'v': 'uppercase selection'},
+    \ 'v': {'n': 'reselect previous visual selection', 'v': 'exchange current and previous selection'},
+    \ 'w': {'n': 'format [m] and keep cursor'},
     \ '%': 'which_key_ignore',
 \}
 
@@ -333,8 +351,3 @@ let s:map_g = {
 " endfunction
 
 " let g:WhichKeyFormatFunc = function('s:custom_which_key_format')
-
-command! -bang -nargs=1 WhichKeyOperatorPending2 call s:whichkey_o(<args>)
-function! s:whichkey_o(runtime)
-    call which_key#start(0, 1, a:runtime)
-endfunction

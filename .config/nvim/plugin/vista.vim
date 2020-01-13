@@ -28,7 +28,7 @@ let g:vista_top_level_blink = [0, 0]
 " === Bindings === "
 
 " toggle the sidebar
-nnoremap <silent> <leader>lT :<c-u>Vista!!<CR>
+nnoremap <silent> <leader>lO :<c-u>Vista!!<CR>
 
 
 " === Hooks === "

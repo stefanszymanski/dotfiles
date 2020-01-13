@@ -49,9 +49,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " text objects and motions
     Plug 'bkad/CamelCaseMotion'
     Plug 'michaeljsmith/vim-indent-object'
-    " Plug 'vim-scripts/argtextobj.vim'
     Plug 'wellle/targets.vim'
-    Plug 'machakann/vim-textobj-functioncall'
 
     " auto close (quotes, braces, tags, ...)
     Plug 'tmsvg/pear-tree'
