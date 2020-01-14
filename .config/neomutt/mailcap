@@ -11,149 +11,164 @@
 #
 ###############################################################################
 
-
-###############################################################################
-#
-#  User section follows:  Any entries included in this section will take
-#  precedence over those created by "update-mime".  DO NOT CHANGE the
-#  "User Section Begins" and "User Section Ends" lines, or anything outside
-#  of this section!
-#
-
-# ----- User Section Begins ----- #
-# -----  User Section Ends  ----- #
-
-###############################################################################
-
-application/vnd.oasis.opendocument.chart; soffice --nologo --calc '%s'; edit=soffice --nologo --calc '%s'; print=soffice --nologo --calc -p '%s'; test=test -n "$DISPLAY"; description="OpenDocument Chart"; nametemplate=%s.odc
-application/vnd.oasis.opendocument.spreadsheet; soffice --nologo --calc '%s'; edit=soffice --nologo --calc '%s'; print=soffice --nologo --calc -p '%s'; test=test -n "$DISPLAY"; description="OpenDocument Spreadsheet"; nametemplate=%s.ods
-application/vnd.oasis.opendocument.spreadsheet-template; soffice --nologo --calc '%s'; edit=soffice --nologo --calc '%s'; print=soffice --nologo --calc -p '%s'; test=test -n "$DISPLAY"; description="OpenDocument Spreadsheet Template"; nametemplate=%s.ots
-application/vnd.oasis.opendocument.formula; soffice --nologo --math '%s'; edit=soffice --nologo --math '%s'; print=soffice --nologo --math -p '%s'; test=test -n "$DISPLAY"; description="OpenDocument Formula"; nametemplate=%s.odf
-application/vnd.oasis.opendocument.text; soffice --nologo --writer '%s'; edit=soffice --nologo --writer '%s'; print=soffice --nologo --writer -p '%s'; test=test -n "$DISPLAY"; description="OpenDocument Text Document"; nametemplate=%s.odt
-application/vnd.oasis.opendocument.text-master; soffice --nologo --global '%s'; edit=soffice --nologo --writer '%s'; print=soffice --nologo --writer -p '%s'; test=test -n "$DISPLAY"; description="OpenDocument Master Document"; nametemplate=%s.odm
-application/vnd.oasis.opendocument.text-template; soffice --nologo --writer '%s'; edit=soffice --nologo --writer '%s'; print=soffice --nologo --writer -p '%s'; test=test -n "$DISPLAY"; description="OpenDocument Text Document Template"; nametemplate=%s.ott
-application/vnd.oasis.opendocument.text-web; soffice --nologo --web '%s'; edit=soffice --nologo --web '%s'; print=soffice --nologo --web -p '%s'; test=test -n "$DISPLAY"; description="OpenDocument HTML Document Template"; nametemplate=%s.oth
-text/plain; less '%s'; needsterminal
-application/vnd.sun.xml.calc; soffice --nologo --calc '%s'; edit=soffice --nologo --calc '%s'; test=test -n "$DISPLAY"; description="OpenOffice.org Spreadsheet"; nametemplate=%s.sxc
-application/vnd.sun.xml.calc.template; soffice --nologo --calc '%s'; edit=soffice --nologo --calc '%s'; test=test -n "$DISPLAY"; description="OpenOffice.org Spreadsheet Template"; nametemplate=%s.stc
-application/vnd.sun.xml.math; soffice --nologo --math '%s'; edit=soffice --nologo --math '%s'; test=test -n "$DISPLAY"; description="OpenOffice.org Formula"; nametemplate=%s.sxm
-application/vnd.sun.xml.writer; soffice --nologo --writer '%s'; edit=soffice --nologo --writer '%s'; description="OpenOffice.org Text Document"; nametemplate=%s.sxw
-application/vnd.sun.xml.writer.global; soffice --nologo --global '%s'; edit=soffice --nologo --writer '%s'; description="OpenOffice.org Master Document"; nametemplate=%s.sxg
-application/vnd.sun.xml.writer.template; soffice --nologo --writer '%s'; edit=soffice --nologo --writer '%s'; description="OpenOffice.org Text Document Template"; nametemplate=%s.stw
+# troff
 application/x-troff-man; /usr/bin/man -X100 -l '%s'; test=test -n "$DISPLAY" -a -e /usr/bin/gxditview; description=Man page
 text/troff; /usr/bin/man -X100 -l '%s'; test=test -n "$DISPLAY" -a -e /usr/bin/gxditview; description=Man page
 application/x-troff-man; /usr/bin/man -l '%s'; needsterminal; description=Man page
 text/troff; /usr/bin/man -l '%s'; needsterminal; description=Man page
-#text/html; /usr/bin/sensible-browser %s; description=HTML Text; nametemplate=%s.html
-#text/html;      w3m %s;     nametemplate=%s.html;       needsterminal
-#text/html;      w3m -v -F -T text/html -dump %s;        copiousoutput
 application/x-troff-man; /usr/bin/nroff -mandoc -Tutf8; copiousoutput; print=/usr/bin/nroff -mandoc -Tutf8 | print text/plain:-
 text/troff; /usr/bin/nroff -mandoc -Tutf8; copiousoutput; print=/usr/bin/nroff -mandoc -Tutf8 | print text/plain:-
+
+# info
 application/x-info; /usr/bin/info -f '%s'; needsterminal; description=GNU Info document
+
+# messages
 message/rfc822; neomutt -Rf '%s'; edit=neomutt -f '%s'; needsterminal
-application/x-bittorrent; transmission-gtk %s; description="GTK-based BitTorrent client"; test=test -n "$DISPLAY"
+
+# plain
 text/plain; more %s; needsterminal
-text/x-apport; /usr/share/apport/apport-gtk -c %s; test=test -n "$DISPLAY"
+
+
+### DOCUMENTS ###
+# pdf
 application/pdf; zathura %s &; test=test -n "$DISPLAY"
 application/x-bzpdf; zathura %s &; test=test -n "$DISPLAY"
 application/x-gzpdf; zathura %s &; test=test -n "$DISPLAY"
 application/x-xzpdf; zathura %s &; test=test -n "$DISPLAY"
+# Postscript
 application/postscript; zathura %s &; test=test -n "$DISPLAY"
 application/x-bzpostscript; zathura %s &; test=test -n "$DISPLAY"
 application/x-gzpostscript; zathura %s &; test=test -n "$DISPLAY"
-image/x-eps; atril %s; test=test -n "$DISPLAY"
-image/x-bzeps; atril %s; test=test -n "$DISPLAY"
-image/x-gzeps; atril %s; test=test -n "$DISPLAY"
-application/x-dvi; atril %s; test=test -n "$DISPLAY"
-application/x-bzdvi; atril %s; test=test -n "$DISPLAY"
-application/x-gzdvi; atril %s; test=test -n "$DISPLAY"
-image/vnd.djvu; atril %s; test=test -n "$DISPLAY"
-image/vnd.djvu+multipage; atril %s; test=test -n "$DISPLAY"
-image/tiff; atril %s; test=test -n "$DISPLAY"
-application/x-cbr; atril %s; test=test -n "$DISPLAY"
-application/x-cbz; atril %s; test=test -n "$DISPLAY"
-application/x-cb7; atril %s; test=test -n "$DISPLAY"
-application/x-cbt; atril %s; test=test -n "$DISPLAY"
+# LaTeX
+application/x-dvi; dvipdfm -o %s.pdf %s && zathura %s.pdf; test=test -n "$DISPLAY"
+application/x-bzdvi; dvipdfm -o %s.pdf %s && zathura %s.pdf %s; test=test -n "$DISPLAY"
+application/x-gzdvi; dvipdfm -o %s.pdf %s && zathura %s.pdf %s; test=test -n "$DISPLAY"
+# comicbook
+application/x-cbr; zathura %s; test=test -n "$DISPLAY"
+application/x-cbz; zathura %s; test=test -n "$DISPLAY"
+application/x-cb7; zathura %s; test=test -n "$DISPLAY"
+application/x-cbt; zathura %s; test=test -n "$DISPLAY"
 application/vnd.comicbook+zip; zathura %s &; test=test -n "$DISPLAY"
-application/oxps; zathura %s &; test=test -n "$DISPLAY"
-application/vnd.ms-xpsdocument; zathura %s &; test=test -n "$DISPLAY"
+# ebooks
 application/epub+zip; zathura %s &; test=test -n "$DISPLAY"
-application/x-7z-compressed; engrampa %s; test=test -n "$DISPLAY"
-application/x-7z-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-ace; engrampa %s; test=test -n "$DISPLAY"
-application/x-alz; engrampa %s; test=test -n "$DISPLAY"
-application/x-ar; engrampa %s; test=test -n "$DISPLAY"
-application/x-arj; engrampa %s; test=test -n "$DISPLAY"
-application/x-bzip; engrampa %s; test=test -n "$DISPLAY"
-application/x-bzip-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-bzip1; engrampa %s; test=test -n "$DISPLAY"
-application/x-bzip1-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-cabinet; engrampa %s; test=test -n "$DISPLAY"
-application/x-cbr; engrampa %s; test=test -n "$DISPLAY"
-application/x-cbz; engrampa %s; test=test -n "$DISPLAY"
-application/x-cd-image; engrampa %s; test=test -n "$DISPLAY"
-application/x-compress; engrampa %s; test=test -n "$DISPLAY"
-application/x-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-cpio; engrampa %s; test=test -n "$DISPLAY"
-application/x-deb; engrampa %s; test=test -n "$DISPLAY"
-application/x-ear; engrampa %s; test=test -n "$DISPLAY"
-application/x-ms-dos-executable; engrampa %s; test=test -n "$DISPLAY"
-application/x-gtar; engrampa %s; test=test -n "$DISPLAY"
-application/x-gzip; engrampa %s; test=test -n "$DISPLAY"
-application/x-gzpostscript; engrampa %s; test=test -n "$DISPLAY"
-application/x-java-archive; engrampa %s; test=test -n "$DISPLAY"
-application/x-lha; engrampa %s; test=test -n "$DISPLAY"
-application/x-lhz; engrampa %s; test=test -n "$DISPLAY"
-application/x-lrzip; engrampa %s; test=test -n "$DISPLAY"
-application/x-lrzip-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-lzip; engrampa %s; test=test -n "$DISPLAY"
-application/x-lzip-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-lzma; engrampa %s; test=test -n "$DISPLAY"
-application/x-lzma-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-lzop; engrampa %s; test=test -n "$DISPLAY"
-application/x-lzop-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-ms-wim; engrampa %s; test=test -n "$DISPLAY"
-application/x-rar; engrampa %s; test=test -n "$DISPLAY"
-application/x-rar-compressed; engrampa %s; test=test -n "$DISPLAY"
-application/x-rpm; engrampa %s; test=test -n "$DISPLAY"
-application/x-rzip; engrampa %s; test=test -n "$DISPLAY"
-application/x-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-tarz; engrampa %s; test=test -n "$DISPLAY"
-application/x-stuffit; engrampa %s; test=test -n "$DISPLAY"
-application/x-war; engrampa %s; test=test -n "$DISPLAY"
-application/x-xz; engrampa %s; test=test -n "$DISPLAY"
-application/x-xz-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
-application/x-zip; engrampa %s; test=test -n "$DISPLAY"
-application/x-zip-compressed; engrampa %s; test=test -n "$DISPLAY"
-application/x-zoo; engrampa %s; test=test -n "$DISPLAY"
-application/zip; engrampa %s; test=test -n "$DISPLAY"
-application/x-archive; engrampa %s; test=test -n "$DISPLAY"
-application/vnd.ms-cab-compressed; engrampa %s; test=test -n "$DISPLAY"
-inode/directory; exo-open --launch FileManager %s; test=test -n "$DISPLAY"
+# html
+text/html; qutebrowser --temp-basedir %s & ; test=test -n "$DISPLAY"; nametemplate=%s.html; needsterminal
+text/html; /usr/bin/w3m -I %{charset} -dump -T text/html %s; copiousoutput; description=HTML Text; nametemplate=%s.html
 application/xhtml+xml; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
+# xml
 application/xml; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
 application/rss+xml; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
 application/rdf+xml; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
+text/xml; qutebrowser --temp-basedir %s & ; test=test -n "$DISPLAY"; nametemplate=%s.xml; needsterminal
+# misc
+application/oxps; zathura %s &; test=test -n "$DISPLAY"
+application/vnd.ms-xpsdocument; zathura %s &; test=test -n "$DISPLAY"
+
+### LINKS ###
+# web
 x-scheme-handler/http; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
 x-scheme-handler/https; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
 x-scheme-handler/ftp; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
 x-scheme-handler/chrome; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
-video/webm; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
-application/x-xpinstall; qutebrowser --temp-basedir %s &; test=test -n "$DISPLAY"
-application/pkcs12; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
-application/pkcs12+pem; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
-application/pkcs7-mime; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
-application/pkcs7-mime+pem; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
-application/pkcs8; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
-application/pkcs8+pem; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
+
+
+### IMAGES ###
+# eps
+image/x-eps; feh --magick-timeout=3 %s; test=test -n "$DISPLAY"
+image/x-bzeps; feh --magick-timeout=3 %s; test=test -n "$DISPLAY"
+image/x-gzeps; feh --magick-timeout=3 %s; test=test -n "$DISPLAY"
+image/eps; feh --magick-timeout=3 %s; test=test -n "$DISPLAY"
+# djvu
+image/vnd.djvu; feh --magick-timeout=3 %s %s; test=test -n "$DISPLAY"
+image/vnd.djvu+multipage; feh --magick-timeout=3 %s %s; test=test -n "$DISPLAY"
+# tiff
+image/tiff; feh %s; test=test -n "$DISPLAY"
+
+### VIDEOS ###
+video/webm; mpv %s &; test=test -n "$DISPLAY"
+
+### ARCHIVES ###
+# 7z
+application/x-7z-compressed; tar -tf %s; test=test -n "$DISPLAY"
+application/x-7z-compressed-tar; tar -tf %s; test=test -n "$DISPLAY"
+# bzip
+application/x-bzip; tar -tf %s; test=test -n "$DISPLAY"
+application/x-bzip-compressed-tar; tar -tf %s; test=test -n "$DISPLAY"
+application/x-bzip1; tar -tf %s; test=test -n "$DISPLAY"
+application/x-bzip1-compressed-tar; tar -tf %s; test=test -n "$DISPLAY"
+# gzip
+application/x-gzip; tar -tf %s; test=test -n "$DISPLAY"
+# cabinet
+application/x-cabinet; cabextract -l %s; test=test -n "$DISPLAY"
+application/x-cbr; cabextract -l %s; test=test -n "$DISPLAY"
+application/x-cbz; cabextract -l %s; test=test -n "$DISPLAY"
+# rar
+application/x-rar; unrar l %s; test=test -n "$DISPLAY"
+application/x-rar-compressed; unrar l %s; test=test -n "$DISPLAY"
+# zip
+application/x-zip; unzip -l %s; test=test -n "$DISPLAY"
+application/x-zip-compressed; unzip -l %s; test=test -n "$DISPLAY"
+application/zip; unzip -l %s; test=test -n "$DISPLAY"
+
+### CERTIFICATES ###
+# pkcs
+application/pkcs12; openssl pkcs12 -info -in %s; test=test -n "$DISPLAY"
+application/pkcs12+pem; openssl pkcs12 -info -in %s; test=test -n "$DISPLAY"
+application/pkcs7-mime; openssl pkcs7 -text -in %s; test=test -n "$DISPLAY"
+application/pkcs7-mime+pem; openssl pkcs7 -text -in %s; test=test -n "$DISPLAY"
+application/x-pkcs7-certificates; openssl pkcs7 -text -in %s; test=test -n "$DISPLAY"
+application/pkcs8; openssl pkcs8 -topk8 -in %s; test=test -n "$DISPLAY"
+application/pkcs8+pem; openssl pkcs8 -topk8 -in %s; test=test -n "$DISPLAY"
+application/pkcs12; gcr-viewer %s; test=test -n "$DISPLAY"
+application/pkcs12+pem; gcr-viewer %s; test=test -n "$DISPLAY"
+application/pkcs7-mime; gcr-viewer %s; test=test -n "$DISPLAY"
+application/pkcs7-mime+pem; gcr-viewer %s; test=test -n "$DISPLAY"
+application/x-pkcs7-certificates; gcr-viewer %s; test=test -n "$DISPLAY"
+application/pkcs8; gcr-viewer %s; test=test -n "$DISPLAY"
+application/pkcs8+pem; gcr-viewer %s; test=test -n "$DISPLAY"
+
+
+### OTHERS ###
+# firefox extensions
+application/x-xpinstall; firefox %s &; test=test -n "$DISPLAY"
+
+# application/x-cd-image; engrampa %s; test=test -n "$DISPLAY"
+# application/x-compress; engrampa %s; test=test -n "$DISPLAY"
+# application/x-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
+# application/x-cpio; engrampa %s; test=test -n "$DISPLAY"
+# application/x-deb; engrampa %s; test=test -n "$DISPLAY"
+# application/x-ear; engrampa %s; test=test -n "$DISPLAY"
+# application/x-ms-dos-executable; engrampa %s; test=test -n "$DISPLAY"
+# application/x-gtar; engrampa %s; test=test -n "$DISPLAY"
+# application/x-gzpostscript; engrampa %s; test=test -n "$DISPLAY"
+# application/x-java-archive; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lha; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lhz; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lrzip; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lrzip-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lzip; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lzip-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lzma; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lzma-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lzop; engrampa %s; test=test -n "$DISPLAY"
+# application/x-lzop-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
+# application/x-ms-wim; engrampa %s; test=test -n "$DISPLAY"
+# application/x-rpm; engrampa %s; test=test -n "$DISPLAY"
+# application/x-rzip; engrampa %s; test=test -n "$DISPLAY"
+# application/x-stuffit; engrampa %s; test=test -n "$DISPLAY"
+# application/x-war; engrampa %s; test=test -n "$DISPLAY"
+# application/x-xz; engrampa %s; test=test -n "$DISPLAY"
+# application/x-xz-compressed-tar; engrampa %s; test=test -n "$DISPLAY"
+# application/x-zoo; engrampa %s; test=test -n "$DISPLAY"
+# application/x-archive; engrampa %s; test=test -n "$DISPLAY"
+# application/vnd.ms-cab-compressed; engrampa %s; test=test -n "$DISPLAY"
+inode/directory; exo-open --launch FileManager %s; test=test -n "$DISPLAY"
 application/pkix-cert; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
 application/pkix-cert+pem; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
 application/pkix-crl; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
 application/pkix-crl+pem; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
 application/x-pem-file; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
 application/x-pem-key; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
-application/x-pkcs12; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
-application/x-pkcs7-certificates; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
 application/x-x509-ca-cert; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
 application/x-x509-user-cert; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
 application/pkcs10; /usr/bin/gcr-viewer %s; test=test -n "$DISPLAY"
@@ -166,9 +181,6 @@ application/vnd.oasis.opendocument.text-flat-xml; libreoffice %s; test=test -n "
 application/vnd.oasis.opendocument.spreadsheet-flat-xml; libreoffice %s; test=test -n "$DISPLAY"
 application/vnd.oasis.opendocument.graphics-flat-xml; libreoffice %s; test=test -n "$DISPLAY"
 application/vnd.oasis.opendocument.presentation-flat-xml; libreoffice %s; test=test -n "$DISPLAY"
-text/html; qutebrowser --temp-basedir %s & ; test=test -n "$DISPLAY"; nametemplate=%s.html; needsterminal
-text/xml; qutebrowser --temp-basedir %s & ; test=test -n "$DISPLAY"; nametemplate=%s.xml; needsterminal
-application/xhtml+xml; luakit %s; test=test -n "$DISPLAY"
 application/x-ms-dos-executable; mono %s; test=test -n "$DISPLAY"
 application/x-ms-dos-executable; mono %s; needsterminal
 application/ogg; mpv %s; test=test -n "$DISPLAY"
@@ -389,7 +401,6 @@ image/jpg; feh %s; test=test -n "$DISPLAY"
 image/pjpeg; feh %s; test=test -n "$DISPLAY"
 image/png; feh %s; test=test -n "$DISPLAY"
 image/svg+xml; feh %s; test=test -n "$DISPLAY"
-image/tiff; feh %s; test=test -n "$DISPLAY"
 image/x-bmp; feh %s; test=test -n "$DISPLAY"
 image/x-gray; feh %s; test=test -n "$DISPLAY"
 image/x-icb; feh %s; test=test -n "$DISPLAY"
@@ -437,7 +448,6 @@ x-scheme-handler/info; man %s; test=test -n "$DISPLAY"
 x-scheme-handler/man; man %s; test=test -n "$DISPLAY"
 image/*; atril %s; test=test -n "$DISPLAY"
 text/plain; view %s; edit=vim %s; compose=vim %s; test=test -x /usr/bin/vim; needsterminal
-text/html; /usr/bin/w3m -T text/html %s; needsterminal; description=HTML Text; nametemplate=%s.html
 text/csv; soffice --nologo --calc '%s'; edit=soffice --nologo --calc '%s'; test=test -n "$DISPLAY"; description="CSV Document"; nametemplate=%s.csv
 text/spreadsheet; soffice --nologo --calc '%s'; edit=soffice --nologo --calc '%s'; test=test -n "$DISPLAY"; description="Spreadsheet Interchange Document"; nametemplate=%s.slk
 application/x-quattropro; soffice --nologo --calc '%s'; edit=soffice --nologo --calc '%s'; test=test -n "$DISPLAY"; description="Quattro Pro 6 for Windows Spreadsheet"; nametemplate=%s.wb2
@@ -461,11 +471,9 @@ application/msword; soffice --nologo --writer '%s'; edit=soffice --nologo --writ
 application/vnd.ms-works; soffice --nologo --writer '%s'; edit=soffice --nologo --writer '%s'; test=test -n "$DISPLAY"; description="Microsoft Works Document"; nametemplate=%s.wps
 application/zip; unzip -l %s; nametemplate=%s.zip; copiousoutput
 text/plain; view %s; edit=vi %s; compose=vi %s; needsterminal
-text/html; /usr/bin/w3m -I %{charset} -dump -T text/html %s; copiousoutput; description=HTML Text; nametemplate=%s.html
 image/gif; feh '%s'; test=test -n "$DISPLAY" ; description=GIF Image; nametemplate=%s.gif
 image/jpeg; feh '%s'; test=test -n "$DISPLAY" ; description=JPEG Image; nametemplate=%s.jpeg
 image/png; feh '%s'; test=test -n "$DISPLAY" ; description=PNG Image; nametemplate=%s.png
-image/tiff; feh '%s'; test=test -n "$DISPLAY" ; description=TIFF Image; nametemplate=%s.tiff
 image/x-portable-anymap; feh '%s'; test=test -n "$DISPLAY" ; description=PNM Image; nametemplate=%s.pnm
 image/targa; feh '%s'; test=test -n "$DISPLAY" ; description=TGA Image; nametemplate=%s.tga
 image/x-ms-bmp; feh '%s'; test=test -n "$DISPLAY" ; description=BMP Image; nametemplate=%s.bmp
@@ -476,7 +484,6 @@ image/bie; display-im6.q16 'jbig:%s'; test=test -n "$DISPLAY"
 image/x-ms-bmp; display-im6.q16 'bmp:%s'; test=test -n "$DISPLAY"
 image/cmyk; display-im6.q16 'cmyk:%s'; test=test -n "$DISPLAY"
 image/dcx; display-im6.q16 'dcx:%s'; test=test -n "$DISPLAY"
-image/eps; display-im6.q16 'eps:%s'; test=test -n "$DISPLAY"
 image/fax; display-im6.q16 'fax:%s'; test=test -n "$DISPLAY"
 image/fits; display-im6.q16 'fits:%s'; test=test -n "$DISPLAY"
 image/gif; display-im6.q16 'gif:%s'; test=test -n "$DISPLAY"
@@ -504,7 +511,6 @@ image/rle; display-im6.q16 'rle:%s'; test=test -n "$DISPLAY"
 image/sgi; display-im6.q16 'sgi:%s'; test=test -n "$DISPLAY"
 image/sun-raster; display-im6.q16 'sun:%s'; test=test -n "$DISPLAY"
 image/targa; display-im6.q16 'tga:%s'; test=test -n "$DISPLAY"
-image/tiff; display-im6.q16 'tiff:%s'; test=test -n "$DISPLAY"
 image/uyvy; display-im6.q16 'uyvy:%s'; test=test -n "$DISPLAY"
 image/vid; display-im6.q16 'vid:%s'; test=test -n "$DISPLAY"
 image/viff; display-im6.q16 'viff:%s'; test=test -n "$DISPLAY"
