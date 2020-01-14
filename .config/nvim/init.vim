@@ -34,6 +34,11 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Plug 'tpope/vim-obsession'
     Plug 'mhinz/vim-startify'
 
+    " movement and basic searches
+    Plug 'junegunn/vim-slash'
+    Plug 'markonm/traces.vim'
+    Plug 'tpope/vim-rsi'
+
     " searching and file browsing
     " Plug 'Shougo/denite.nvim'
     Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
