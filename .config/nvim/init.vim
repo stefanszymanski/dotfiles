@@ -285,6 +285,9 @@ nmap <silent> <leader>bp :normal! ggdG"+P<CR>
 
 " windows
 nmap <silent> <leader>wo :only<CR>
+nmap <silent> <leader>ws :split<CR>
+nmap <silent> <leader>wv :vsplit<CR>
+nmap <silent> <leader>wc :close<CR>
 
 
 " === Shadowing Key bindings === "
