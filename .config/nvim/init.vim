@@ -24,7 +24,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'christoomey/vim-tmux-navigator'
 
     " version control
-    " Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-fugitive'
+    Plug 'junegunn/gv.vim'
     " Plug 'jreybert/vimagit'
     Plug 'airblade/vim-gitgutter'
     Plug 'rhysd/git-messenger.vim'
