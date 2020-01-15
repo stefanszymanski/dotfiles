@@ -70,4 +70,5 @@ color body 	   		brightmagenta   default 	"invalid node with packet of type"
 
 # sidebar
 color sidebar_new		green		default
+color sidebar_unread	green		default
 color sidebar_highlight	color243	default	
