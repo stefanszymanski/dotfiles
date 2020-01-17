@@ -1,6 +1,6 @@
-#!/bin/zsh
+#!/bin/bash
 
-while getopts "t:T:p:usnlh" option; do
+while getopts "t:T:p:usnaivlh" option; do
   case "$option" in
     t) target="$OPTARG";;
     T) targets="$OPTARG";;
@@ -8,11 +8,33 @@ while getopts "t:T:p:usnlh" option; do
     u) git_unstaged_files=true;;
     s) git_staged_files=true;;
     n) git_new_files=true;;
+    a) all_files=true;;
+    i) git_ignore=true;;
+    v) verbose=true;;
     l) mode_list=true;;
     h) mode_help=true;;
     \?) echo "Invalid option -$OPTARG" >&2;;
   esac
 done
+shift $((OPTIND-1))
+
+# create a run id and names for temporary files
+tmp_dir="/tmp/deploy"
+id=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+exclude_file="$tmp_dir/$id.excluded"
+tgz_file="$tmp_dir/deploy-$id.tgz"
+
+# remove temporary files on exit
+cleanup() {
+    if [[ -f $exclude_file ]]; then
+        rm -f $exclude_file
+    fi
+    if [[ -f $tgz_file ]]; then
+        rm -f $tgz_file
+    fi
+}
+trap "cleanup" EXIT
+
 
 if [ $mode_help ]; then
     cat <<-END
@@ -21,8 +43,9 @@ Usage: deploy -t [TARGET] [FILE]...
 A simple deploy script.
 
 Examples:
-  deploy -t dev src/a       # deploy src/a on dev
+  deploy -t dev src/adir    # deploy src/adir on dev
   deploy -t dev -sun        # deploy uncommited files on dev
+  deploy -t dev -a          # deploy all files on dev
 
 Arguments:
   -t TARGET     target to deploy on
@@ -31,11 +54,17 @@ Arguments:
   -p DIR        project directory
                 if omitted and in a git repository the repository root is used
                 otherwise the current working directory
-  -u            deploy unstaged files (git)
-  -s            deploy staged files (git)
-  -n            deploy new/untracked files (git)
+  -a            deploy all files
+                when set all other file specifying arguments are ignored
+  -v            be verbose
   -l            list available targets
   -h            show this help
+
+Arguments for git projects:
+  -s            deploy staged files
+  -u            deploy unstaged files
+  -n            deploy new/untracked files
+  -i            respect .gitignore
 
 Deployment:
   The specified files from the local-dir in the project root are packed into a
@@ -53,7 +82,7 @@ Example targets file:
   dev       user@host.dev    /var/www/htdocs  src        ssh/project/dev
   stage     user@host.stage  /var/www/htdocs  src        ssh/project/stage
 END
-exit
+    exit
 fi
 
 # find project directory
@@ -61,126 +90,157 @@ if [ ! "$project" ]; then
     project=$(git rev-parse --show-toplevel 2> /dev/null || pwd)
 fi
 
-# check for file with target definitions
-if [ ! $targets ]; then
+# check if inside a git repository
+git -C "$project" rev-parse 2> /dev/null && is_git=true
+
+# check for used git only arguments
+if [ $git_unstaged_files ] || [ $git_staged_files ] || \
+   [ $git_new_files ] || [ $git_ignore ] &&  \
+   [ ! $is_git ]; then
+    echo "ERROR: arguments -s, -u, -n and -i can only be used on git projects" >&2
+    exit 1
+fi
+
+# check for targets configuration file
+if [ ! "$targets" ]; then
     targets="$project/deploy.targets"
 fi
 if [ ! -r "$targets" ]; then
-    echo "ERROR: targets file missing"
-    return
+    echo "ERROR: targets file missing" >&2
+    exit 1
 fi
 
-# list available targets
+# mode: list available targets
 if [ $mode_list ]; then
     echo "Project:  $project"
+    echo -n "  Git:    "; [ $is_git ] && echo "yes" || echo "no"
     echo "Targets:"
     for t in $(awk '/^[a-zA-Z0-9_\-\/]+ / {print $1}' $targets); do
         echo "  $t"
     done
-    return
+    exit
 fi
 
 # get target configuration
 if [ ! "$target" ]; then
-    echo "ERROR: no target given"
-    return
+    echo "ERROR: no target given" >&2
+    exit 1
 fi
 target_config=($(sed -n -e "/^$target /p" $targets))
 if [ ! "$target_config" ]; then
-    echo "ERROR: Target $target not found."
-    return
+    echo "ERROR: target '$target' not found" >&2
+    exit 1
 fi
-host=$target_config[2]
-rdir=$target_config[3]
-ldir=$target_config[4]
-passkey=$target_config[5]
+host=${target_config[1]}
+rdir=${target_config[2]}
+ldir=${target_config[3]}
+passkey=${target_config[4]}
 
+# check target configuration
+if [ ! $host ] || [ ! $rdir ] || [ ! $ldir ] || [ ! $passkey ]; then
+    echo "ERROR: incomplete configuration for target '$target'" >&2
+    exit 1
+fi
 if [ ! -d "$project/$ldir" ]; then
-    echo "ERROR: $project/$ldir is not a directory"
-    exit
+    echo "ERROR: $project/$ldir is not a directory" >&2
+    exit 1
 fi
 
-# get explitly specified files
-files_arg=(${@:$OPTIND})
-for file in $files_arg; do
-    _abs=$(realpath "$file")
-    if [ -f $_abs ] || [ -d $_abs ]; then
-        _files=(${_files[@]} $(realpath --relative-to="$project" $file))
-    else
-        echo "ERROR: file $file doesn't exist"
+# get files for deployment
+if [ $all_files ]; then
+    files=($ldir)
+else
+    # get explitly specified files
+    for file in $@; do
+        if [[ ! -f $file ]] && [[ ! -d $file ]]; then
+            echo "WARNING: file $file doesn't exist" >&2
+        elif [[ ! $(realpath $file) == $project/$ldir/* ]]; then
+            echo "WARNING: file $file is outside of deployable directory" >&2
+        else
+            files+=($(realpath --relative-to=$project $file))
+        fi
+    done
+
+    # get files via git
+    if [ $git_unstaged_files ]; then
+        _files+=($(git ls-files --full-name --modified $project/$ldir))
     fi
-done
+    if [ $git_staged_files ]; then
+        files+=($(git diff --name-only --cached $project/$ldir))
+    fi
+    if [ $git_new_files ]; then
+        files+=($(git ls-files --full-name --others --exclude-standard $project/$ldir))
+    fi
 
-# get unstaged files
-if [ $git_unstaged_files ]; then
-    _files=(${_files[@]} $(git ls-files --full-name --modified))
+    # remove duplicates
+    files=($(echo ${files[@]} | tr ' ' '\n' | sort -u | tr '\n' ' '))
 fi
 
-# get staged files
-if [ $git_staged_files ]; then
-    _files=(${_files[@]} $(git diff --name-only --cached))
-fi
-
-# get untracked _files
-if [ $git_new__files ]; then
-    _files=(${_files[@]} $(git ls-_files --full-name --others --exclude-standard))
-fi
-
-# filter out files outside of the deployable directory
-for file in $_files; do
-    # c=$(find "$project/$ldir" -name $file | wc -l)
-    # if [[ $file_count -gt 0 ]]; then
-        files=(${files[@]} $file)
-    # fi
-done
 
 
 # print some information about the deployment
+if [ $verbose ]; then
+    echo "ID:       $id"
+fi
 echo "Project:  $project"
+echo -n "  Git:    "; [ $is_git ] && echo "yes" || echo "no"
+echo "  Dir:    $ldir"
 echo "Target:   $target"
 echo "  Host:   $host"
 echo "  Dir:    $rdir"
 
-if [ ${#files[@]} -eq 0 ]; then
-    echo 'ABORT: no files to deploy'
-    exit 0
+if [[ ${#files[@]} -eq 0 ]]; then
+    echo 'Aborted: no files to deploy'
+    exit
 fi
 
 echo "Files:"
-for file in $files; do
+for file in ${files[@]}; do
     echo "  $file"
 done
 
 # get connection password from pass
 password=$(pass $passkey 2> /dev/null)
 if [ ! $password ]; then
-    echo "ERROR: no password"
-    exit
+    echo "ERROR: no password" >&2
+    exit 1
 fi
 
-# create a tgz with the files for deployment
-# exclude=( "src/typo3" "src/typo3_src" "src/index.php" "src/composer.*" "src/vendor" )
-# param_exclude=( "${exclude[@]/%/\"}" )
-# param_exclude=( "${param_exclude[@]/#/--exclude=\"}" )
-param_file="--file=/tmp/deploy.tgz"
+# pack the files
+if [ $git_ignore ]; then
+    # get ignored files from git
+    param_exclude="--exclude-from=$exclude_file"
+    git status --ignored | awk "/^!! $ldir\// {gsub(/^!! $ldir\//, \"\"); gsub(/\/\$/, \"\"); print \$1}" > $exclude_file
+    # display ignored files
+    echo "Ignore:"
+    for file in $(cat $exclude_file); do
+        echo "  $ldir/$file"
+    done
+fi
+param_file="--file=$tgz_file"
 param_directory="--directory=$project/$ldir"
-for file in $files; do
-    param_files=(${param_files[@]} $(realpath --relative-to="$project/$ldir/" "$project/$file"))
+for file in ${files[@]}; do
+    param_files+=($(realpath --relative-to="$project/$ldir/" "$project/$file"))
 done
 echo -n "Packing ... "
-tar --create --gzip $param_directory --exclude-vcs-ignores $param_file $param_files
-echo "packed"
+mkdir -p $tmp_dir
+tar --create --gzip $param_directory $param_exclude $param_file ${param_files[@]}
+echo "packed ($(stat -c %s $tgz_file | numfmt --to=iec-i --suffix=B))"
 
 # run a ssh or scp command
 run_expect() {
     expect <<- DONE
         log_user 0
-        set timeout 5
+        set timeout $3
         spawn $1
         expect {
             "assword:" {
                 send "$2\r"
-                expect eof exit 0
+                expect {
+                    eof {
+                        exit 0
+                    }
+                }
                 exit 1
             }
             timeout exit 2
@@ -188,17 +248,20 @@ run_expect() {
         exit 1
 DONE
     case "$?" in
-        1) echo "error"; exit 1;;
-        2) echo "timeout"; exit 1;;
+        1) echo "failed"; echo "SSH connection failed" >&2; exit 1;;
+        2) echo "timed out"; echo "SSH connection timed out" >&2; exit 1;;
     esac
 }
 
 # copy tgz to remote system
 echo -n "Transfering ... "
-run_expect "scp /tmp/deploy.tgz $host:/tmp/deploy.tgz" "$password"
+run_expect "scp /tmp/deploy.tgz $host:/tmp/deploy-$id.tgz" "$password" 600
 echo "transfered"
 
 # unpack and delete tgz
 echo -n "Unpacking ... "
-run_expect "ssh $host \"tar --directory=$rdir --extract --gzip --file /tmp/deploy.tgz ; rm /tmp/deploy.tgz\"" "$password"
+run_expect "ssh $host \"tar --directory=$rdir --extract --gzip --file /tmp/deploy-$id.tgz ; rm -f /tmp/deploy-$id.tgz\"" "$password" 120
 echo " unpacked"
+
+echo "Finished"
+exit 0
