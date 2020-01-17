@@ -13,6 +13,7 @@
 [ -d "$HOME/.bin" ] && PATH="$HOME/.bin:$PATH"
 [ -d "$HOME/.local/share/JetBrains/Toolbox/bin" ] && PATH="$HOME/.local/share/JetBrains/Toolbox/bin:$PATH"
 [ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
+[ -d "$HOME/.npm/bin" ] && PATH="$HOME/.npm/bin:$PATH"
 export PATH
 
 # set XDG_CONFIG_* variables
