@@ -1,10 +1,12 @@
 #!/bin/bash
 
-while getopts "t:T:p:usnaivlh" option; do
+while getopts "t:T:p:D:dusnaivlh" option; do
   case "$option" in
     t) target="$OPTARG";;
     T) targets="$OPTARG";;
     p) project="$OPTARG";;
+    D) default="$OPTARG";;
+    d) use_default_target=true;;
     u) git_unstaged_files=true;;
     s) git_staged_files=true;;
     n) git_new_files=true;;
@@ -45,7 +47,7 @@ A simple deploy script.
 Examples:
   deploy -t dev src/adir    # deploy src/adir on dev
   deploy -t dev -sun        # deploy uncommited files on dev
-  deploy -t dev -a          # deploy all files on dev
+  deploy -da                # deploy all files on the default target
 
 Arguments:
   -t TARGET     target to deploy on
@@ -54,6 +56,9 @@ Arguments:
   -p DIR        project directory
                 if omitted and in a git repository the repository root is used
                 otherwise the current working directory
+  -d            Use the default target
+  -D FILE       file with the name of the default target
+                if omitted deploy.default from the project directory is used
   -a            deploy all files
                 when set all other file specifying arguments are ignored
   -v            be verbose
@@ -85,6 +90,11 @@ END
     exit
 fi
 
+if [ $use_default_target ] && [ $target ]; then
+    echo "ERROR: arguments -t and -d can't be used at the same time" >&2
+    exit 1
+fi
+
 # find project directory
 if [ ! "$project" ]; then
     project=$(git rev-parse --show-toplevel 2> /dev/null || pwd)
@@ -101,12 +111,24 @@ if [ $git_unstaged_files ] || [ $git_staged_files ] || \
     exit 1
 fi
 
+# check for default target
+if [ $use_default_target ]; then
+    if [ ! $default ]; then
+        default="$project/deploy.default"
+    fi
+    if [ ! -r $default ]; then
+        echo "ERROR: $default is not readable" >&2
+        exit 1
+    fi
+    target=$(cat $default)
+fi
+
 # check for targets configuration file
-if [ ! "$targets" ]; then
+if [ ! $targets ]; then
     targets="$project/deploy.targets"
 fi
-if [ ! -r "$targets" ]; then
-    echo "ERROR: targets file missing" >&2
+if [ ! -r $targets ]; then
+    echo "ERROR: $targets is not readable" >&2
     exit 1
 fi
 
@@ -176,8 +198,6 @@ else
     files=($(echo ${files[@]} | tr ' ' '\n' | sort -u | tr '\n' ' '))
 fi
 
-
-
 # print some information about the deployment
 if [ $verbose ]; then
     echo "ID:       $id"
@@ -202,7 +222,7 @@ done
 # get connection password from pass
 password=$(pass $passkey 2> /dev/null)
 if [ ! $password ]; then
-    echo "ERROR: no password" >&2
+    echo "ERROR: password not found" >&2
     exit 1
 fi
 
