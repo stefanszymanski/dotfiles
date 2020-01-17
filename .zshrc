@@ -167,6 +167,10 @@ alias pconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-private/ --work-tree=$HOME
 # vim as pager
 alias vless='/usr/share/nvim/runtime/macros/less.sh'
 
+# nvim due to problem with prompts from external programs
+alias nvim='PINENTRY_USER_DATA=gtk nvim'
+alias vim=nvim
+
 # exa
 if type exa &> /dev/null; then
 	alias ls='exa'
