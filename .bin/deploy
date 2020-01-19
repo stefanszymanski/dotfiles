@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts "t:T:p:D:dusnaivlh" option; do
+while getopts "t:T:p:D:dusnaivwlh" option; do
   case "$option" in
     t) target="$OPTARG";;
     T) targets="$OPTARG";;
@@ -13,6 +13,7 @@ while getopts "t:T:p:D:dusnaivlh" option; do
     a) all_files=true;;
     i) git_ignore=true;;
     v) verbose=true;;
+    w) warnings=true;;
     l) mode_list=true;;
     h) mode_help=true;;
     \?) echo "Invalid option -$OPTARG" >&2;;
@@ -62,6 +63,7 @@ Arguments:
   -a            deploy all files
                 when set all other file specifying arguments are ignored
   -v            be verbose
+  -w            show warnings
   -l            list available targets
   -h            show this help
 
@@ -175,9 +177,13 @@ else
     # get explitly specified files
     for file in $@; do
         if [[ ! -f $file ]] && [[ ! -d $file ]]; then
-            echo "WARNING: file $file doesn't exist" >&2
+            if [ $warnings ]; then
+                echo "WARNING: file $file doesn't exist" >&2
+            fi
         elif [[ ! $(realpath $file) == $project/$ldir/* ]]; then
-            echo "WARNING: file $file is outside of deployable directory" >&2
+            if [ $warnings ]; then
+                echo "WARNING: file $file is outside of deployable directory" >&2
+            fi
         else
             files+=($(realpath --relative-to=$project $file))
         fi
@@ -210,7 +216,7 @@ echo "  Host:   $host"
 echo "  Dir:    $rdir"
 
 if [[ ${#files[@]} -eq 0 ]]; then
-    echo 'Aborted: no files to deploy'
+    echo 'Abort: no files to deploy'
     exit
 fi
 
