@@ -9,10 +9,15 @@ if {[llength $argv] == 0} {
 
 set server [lindex $argv 0]
 
-spawn pass "ssh/$server"
+spawn bash -c "echo -n $server | sed -e 's/-/\\//g'"
+expect -re "(^.+$)" {
+    set passkey $expect_out(1,string)
+}
+
+spawn pass "ssh/$passkey"
 expect {
     "not in the password store" {
-        puts "\[Error\] pass: there is no stored password for ssh/$server"
+        puts "\[Error\] pass: there is no stored password for `ssh/$passkey`"
         exit
     }
     -re "(^.+$)" {
