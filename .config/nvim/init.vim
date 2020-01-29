@@ -103,6 +103,8 @@ scriptencoding utf-8
 
 " General behaviour
 
+set nocompatible
+filetype plugin on
 syntax enable
 let mapleader=" "
 set backspace=indent,eol,start  " Backspace for dummies
@@ -114,8 +116,6 @@ set hlsearch                    " Highlight search terms
 set winminheight=0              " Windows can be 0 line high
 set ignorecase                  " Case insensitive search
 set smartcase                   " Case sensitive when uc present
-set wildmenu                    " Show list instead of just completing
-set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
 set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap
 set scrolljump=5                " Lines to scroll when cursor leaves screen
 set scrolloff=3                 " Minimum lines to keep above and below cursor
@@ -130,13 +130,13 @@ set confirm                     " Ask for confirmation when closing a modified b
 set shortmess+=c
 set signcolumn=yes              " Always display the sign column
 set relativenumber              " Use relative line numbers
-set exrc
-
-set nocompatible
-filetype plugin on
-
+" set exrc
 set path+=**
+
+" wildmenu in popup
 set wildmenu
+set wildmode=longest:full,full
+set wildoptions=pum
 
 
 let g:python3_host_prog = '~/.virtualenvs/nvim3/bin/python'
