@@ -57,8 +57,8 @@ function! deploy#list_processes() abort
         let start = deploy.start
         let duration = deploy.running ? '' : printf("(%.2fs)", reltimefloat(reltime(deploy.rstart, deploy.rend)))
         let cmd = join(deploy.cmd)
-        let msg = deploy.error ? printf("[%s]", deploy.message) : ''
-        let line = printf("%s %s %-8s %s %s", state, start, duration, cmd, msg)
+        let msg = deploy.message
+        let line = printf("%s %s %-8s %s [%s]", state, start, duration, cmd, msg)
         call add(lines, line)
     endfor
     call setbufline(buf, 1, lines)
@@ -191,7 +191,7 @@ command! -bang -nargs=0 DeployCurrent call deploy#execute([expand("%:p")], <bang
 command! -bang -nargs=0 DeployAll call deploy#execute(['-a'], <bang>0)
 command! -nargs=0 DeployHistory call deploy#list_processes()
 
-nnoremap <silent> <leader>dl :<c-u>DeployHistory<cr>
+nnoremap <silent> <leader>dh :<c-u>DeployHistory<cr>
 
 " select target and deploy
 nnoremap <silent> <leader>du :<c-u>DeployUncommited<cr>
