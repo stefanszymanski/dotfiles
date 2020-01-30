@@ -109,7 +109,6 @@ syntax enable
 let mapleader=" "
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
-set number                      " Line numbers on
 set showmatch                   " Show matching brackets/parenthesis
 set incsearch                   " Find as you type search
 set hlsearch                    " Highlight search terms
@@ -129,9 +128,16 @@ set hidden                      " Allow hiding modified buffers
 set confirm                     " Ask for confirmation when closing a modified buffer
 set shortmess+=c
 set signcolumn=yes              " Always display the sign column
-set relativenumber              " Use relative line numbers
 " set exrc
 set path+=**
+
+" line numbering: relative in active buffer, absolute in inactive buffers
+set number relativenumber
+augroup NumberToggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
 
 " wildmenu in popup
 set wildmenu
