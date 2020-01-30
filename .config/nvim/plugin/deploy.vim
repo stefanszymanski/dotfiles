@@ -106,8 +106,7 @@ endfunction
 " Setup the selector buffer
 function! s:setup_buffer() abort
     setlocal buftype=nofile bufhidden=wipe noswapfile
-    setlocal nomodifiable
-    setlocal nowrap cursorline
+    setlocal nomodifiable nowrap cursorline
     nnoremap <buffer> <silent> q :$wincmd w <bar> close<cr>
     nnoremap <buffer> <silent> <esc> :$wincmd w <bar> close<cr>
     nnoremap <buffer> <silent> <cr> :call <sid>run_cmd()<cr> :$wincmd w <bar> close<cr>
@@ -118,8 +117,7 @@ endfunction
 
 function! s:setup_processes() abort
     setlocal buftype=nofile bufhidden=wipe noswapfile
-    setlocal nomodifiable
-    setlocal wrap cursorline
+    setlocal nomodifiable wrap cursorline
     setlocal showbreak=\ \ \ \ 
     nnoremap <buffer> <silent> q :q<cr>
     nnoremap <buffer> <silent> <esc> :q<cr>
@@ -151,7 +149,6 @@ function! deploy#select_target(cmd) abort
     let [width, height] = s:get_popup_size(targets)
     let [buf, win] = s:create_popup(width + 2, height)
     call setbufline(buf, 1, targets)
-    call setwinvar(win, '&winhl', 'Normal:DeploySelector')
     call setbufvar(buf, '&filetype', 'deploy_selector')
     call setbufvar(buf, '&signcolumn', 'no')
     call setbufvar(buf, 'deploy_cmd', a:cmd)
