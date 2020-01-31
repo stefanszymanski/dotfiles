@@ -21,13 +21,13 @@ nnoremap <silent> <leader>ls :<C-u>CocList -I -A symbols<CR>
 nnoremap <silent> <leader>lC  :<C-u>CocListResume<CR>
 
 " Completion
-"   <ctrl+space> - show completion candidates
+"   <ctrl><space>   - show completion candidates
 " When completions are shown
-"   <return>     - accept selected completion
-"   <tab>        - select next completion
-"   <shift-tab>  - select previous completion
+"   <ctrl><return>  - accept selected completion
+"   <tab>           - select next completion
+"   <shift><tab>    - select previous completion
 inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <expr> <CR> pumvisible() ? '<C-y>' : '<C-g>u<CR>'
+inoremap <expr> <c-cr> pumvisible() ? '<C-y>' : '<C-g>u<CR>'
 inoremap <silent><expr> <TAB>
     \ pumvisible() ? '<C-n>' :
     \ <SID>check_back_space() ? '<TAB>' :
