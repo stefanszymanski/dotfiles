@@ -183,6 +183,7 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
 
 " gutentags
 let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
+let g:gutentags_ctags_tagfile = '.ctags'
 
 " pear-tree
 let g:pear_tree_smart_openers = 1
