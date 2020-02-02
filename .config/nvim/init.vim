@@ -86,6 +86,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     " tags
     Plug 'ludovicchabant/vim-gutentags'
 
+    " markdown
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+
     " Language documentation integration
     Plug 'Shougo/echodoc.vim'
 
