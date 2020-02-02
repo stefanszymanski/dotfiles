@@ -4,6 +4,8 @@
 
 source ~/.zplug/init.zsh
 
+fpath=(~/.local/share/zsh/completion $fpath)
+
 # Let zplug manage itself
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
@@ -63,6 +65,7 @@ unsetopt flowcontrol
 setopt auto_menu
 setopt complete_in_word
 setopt always_to_end
+
 
 # case-insensitive (all),partial-word and then substring completion
 if [ "x$CASE_SENSITIVE" = "xtrue" ]; then
