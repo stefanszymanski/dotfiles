@@ -221,16 +221,12 @@ globalkeys = gears.table.join(
 --    awful.key({ modkey }, "x", function () beautiful.luaprompt.run() end,
 --        {description = "run lua execute prompt", group = "awesome"}),
 
-    awful.key({ modkey }, ",", function () awful.spawn.with_shell("rofi -show run") end,
-        {description = "show command launcher", group = "launcher"}),
     awful.key({ modkey }, ".", function () awful.spawn.with_shell("rofi -show drun") end,
         {description = "show application launcher", group = "launcher"}),
-    awful.key({ modkey }, "-", function () awful.spawn.with_shell("rofi -show ssh") end,
-        {description = "show ssh launcher", group = "launcher"}),
-    awful.key({ modkey }, "#", function () awful.spawn.with_shell("rofi -show window") end,
-        {description = "show window switcher", group = "launcher"}),
-    awful.key({ modkey }, "+", function () awful.spawn.with_shell("$HOME/.bin/sessionmenu") end,
-        {description = "show session menu", group = "launcher"})
+    awful.key({ modkey }, ",", function () awful.spawn.with_shell("$HOME/.bin/sessionmenu") end,
+        {description = "show session menu", group = "launcher"}),
+    awful.key({ modkey }, "-", function () awful.spawn.with_shell("rofi -show window") end,
+        {description = "show window switcher", group = "launcher"})
 
 )
 
