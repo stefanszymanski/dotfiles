@@ -163,6 +163,9 @@ bindkey '^s' history-incremental-search-forward
 
 # ALIASES
 
+# shortening often used commands
+alias g='git'
+
 # dotfile versioning
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias pconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-private/ --work-tree=$HOME'

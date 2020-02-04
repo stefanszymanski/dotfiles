@@ -1,3 +1,5 @@
 .ctags
+.ctags.lock
+.ctags.temp
 .deploy.conf
 .mypy_cache/
