@@ -65,7 +65,8 @@ unsetopt flowcontrol
 setopt auto_menu
 setopt complete_in_word
 setopt always_to_end
-
+setopt completealiases
+setopt list_ambiguous
 
 # case-insensitive (all),partial-word and then substring completion
 if [ "x$CASE_SENSITIVE" = "xtrue" ]; then
@@ -75,7 +76,7 @@ else
   zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 fi
 
-zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-colors ${(s.:.)EXA_COLORS}
 
 zstyle ':completion:*:*:*:*:*' menu select
 # Enhance process completion
@@ -115,7 +116,7 @@ fi
 
 
 # CORRECTION
-setopt correct_all
+setopt correct
 alias man='nocorrect man'
 alias mv='nocorrect mv'
 alias mkdir='nocorrect mkdir'
@@ -140,9 +141,6 @@ setopt hist_verify
 setopt inc_append_history
 
 
-# Enable vi mode
-bindkey -v
-
 # Set timeout of the escape key to 0.1 seconds
 export KEYTIMEOUT=1
 
@@ -150,15 +148,27 @@ export KEYTIMEOUT=1
 GPG_TTY=$(tty)
 export GPG_TTY
 
+
 # BINDINGS
 
-bindkey '^P' up-history
-bindkey '^N' down-history
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
-bindkey '^w' backward-kill-word
-bindkey '^r' history-incremental-search-backward
-bindkey '^s' history-incremental-search-forward
+# enable vi mode
+bindkey -v
+
+bindkey '\e[1;5C'   forward-word            # ctrl right
+bindkey '\e[1;5D'   backward-word           # ctrl left
+bindkey '\e[3~'     delete-char             # delete
+bindkey '^?'        backward-delete-char    # backspace
+bindkey '^a'        beginning-of-line
+bindkey '^e'        end-of-line
+bindkey '^w'        backward-kill-word
+bindkey '^p'        up-history
+bindkey '^n'        down-history
+bindkey '^r'        history-incremental-search-backward
+bindkey '^s'        history-incremental-search-forward
+
+# MISC
+
+setopt auto_cd
 
 
 # ALIASES
