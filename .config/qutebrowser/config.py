@@ -178,6 +178,28 @@ config.bind('<Alt-p>l', 'spawn --userscript qute-pass --password-only')
 config.bind('<Alt-o>', 'set-cmd-text -s :open {url}')
 config.bind('<Alt-O>', 'set-cmd-text -s :open -t {url}')
 
+c.bindings.commands = {
+    'insert': {
+        # readline: moving
+        '<Ctrl-a>': 'fake-key <Home>',
+        '<Ctrl-e>': 'fake-key <End>',
+        '<Ctrl-f>': 'fake-key <Right>',
+        '<Ctrl-b>': 'fake-key <Left>',
+        '<Ctrl-n>': 'fake-key <Down>',
+        '<Ctrl-p>': 'fake-key <Up>',
+        '<Alt-f>':  'fake-key <Ctrl-Right>',
+        '<Alt-b>':  'fake-key <Ctrl-Left>',
+        '<Alt-v>':  'fake-key <PgUp>',
+        '<Ctrl-v>': 'fake-key <PgDown>',
+        # readline: killing and yanking
+        '<Ctrl-d>': 'fake-key <Delete>',
+        '<Alt-d>':  'fake-key <Ctrl-Delete>',
+        '<Ctrl-w>': 'fake-key <Ctrl-Backspace>',
+        '<Alt-Backspace>': 'fake-key <Ctrl-Backspace>',
+        '<Ctrl-y>': 'insert-text {primary}',
+    }
+}
+
 ###########
 # Aliases #
 ###########
