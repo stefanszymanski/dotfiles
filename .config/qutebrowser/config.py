@@ -115,8 +115,8 @@ c.tabs.mousewheel_switching = False
 # search
 c.url.auto_search = 'naive'
 c.url.searchengines = {
-    'DEFAULT': 'https://duckduckgo.com/?q={}',
-    'g': 'https://google.com/search?q={}',
+    'DEFAULT': 'https://google.com/search?q={}',
+    'd': 'https://duckduckgo.com/?q={}',
     'y': 'https://youtube.com/results?search_query={}',
     'l': 'https://dict.leo.org/?search={}'
 }
