@@ -1,72 +1,37 @@
 # See http://zsh.sourceforge.net/Doc/Release/Options.html
 
-# A lot was taken from https://github.com/changs/slimzsh and customizing these configs is still in progress
-
-source ~/.zplug/init.zsh
-
 fpath=(~/.local/share/zsh/completion $fpath)
 
-# Let zplug manage itself
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zmodload -i zsh/complist
 
-# Add some plugins
+###########
+# PLUGINS #
+###########
+
+source ~/.zplug/init.zsh
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "ael-code/zsh-colored-man-pages", defer:2
 zplug "zdharma/fast-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "peterhurford/up.zsh"
 zplug "MichaelAquilina/zsh-autoswitch-virtualenv"
+zplug load
 
-# Set the theme
-# zplug "robobenklein/zinc", as:theme, at:dev
 
-## Add directory for custom prompt segments
-#fpath+=("$HOME/.config/zsh/zinc/segments")
-## Modify segment options
-#typeset -gA zinc_opts
-#zinc_opts=(
-#  zincs_execution_time "black;yellow;;;10"      # changed colours and threshold
-#)
-## Setup prompt
-#typeset -ga zinc_left zinc_right
-#zinc_left=(
-#	zincs_cwd_writable
-#	zincs_cwd
-#	#zincs_vcs
-#	zincs_vi_mode_indicator
-#)
-#zinc_right=(
-#    zincs_retval
-#    #zincs_virtualenv
-#    zincs_execution_time
-#    #zincs_time
-#)
+##############
+# COMPLETION #
+##############
 
-# Change cursor shape depending on vi mode
-#function zle-keymap-select zle-line-init {
-#  case $KEYMAP in
-#    vicmd) echo -ne '\e[1 q';; # block cursor
-#    viins|main) echo -ne '\e[5 q';; # beam cursor
-#    #*) echo -ne '\e[5 q';; # beam cursor
-#  esac
-#}
-#zle -N zle-keymap-select
-#zle -N zle-line-init
+setopt auto_list                    # automatically list choices on an ambiguous completion
+setopt auto_menu                    # use menu completion after the second consecutive request for completion
+setopt complete_in_word             # allow completion inside a word
+setopt always_to_end                # move cursor to the end of a word if completion is performed from within
+setopt complete_aliases             # complete aliases
+unsetopt list_ambiguous             # on ambiguous completions insert an unambiguous prefix and display choices
 
-# source ~/.config/zsh/vi_mode_indicator
-
-# MODE_CURSOR_VICMD="steady block"
-# MODE_CURSOR_VIINS="steady bar"
-# MODE_CURSOR_SEARCH="steady underline"
-
-# COMPLETION
-unsetopt menu_complete
-unsetopt flowcontrol
-setopt auto_menu
-setopt complete_in_word
-setopt always_to_end
-setopt completealiases
-setopt list_ambiguous
+# display completion choices as menu
+zstyle ':completion:*:*:*:*:*' menu select
 
 # case-insensitive (all),partial-word and then substring completion
 if [ "x$CASE_SENSITIVE" = "xtrue" ]; then
@@ -76,22 +41,45 @@ else
   zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 fi
 
+# colorful completion
 zstyle ':completion:*' list-colors ${(s.:.)EXA_COLORS}
 
-zstyle ':completion:*:*:*:*:*' menu select
-# Enhance process completion
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+# formats
+zstyle ':completion:*:descriptions' format $'%{\e[0;34m%}%B%d%b%{\e[0m%}'
+zstyle ':completion:*:warnings' format $'%{\e[0;31m%}No matches for:%{\e[0m%} %d'
+zstyle ':completion:*:messages' format $'%{\e[0;34m%}%d%{\e[0m%}'
+zstyle ':completion:*' format $'%{\e[0;33m%}%B%d%b%{\e[0m%}'
+
+# group choices
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' separate-sections true
+
+# enhance process completion
 zstyle ':completion:*:*:*:*:processes' command "ps -u `whoami` -o pid,user,comm,time,command -w -w"
-# Disable named-directories autocompletion
+
+# disable named-directories autocompletion
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
-# Enhance host name completion
-zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
-zstyle ':completion:*' users off
+# complete . and ..
+zstyle ':completion:*' special-dirs true
 
-# Use caching so that commands like apt and dpkg complete are useable
+# sort choices by name
+zstyle ':completion:*' file-sort name
+
+# don't complete backup files as executables
+zstyle ':completion:*:complete:-command-::commands' ignored-patterns '*\~'
+
+# host names from .ssh/config
+if [[ -r ~/.ssh/config ]]; then
+    h=(${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
+    zstyle ':completion:*:(ssh|sshp|scp|sftp|rsh|rsync):*' hosts $h
+fi
+
+# use caching so that commands like apt and dpkg complete are useable
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion::complete:*' cache-path $ZSH/cache/
+
 # Don't complete uninteresting users
 zstyle ':completion:*:*:*:users' ignored-patterns \
         adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
@@ -100,9 +88,13 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
         mailman mailnull mldonkey mysql nagios \
         named netdump news nfsnobody nobody nscd ntp nut nx openvpn \
         operator pcap postfix postgres privoxy pulse pvm quagga radvd \
-        rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs
+        rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs \
+        'nixbld*' polkitd rtkit _uuidd
 # ... unless we really want to.
 zstyle '*' single-ignored show
+
+# ignore functions starting with _
+zstyle ':completion:*:functions' ignored-patterns '_*'
 
 if [ "x$COMPLETION_WAITING_DOTS" = "xtrue" ]; then
   expand-or-complete-with-dots() {
@@ -114,9 +106,17 @@ if [ "x$COMPLETION_WAITING_DOTS" = "xtrue" ]; then
   bindkey "^I" expand-or-complete-with-dots
 fi
 
+# custom commands
+compdef _hosts sshp
 
-# CORRECTION
-setopt correct
+
+##############
+# CORRECTION #
+##############
+
+setopt correct                      # enable spelling correction of commands
+setopt dvorak                       # use Dvorak keyboard layout as basis for examining spelling mistakes
+
 alias man='nocorrect man'
 alias mv='nocorrect mv'
 alias mkdir='nocorrect mkdir'
@@ -124,54 +124,104 @@ alias gist='nocorrect gist'
 alias sudo='nocorrect sudo'
 
 
-# HISTORY
+###########
+# HISTORY #
+###########
+
 if [ -z $HISTFILE ]; then
     HISTFILE=$HOME/.zsh_history
 fi
 HISTSIZE=100000
 SAVEHIST=100000
-HISTCONTROL=ignoredups
 
-setopt append_history
-setopt extended_history
-setopt hist_expire_dups_first
-setopt hist_ignore_dups
-setopt hist_ignore_space
-setopt hist_verify
-setopt inc_append_history
-
-
-# Set timeout of the escape key to 0.1 seconds
-export KEYTIMEOUT=1
-
-# see https://dev.gnupg.org/T3412
-GPG_TTY=$(tty)
-export GPG_TTY
+setopt append_history               # session appends its history to the history file
+setopt extended_history             # save timestamp and duration for entries
+setopt hist_expire_dups_first       # delete old duplicates first
+setopt hist_ignore_dups             # do not add to history if duplicate of previous command
+setopt hist_ignore_all_dups         # remove older duplicate entries, even if not contiguous
+setopt hist_find_no_dups            # do not show non-contiguous duplicates
+setopt hist_ignore_space            # remove entries starting with a space
+setopt hist_verify                  # show command instead of directly executing it
+setopt inc_append_history           # add as soon as entered, not when the command finishs executing
+setopt share_history                # share history between sessions
 
 
-# BINDINGS
+############
+# BINDINGS #
+############
 
-# enable vi mode
+# enable vim mode
 bindkey -v
 
-bindkey '\e[1;5C'   forward-word            # ctrl right
-bindkey '\e[1;5D'   backward-word           # ctrl left
-bindkey '\e[3~'     delete-char             # delete
-bindkey '^?'        backward-delete-char    # backspace
+# BINDINGS - READLINE
+
+# moving
 bindkey '^a'        beginning-of-line
 bindkey '^e'        end-of-line
-bindkey '^w'        backward-kill-word
+bindkey '^f'        forward-char
+bindkey '^b'        backward-char
+bindkey '^[f'       forward-word
+bindkey '^[b'       backward-word
+# history
 bindkey '^p'        up-history
 bindkey '^n'        down-history
 bindkey '^r'        history-incremental-search-backward
 bindkey '^s'        history-incremental-search-forward
+# text editing
+bindkey '^d'        delete-char
+bindkey '\e[3~'     delete-char     # delete
+bindkey '^t'        transpose-chars
+bindkey '^[t'       transpose-words
+bindkey '^[u'       up-case-word
+bindkey '^[l'       down-case-word
+bindkey '^[c'       capitalize-word
+# killing and yanking
+bindkey '^[d'       forward-kill-word
+bindkey '^w'        backward-kill-word
+# miscellaneous
+bindkey '^[#'       pound-insert
+bindkey '^[_'       undo
 
-# MISC
+# BINDINGS - OTHERS
 
-setopt auto_cd
+# completion
+bindkey -M menuselect " "       accept-and-menu-complete
+bindkey -M menuselect "\C-?"    undo                        # backspace
+bindkey -M menuselect "j"       menu-complete
+bindkey -M menuselect "k"       reverse-menu-complete
 
 
-# ALIASES
+########
+# MISC #
+########
+
+WORDCHARS='*?_-[]~&;!#$%^(){}<>'
+
+# changing directories
+setopt auto_cd                      # change directories without cd
+setopt auto_pushd                   # make cd push the old directory onto the directory stack
+setopt cdable_vars
+setopt pushd_ignore_dups            # don't push multiple copies of the same directory onto the stack
+
+# input / output
+setopt hash_cmds                    # note the location of each command the first time it is executed
+setopt hash_dirs                    # when hashing command names, also hash the directory containing it
+setopt interactive_comments         # allow comments in interactive shell
+
+# job control
+setopt check_jobs                   # check for background jobs before exiting a shell
+setopt check_running_jobs           # also check for running jobs before exiting a shell
+setopt hup                          # send the HUP signal to running jobs when existing a shell
+
+
+export KEYTIMEOUT=1                 # Set timeout of the escape key to 0.1 seconds
+
+GPG_TTY=$(tty) && export GPG_TTY    # see https://dev.gnupg.org/T3412
+
+
+###########
+# ALIASES #
+###########
 
 # shortening often used commands
 alias g='git'
@@ -217,6 +267,10 @@ alias ipcal='ikhal'
 alias pcal='khal list'
 
 
+########################
+# SHELL INITIALISATION #
+########################
+
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -224,10 +278,6 @@ if ! zplug check --verbose; then
         echo; zplug install
     fi
 fi
-
-
-# Load the plugins
-zplug load # --verbose
 
 # Load fzf
 if [ -r ~/.fzf.zsh ]; then
