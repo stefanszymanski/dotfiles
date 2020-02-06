@@ -161,24 +161,26 @@ c.tabs.indicator.width = 0
 config.unbind('d', mode='normal')
 config.unbind('<Ctrl-q>')
 
-# clone the current tab
-config.bind('<Ctrl-Shift-T>', 'tab-clone')
-# open link in VLC
-config.bind(';m', 'hint links spawn mpv {hint-url}')
-config.bind(';M', 'hint --rapid links spawn mpv {hint-url}')
-# open link in a new window
-config.bind(';w', 'hint links run :open -w {hint-url}')
-# open link in a private window
-config.bind(';p', 'hint links run :open -p {hint-url}')
-# fill in username and password
-config.bind('<Alt-p>p', 'spawn --userscript qute-pass')
-config.bind('<Alt-p>o', 'spawn --userscript qute-pass --username-only')
-config.bind('<Alt-p>l', 'spawn --userscript qute-pass --password-only')
-# edit the current URL
-config.bind('<Alt-o>', 'set-cmd-text -s :open {url}')
-config.bind('<Alt-O>', 'set-cmd-text -s :open -t {url}')
-
 c.bindings.commands = {
+    'normal': {
+        # clone the current tab
+        '<Ctrl-Shift-T>': 'tab-clone',
+        # open link in VLC
+        ';m': 'hint links spawn mpv {hint-url}',
+        ';M': 'hint --rapid links spawn mpv {hint-url}',
+        # open link in a new window
+        ';w': 'hint links run :open -w {hint-url}',
+        # open link in a new window
+        ';p': 'hint links run :open -p {hint-url}',
+        # open link in a new window
+        '<Alt-p>p': 'spawn --userscript qute-pass',
+        '<Alt-p>o': 'spawn --userscript qute-pass --username-only',
+        '<Alt-p>l': 'spawn --userscript qute-pass --password-only',
+        # edit URL
+        'eo': 'set-cmd-text -s :open {url}',
+        # edit URL and open in new tab
+        'eO': 'set-cmd-text -s :open -t {url}',
+    },
     'insert': {
         # readline: moving
         '<Ctrl-a>': 'fake-key <Home>',
@@ -199,6 +201,8 @@ c.bindings.commands = {
         '<Ctrl-y>': 'insert-text {primary}',
     }
 }
+
+c.bindings.commands['passthrough'] = c.bindings.commands['insert']
 
 ###########
 # Aliases #
