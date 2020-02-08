@@ -127,7 +127,8 @@ c.url.searchengines = {
 ##############
 
 # fonts
-c.fonts.monospace = 'monospace'
+c.fonts.default_family = 'Monospace'
+c.fonts.contextmenu = 'Monospace'
 
 # no scrollbars
 c.scrolling.bar = 'never'
