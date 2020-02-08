@@ -27,7 +27,7 @@ setopt auto_list                    # automatically list choices on an ambiguous
 setopt auto_menu                    # use menu completion after the second consecutive request for completion
 setopt complete_in_word             # allow completion inside a word
 setopt always_to_end                # move cursor to the end of a word if completion is performed from within
-setopt complete_aliases             # complete aliases
+setopt no_complete_aliases          # complete aliases (yeah, the option name is strange)
 unsetopt list_ambiguous             # on ambiguous completions insert an unambiguous prefix and display choices
 
 # display completion choices as menu
