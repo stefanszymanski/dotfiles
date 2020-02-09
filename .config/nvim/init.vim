@@ -73,6 +73,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     " syntax highlighting
     Plug 'sheerun/vim-polyglot'
     Plug 'vim-scripts/icalendar.vim'
+    Plug 'neomutt/neomutt.vim'
 
     " LaTeX
     Plug 'lervag/vimtex'
