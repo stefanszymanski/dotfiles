@@ -181,6 +181,8 @@ c.bindings.commands = {
         'eo': 'set-cmd-text -s :open {url}',
         # edit URL and open in new tab
         'eO': 'set-cmd-text -s :open -t {url}',
+        # open developer tools
+        '<F12>': 'inspector',
     },
     'insert': {
         # readline: moving
