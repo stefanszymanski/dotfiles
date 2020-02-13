@@ -194,10 +194,13 @@ let s:map_leader.s = {'n': {
 \}}
 let s:map_leader.g = {
     \ 'name': '+git',
-    \ 'b': {'n': 'blame line'},
+    \ 'b': {'n': 'blame line (uc)'},
     \ 's': 'stage hunk (uc)',
     \ 'u': {'n': 'undo hunk (uc)'},
     \ 'p': {'n': 'preview hunk (uc)'},
+    \ 'a': {'n': 'stage file'},
+    \ 'r': {'n': 'unstage file'},
+    \ 'R': {'n': 'unstage all files'},
 \ }
 let s:map_leader.C = {
     \ 'name': '+case-manipulation',
