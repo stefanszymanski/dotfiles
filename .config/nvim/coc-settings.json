@@ -23,7 +23,7 @@
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
 
   "coc.preferences.hoverTarget": "float",
-  "coc.preferences.enableFloatHighlight": true,
+  "coc.preferences.enableFloatHighlight": false,
   "coc.preferences.echodocSupport": true,
 
   "coc.preferences.formatOnType": false,
