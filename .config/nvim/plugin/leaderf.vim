@@ -3,7 +3,7 @@ let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_WorkingDirectoryMode = "Ac"
 let g:Lf_NoChdir = 1
 let g:Lf_HideHelp = 1
-let g:Lf_UseCache = 1
+let g:Lf_UseCache = 0
 
 " Statusline
 let g:Lf_StlColorscheme = 'gruvbox_material'
