@@ -194,8 +194,6 @@ c.bindings.commands = {
         '<Ctrl-p>': 'fake-key <Up>',
         '<Alt-f>':  'fake-key <Ctrl-Right>',
         '<Alt-b>':  'fake-key <Ctrl-Left>',
-        '<Alt-v>':  'fake-key <PgUp>',
-        '<Ctrl-v>': 'fake-key <PgDown>',
         # readline: killing and yanking
         '<Ctrl-d>': 'fake-key <Delete>',
         '<Alt-d>':  'fake-key <Ctrl-Delete>',
