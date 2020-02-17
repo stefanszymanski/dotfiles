@@ -7,7 +7,7 @@ let g:gitgutter_sign_modified_removed='◢'
 nnoremap <silent> yoG :GitGutterLineHighlightsToggle<CR>
 
 " remap bindings
-nmap <leader>gs <Plug>(GitGutterStageHunk)
-xmap <leader>gs <Plug>(GitGutterStageHunk)
-nmap <leader>gu <Plug>(GitGutterUndoHunk)
-nmap <leader>gp <Plug>(GitGutterPreviewHunk)
+nmap <leader>ghs <Plug>(GitGutterStageHunk)
+xmap <leader>ghs <Plug>(GitGutterStageHunk)
+nmap <leader>ghu <Plug>(GitGutterUndoHunk)
+nmap <leader>ghp <Plug>(GitGutterPreviewHunk)

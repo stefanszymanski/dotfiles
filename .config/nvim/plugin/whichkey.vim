@@ -195,12 +195,20 @@ let s:map_leader.s = {'n': {
 let s:map_leader.g = {
     \ 'name': '+git',
     \ 'b': {'n': 'blame line (uc)'},
+    \ 's': {'n': 'stage file'},
+    \ 'u': {'n': 'unstage file'},
+    \ 'U': {'n': 'unstage all files'},
+    \ 'C': {'n': 'commit'},
+    \ 'd': {'n': 'diff in split window'},
+    \ 'B': {'n': 'blame all lines'},
+    \ 'l': {'n': 'log'},
+    \ 'S': {'n': 'status'},
+\ }
+let s:map_leader.g.h = {
+    \ 'name': '+hunk',
     \ 's': 'stage hunk (uc)',
     \ 'u': {'n': 'undo hunk (uc)'},
     \ 'p': {'n': 'preview hunk (uc)'},
-    \ 'a': {'n': 'stage file'},
-    \ 'r': {'n': 'unstage file'},
-    \ 'R': {'n': 'unstage all files'},
 \ }
 let s:map_leader.C = {
     \ 'name': '+case-manipulation',
