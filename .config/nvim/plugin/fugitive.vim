@@ -11,3 +11,6 @@ nmap <leader>gS :Gstatus<cr>
 nmap <leader>gd :Gdiffsplit :0<cr>
 nmap <leader>gB :Gblame<cr>
 nmap <leader>gl :GV<cr>
+
+nmap <leader>gp :Gpull<cr>
+nmap <leader>gP :Gpush<cr>

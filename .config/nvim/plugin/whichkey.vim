@@ -203,6 +203,8 @@ let s:map_leader.g = {
     \ 'B': {'n': 'blame all lines'},
     \ 'l': {'n': 'log'},
     \ 'S': {'n': 'status'},
+    \ 'p': {'n': 'pulll'},
+    \ 'P': {'n': 'push'}
 \ }
 let s:map_leader.g.h = {
     \ 'name': '+hunk',
