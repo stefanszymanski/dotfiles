@@ -2,12 +2,14 @@
 
 log_user 0
 
+
 if {[llength $argv] == 0} {
     send_user "Usage: sshp {ssh-args}\n"
     exit 1
 }
 
 set server [lindex $argv 0]
+set args [join [lrange $argv 0 $argc] " "]
 
 spawn bash -c "echo -n $server | sed -e 's/-/\\//g'"
 expect -re "(^.+$)" {
@@ -18,31 +20,30 @@ spawn pass "ssh/$passkey"
 expect {
     "not in the password store" {
         puts "\[Error\] pass: there is no stored password for `ssh/$passkey`"
-        exit
+        exit 1
     }
     -re "(^.+$)" {
         set password $expect_out(1,string)
     }
 }
 
-spawn ssh "$server"
+spawn ssh {*}$argv
 expect {
     "assword:" {
         send "$password\r"
         expect {
             "assword:" {
                 puts "\[Error\] It looks like the stored password is incorrect. Check `pass ssh/$server`"
-                exit
+                exit 1
             }
             -re ".*" {
                 interact
-                exit
+                exit 0
             }
         }
     }
     -re "(^.+$)" {
-        set err $expect_out(buffer)
-        puts "\[Error\] $err"
-        exit
+        puts $expect_out(buffer)
+        interact 0
     }
 }
