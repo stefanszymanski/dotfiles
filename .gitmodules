@@ -7,3 +7,6 @@
 [submodule ".config/neomutt/scripts/mutt-ical"]
 	path = .config/neomutt/scripts/mutt-ical
 	url = https://github.com/asciiphil/mutt-ical
+[submodule ".config/tmux/plugins/tpm"]
+	path = .config/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
