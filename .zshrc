@@ -216,7 +216,8 @@ setopt hup                          # send the HUP signal to running jobs when e
 
 export KEYTIMEOUT=1                 # Set timeout of the escape key to 0.1 seconds
 
-GPG_TTY=$(tty) && export GPG_TTY    # see https://dev.gnupg.org/T3412
+export GPG_TTY=$(tty)               # see https://dev.gnupg.org/T3412
+echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1 # see https://www.gnupg.org/documentation/manuals/gnupg/Common-Problems.html
 
 
 ###########
