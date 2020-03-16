@@ -2,4 +2,5 @@
 .ctags.lock
 .ctags.temp
 .deploy.conf
+.projections.json
 .mypy_cache/
