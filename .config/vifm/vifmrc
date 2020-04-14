@@ -1,0 +1,105 @@
+set vicmd=nvim      " use nvim as editor
+
+set wildmenu        " list completions
+set wildstyle=popup " list completions in a popup window
+
+set syscalls        " use syscalls instead of 
+set ignorecase      " search case insensitive
+set smartcase       " override ignorecase when regex contains upper case letter
+set nohlsearch      " no automatic search highlighting
+set incsearch       " display hits while typing
+set scrolloff=3     " lines above and below cursor
+set trash           " mv to trash directory instead of deleting
+set history=1000    " directory history size
+set sortnumbers     " enable natural sorting of numbers
+set undolevels=1000 " undo history size
+set number          " display line numbers
+set relativenumber  " display line numbers relative to cursor
+set tabstop=4
+
+set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
+    \phistory,fhistory,dirstack,registers,bookmarks,bmarks
+
+
+" COMMANDS
+
+command df df -h %m 2> /dev/null
+command diff vim -d %f %F
+
+" BINDINGS
+
+" display sorting dialog
+nnoremap s :sort<cr>
+
+" toggle preview window
+nnoremap w :view<cr>
+vnoremap w :view<cr>gv
+
+" yank current directory
+nnoremap yd :!printf %d | xclip -selection clipboard<cr>
+" yank current file path
+nnoremap yf :!printf %c:p | xclip -selection clipboard<cr>
+
+
+" APPEARANCE
+
+set statusline="%A %10u:%-7g %15s %20d"
+set timefmt="%Y-%m-%d %H:%M"
+
+set milleroptions=lsize:0,csize:1,rsize:1
+
+" file type icons
+set classify=' :dir:/, :exe:, :reg:, :link:'
+set classify+=' ::../::, ::*.sh::, ::*.[hc]pp::, ::*.[hc]::, ::/^copying|license$/::, ::.git/,,*.git/::, ::*.epub,,*.fb2,,*.djvu::, ::*.pdf::, ::*.htm,,*.html,,**.[sx]html,,*.xml::'
+set classify+=' ::*.7z,,*.ace,,*.arj,,*.bz2,,*.cpio,,*.deb,,*.dz,,*.gz,,*.jar,,*.lzh,,*.lzma,,*.rar,,*.rpm,,*.rz,,*.tar,,*.taz,,*.tb2,,*.tbz,,*.tbz2,,*.tgz,,*.tlz,,*.trz,,*.txz,,*.tz,,*.tz2,,*.xz,,*.z,,*.zip,,*.zoo::'
+set classify+=' ::*.bmp,,*.gif,,*.jpeg,,*.jpg,,*.ico,,*.png,,*.ppm,,*.svg,,*.svgz,,*.tga,,*.tif,,*.tiff,,*.xbm,,*.xcf,,*.xpm,,*.xspf,,*.xwd::'
+set classify+=' ::*.aac,,*.anx,,*.asf,,*.au,,*.axa,,*.flac,,*.m2a,,*.m4a,,*.mid,,*.midi,,*.mp3,,*.mpc,,*.oga,,*.ogg,,*.ogx,,*.ra,,*.ram,,*.rm,,*.spx,,*.wav,,*.wma,,*.ac3::'
+set classify+=' ::*.avi,,*.ts,,*.axv,,*.divx,,*.m2v,,*.m4p,,*.m4v,,.mka,,*.mkv,,*.mov,,*.mp4,,*.flv,,*.mp4v,,*.mpeg,,*.mpg,,*.nuv,,*.ogv,,*.pbm,,*.pgm,,*.qt,,*.vob,,*.wmv,,*.xvid::'
+set classify+=' ::*.doc,,*.docx::, ::*.xls,,*.xls[mx]::, ::*.pptx,,*.ppt::'
+
+" file type actions
+
+filextype *.pdf zathura &
+fileviewer *.pdf pdftotext -nopgbrk %c -
+
+filextype *.jpg,*.jpeg,*.png,*.gif,*.tif,*.tiff
+       \ {View in feh}
+       \ feh -FZ %d --start-at %d/%c 2>/dev/null &
+
+filetype *.zip unzip %f
+fileviewer *.zip,*.jar,*.war,*.ear zip -sf %c
+
+filetype *.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz tar -xf %f
+fileviewer *.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz tar -tf %f
+
+filextype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt,*.ods libreoffice &
+
+
+" THEME
+
+highlight clear
+
+highlight Border	cterm=none	ctermfg=235	ctermbg=default
+
+highlight TopLine	cterm=none	ctermfg=214	ctermbg=235
+highlight TopLineSel	cterm=bold	ctermfg=214	ctermbg=237
+
+highlight Win		cterm=none	ctermfg=223	ctermbg=default
+highlight OtherWin  cterm=none	ctermfg=223	ctermbg=236
+highlight Directory	cterm=bold	ctermfg=109	ctermbg=default
+highlight CurrLine	cterm=bold,inverse	ctermfg=default	ctermbg=default
+highlight OtherLine	cterm=bold	ctermfg=default	ctermbg=235
+highlight Selected	cterm=none	ctermfg=223	ctermbg=237
+
+highlight JobLine	cterm=bold	ctermfg=116	ctermbg=238
+highlight StatusLine	cterm=bold	ctermfg=144	ctermbg=236
+highlight ErrorMsg	cterm=bold	ctermfg=167	ctermbg=default
+highlight WildMenu	cterm=bold	ctermfg=235	ctermbg=144
+highlight CmdLine	cterm=none	ctermfg=223	ctermbg=default
+
+highlight Executable	cterm=bold	ctermfg=142	ctermbg=default
+highlight Link		cterm=none	ctermfg=132	ctermbg=default
+highlight BrokenLink	cterm=bold	ctermfg=167	ctermbg=default
+highlight Device	cterm=none,standout	ctermfg=214	ctermbg=default
+highlight Fifo		cterm=none	ctermfg=172	ctermbg=default
+highlight Socket	cterm=bold	ctermfg=223	ctermbg=default
