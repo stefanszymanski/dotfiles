@@ -33,14 +33,15 @@ show-help() {
 
 # Check if $1 is the name of a calendar
 is-valid-calendar() {
-    CALENDAR=$1
-    CALENDARS=$(khal -c $CONFIG_FILE printcalendars)
-    [[ $CALENDARS =~ (^|[[:space:]])"$CALENDAR"($|[[:space:]]) ]] && echo 1 || echo 0
+    local cal=$1
+    local cals=$(khal -c $CONFIG_FILE printcalendars)
+    [[ $cals =~ (^|[[:space:]])"$cal"($|[[:space:]]) ]] && echo 1 || echo 0
 }
 
 # Get list of available calendars separated by $1
 get-calendars() {
-    echo $(khal -c $CONFIG_FILE printcalendars | awk -vORS="$1" '{ print $1 }'  | sed "s/$1$//")
+    local sep=$1
+    echo $(khal -c $CONFIG_FILE printcalendars | awk -vORS="$sep" '{ print $1 }'  | sed "s/$sep$//")
 }
 
 # Display the names of available calendars
@@ -51,16 +52,18 @@ list-calendars() {
 
 # Display events from calendar $1 in the next $2 days
 show-calendar() {
-    if [ $(is-valid-calendar $1) -eq 1 ]
+    local cal=$1
+    local days=$2
+    if [ $(is-valid-calendar $cal) -eq 1 ]
     then
-        if [[ $2 =~ ^[0-9]*$ ]]
+        if [[ $days =~ ^[0-9]*$ ]]
         then
-            khal -c $CONFIG_FILE list -a "$1" --format "$FORMAT_SINGLE" today ${2}d
+            khal -c $CONFIG_FILE list -a "$cal" --format "$FORMAT_SINGLE" today ${days}d
         else
-            echo "'$2' is not a valid number of days."
+            echo "'$days' is not a valid number of days."
         fi
     else
-        echo "Calendar '$1' not found."
+        echo "Calendar $cal' not found."
         show-help
     fi
 }
