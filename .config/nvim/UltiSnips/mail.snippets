@@ -7,7 +7,7 @@ def search_email_with_khard(email):
 	def decode(line):
 		return (line.split('\t')[1].split())
 	import subprocess
-	res = subprocess.run(['khard', 'email', '--parsable', email], capture_output=True)
+	res = subprocess.run(['khard', 'email', '--search-in-source-files', '--parsable', email], capture_output=True)
 	lines = res.stdout.decode().splitlines()[1:] if res.returncode == 0 else []
 	return list(map(decode, lines))
 
