@@ -23,7 +23,6 @@ set zoom-min					10
 
 set search-hadjust				true
 
-set smooth-scroll				true
 set scroll-page-aware			true
 set scroll-wrap					false
 set scroll-full-overlap			0
