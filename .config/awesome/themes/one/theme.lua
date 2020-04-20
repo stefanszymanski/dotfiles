@@ -72,7 +72,7 @@ theme.font_big                                  = font_name .. " " .. "Bold" .. 
 
 theme.accent                                    = colors.red_2
 theme.border_normal                             = colors.bw_2
-theme.border_focus                              = colors.bw_5
+theme.border_focus                              = colors.yellow_1
 theme.border_marked                             = colors.bw_5
 
 -- TODO adjust?
