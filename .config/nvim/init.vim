@@ -42,7 +42,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " searching and file browsing
     " Plug 'Shougo/denite.nvim'
-    Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
+    " Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
+    Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+    Plug 'vn-ki/coc-clap'
     Plug 'scrooloose/nerdtree'
     "Plug 'tpope/vim-vinegar'
 
@@ -194,6 +196,8 @@ let g:gutentags_ctags_tagfile = '.ctags'
 let g:pear_tree_smart_openers = 1
 let g:pear_tree_smart_closers = 1
 let g:pear_tree_smart_backspace = 1
+" disable for clap, otherwise some of its bindings do not work
+let g:pear_tree_ft_disabled = ['clap_input']
 
 " COC language client
 let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
