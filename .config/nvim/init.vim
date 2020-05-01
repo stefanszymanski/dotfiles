@@ -132,6 +132,7 @@ set hidden                      " Allow hiding modified buffers
 set confirm                     " Ask for confirmation when closing a modified buffer
 set shortmess+=c
 set signcolumn=yes              " Always display the sign column
+set synmaxcol=500               " Restrict syntax highlighting to 500 characters per line
 " set exrc
 set path+=**
 
