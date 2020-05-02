@@ -1,3 +1,8 @@
+if (&runtimepath =~ '/plugged/LeaderF/') == 0
+    finish
+endif
+
+
 " General behaviour
 let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_WorkingDirectoryMode = "Ac"

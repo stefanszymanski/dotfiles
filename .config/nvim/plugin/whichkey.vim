@@ -122,7 +122,6 @@ nnoremap <silent> y :<c-u>WhichKey2 'y'<CR>
 " === Maps === "
 
 let s:map_leader = {
-    \ '/': 'search in project',
     \ 'u': {'n': 'toggle Mundo buffer'},
     \ 'n': {'n': 'toggle Nerdtree'},
     \ 'N': {'n': 'open Nerdtree on current file'},
@@ -145,6 +144,7 @@ let s:map_leader.b = { 'n': {
 let s:map_leader.w = { 'n': {
     \ 'name': '+windows',
     \ 'o': 'close others',
+    \ 'w': 'list',
 \ }}
 let s:map_leader.h = {
     \ 'name': '+blackhole-actions',
@@ -186,12 +186,26 @@ let s:map_leader.l = {
     \ 'C': {'n': 'resume latest search'},
     \ 'd': {'n': 'list errors and warnings'},
 \ }
-let s:map_leader.s = {'n': {
+let s:map_leader.s = {
     \ 'name': '+search',
-    \ 'c': 'continue latest search',
-    \ 'f': 'list files in workspace',
-    \ 'r': 'list mru files'
-\}}
+    \ 't': {'n': 'tags in buffer'},
+    \ 'l': {'n': 'lines in buffer'},
+    \ 'f': {'n': 'files in project'},
+    \ 'F': {'n': 'files in project uncached'},
+    \ 'T': {'n': 'tags in project'},
+    \ 'g': 'grep',
+    \ 'G': 'grep uncached',
+    \ 'i': {'n': 'grep in directory'},
+    \ 'w': {'n': 'grep (suc)'},
+    \ 'W': {'n': 'grep (suc) uncached'},
+    \ 's': {'n': 'search history'},
+    \ 'c': {'n': 'command history'},
+    \ 'r': {'n': 'recent files'},
+    \ 'y': {'n': 'yanks'},
+    \ 'j': {'n': 'jumps'},
+    \ 'm': {'n': 'marks'},
+    \ 'q': {'n': 'quickfixes'},
+\ }
 let s:map_leader.g = {
     \ 'name': '+git',
     \ 'b': {'n': 'blame line (uc)'},
@@ -204,7 +218,8 @@ let s:map_leader.g = {
     \ 'l': {'n': 'log'},
     \ 'S': {'n': 'status'},
     \ 'p': {'n': 'pulll'},
-    \ 'P': {'n': 'push'}
+    \ 'P': {'n': 'push'},
+    \ 'f': {'n': 'changed files'},
 \ }
 let s:map_leader.g.h = {
     \ 'name': '+hunk',
