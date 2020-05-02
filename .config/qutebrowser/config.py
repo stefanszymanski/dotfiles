@@ -172,7 +172,7 @@ c.bindings.commands = {
         ';w': 'hint links run :open -w {hint-url}',
         # open link in a new window
         ';p': 'hint links run :open -p {hint-url}',
-        # open link in a new window
+        # insert username and passwords
         '<Alt-p>p': 'spawn --userscript qute-pass',
         '<Alt-p>o': 'spawn --userscript qute-pass --username-only',
         '<Alt-p>l': 'spawn --userscript qute-pass --password-only',
