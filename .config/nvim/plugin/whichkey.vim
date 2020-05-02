@@ -120,6 +120,12 @@ nnoremap <silent> y :<c-u>WhichKey2 'y'<CR>
 
 
 " === Maps === "
+" [m]   motion
+" (wuc) word under cursor
+" (suc) symbol under cursor (LSP)
+" (uc)  under cursor
+" [n]   number
+" [c]   character
 
 let s:map_leader = {
     \ 'u': {'n': 'toggle Mundo buffer'},
@@ -196,8 +202,8 @@ let s:map_leader.s = {
     \ 'g': 'grep',
     \ 'G': 'grep uncached',
     \ 'i': {'n': 'grep in directory'},
-    \ 'w': {'n': 'grep (suc)'},
-    \ 'W': {'n': 'grep (suc) uncached'},
+    \ 'w': {'n': 'grep (wuc)'},
+    \ 'W': {'n': 'grep (wuc) uncached'},
     \ 's': {'n': 'search history'},
     \ 'c': {'n': 'command history'},
     \ 'r': {'n': 'recent files'},
