@@ -87,7 +87,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'editorconfig/editorconfig-vim'
 
     " tags
-    Plug 'ludovicchabant/vim-gutentags'
+    " Plug 'ludovicchabant/vim-gutentags'
 
     " markdown
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
@@ -99,7 +99,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
     Plug 'liuchengxu/vista.vim'
 call plug#end()
-
 
 
 " Encoding
@@ -187,10 +186,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
-
-" gutentags
-let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
-let g:gutentags_ctags_tagfile = '.ctags'
 
 " pear-tree
 let g:pear_tree_smart_openers = 1
