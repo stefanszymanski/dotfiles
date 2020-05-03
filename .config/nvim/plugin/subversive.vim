@@ -1,6 +1,10 @@
+" === General settings === "
+
 let g:subversivePreserveCursorPosition = 1
 let g:subversivePromptWithCurrent = 1
 
+
+" === Mappings === "
 
 " e.g. "2riw replaces `iw` with register 2
 nmap r  <Plug>(SubversiveSubstitute)

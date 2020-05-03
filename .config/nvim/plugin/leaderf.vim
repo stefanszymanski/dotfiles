@@ -2,8 +2,9 @@ if (&runtimepath =~ '/plugged/LeaderF/') == 0
     finish
 endif
 
+" === General settings === "
 
-" General behaviour
+" Behaviour
 let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_WorkingDirectoryMode = "Ac"
 let g:Lf_NoChdir = 1
@@ -38,7 +39,6 @@ let g:Lf_PreviewResult = {
     \ 'Gtags': 0
 \}
 
-
 " Disable default bindings
 let g:Lf_ShortcutF = 0
 let g:Lf_ShortcutB = 0
@@ -56,7 +56,7 @@ let g:Lf_RgConfig = [
     \ ]
 
 
-" === Bindings ===
+" === Mappings === "
 
 nnoremap <silent> <leader>/   :call <SID>rgInteractive()<CR>
 nnoremap <silent> <leader>sc  :<C-u>Leaderf rg --recall<CR>

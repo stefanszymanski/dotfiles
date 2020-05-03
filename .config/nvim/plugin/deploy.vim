@@ -1,9 +1,9 @@
-" === Clap provider: target select === "
-" Lets choose from a list of available targets and deploy to the selection.
-" 
-" Depends on plugins:
+" The features in this file depend on other people's plugins:
 "   - https://github.com/liuchengxu/vim-clap
 "   - https://github.com/tpope/vim-dispatch
+
+" === Clap provider: target select === "
+" Display a list of available targets and deploy to the selection.
 
 let s:deploy = {}
 
