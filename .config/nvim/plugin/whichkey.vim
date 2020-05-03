@@ -195,6 +195,13 @@ let s:map_leader.d.n.F = 'select files'
 let s:map_leader.D = deepcopy(s:deploy_bindings)
 let s:map_leader.D.n.name = '+deploy-default'
 
+let s:map_leader.m = { 'n': {
+    \ 'name': '+make',
+    \ 'r': 'show results',
+    \ 'R': 'show results with catch-all parser',
+    \ 'a': 'abort most recent build',
+\ }}
+
 let s:map_leader.l = {
 \ 'name': '+language',
     \ 'c': {'n': 'list references of (suc)'},
