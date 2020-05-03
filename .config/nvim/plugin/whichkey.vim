@@ -190,6 +190,8 @@ let s:deploy_bindings = { 'n': {
 \ }}
 let s:map_leader.d = deepcopy(s:deploy_bindings)
 let s:map_leader.d.n.name = '+deploy'
+let s:map_leader.d.n.f = 'select files, silent'
+let s:map_leader.d.n.F = 'select files'
 let s:map_leader.D = deepcopy(s:deploy_bindings)
 let s:map_leader.D.n.name = '+deploy-default'
 

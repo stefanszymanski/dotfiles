@@ -1,4 +1,4 @@
-" === Clap provider === "
+" === Clap provider: target select === "
 " Lets choose from a list of available targets and deploy to the selection.
 " 
 " Depends on plugins:
@@ -26,6 +26,36 @@ function! s:deploy.sink(selected) abort
 endfunction
 
 let g:clap_provider_deploy = s:deploy
+
+
+" === Clap provider: file select === "
+" Displays two Clap dialogs consecutively:
+"   1. `files` for choosing one or more files
+"   2. `deploy` for choosing a deploy target
+
+let s:deploy_files = {}
+
+function! s:deploy_files_source() abort
+    " list files and directories using the default provider `files`
+    let g:clap.context.finder = 'fd --type d --type f'
+    return g:clap#provider#files#.source()
+endfunction
+
+function! s:deploy_files_sink(selected) abort
+    let silent = get(g:clap.context, 'silent', v:false)
+    call deploy#interactive([a:selected], silent)
+endfunction
+
+function! s:deploy_files_sink_star(selected) abort
+    let silent = get(g:clap.context, 'silent', v:false)
+    call deploy#interactive(a:selected, silent)
+endfunction
+
+let s:deploy_files = {}
+let s:deploy_files.source = function('s:deploy_files_source')
+let s:deploy_files.sink = function('s:deploy_files_sink')
+let s:deploy_files['sink*'] = function('s:deploy_files_sink_star')
+let g:clap_provider_deploy_files = s:deploy_files
 
 
 " === Functions === "
@@ -97,6 +127,10 @@ nnoremap <silent> <leader>dc :<c-u>DeployChangedInteractive!<cr>
 nnoremap <silent> <leader>dT :<c-u>DeployCurrentInteractive<cr>
 nnoremap <silent> <leader>dA :<c-u>DeployAllInteractive<cr>
 nnoremap <silent> <leader>dC :<c-u>DeployChangedInteractive<cr>
+
+" with file and target selection
+nnoremap <silent> <leader>df  :<C-u>Clap deploy_files +silent<CR>
+nnoremap <silent> <leader>dF  :<C-u>Clap deploy_files<CR>
 
 " to default target, dispacth in background
 nnoremap <silent> <leader>Dt :<c-u>DeployCurrentDefault!<cr>
