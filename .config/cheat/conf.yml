@@ -1,0 +1,18 @@
+editor: vim
+
+colorize: true
+# for options see https://github.com/alecthomas/chroma/tree/master/styles
+style: monokai
+formatter: terminal16m
+
+cheatpaths:
+  - name: community
+    path: ~/.config/cheat/cheatsheets/community
+    tags: [community]
+    readonly: true
+
+  - name: personal
+    path: ~/.config/cheat/cheatsheets/personal
+    tags: [personal]
+    readonly: false
+
