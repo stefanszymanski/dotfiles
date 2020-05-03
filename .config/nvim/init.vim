@@ -34,6 +34,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'tpope/vim-projectionist'
     " Plug 'tpope/vim-obsession'
     Plug 'mhinz/vim-startify'
+    Plug 'tpope/vim-dispatch'
 
     " movement and basic searches
     Plug 'junegunn/vim-slash'
