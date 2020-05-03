@@ -134,6 +134,7 @@ let s:map_leader = {
     \ 'y': 'yield to system clipboard',
     \ 'p': 'paste from system clipboard',
 \ }
+
 let s:map_leader.b = { 'n': {
     \ 'name': '+buffers',
     \ 'b': 'list',
@@ -147,11 +148,13 @@ let s:map_leader.b = { 'n': {
     \ 'w': 'wipeout current',
     \ 'y': 'yank',
 \ }}
+
 let s:map_leader.w = { 'n': {
     \ 'name': '+windows',
     \ 'o': 'close others',
     \ 'w': 'list',
 \ }}
+
 let s:map_leader.h = {
     \ 'name': '+blackhole-actions',
     \ 'c': 'c',
@@ -161,12 +164,14 @@ let s:map_leader.h = {
     \ 'D': 'D',
     \ 'dd': 'dd',
 \ }
+
 let s:map_leader.c = {
     \ 'name': '+camel-case-sensitive-motions',
     \ 'b': 'b',
     \ 'e': 'e',
     \ 'w': 'w',
 \ }
+
 let s:map_leader.r = {
     \ 'name': '+replace',
     \ 'r': {'n': 'replace [m] in [m]', 'v': 'replace selection in [m]'},
@@ -174,6 +179,7 @@ let s:map_leader.r = {
     \ 'w': {'n': 'replace word in [m]'},
     \ 'W': {'n': 'replace word in [m] and confirm'},
 \ }
+
 let s:deploy_bindings = { 'n': {
     \ 't': 'current file, silent',
     \ 'T': 'current file',
@@ -186,6 +192,7 @@ let s:map_leader.d = deepcopy(s:deploy_bindings)
 let s:map_leader.d.n.name = '+deploy'
 let s:map_leader.D = deepcopy(s:deploy_bindings)
 let s:map_leader.D.n.name = '+deploy-default'
+
 let s:map_leader.l = {
 \ 'name': '+language',
     \ 'c': {'n': 'list references of (suc)'},
@@ -204,6 +211,7 @@ let s:map_leader.l = {
     \ 'C': {'n': 'resume latest search'},
     \ 'd': {'n': 'list errors and warnings'},
 \ }
+
 let s:map_leader.s = {
     \ 'name': '+search',
     \ 't': {'n': 'tags in buffer'},
@@ -224,6 +232,7 @@ let s:map_leader.s = {
     \ 'm': {'n': 'marks'},
     \ 'q': {'n': 'quickfixes'},
 \ }
+
 let s:map_leader.g = {
     \ 'name': '+git',
     \ 'b': {'n': 'blame line (uc)'},
@@ -239,12 +248,14 @@ let s:map_leader.g = {
     \ 'P': {'n': 'push'},
     \ 'f': {'n': 'changed files'},
 \ }
+
 let s:map_leader.g.h = {
     \ 'name': '+hunk',
     \ 's': 'stage hunk (uc)',
     \ 'u': {'n': 'undo hunk (uc)'},
     \ 'p': {'n': 'preview hunk (uc)'},
 \ }
+
 let s:map_leader.C = {
     \ 'name': '+case-manipulation',
     \ '_': {'n': '[m] to snake_case', 'v': 'selection to snake_case'},
