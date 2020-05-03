@@ -174,6 +174,18 @@ let s:map_leader.r = {
     \ 'w': {'n': 'replace word in [m]'},
     \ 'W': {'n': 'replace word in [m] and confirm'},
 \ }
+let s:deploy_bindings = { 'n': {
+    \ 't': 'current file, silent',
+    \ 'T': 'current file',
+    \ 'a': 'all files, silent',
+    \ 'A': 'all files',
+    \ 'c': 'changed files, silent',
+    \ 'C': 'changed files',
+\ }}
+let s:map_leader.d = deepcopy(s:deploy_bindings)
+let s:map_leader.d.n.name = '+deploy'
+let s:map_leader.D = deepcopy(s:deploy_bindings)
+let s:map_leader.D.n.name = '+deploy-default'
 let s:map_leader.l = {
 \ 'name': '+language',
     \ 'c': {'n': 'list references of (suc)'},
