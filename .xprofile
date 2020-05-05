@@ -1,4 +1,4 @@
-# make CapsLock the Hyper_L key, make it behave as Escape when pressed and released alone
+# Make CapsLock the Hyper_L key, make it behave as Escape when pressed and released alone
 setxkbmap -option
 xmodmap -e "clear Lock"
 xmodmap -e "keycode 66 = Hyper_L"
@@ -12,3 +12,9 @@ for id in $(xinput list | grep "Logitech Gaming Mouse G402" | head -n 2 | sed -r
 do
   xinput --set-button-map $id 1 8 3 4 5 6 7 2 9 10
 done
+
+# Load host specific configuration
+HOST_XPROFILE="$HOME/.config/xorg/xprofile.$(hostname)"
+if [ -e "$HOST_XPROFILE" ] ; then
+    . "$HOST_XPROFILE"
+fi

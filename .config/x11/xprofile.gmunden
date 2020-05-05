@@ -1,0 +1,8 @@
+xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
+xrandr --dpi 96
+
+# Disable display power management and prevent the screen from blanking
+xset s off
+xset -dpms
+xset noblank
