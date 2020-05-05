@@ -9,7 +9,7 @@
     editor = nvim
     whitespace = fix,trailing-space,cr-at-eol
     pager = diff-so-fancy | less --tabs=4 -RFX
-    excludesfile = ~/.gitignore-global
+    excludesfile = ~/.config/git/ignore
 
 [gpg]
 	program = gpg2
