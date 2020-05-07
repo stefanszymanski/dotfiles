@@ -191,6 +191,23 @@ bindkey -M menuselect "j"       menu-complete
 bindkey -M menuselect "k"       reverse-menu-complete
 
 
+#######
+# GPG #
+#######
+
+# see https://dev.gnupg.org/T3412
+export GPG_TTY=$(tty)               
+
+# see https://www.gnupg.org/documentation/manuals/gnupg/Common-Problems.html
+function _gpg-agent-update-tty {
+    gpg-connect-agent UPDATESTARTUPTTY /bye >/dev/null
+}
+if [ -z "$preexec_functions" ]; then
+    preexec_functions=()
+fi
+preexec_functions+=_gpg-agent-update-tty
+
+
 ########
 # MISC #
 ########
@@ -213,11 +230,7 @@ setopt check_jobs                   # check for background jobs before exiting a
 setopt check_running_jobs           # also check for running jobs before exiting a shell
 setopt hup                          # send the HUP signal to running jobs when existing a shell
 
-
 export KEYTIMEOUT=1                 # Set timeout of the escape key to 0.1 seconds
-
-export GPG_TTY=$(tty)               # see https://dev.gnupg.org/T3412
-echo "UPDATESTARTUPTTY" | gpg-connect-agent > /dev/null 2>&1 # see https://www.gnupg.org/documentation/manuals/gnupg/Common-Problems.html
 
 
 ###########
