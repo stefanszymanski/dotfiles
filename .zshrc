@@ -25,9 +25,11 @@ zplug load
 
 setopt auto_list                    # automatically list choices on an ambiguous completion
 setopt auto_menu                    # use menu completion after the second consecutive request for completion
+setopt auto_remove_slash            # when the last autocompleted char is a slash and a space is typed next, remove the slash
 setopt complete_in_word             # allow completion inside a word
+setopt glob_complete                # autocomplete globs instead of replacing them with matches
 setopt always_to_end                # move cursor to the end of a word if completion is performed from within
-setopt no_complete_aliases          # complete aliases (yeah, the option name is strange)
+setopt no_complete_aliases          # complete aliases instead of expanding them
 unsetopt list_ambiguous             # on ambiguous completions insert an unambiguous prefix and display choices
 
 # display completion choices as menu
@@ -122,6 +124,7 @@ alias mv='nocorrect mv'
 alias mkdir='nocorrect mkdir'
 alias gist='nocorrect gist'
 alias sudo='nocorrect sudo'
+alias ln='nocorrect ln'
 
 
 ###########
