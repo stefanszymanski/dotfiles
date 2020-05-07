@@ -6,3 +6,5 @@ xrandr --dpi 96
 xset s off
 xset -dpms
 xset noblank
+
+numlockx on
