@@ -1,4 +1,5 @@
 import os
+import sys
 
 dir = os.path.expanduser('~/.config/qutebrowser/')
 
