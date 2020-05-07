@@ -13,3 +13,9 @@
 [submodule ".config/cheat/cheatsheets/community"]
 	path = .config/cheat/cheatsheets/community
 	url = https://github.com/cheat/cheatsheets
+[submodule ".config/qutebrowser/plugin/jmatrix"]
+	path = .config/qutebrowser/plugin/jmatrix
+	url = https://gitlab.com/jgkamat/jmatrix
+[submodule ".config/qutebrowser/plugin/jblock"]
+	path = .config/qutebrowser/plugin/jblock
+	url = https://gitlab.com/jgkamat/jblock
