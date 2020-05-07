@@ -1,0 +1,114 @@
+# WARNING: This file can be overwritten easily with the :jmatrix-write-rules command
+# When data is overwritten, formatting and comments will be lost.
+# Please exercise caution when editing this file directly, and make sure to keep backups.
+
+https-strict: behind-the-scene false
+matrix-off: about-scheme true
+matrix-off: behind-the-scene true
+matrix-off: chrome-extension-scheme true
+matrix-off: chrome-scheme true
+matrix-off: moz-extension-scheme true
+matrix-off: opera-scheme true
+matrix-off: vivaldi-scheme true
+matrix-off: wyciwyg-scheme true
+matrix-off: qute-scheme true
+noscript-spoof: * true
+referrer-spoof: * true
+referrer-spoof: behind-the-scene false
+* * * block
+* * css allow
+* * frame block
+* * image allow
+* 1st-party * allow
+* 1st-party frame allow
+
+# allow Facebook only on Facebook, blocked everywhere else
+* facebook.com * block
+* facebook.net * block
+facebook.com facebook.com * allow
+facebook.com fbcdn.net * allow
+
+# allow Twitter only on Twitter, blocked everywhere else
+* twitter.com * block
+twitter.com abs.twimg.com script allow
+twitter.com ton.twimg.com script allow
+twitter.com twitter.com * allow
+twitter.com video.twimg.com plugin allow
+twitter.com video.twimg.com xhr allow
+
+# Youtube + log in (using accounts.google.com)
+accounts.google.com ssl.gstatic.com xhr allow
+youtube.com googlevideo.com xhr allow
+youtube.com googlevideo.com media allow
+youtube.com s.ytimg.com script allow
+youtube.com www.gstatic.com script allow
+youtube.com ytimg.com image allow
+
+# Github
+github.com assets-cdn.github.com css allow
+github.com assets-cdn.github.com image allow
+github.com assets-cdn.github.com script allow
+github.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com xhr allow
+github.com github-production-user-asset-6210df.s3.amazonaws.com xhr allow
+github.com raw.githubusercontent.com xhr allow
+github.com render.githubusercontent.com frame allow
+github.com render.githubusercontent.com script allow
+github.com render.githubusercontent.com xhr allow
+
+# Gitlab
+gitlab.com assets.gitlab-static.net script allow
+
+# BitBucket
+bitbucket.org ace-cdn.atlassian.com script allow
+bitbucket.org bitbucket-marketing-cdn.atlassian.com script allow
+bitbucket.org d301sr5gafysq2.cloudfront.net script allow
+
+#Google
+google.com content.googleapis.com frame allow
+google.com content.googleapis.com script allow
+google.com ssl.gstatic.com media allow
+google.com ssl.gstatic.com script allow
+google.com ssl.gstatic.com xhr allow
+google.com translate.googleapis.com script allow
+google.com translate.googleapis.com xhr allow
+google.com translate.googleusercontent.com frame allow
+google.com translate.googleusercontent.com script allow
+google.com www.gstatic.com script allow
+google.com www.gstatic.com xhr allow
+
+# Kickstarter uses some 3rd party services
+kickstarter.com a248.e.akamai.net script allow
+kickstarter.com d3mlfyygrfdi2i.cloudfront.net plugin allow
+kickstarter.com js.stripe.com frame allow
+kickstarter.com js.stripe.com script allow
+kickstarter.com ksr-video.imgix.net plugin allow
+kickstarter.com s3.amazonaws.com image allow
+kickstarter.com s3.amazonaws.com plugin allow
+
+# Patreon uses Google services
+patreon.com cdnjs.cloudflare.com script allow
+patreon.com google.com frame allow
+patreon.com google.com image allow
+patreon.com google.com script allow
+patreon.com google.com xhr allow
+patreon.com googlevideo.com xhr allow
+patreon.com gstatic.com script allow
+patreon.com youtube.com frame allow
+patreon.com youtube.com script allow
+patreon.com youtube.com xhr allow
+
+# Stack Overflow
+stackoverflow.com ajax.googleapis.com script allow
+stackoverflow.com sstatic.net image allow
+stackoverflow.com cdn.sstatic.net script allow
+
+# Bandcamp
+bandcamp.com s4.bcbits.com script allow
+bandcamp.com t4.bcbits.com media allow
+
+# translate.google.com
+translate.google.com ssl.gstatic.com script allow
+translate.google.com translate.google.com media allow
+translate.google.com translate.google.com script allow
+translate.google.com translate.google.com xhr allow
+translate.google.com www.gstatic.com script allow
