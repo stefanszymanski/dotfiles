@@ -283,6 +283,19 @@ alias iwcal='ikhal -c $HOME/.config/khal/config-work'
 alias ipcal='ikhal'
 alias pcal='khal list'
 
+# = as calculator
+autoload -U zcalc
+function __calc_plugin {
+    zcalc -e "$*"
+}
+aliases[=]='noglob __calc_plugin'
+
+# zmv
+autoload -U zmv
+alias zmv='noglob zmv'
+alias mmv='noglob zmv -W'
+alias mcp='noglob zmb -C'
+
 
 ########################
 # SHELL INITIALISATION #
