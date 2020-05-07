@@ -1,0 +1,3 @@
+# change file extension
+zmv -W *.jpg *.jpeg
+zmv '(*).jpg' '$1.jpeg'
