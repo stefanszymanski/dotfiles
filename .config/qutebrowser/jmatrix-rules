@@ -112,3 +112,11 @@ translate.google.com translate.google.com media allow
 translate.google.com translate.google.com script allow
 translate.google.com translate.google.com xhr allow
 translate.google.com www.gstatic.com script allow
+
+# Reddit
+reddit.com g.redditmedia.com media allow
+reddit.com www.redditmedia.com frame allow
+reddit.com www.redditmedia.com script allow
+reddit.com www.redditstatic.com script allow
+reddit.com www.redditstatic.com css allow
+reddit.com www.redditstatic.com other allow
