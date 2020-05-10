@@ -184,6 +184,7 @@ globalkeys = gears.table.join(
     awful.key({ hyperkey }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
         {description = "show weather", group = "widgets"}),
     
+
     -- Notifictations
     awful.key({ hyperkey }, "x", naughty.destroy_all_notifications,
         {description = "close nofitications", group = "hotkeys"}),
@@ -197,7 +198,7 @@ globalkeys = gears.table.join(
         {description = "volume up", group = "audio"}),
     awful.key({ hyperkey }, "-", function () volume.decrease(5) end,
         {description = "volume down", group = "audio"}),
-    awful.key({ hyperkey }, "m", volume.toggle_mute,
+    awful.key({ hyperkey }, ".", volume.toggle_mute,
         {description = "toggle mute", group = "audio"}),
     awful.key({ }, "XF86AudioRaiseVolume", function () volume.increase(5) end),
     awful.key({ }, "XF86AudioLowerVolume", function () volume.decrease(5) end),
@@ -213,6 +214,8 @@ globalkeys = gears.table.join(
     -- User programs
     awful.key({ modkey }, "q", function () awful.spawn(apps.browser.cmd) end,
         {description = "run browser", group = "launcher"}),
+    awful.key({ hyperkey }, "m", function () awful.spawn.with_shell("syncmail -n all") end,
+        {description = "sync mail", group = "hotkeys"}),
 
     -- Prompts
     awful.key({ modkey }, "r", function () beautiful.prompt.run() end,
