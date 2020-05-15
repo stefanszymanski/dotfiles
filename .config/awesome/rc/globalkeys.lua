@@ -214,7 +214,7 @@ globalkeys = gears.table.join(
     -- User programs
     awful.key({ modkey }, "q", function () awful.spawn(apps.browser.cmd) end,
         {description = "run browser", group = "launcher"}),
-    awful.key({ hyperkey }, "m", function () awful.spawn.with_shell("syncmail -n all") end,
+    awful.key({ hyperkey }, "m", function () awful.spawn.with_shell("PINENTRY_USER_DATA=gtk syncmail -n all") end,
         {description = "sync mail", group = "hotkeys"}),
 
     -- Prompts
