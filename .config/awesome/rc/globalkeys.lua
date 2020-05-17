@@ -82,6 +82,8 @@ globalkeys = gears.table.join(
         {description = "focus right", group = "client navigation"}),
 
     -- Layout manipulation
+    awful.key({ modkey }, "space", custom.menu.layouts,
+        {description = "open layout menu", group = "tag"}),
     awful.key({ hyperkey, altkey }, "h", function () awful.client.swap.byidx(  1)    end,
         {description = "swap with next by index", group = "client navigation"}),
     awful.key({ hyperkey, altkey }, "l", function () awful.client.swap.byidx( -1)    end,
