@@ -1,6 +1,4 @@
 local awful = require("awful")
-local naughty = require("naughty")
-local client = require("custom.util.client")
 
 function clientactions(c)
     local on = " <span size='large'>✓</span>"
