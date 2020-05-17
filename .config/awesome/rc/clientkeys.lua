@@ -2,6 +2,7 @@
 local awful  = require("awful")
 local gears  = require("gears")
 local lain   = require("lain")
+local custom = require("custom")
 -- settings
 local config = require("config")
 
@@ -12,6 +13,9 @@ local altkey = config.altkey
 -- TODO possibility to resize floating clients
 
 clientkeys = gears.table.join(
+    awful.key({ hyperkey }, 'space', function (c) custom.menu.clientactions(c) end,
+            {description = "show actions menu", group = "client"}),
+
     awful.key({ hyperkey, "Shift" }, "p", lain.util.magnify_client,
         {description = "magnify client", group = "client"}),
 
