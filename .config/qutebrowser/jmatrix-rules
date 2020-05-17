@@ -54,6 +54,8 @@ github.com raw.githubusercontent.com xhr allow
 github.com render.githubusercontent.com frame allow
 github.com render.githubusercontent.com script allow
 github.com render.githubusercontent.com xhr allow
+github.com github.githubassets.com script allow
+github.com collector.githubapp.com all allow
 
 # Gitlab
 gitlab.com assets.gitlab-static.net script allow
