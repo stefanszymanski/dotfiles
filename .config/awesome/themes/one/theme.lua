@@ -307,21 +307,21 @@ theme.luaprompt = custom.prompt.luapromptbox({
 })
 
 -- Drink reminder
-local preset = {
-    font = "monospace Bold 24",
-    position = "top_middle",
-    timeout = 0,
-    margin = 20,
-    fg = colors.red_1,
-    bg = colors.bw_9,
-    border_width = 4,
-}
-local drink_reminder = custom.widget.reminder {
-    --text = "  ⊻    ",
-    text = " ⊻  ",
-    interval = 3600,
-    preset = preset,
-}
+--local preset = {
+--    font = "monospace Bold 24",
+--    position = "top_middle",
+--    timeout = 0,
+--    margin = 20,
+--    fg = colors.red_1,
+--    bg = colors.bw_9,
+--    border_width = 4,
+--}
+--local drink_reminder = custom.widget.reminder {
+--    --text = "  ⊻    ",
+--    text = " ⊻  ",
+--    interval = 3600,
+--    preset = preset,
+--}
 
 
 -- Date and time widgets
@@ -457,43 +457,43 @@ local volumewidget = wibox.widget {
     fg = theme.fg_normal,
 }
 volumewidget:buttons(my_table.join (
-        awful.button({}, 1, function()
-            awful.spawn(string.format("%s -e pulsemixer", awful.util.terminal))
-        end),
-        awful.button({}, 3, function()
-            os.execute(string.format("pactl set-sink-mute %d toggle", theme.volume.device))
-            theme.volume.update()
-        end),
-        awful.button({}, 4, function()
-            os.execute(string.format("pactl set-sink-volume %d +5%%", theme.volume.device))
-            theme.volume.update()
-        end),
-        awful.button({}, 5, function()
-            os.execute(string.format("pactl set-sink-volume %d -5%%", theme.volume.device))
-            theme.volume.update()
-        end)
+    awful.button({}, 1, function()
+        awful.spawn(string.format("%s -e pulsemixer", awful.util.terminal))
+    end),
+    awful.button({}, 3, function()
+        os.execute(string.format("pactl set-sink-mute %d toggle", theme.volume.device))
+        theme.volume.update()
+    end),
+    awful.button({}, 4, function()
+        os.execute(string.format("pactl set-sink-volume %d +5%%", theme.volume.device))
+        theme.volume.update()
+    end),
+    awful.button({}, 5, function()
+        os.execute(string.format("pactl set-sink-volume %d -5%%", theme.volume.device))
+        theme.volume.update()
+    end)
 ))
 
 -- Volume popup
-local audioinfo = custom.widget.audioinfo({
-    attach_to = { volumewidget },
-    followtag = true,
-    notification_preset = {
-        font = theme.font,
-        fg   = theme.fg_normal,
-        bg   = theme.bg_normal
-    }
-})
+-- local audioinfo = custom.widget.audioinfo({
+--     attach_to = { volumewidget },
+--     followtag = true,
+--     notification_preset = {
+--         font = theme.font,
+--         fg   = theme.fg_normal,
+--         bg   = theme.bg_normal
+--     }
+-- })
 
 -- override the volume widget's update function to also update the popup
-local original_volume_update = theme.volume.update
-theme.volume.update = function(cb)
-    local callback = function()
-        audioinfo.update()
-        if type(cb) == "function" then cb() end
-    end
-    original_volume_update(callback)
-end
+-- local original_volume_update = theme.volume.update
+-- theme.volume.update = function(cb)
+--     local callback = function()
+--         audioinfo.update()
+--         if type(cb) == "function" then cb() end
+--     end
+--     original_volume_update(callback)
+-- end
 
 
 
@@ -543,15 +543,15 @@ local cpuwidget = wibox.widget {
 }
 
 -- Sysinfo popup
-local sysinfo = custom.widget.sysinfo({
-    attach_to = { memwidget, cpuwidget },
-    followtag = true,
-    notification_preset = {
-        font = theme.font,
-        fg   = theme.fg_normal,
-        bg   = theme.bg_normal
-    }
-})
+-- local sysinfo = custom.widget.sysinfo({
+--     attach_to = { memwidget, cpuwidget },
+--     followtag = true,
+--     notification_preset = {
+--         font = theme.font,
+--         fg   = theme.fg_normal,
+--         bg   = theme.bg_normal
+--     }
+-- })
 
 -- Weather
 theme.weather = lain.widget.weather({
