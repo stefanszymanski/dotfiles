@@ -29,7 +29,7 @@ clientkeys = gears.table.join(
     awful.key({ hyperkey, "Shift" }, "c", function (c) c:kill() end,
         {description = "close", group = "client"}),
 
-    awful.key({ hyperkey, "Shift" }, "g", awful.client.floating.toggle,
+    awful.key({ hyperkey, "Shift" }, "g", function (c) c.floating = not c.floating end,
         {description = "toggle floating", group = "client"}),
 
     awful.key({ hyperkey, "Shift" }, "t", function (c) c.ontop = not c.ontop end,
