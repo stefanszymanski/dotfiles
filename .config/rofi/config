@@ -1,6 +1,17 @@
 rofi.theme: ~/.config/rofi/gruvbox.rasi
 
 rofi.modi: window,run,ssh,drun,combi
-rofi.lines: 16
+rofi.lines: 10
+rofi.width: 400
 rofi.case-sensitive: false
 rofi.matching: fuzzy
+rofi.show-icons: false
+
+rofi.drun-display-format: {name}
+rofi.drun-match-fields: name
+rofi.drun-show-actions: false
+
+rofi.window-match-fields: title,name
+
+rofi.terminal: termite
+
