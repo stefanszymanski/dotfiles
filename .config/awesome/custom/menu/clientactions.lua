@@ -17,7 +17,7 @@ function clientactions(c)
     local y = c.y - c.screen.geometry.y
 
     local cmd = "echo -e \"" .. entries .. "\" | "
-             .. " rofi -dmenu"
+             .. " rofi -dmenu -i"
              .. " -markup-rows"
              .. " -lines 7"
              .. " -p 'client action'"
