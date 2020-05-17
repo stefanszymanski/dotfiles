@@ -121,4 +121,8 @@ reddit.com www.redditmedia.com frame allow
 reddit.com www.redditmedia.com script allow
 reddit.com www.redditstatic.com script allow
 reddit.com www.redditstatic.com css allow
+reddit.com www.redditstatic.com xhr allow
 reddit.com www.redditstatic.com other allow
+reddit.com v.redd.it media allow
+reddit.com v.redd.it xhr allow
+
