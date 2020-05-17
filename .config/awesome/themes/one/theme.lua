@@ -584,9 +584,9 @@ function formatbytes(bytes)
 end
 
 local net = lain.widget.net({
+    timeout = 5,
     settings = function()
         widget:set_markup(formatbytes(net_now.received) .. " ↓↑ " .. formatbytes(net_now.sent))
-        --widget:set_markup(markup.fontfg(theme.font, theme.fg_normal, " " .. net_now.received .. " ↓↑ " .. net_now.sent .. " "))
     end
 })
 
