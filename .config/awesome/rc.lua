@@ -4,6 +4,7 @@ local string, os    = string, os
 local awful         = require("awful")
                       require("awful.autofocus")
 local beautiful     = require("beautiful")
+local gears         = require("gears")
 
 
 awful.key.ignore_modifiers = { "Mod2" }
