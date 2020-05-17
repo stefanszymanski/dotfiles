@@ -373,58 +373,59 @@ theme.cal = lain.widget.cal({
 
 
 -- Battery
-local baticon = wibox.widget.imagebox(theme.bat)
-local batbar = wibox.widget {
-    forced_height    = infobar_height,
-    forced_width     = infobar_width,
-    color            = theme.fg_normal,
-    background_color = theme.bg_normal,
-    margins          = 1,
-    paddings         = 1,
-    ticks            = true,
-    ticks_size       = dpi(6),
-    widget           = wibox.widget.progressbar,
-}
-local batupd = lain.widget.bat({
-    settings = function()
-        if (not bat_now.status) or bat_now.status == "N/A" or type(bat_now.perc) ~= "number" then return end
+-- local baticon = wibox.widget.imagebox(theme.bat)
+-- local batbar = wibox.widget {
+--     forced_height    = infobar_height,
+--     forced_width     = infobar_width,
+--     color            = theme.fg_normal,
+--     background_color = theme.bg_normal,
+--     margins          = 1,
+--     paddings         = 1,
+--     ticks            = true,
+--     ticks_size       = dpi(6),
+--     widget           = wibox.widget.progressbar,
+-- }
+-- local batupd = lain.widget.bat({
+--     settings = function()
+--         if (not bat_now.status) or bat_now.status == "N/A" or type(bat_now.perc) ~= "number" then return end
 
-        if bat_now.status == "Charging" then
-            baticon:set_image(theme.ac)
-            if bat_now.perc >= 98 then
-                batbar:set_color(colors.green_1)
-            elseif bat_now.perc > 50 then
-                batbar:set_color(theme.fg_normal)
-            elseif bat_now.perc > 15 then
-                batbar:set_color(theme.fg_normal)
-            else
-                batbar:set_color(colors.red_1)
-            end
-        else
-            if bat_now.perc >= 98 then
-                batbar:set_color(colors.green_1)
-            elseif bat_now.perc > 50 then
-                batbar:set_color(theme.fg_normal)
-                baticon:set_image(theme.bat)
-            elseif bat_now.perc > 15 then
-                batbar:set_color(theme.fg_normal)
-                baticon:set_image(theme.bat_low)
-            else
-                batbar:set_color(colors.red_1)
-                baticon:set_image(theme.bat_no)
-            end
-        end
-        batbar:set_value(bat_now.perc / 100)
-    end
-})
-local batbg = wibox.container.background(batbar, "#474747", gears.shape.rectangle)
-local batwidget = wibox.container.margin(batbg, dpi(2), dpi(7), dpi(3), dpi(3))
+--         if bat_now.status == "Charging" then
+--             baticon:set_image(theme.ac)
+--             if bat_now.perc >= 98 then
+--                 batbar:set_color(colors.green_1)
+--             elseif bat_now.perc > 50 then
+--                 batbar:set_color(theme.fg_normal)
+--             elseif bat_now.perc > 15 then
+--                 batbar:set_color(theme.fg_normal)
+--             else
+--                 batbar:set_color(colors.red_1)
+--             end
+--         else
+--             if bat_now.perc >= 98 then
+--                 batbar:set_color(colors.green_1)
+--             elseif bat_now.perc > 50 then
+--                 batbar:set_color(theme.fg_normal)
+--                 baticon:set_image(theme.bat)
+--             elseif bat_now.perc > 15 then
+--                 batbar:set_color(theme.fg_normal)
+--                 baticon:set_image(theme.bat_low)
+--             else
+--                 batbar:set_color(colors.red_1)
+--                 baticon:set_image(theme.bat_no)
+--             end
+--         end
+--         batbar:set_value(bat_now.perc / 100)
+--     end
+-- })
+-- local batbg = wibox.container.background(batbar, "#474747", gears.shape.rectangle)
+-- local batwidget = wibox.container.margin(batbg, dpi(2), dpi(7), dpi(3), dpi(3))
 
 
 -- Volume widget
 theme.volume = lain.widget.pulse {
     timeout = 5,
 	settings = function()
+        local volume = nil
         if volume_now.index == nil then
             widget:set_markup("vol n/a")
         else
@@ -564,11 +565,11 @@ function round(num, idp)
 end
 
 function formatbytes(bytes)
-    bytes = tonumber(bytes)
-    kilobyte = 1024;
-    megabyte = kilobyte * 1024;
-    gigabyte = megabyte * 1024;
-    terabyte = gigabyte * 1024;
+    local bytes = tonumber(bytes)
+    local kilobyte = 1024;
+    local megabyte = kilobyte * 1024;
+    local gigabyte = megabyte * 1024;
+    local terabyte = gigabyte * 1024;
     if((bytes >= 0) and (bytes < kilobyte)) then
         return bytes;
     elseif((bytes >= kilobyte) and (bytes < megabyte)) then

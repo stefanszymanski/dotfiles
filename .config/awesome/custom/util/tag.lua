@@ -27,7 +27,7 @@ function tag.create(args)
         layout = nil,
         screen = nil
     }
-    args = gears.table.join(default_args, args or {})
+    local args = gears.table.join(default_args, args or {})
     local prompt = promptbox({ 
         prompt = "Create tag: ",
         exe_callback = function(name)
@@ -58,7 +58,7 @@ function tag.create_move_client(args)
         switch = true, 
         layout = nil 
     }
-    args = gears.table.join(default_args, args or {})
+    local args = gears.table.join(default_args, args or {})
     local prompt = promptbox({ 
         prompt = "Move to new tag: ",
         exe_callback = function(name)
