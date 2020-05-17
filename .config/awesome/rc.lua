@@ -68,3 +68,6 @@ awful.keygrabber {
         end}
     }
 }
+
+-- enfoce garbage collection once a minute
+gears.timer.start_new(60, function() collectgarbage("collect") return true end)
