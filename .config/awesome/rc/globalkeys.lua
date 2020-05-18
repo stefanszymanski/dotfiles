@@ -247,7 +247,7 @@ for i = 1, 9 do
         descr_move = {description = "move to tag #", group = "client"}
         descr_toggle_focus = {description = "toggle on tag #", group = "client"}
     end
-    local globalkeys = gears.table.join(globalkeys,
+    globalkeys = gears.table.join(globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
             function ()
