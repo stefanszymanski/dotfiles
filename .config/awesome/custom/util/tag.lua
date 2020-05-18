@@ -1,4 +1,4 @@
-local awful = require("awful")
+local awful     = require("awful")
 local gears     = require("gears")
 local promptbox = require("custom.prompt.promptbox")
 
@@ -12,7 +12,7 @@ function tag.add(args)
         layout = nil,
         screen = nil,
     }
-    args = gears.table.join(default_args, args or {})
+    local args = gears.table.join(default_args, args or {})
     local t = awful.tag.add(args.name, { 
         screen = args.screen or awful.screen.focused(), 
         layout = args.layout or awful.layout.suit.tile,
