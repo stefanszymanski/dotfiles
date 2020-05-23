@@ -278,6 +278,11 @@ function lt {
 alias v='fasd -e nvim'
 alias o='fasd -a -e xdg-open'
 
+# backlightcontrol
+alias blc='backlightcontrol'
+alias blc0='backlightcontrol set 0'
+alias blc1='backlightcontrol set 100'
+
 # khal (wip)
 alias iwcal='ikhal -c $HOME/.config/khal/config-work'
 alias ipcal='ikhal'
