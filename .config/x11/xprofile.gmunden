@@ -7,4 +7,5 @@ xset s off
 xset -dpms
 xset noblank
 
+xautolock -enable
 numlockx on
