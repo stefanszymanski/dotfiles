@@ -84,6 +84,8 @@ unignore from: to: cc: bcc: date: subject:
 unhdr_order *
 hdr_order from: to: cc: bcc: date: subject:
 my_hdr Openpgp: preference=signencrypt
+# set hostname to prevent that it's read from environment variables
+set hostname = void
 
 auto_view text/html
 auto_view text/calendar
