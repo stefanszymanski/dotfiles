@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+[[ -z "$DISPLAY" ]] && exit 1
+
+local OUT=(
+    '1: Qutebrowser (personal)'
+    '2: Qutebrowser (work)'
+    '3: Firefox'
+    '4: Chromium'
+)
+
+CHOICE=$(printf '%s\n' "${OUT[@]}" \
+    | rofi -i -lines 4 -width 12 -dmenu -p 'web browser' \
+    | cut -d ':' -f 1)
+
+[[ -z "$CHOICE" ]] && exit 0
+
+case "$CHOICE" in
+    1) FILE="qutebrowser.desktop" ;;
+    2) FILE="qutebrowser-work.desktop" ;;
+    3) FILE="firefox.desktop" ;;
+    4) FILE="chromium.desktop" ;;
+esac
+
+[[ -n "$FILE" ]] && gtk-launch "$FILE" "$@"

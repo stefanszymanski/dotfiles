@@ -3,7 +3,7 @@ Version=1.0
 Terminal=false
 Type=Application
 Categories=Qt;Network;WebBrowser
-Exec=env PINENTRY_USER_DATA=gtk qutebrowser
+Exec=env PINENTRY_USER_DATA=gtk qutebrowser %u
 Name=Qutebrowser
 GenericName=Web Browser
-MimeType=x-scheme-handler/https;x-scheme-handler/http;text/html;
+MimeType=x-scheme-handler/unknown;x-scheme-handler/about;x-scheme-handler/https;x-scheme-handler/http;text/html;
