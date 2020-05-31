@@ -18,3 +18,5 @@ HOST_XPROFILE="$HOME/.config/x11/xprofile.$(hostname)"
 if [ -e "$HOST_XPROFILE" ] ; then
     . "$HOST_XPROFILE"
 fi
+
+autolock &

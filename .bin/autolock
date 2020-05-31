@@ -1,16 +1,65 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-session=${1:-awesome}
+image="$HOME/.cache/i3lock_background.png"
+icon="$HOME/.config/i3lock/icon.png"
 
-if [ "$session" != 'awesome' ]; then
-    notifier_cmd="notify-send -t 18000 -u critical 'Lock' 'Locking screen in 20 seconds.'"
-else
-    notifier_cmd="awesome-client \"n=require('naughty');n.notify{title='Lock',text='Locking screen in 20 seconds.',timeout=18,preset=n.config.presets.critical}\""
+create_image() {
+    local monitors values
+    # Half the icon's dimensions
+    local offset=16
+    # Take a screenshot
+    scrot -o "$image"
+    # Pixelate the screenshot
+    convert "$image" -scale 10% -scale 1000% "$image"
+    # Add a lock icon in the middle of each monitor
+    IFS=$'\n' read -d "" -ra monitors <<< "$(xrandr --current | awk '$2 ~ /connected/ && /[0-9]+x[0-9]+/ {print $3}')"
+    for monitor in "${monitors[@]}"; do
+        IFS=$' ' read -d "" -ra values <<< "$(awk -F'[x+]' '{print $1, $2, $3, $4}' <<< "$monitor")"
+        w=${values[0]}
+        h=${values[1]}
+        x=${values[2]}
+        y=${values[3]}
+        ((ix=x+(w/2)-offset))
+        ((iy=y+(h/2)-offset))
+        convert "$image" "$icon" -geometry "+$ix+$iy" -composite "$image"
+    done
+}
+
+if [[ "$1" = "lock" ]]; then
+    [[ "$2" = "update-image" ]] && create_image
+    exec i3lock -uti "$image" || "$0 lock"
 fi
 
-exec xautolock \
+title="Autolock"
+text="Locking screen in 20 seconds."
+timeout=18
+notifier_cmd="awesome-client \"n=require('naughty');n.notify{title='$title',text='$text',timeout=$timeout,preset=n.config.presets.critical}\""
+# notifier_cmd="notify-send -t $((timeout*1000)) -u critical '$title' '$text'"
+
+xautolock \
+    -resetsaver \
     -detectsleep \
-    -time 3 \
-    -locker "$HOME/.bin/lock" \
+    -time 5 \
     -notify 20 \
-    -notifier "$notifier_cmd"
+    -notifier "$notifier_cmd" \
+    -locker "$0 lock update-image"
+
+
+# Maybe I should switch to xsecurelock, but it can't display my fancy pixelated
+# screenshot because it doesn't support different images on multiple monitors :(
+
+# XSECURELOCK_BLANK_TIMEOUT=30 \
+# XSECURELOCK_BLANK_DPMS_STATE=suspend \
+# XSECURELOCK_PASSWORD_PROMPT=time_hex \
+# XSECURELOCK_SAVER=saver_mpv \
+# XSECURELOCK_LIST_VIDEOS_COMMAND="echo $image" \
+# XSECURELOCK_IMAGE_DURATION_SECONDS=100000 \
+# XSECURELOCK_SAVER_RESET_ON_AUTH_CLOSE=1 \
+# XSECURELOCK_DATETIME_FORMAT="%Y-%m-%d %H:%M" \
+# XSECURELOCK_SHOW_HOSTNAME=0 \
+# XSECURELOCK_SHOW_USERNAME=0 \
+# XSECURELOCK_SHOW_DATETIME=1 \
+# XSECURELOCK_AUTH_TIMEOUT=10 \
+# XSECURELOCK_AUTH_FOREGROUND_COLOR="rgb:eb/db/b2" \
+# XSECURELOCK_AUTH_WARNING_COLOR="rgb:fb/49/34" \
+# exec xsecurelock

@@ -11,7 +11,6 @@ awful.key.ignore_modifiers = { "Mod2" }
 
 -- startup
 require("rc.errorhandling")
-require("rc.autostart")
 
 awful.util.terminal = require("apps").terminal.cmd
 
