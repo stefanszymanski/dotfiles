@@ -10,4 +10,4 @@ fi
 pulseaudio --start
 start-pulseaudio-x11
 
-exec dbus-launch --sh-syntax --exit-with-session awesome
+exec dbus-launch --sh-syntax --exit-with-session ${WM:-awesome}
