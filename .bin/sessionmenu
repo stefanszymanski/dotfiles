@@ -1,45 +1,48 @@
 #!/usr/bin/env bash
 
-# Initially copied from https://github.com/alfunx/.dotfiles/blob/master/.bin/rofi-session
-
-lock() {
-    ~/.bin/lock
+screensaver-disable() {
+    xset s off
+    xset s noblank
+    xset -dpms
 }
 
-choice_by_rofi() {
-    output=(
-        '0: Lock'
-        '1: Hibernate'
-        '2: Suspend'
-        '3: Logout'
-        '4: Reboot'
-        '5: Poweroff'
-        '6: Disable Screensaver'
-        '7: Enable Screensaver'
-        '8: Disable Autolock'
-        '9: Enable Autolock'
-    )
-
-    choice=$(printf '%s\n' "${output[@]}" \
-        | rofi -i -lines 10 -dmenu -p 'session' \
-        | cut -d ':' -f 1)
+screensaver-enable() {
+    xset s on
+    xset s blank
+    xset +dpms
 }
+
 
 [[ -z "$DISPLAY" ]] && exit 1
 
-choice_by_rofi
+OPTIONS=(
+    '0: Logout'
+    '1: Hibernate'
+    '2: Suspend'
+    '3: Suspend hybrid'
+    '4: Reboot'
+    '5: Shutdown'
+    '6: Disable Screensaver'
+    '7: Enable Screensaver'
+    '8: Disable Autolock'
+    '9: Enable Autolock'
+)
 
-[[ -z "$choice" ]] && exit 1
+CHOICE=$(printf '%s\n' "${OPTIONS[@]}" \
+    | rofi -i -lines 10 -dmenu -p 'session' \
+    | cut -d ':' -f 1)
 
-case "$choice" in
-    0) lock ;;
-    1) lock && systemctl hibernate & ;;
-    2) lock && systemctl suspend & ;;
-    3) awesome-client "awesome.quit()" & ;;
-    4) systemctl reboot & ;;
-    5) systemctl poweroff & ;;
-    6) xset s off & ;;
-    7) xset s on & ;;
-    8) xautolock -disable & ;;
-    9) xautolock -enable & ;;
+[[ -z "$CHOICE" ]] && exit 1
+
+case "$CHOICE" in
+    0) awesome-client "awesome.quit()" ;;
+    1) sudo zzz -Z ;;
+    2) sudo zzz ;;
+    3) sudo zzz -H ;;
+    4) sudo shutdown -r now ;;
+    5) sudo shutdown -h now ;;
+    6) screensaver-disable ;;
+    7) screensaver-enable ;;
+    8) xautolock -disable ;;
+    9) xautolock -enable ;;
 esac
