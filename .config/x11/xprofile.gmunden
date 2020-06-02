@@ -5,7 +5,7 @@ xrandr --dpi 96
 # Disable display power management and prevent the screen from blanking
 xset s off
 xset -dpms
-xset noblank
+xset s noblank
 
 xautolock -enable
 numlockx on
