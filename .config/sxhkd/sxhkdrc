@@ -1,0 +1,145 @@
+#########
+# bspwm #
+#########
+
+# bspwm general
+###############
+
+# reload bspwm
+hyper + r
+    bspc wm --restart
+
+# restart bspwm
+hyper + ctrl + r
+    pkill -USR1 -x sxhkd
+
+
+# bspwm nodes
+#############
+
+# close/kill node
+super + {_, shift +}c
+    bspc node --{close,kill}
+
+# change node mode
+super + {t,shift + t,s,f}
+    bspc node --state {tiled,pseudo_tiled,floating,fullscreen}
+
+# focus/move node in given direction
+super + {_,shift + }{h,j,k,l}
+    bspc node --{focus,swap} {west,south,north,east}
+
+# focus next/previous node
+super + {n,p}
+    bspc node --focus {next,prev}.local
+
+# focus last node
+super + Tab
+    bspc node --focus last
+
+# move node to desktop by number
+super + {1-9,0}
+    bspc node --to-desktop 'focused:^{1-9,10}'
+
+# move node to next/previous monitor
+super + ctrl + {n,p}
+    bspc node --to-monitor {next,prev} --follow
+
+# move node to a new desktop
+super + a
+    bspwm-node-move-to-new-desktop
+
+
+# bspwm desktops
+################
+
+# focus next/previous desktop
+hyper + {n,p}
+    bspc desktop --focus {next,prev}.local
+
+# focus last desktop
+hyper + Tab
+    bspc desktop --focus last
+
+# focus desktop by number
+hyper + {1-9,0}
+    bspc desktop --focus 'focused:^{1-9,10}'
+
+# add/rename desktops
+hyper + {a,e}
+    bspwm-desktop-{add,rename}
+
+# delete desktop
+hyper + c
+    bspc desktop --remove
+
+# set layout
+hyper + {m,t,l}
+    bspc desktop --layout {monocle,tiled,next}
+
+
+# bspwm monitors
+################
+
+# focus next/previous monitor
+hyper + shift + {n,p}
+    bspc monitor --focus {next,previous}
+
+
+################
+# applications #
+################
+
+super + Return
+    termite -e tmux
+
+super + ctrl + Return
+    termite
+
+
+##############
+# rofi menus #
+##############
+
+super + period
+    rofi -show drun
+
+super + minus
+    rofi -show window
+
+super + comma
+    sessionmenu
+
+
+########
+# misc #
+########
+
+# volume
+########
+
+XF86Audio{Raise,Lower}Volume
+    pactl set-sink-volume 0 {+,-}5%
+
+XF86AudioMute
+    pactl set-sink-mute 0 toggle
+
+
+# clipboard
+###########
+
+super + y
+    xclip -out -selection primary | xclip -in -selection clipboard
+
+super + x
+    xclip -out -selection clipboard | xclip -in -selection primary
+
+
+# other
+#######
+
+Insert
+    xautolock -locknow
+
+hyper + m
+    PINENTRY_USER_DATA=gtk syncmail -n all

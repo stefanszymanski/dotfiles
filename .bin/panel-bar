@@ -1,0 +1,153 @@
+#! /usr/bin/env bash
+
+target_monitor="$1"
+
+. ~/.panel-colors
+
+render_desktop_layout() {
+    local res bg fg
+    if [ "$2" -eq 1 ]; then
+        fg="$COLOR_DESKTOP_LAYOUT_FOCUSED_FG"
+        bg="$COLOR_DESKTOP_LAYOUT_FOCUSED_BG"
+    else
+        fg="$COLOR_DESKTOP_LAYOUT_FG"
+        bg="$COLOR_DESKTOP_LAYOUT_BG"
+    fi
+    res="%{F${fg}}%{B${bg}} $1 %{B-}%{F-}"
+    printf "%s\n" "$res"
+}
+
+render_node_state() {
+    local res
+    case "$1" in
+        T) res="tiled" ;;
+        P) res="pseudo tiled" ;;
+        F) res="floating" ;;
+        =) res="fullscreen" ;;
+        @) res="hä?" ;;
+        *) res="unknown" ;;
+    esac
+    printf "%s\n" "$res"
+}
+
+render_node_flags() {
+    local flags=()
+    while IFS= read -d "" -rn1 c; do
+        case "$c" in
+            S) flags+=("sticky") ;;
+            P) flags+=("private") ;;
+            L) flags+=("locked") ;;
+            M) flags+=("marked") ;;
+        esac
+    done <<< "$1"
+    printf "%s " "${flags[@]}"
+}
+
+render_desktop() {
+    local res
+    local name="${1#?}"
+    local index="$2"
+    case "$1" in
+        O*)
+            fg="$COLOR_DESKTOP_OCCUPIED_FOCUSED_FG"
+            bg="$COLOR_DESKTOP_OCCUPIED_FOCUSED_BG"
+            ;;
+        o*)
+            fg="$COLOR_DESKTOP_OCCUPIED_FG"
+            bg="$COLOR_DESKTOP_OCCUPIED_BG"
+            ;;
+        F*)
+            fg="$COLOR_DESKTOP_FREE_FOCUSED_FG"
+            bg="$COLOR_DESKTOP_FREE_FOCUSED_BG"
+            ;;
+        f*)
+            fg="$COLOR_DESKTOP_FREE_FG"
+            bg="$COLOR_DESKTOP_FREE_BG"
+            ;;
+        U*)
+            fg="$COLOR_DESKTOP_URGENT_FOCUSED_FG"
+            bg="$COLOR_DESKTOP_URGENT_FOCUSED_BG"
+            ;;
+        u*)
+            fg="$COLOR_DESKTOP_URGENT_FG"
+            bg="$COLOR_DESKTOP_URGENT_BG"
+            ;;
+    esac
+    res="%{F${fg}}%{B${bg}} ${index} | ${name} %{B-}%{F-}"
+    printf "%s\n" "$res"
+}
+
+render_load() {
+    [ -z "$1" ] && exit
+    local fg bg
+    fg="$COLOR_BLOCK_FG"
+    bg="$COLOR_BLOCK_BG"
+    res="%{F${fg}}%{B${bg}} load ${1} %{B-}%{F-}"
+    printf "%s\n" "$res"
+}
+
+render_date() {
+    [ -z "$1" ] && exit
+    local fg bg
+    fg="$COLOR_BLOCK_FG"
+    bg="$COLOR_BLOCK_BG"
+    res="%{F${fg}}%{B${bg}} ${1} %{B-}%{F-}"
+    printf "%s\n" "$res"
+    
+}
+
+while read -r line ; do
+    # parse input
+    case $line in
+        L*)
+            load="${line#?}"
+            ;;
+        T*)
+            date="${line#?}"
+            ;;
+        W*)
+            desktops=()
+            IFS=':'
+            set -- ${line#?}
+            while [ $# -gt 0 ] ; do
+                item=$1
+                name=${item#?}
+                case $item in
+                    [mM]*)
+                        monitor_name="$name"
+                        [[ "$monitor_name" != "$target_monitor" ]] && shift && continue
+                        case "$item" in
+                            m*) is_monitor_active=0;;
+                            M*) is_monitor_active=1;;
+                        esac
+                        ;;
+                    [oOfFuU]*) 
+                        [[ "$monitor_name" != "$target_monitor" ]] && shift && continue
+                        desktops+=("$item")
+                        ;;
+                    L*) desktop_layout="$name";;
+                    T*) node_state="$name";;
+                    G*) node_flags="$name";;
+                esac
+                shift
+            done
+            ;;
+    esac
+
+    # create output
+
+    dl="$(render_desktop_layout "$desktop_layout" "$is_monitor_active")"
+    ns="$(render_node_state "$node_state" "$is_monitor_active")"
+    nf="$(render_node_flags "$node_flags" "$is_monitor_active")"
+    l="$(render_load "$load")"
+    d="$(render_date "$date")"
+
+    ds=
+    index=1
+    for desktop in "${desktops[@]}"; do
+        ds="${ds} $(render_desktop "${desktop}" "${index}")"
+        ((index+=1))
+    done
+
+    printf "%s\n" "%{l}${dl} ${ds} %{r}${l} ${d}"
+done
