@@ -1,3 +1,14 @@
+# # Prefixes
+# super + w             -> window manager
+# super + t             -> nodes
+# super + d             -> desktops
+# super + m             -> monitors
+# super + s             -> misc
+#
+# # Reserved keys, that cannot be used as part of a prefix
+#         {n, p, h, j, k, l, space}  -> focus
+# ctrl  + ...                        -> move
+
 #########
 # bspwm #
 #########
@@ -6,75 +17,85 @@
 ###############
 
 # reload bspwm
-hyper + r
-    bspc wm --restart
+super + w ; r
+    pkill -USR1 -x sxhkd
 
 # restart bspwm
-hyper + ctrl + r
-    pkill -USR1 -x sxhkd
+super + w ; shift + r
+    bspc wm --restart
 
 
 # bspwm nodes
 #############
 
-# close/kill node
-super + {_, shift +}c
-    bspc node --{close,kill}
-
-# change node mode
-super + {t,shift + t,s,f}
-    bspc node --state {tiled,pseudo_tiled,floating,fullscreen}
-
-# focus/move node in given direction
-super + {_,shift + }{h,j,k,l}
-    bspc node --{focus,swap} {west,south,north,east}
-
-# focus next/previous node
-super + {n,p}
-    bspc node --focus {next,prev}.local
+# focus/move node
+super + {_,ctrl + } {h,j,k,l,n,p}
+    bspc node --{focus,swap} {west,south,north,east,next.local,prev.local}
 
 # focus last node
-super + Tab
+super + space
     bspc node --focus last
 
+# close/kill node
+super + t ; {c,x}
+    bspwm-node-close {close,kill}
+
+# set node state
+super + t ; s ; {t,s,f}
+    bspc node --state {tiled,floating,fullscreen}
+
+# set node flags
+super + t ; f ; {m,l,s,p}
+    bspc node --flag {marked,locked,sticky,private}
+
 # move node to desktop by number
-super + {1-9,0}
+super + t ; m ; {1-9,0}
     bspc node --to-desktop 'focused:^{1-9,10}'
 
 # move node to next/previous monitor
-super + ctrl + {n,p}
+super + t ; m ; {n,p}
     bspc node --to-monitor {next,prev} --follow
 
 # move node to a new desktop
-super + a
+super + t ; m ; a
     bspwm-node-move-to-new-desktop
+
+# preselect the direction
+super + t ; p ; {h,j,k,l}
+    bspc node --presel-dir {west,south,north,east}
+
+# cancel the preselection for the focused node
+super + Escape
+    bspc node --presel-dir cancel
+
+# TODO write script that combines expand and contract
+#      make a prefix that starts a resizing mode, resizing than should not require a combination
+# expand node by moving one of its side outward
+super + alt + {h,j,k,l}
+    bspc node --resize {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract node by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+    bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 
 # bspwm desktops
 ################
 
-# focus next/previous desktop
-hyper + {n,p}
-    bspc desktop --focus {next,prev}.local
-
-# focus last desktop
-hyper + Tab
-    bspc desktop --focus last
-
 # focus desktop by number
-hyper + {1-9,0}
+super + {1-9,0}
     bspc desktop --focus 'focused:^{1-9,10}'
 
-# add/rename desktops
-hyper + {a,e}
-    bspwm-desktop-{add,rename}
+# focus last/next/previous desktop
+super + shift + {space,n,p}
+    bspc desktop --focus {last,next.local,prev.local}
 
-# delete desktop
-hyper + c
-    bspc desktop --remove
+# add/rename/remove desktops
+super + d ; {a,e,c}
+    bspwm-desktop-{add,rename,remove}
 
 # set layout
-hyper + {m,t,l}
+super + d ; s ; {m,t,l}
     bspc desktop --layout {monocle,tiled,next}
 
 
@@ -82,7 +103,7 @@ hyper + {m,t,l}
 ################
 
 # focus next/previous monitor
-hyper + shift + {n,p}
+super + m ; {n,p}
     bspc monitor --focus {next,previous}
 
 
@@ -91,10 +112,10 @@ hyper + shift + {n,p}
 ################
 
 super + Return
-    termite -e tmux
+    termite
 
 super + ctrl + Return
-    termite
+    termite -e tmux
 
 
 ##############
@@ -125,21 +146,17 @@ XF86AudioMute
     pactl set-sink-mute 0 toggle
 
 
-# clipboard
-###########
-
-super + y
-    xclip -out -selection primary | xclip -in -selection clipboard
-
-super + x
-    xclip -out -selection clipboard | xclip -in -selection primary
-
-
 # other
 #######
 
-Insert
+# copy between clipboard and primary buffer
+super + s ; c ; {c,p}
+    {p2cb,cb2p} notify
+
+# lock screen
+super + s ; l
     xautolock -locknow
 
-hyper + m
+# sync mail
+super + s ; m
     PINENTRY_USER_DATA=gtk syncmail -n all

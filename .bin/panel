@@ -2,27 +2,63 @@
 
 PANEL_FIFO=/tmp/panel-fifo
 PANEL_HEIGHT=18
-PANEL_FONT="-*-fixed-*-*-*-*-13-*-*-*-*-*-*-*"
 PANEL_FONT="monospace:size=10:weight=bold"
 PANEL_WM_NAME=bspwm_panel
 
-if xdo id -a "$PANEL_WM_NAME" > /dev/null ; then
-	printf "%s\n" "The panel is already running." >&2
-	exit 1
-fi
+# if xdo id -a "$PANEL_WM_NAME" > /dev/null ; then
+#     printf "%s\n" "The panel is already running." >&2
+#     exit 1
+# fi
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
+# load colors
+. "$HOME/.panel-colors"
 
-# clock -sf 'S%a %H:%M' > "$PANEL_FIFO" &
-# bspc subscribe report > "$PANEL_FIFO" &
+# helper functions that passes the content of a file to multiple other files
+# used to send the content of a FIFO file to the panel FIFO files
+subscribe_file() {
+    while read -r line ; do
+        [[ -n "$line" ]] && printf "%s\n" "${2}${line}" | tee "${PANEL_FIFOS[@]}" > /dev/null
+    done < "$1"
+}
 
-. ~/.panel-colors
+subscribe_cmd() {
+    $1 | tee "${PANEL_FIFOS[@]}" > /dev/null
+}
 
+subscribe_watch() {
+    local interval="$1"
+    shift
+    watch -n"$interval" -t "$(printf "%s "  "$@") | tee $(printf "%s " "${PANEL_FIFOS[@]}")" > /dev/null
+}
 
-o=12
-# determine detected monitors with their dimensions and positions
+# get name, dimension and position of connected monitors
 IFS=$'\n' read -d "" -ra monitors <<< "$(xrandr --current | awk '$2 ~ /connected/ && /[0-9]+x[0-9]+/ {print $1, $3}')"
+
+# create a FIFO file per monitor
+PANEL_FIFOS=()
+for monitor in "${monitors[@]}"; do
+    name="$(awk -F'[ x+]' '{print $1}' <<< "$monitor")"
+    panel_fifo="${PANEL_FIFO}_${name}"
+    [ -e "$panel_fifo" ] && rm "$panel_fifo"
+    mkfifo "$panel_fifo"
+    PANEL_FIFOS+=("$panel_fifo")
+done
+
+# subscribe: bspwm node information
+subscribe_cmd "bspc subscribe report" &
+# susbcribe: load
+subscribe_watch 2 "cat /proc/loadavg | awk '{printf \"L%s %s %s\n\", \$1, \$2, \$3}'" &
+# subscribe: memory usage
+subscribe_watch 2 "cat /proc/meminfo | awk '\$1~/MemTotal/ {total=\$2} \$1~/MemAvailable/ {avail=\$2} END {printf \"Mmem %.0fMiB free, %.0f%% used\n\", (avail/1024), (total-avail)/total*100}'" &
+# subscribe: date and time
+subscribe_watch 10 "date '+CW %V, %A, %F %H:%M' | awk '{printf \"T%s\n\", \$0}'" &
+# subscribe: sxhkd events
+subscribe_file "/tmp/sxhkd-fifo" "H" &
+
+# create a panel per monitors
+o=12
 for monitor in "${monitors[@]}"; do
     # split string into required values
     IFS=$' ' read -d "" -ra values <<< "$(awk -F'[ x+]' '{print $1, $2, $3, $4, $5}' <<< "$monitor")"
@@ -38,18 +74,8 @@ for monitor in "${monitors[@]}"; do
     h="$PANEL_HEIGHT"
     geometry="${w}x${h}+${x}+${y}"
 
-    # prepare FIFO file for raw panel data
-    panel_fifo="${PANEL_FIFO}_${name}"
-    [ -e "$panel_fifo" ] && rm "$panel_fifo"
-    mkfifo "$panel_fifo"
-
-    # start writing data to FIFO file
-    # xtitle -sf 'T%s\n' > "$panel_fifo" &
-    bspc subscribe report > "$panel_fifo" &
-    watch -t "cat /proc/loadavg | awk '{printf \"L%s %s %s\n\", \$1, \$2, \$3}' > $panel_fifo" &
-    watch -n1 -t "date | awk '{printf \"T%s\n\", \$0}' > $panel_fifo" &
-
     # create panel
+    panel_fifo="${PANEL_FIFO}_${name}"
     panel_wm_name="${PANEL_WM_NAME}_${name}"
     panel-bar "$name" < "$panel_fifo" | lemonbar -a 32 -u 2 \
         -n "$panel_wm_name" \
@@ -59,11 +85,12 @@ for monitor in "${monitors[@]}"; do
         -F "$COLOR_DEFAULT_FG" \
         -B "$COLOR_DEFAULT_BG" | sh &
 
+    echo "PANEL CREATED: '$panel_fifo' '$panel_wm_name' '$geometry'"
+
     # place panel above root window
     winid=$(xdo id -m -a "${panel_wm_name}")
     rootid=$(xdo id -N Bspwm -n root | sort | head -n 1)
     xdo above -t "$rootid" "$winid"
 done
-
 
 wait

@@ -1,0 +1,11 @@
+#! /bin/env bash
+
+# Ask with rofi for desktop names and create them.
+# Names are separated by commas, colons or spaces.
+
+_names="$(rofi -dmenu -i -lines 0 -p "add desktops" -width 40)"
+
+[ -z "$_names" ] && exit 1
+
+IFS=$'\n' read -d "" -ra names <<< "${_names//[,: ]/$'\n'}"
+printf '%s\n' "${names[@]}" | xargs -d '\n' bspc monitor --add-desktops

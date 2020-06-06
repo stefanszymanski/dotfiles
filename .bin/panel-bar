@@ -2,10 +2,11 @@
 
 target_monitor="$1"
 
-. ~/.panel-colors
+. "$HOME/.panel-colors"
 
-render_desktop_layout() {
+render_blue_block() {
     local res bg fg
+    [ -z "$1" ] && exit
     if [ "$2" -eq 1 ]; then
         fg="$COLOR_DESKTOP_LAYOUT_FOCUSED_FG"
         bg="$COLOR_DESKTOP_LAYOUT_FOCUSED_BG"
@@ -15,32 +16,6 @@ render_desktop_layout() {
     fi
     res="%{F${fg}}%{B${bg}} $1 %{B-}%{F-}"
     printf "%s\n" "$res"
-}
-
-render_node_state() {
-    local res
-    case "$1" in
-        T) res="tiled" ;;
-        P) res="pseudo tiled" ;;
-        F) res="floating" ;;
-        =) res="fullscreen" ;;
-        @) res="hä?" ;;
-        *) res="unknown" ;;
-    esac
-    printf "%s\n" "$res"
-}
-
-render_node_flags() {
-    local flags=()
-    while IFS= read -d "" -rn1 c; do
-        case "$c" in
-            S) flags+=("sticky") ;;
-            P) flags+=("private") ;;
-            L) flags+=("locked") ;;
-            M) flags+=("marked") ;;
-        esac
-    done <<< "$1"
-    printf "%s " "${flags[@]}"
 }
 
 render_desktop() {
@@ -77,24 +52,17 @@ render_desktop() {
     printf "%s\n" "$res"
 }
 
-render_load() {
-    [ -z "$1" ] && exit
-    local fg bg
-    fg="$COLOR_BLOCK_FG"
-    bg="$COLOR_BLOCK_BG"
-    res="%{F${fg}}%{B${bg}} load ${1} %{B-}%{F-}"
-    printf "%s\n" "$res"
-}
-
-render_date() {
+render_block() {
     [ -z "$1" ] && exit
     local fg bg
     fg="$COLOR_BLOCK_FG"
     bg="$COLOR_BLOCK_BG"
     res="%{F${fg}}%{B${bg}} ${1} %{B-}%{F-}"
     printf "%s\n" "$res"
-    
 }
+
+sxhkd_last=
+sxhkd_chain=
 
 while read -r line ; do
     # parse input
@@ -105,14 +73,29 @@ while read -r line ; do
         T*)
             date="${line#?}"
             ;;
+        M*)
+            memory="${line#?}"
+            ;;
+        H*)
+            name="${line#?}"
+            case "$name" in
+                H*) 
+                    sxhkd_last="${name#?}"
+                    [ -n "$sxhkd_chain" ] && sxhkd_chain="$sxhkd_last"
+                    ;;
+                "BBegin chain") sxhkd_chain="$sxhkd_last";;
+                "EEnd chain") sxhkd_chain=;;
+            esac
+            ;;
         W*)
             desktops=()
             IFS=':'
-            set -- ${line#?}
+            set -- "${line#?}"
             while [ $# -gt 0 ] ; do
-                item=$1
-                name=${item#?}
-                case $item in
+                # item=${1#?}
+                item="$1"
+                name="${item#?}"
+                case "$item" in
                     [mM]*)
                         monitor_name="$name"
                         [[ "$monitor_name" != "$target_monitor" ]] && shift && continue
@@ -121,13 +104,15 @@ while read -r line ; do
                             M*) is_monitor_active=1;;
                         esac
                         ;;
-                    [oOfFuU]*) 
+                    [oOfFuULTG]*)
                         [[ "$monitor_name" != "$target_monitor" ]] && shift && continue
-                        desktops+=("$item")
+                        case "$item" in
+                            [oOfFuU]*) desktops+=("$item");;
+                            L*) desktop_layout="$name";;
+                            T*) node_state="$name";;
+                            G*) node_flags="$name";;
+                        esac
                         ;;
-                    L*) desktop_layout="$name";;
-                    T*) node_state="$name";;
-                    G*) node_flags="$name";;
                 esac
                 shift
             done
@@ -136,11 +121,12 @@ while read -r line ; do
 
     # create output
 
-    dl="$(render_desktop_layout "$desktop_layout" "$is_monitor_active")"
-    ns="$(render_node_state "$node_state" "$is_monitor_active")"
-    nf="$(render_node_flags "$node_flags" "$is_monitor_active")"
-    l="$(render_load "$load")"
-    d="$(render_date "$date")"
+    dl="$(render_blue_block "$desktop_layout" "$is_monitor_active")"
+    nl="$(render_blue_block "$node_state" "$is_monitor_active")"
+    nf="$(render_blue_block "$node_flags" "$is_monitor_active")"
+    l="$(render_block "$load")"
+    d="$(render_block "$date")"
+    m="$(render_block "$memory")"
 
     ds=
     index=1
@@ -149,5 +135,5 @@ while read -r line ; do
         ((index+=1))
     done
 
-    printf "%s\n" "%{l}${dl} ${ds} %{r}${l} ${d}"
+    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{c} ${sxhkd_chain} %{r}${l} ${m} ${d}"
 done
