@@ -2,12 +2,12 @@
 
 xsetroot -solid "#282828" &
 
-sxhkd_fifo=/tmp/sxhkd-fifo
+sxhkd_fifo="/tmp/sxhkd-fifo"
 [ -e "$sxhkd_fifo" ] && rm "$sxhkd_fifo"
 mkfifo "$sxhkd_fifo"
 
-pkill --signal KILL -x sxhkd; sxhkd -s "$sxhkd_fifo" &
-pkill --signal KILL -f $(which panel); panel &
+pkill -x sxhkd; sxhkd -s "$sxhkd_fifo" &
+pkill --signal KILL -f $(which panel); panel > /dev/null &
 #autolock &
 #dunst &
 

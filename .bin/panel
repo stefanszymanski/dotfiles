@@ -15,22 +15,33 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 # load colors
 . "$HOME/.panel-colors"
 
-# helper functions that passes the content of a file to multiple other files
-# used to send the content of a FIFO file to the panel FIFO files
+# Pipe stuff through perl to prevent leaky pipes
+# Found at https://unix.stackexchange.com/questions/302444/leaky-pipes-in-linux
+unblock() {
+    perl -w -MFcntl -e 'fcntl STDOUT,F_SETFL,O_NONBLOCK; while (<STDIN>) { syswrite STDOUT,$_ }' | {
+        while read -r line; do 
+            printf "%s\n" "$line"
+        done
+    }
+}
+
 subscribe_file() {
-    while read -r line ; do
-        [[ -n "$line" ]] && printf "%s\n" "${2}${line}" | tee "${PANEL_FIFOS[@]}" > /dev/null
+    while true; do
+        if read -r line; then
+            printf "%s\n" "${2}${line}" | unblock | tee "${PANEL_FIFOS[@]}"
+        fi
     done < "$1"
 }
 
 subscribe_cmd() {
-    $1 | tee "${PANEL_FIFOS[@]}" > /dev/null
+    eval "$1" | unblock | tee "${PANEL_FIFOS[@]}"
 }
 
 subscribe_watch() {
-    local interval="$1"
-    shift
-    watch -n"$interval" -t "$(printf "%s "  "$@") | tee $(printf "%s " "${PANEL_FIFOS[@]}")" > /dev/null
+    while true; do
+        printf "%s\n" "$(eval "$2")" | unblock | tee "${PANEL_FIFOS[@]}"
+        sleep "$1"
+    done
 }
 
 # get name, dimension and position of connected monitors
@@ -46,18 +57,14 @@ for monitor in "${monitors[@]}"; do
     PANEL_FIFOS+=("$panel_fifo")
 done
 
-# subscribe: bspwm node information
+# subscribe to the data that should be displayed
 subscribe_cmd "bspc subscribe report" &
-# susbcribe: load
-subscribe_watch 2 "cat /proc/loadavg | awk '{printf \"L%s %s %s\n\", \$1, \$2, \$3}'" &
-# subscribe: memory usage
-subscribe_watch 2 "cat /proc/meminfo | awk '\$1~/MemTotal/ {total=\$2} \$1~/MemAvailable/ {avail=\$2} END {printf \"Mmem %.0fMiB free, %.0f%% used\n\", (avail/1024), (total-avail)/total*100}'" &
-# subscribe: date and time
-subscribe_watch 10 "date '+CW %V, %A, %F %H:%M' | awk '{printf \"T%s\n\", \$0}'" &
-# subscribe: sxhkd events
+subscribe_watch 5 "cat /proc/loadavg | awk '{printf \"Lload %s %s %s\n\", \$1, \$2, \$3}'" &
+subscribe_watch 5 "cat /proc/meminfo | awk '\$1~/MemTotal/ {total=\$2} \$1~/MemAvailable/ {avail=\$2} END {printf \"Mmem %.0fMiB free, %.0f%% used\n\", (avail/1024), (total-avail)/total*100}'" &
+subscribe_watch 20 "date '+CW %V, %A, %F %H:%M' | awk '{printf \"T%s\n\", \$0}'" &
 subscribe_file "/tmp/sxhkd-fifo" "H" &
 
-# create a panel per monitors
+# create a panel for each monitor
 o=12
 for monitor in "${monitors[@]}"; do
     # split string into required values
@@ -77,15 +84,13 @@ for monitor in "${monitors[@]}"; do
     # create panel
     panel_fifo="${PANEL_FIFO}_${name}"
     panel_wm_name="${PANEL_WM_NAME}_${name}"
-    panel-bar "$name" < "$panel_fifo" | lemonbar -a 32 -u 2 \
+    panel-bar "$name" < "$panel_fifo" | lemonbar \
         -n "$panel_wm_name" \
         -g "$geometry" \
         -f "$PANEL_FONT" \
         -o "1" \
         -F "$COLOR_DEFAULT_FG" \
         -B "$COLOR_DEFAULT_BG" | sh &
-
-    echo "PANEL CREATED: '$panel_fifo' '$panel_wm_name' '$geometry'"
 
     # place panel above root window
     winid=$(xdo id -m -a "${panel_wm_name}")

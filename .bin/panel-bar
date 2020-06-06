@@ -48,8 +48,7 @@ render_desktop() {
             bg="$COLOR_DESKTOP_URGENT_BG"
             ;;
     esac
-    res="%{F${fg}}%{B${bg}} ${index} | ${name} %{B-}%{F-}"
-    printf "%s\n" "$res"
+    printf "%s\n" "%{F${fg}}%{B${bg}} ${index} | ${name} %{B-}%{F-}"
 }
 
 render_block() {
@@ -65,16 +64,17 @@ sxhkd_last=
 sxhkd_chain=
 
 while read -r line ; do
+    [[ -z "$line" ]] && continue
     # parse input
     case $line in
         L*)
-            load="${line#?}"
+            load="$(render_block "${line#?}")"
             ;;
         T*)
-            date="${line#?}"
+            date="$(render_block "${line#?}")"
             ;;
         M*)
-            memory="${line#?}"
+            mem="$(render_block "${line#?}")"
             ;;
         H*)
             name="${line#?}"
@@ -89,8 +89,10 @@ while read -r line ; do
             ;;
         W*)
             desktops=()
+            mons=
+            test="$line"
             IFS=':'
-            set -- "${line#?}"
+            set -- ${line#?}
             while [ $# -gt 0 ] ; do
                 # item=${1#?}
                 item="$1"
@@ -116,24 +118,18 @@ while read -r line ; do
                 esac
                 shift
             done
+            dl="$(render_blue_block "$desktop_layout" "$is_monitor_active")"
+            nl="$(render_blue_block "$node_state" "$is_monitor_active")"
+            nf="$(render_blue_block "$node_flags" "$is_monitor_active")"
+            ds=
+            index=1
+            for desktop in "${desktops[@]}"; do
+                ds="${ds} $(render_desktop "${desktop}" "${index}")"
+                ((index+=1))
+            done
             ;;
+        # *) test="$line";;
     esac
 
-    # create output
-
-    dl="$(render_blue_block "$desktop_layout" "$is_monitor_active")"
-    nl="$(render_blue_block "$node_state" "$is_monitor_active")"
-    nf="$(render_blue_block "$node_flags" "$is_monitor_active")"
-    l="$(render_block "$load")"
-    d="$(render_block "$date")"
-    m="$(render_block "$memory")"
-
-    ds=
-    index=1
-    for desktop in "${desktops[@]}"; do
-        ds="${ds} $(render_desktop "${desktop}" "${index}")"
-        ((index+=1))
-    done
-
-    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{c} ${sxhkd_chain} %{r}${l} ${m} ${d}"
+    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{c} ${sxhkd_chain} %{r}${load} ${mem} ${date}"
 done
