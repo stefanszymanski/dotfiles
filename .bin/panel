@@ -32,11 +32,9 @@ unblock() {
 }
 
 subscribe_file() {
-    while true; do
-        if read -r line; then
-            printf "%s\n" "${2}${line}" | unblock | tee "${PANEL_FIFOS[@]}"
-        fi
-    done < "$1"
+    while read -r line < "$1"; do
+        printf "%s\n" "${2}${line}" | unblock | tee "${PANEL_FIFOS[@]}"
+    done
 }
 
 subscribe_cmd() {
