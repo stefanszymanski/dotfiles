@@ -12,6 +12,12 @@ PANEL_WM_NAME=bspwm_panel
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
+# create FIFO file for external updates
+# written to by script .bin/panel-updates
+UPDATE_FIFO="/tmp/panel-fifo-updates"
+[ -e "$UPDATE_FIFO" ] && rm "$UPDATE_FIFO"
+mkfifo "$UPDATE_FIFO"
+
 # load colors
 . "$HOME/.panel-colors"
 
@@ -59,22 +65,18 @@ done
 
 # subscribe to the data that should be displayed
 subscribe_cmd "bspc subscribe report" &
-subscribe_watch 5 "cat /proc/loadavg | awk '{printf \"Lload %s %s %s\n\", \$1, \$2, \$3}'" &
-subscribe_watch 5 "cat /proc/meminfo | awk '\$1~/MemTotal/ {total=\$2} \$1~/MemAvailable/ {avail=\$2} END {printf \"Mmem %.0fMiB free, %.0f%% used\n\", (avail/1024), (total-avail)/total*100}'" &
-subscribe_watch 20 "date '+CW %V, %A, %F %H:%M' | awk '{printf \"T%s\n\", \$0}'" &
+subscribe_watch 5 "panel-update load" &
+subscribe_watch 5 "panel-update mem" &
+subscribe_watch 20 "panel-update date" &
+subscribe_file "/tmp/panel-fifo-updates" &
 subscribe_file "/tmp/sxhkd-fifo" "H" &
 
 # create a panel for each monitor
+# TODO move offset variable to shared file or make it an environment variable
 o=12
 for monitor in "${monitors[@]}"; do
-    # split string into required values
-    IFS=$' ' read -d "" -ra values <<< "$(awk -F'[ x+]' '{print $1, $2, $3, $4, $5}' <<< "$monitor")"
-    name=${values[0]}
-    w=${values[1]}
-    x=${values[3]}
-    y=${values[4]}
-
     # calculate panel dimension and position
+    IFS=$' ' read -d "" -r name w h x y <<< "$(awk -F'[ x+]' '{print $1, $2, $3, $4, $5}' <<< "$monitor")"
     ((w=w-(o*2)))
     ((x=x+o))
     ((y=y+(o/2)))
@@ -97,5 +99,8 @@ for monitor in "${monitors[@]}"; do
     rootid=$(xdo id -N Bspwm -n root | sort | head -n 1)
     xdo above -t "$rootid" "$winid"
 done
+
+# force update the panels
+panel-update all
 
 wait

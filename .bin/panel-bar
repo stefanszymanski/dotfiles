@@ -51,6 +51,12 @@ render_desktop() {
     printf "%s\n" "%{F${fg}}%{B${bg}} ${index} | ${name} %{B-}%{F-}"
 }
 
+render_volume() {
+    local res="$1 $2"
+    [[ "$3" == "off" ]] && res="$res muted"
+    printf "%s\n" "$(render_block "$res")"
+}
+
 render_block() {
     [ -z "$1" ] && exit
     local fg bg
@@ -70,11 +76,18 @@ while read -r line ; do
         L*)
             load="$(render_block "${line#?}")"
             ;;
-        T*)
+        D*)
             date="$(render_block "${line#?}")"
             ;;
         M*)
             mem="$(render_block "${line#?}")"
+            ;;
+        V*)
+            IFS=$' ' read -r chn vol muted <<< "${line#?}"
+            case "$chn" in
+                Master) vmaster="$(render_volume "vol" "$vol" "$muted")";;
+                Mic) vmic="$(render_volume "mic" "$vol" "$muted")";;
+            esac
             ;;
         H*)
             name="${line#?}"
@@ -131,5 +144,5 @@ while read -r line ; do
         # *) test="$line";;
     esac
 
-    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{c} ${sxhkd_chain} %{r}${load} ${mem} ${date}"
+    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{c}${sxhkd_chain} %{r}${vmaster} ${vmic} ${load} ${mem} ${date}"
 done
