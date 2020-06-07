@@ -139,11 +139,11 @@ super + comma
 # volume
 ########
 
-XF86Audio{Raise,Lower}Volume
-    pactl set-sink-volume 0 {+,-}5%
+{_,ctrl +} XF86Audio{Raise,Lower}Volume
+    vol {Master,Mic} {inc,dec} 5
 
-XF86AudioMute
-    pactl set-sink-mute 0 toggle
+{_,ctrl +} XF86AudioMute
+    vol {Master,Mic} toggle
 
 
 # other
