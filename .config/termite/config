@@ -1,7 +1,7 @@
 [options]
 scroll_on_output = false
 scroll_on_keystroke = false
-scrollback_lines = 0
+scrollback_lines = 10000
 scrollbar = off
 audible_bell = false
 mouse_autohide = true
