@@ -1,0 +1,5 @@
+#! /bin/sh
+
+xclip -out -selection primary | xclip -in -selection clipboard
+
+[ "$1" = "notify" ] && notify-send "copied primary buffer to clipboard"

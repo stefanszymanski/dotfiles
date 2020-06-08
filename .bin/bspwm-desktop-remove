@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Remove the current desktop only if it's empty.
+
+IFS=$'\n' read -d "" -ra nodes <<< "$(bspc query --nodes --desktop)"
+[[ "${#nodes[@]}" -gt 0 ]] && exit 1
+bspc desktop --remove
