@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# TODO find a cleaner way to determine the parent window
+get_parent_wid() {
+    xwininfo -id "$1" -tree | awk '$0~/Parent window id/ {print $4}'
+}
+
+get_root_wid() {
+    xwininfo -root | awk '/Window id:/{print $4}'
+}
+
+is_tabbed() {
+    wid="$(printf "%d\n" "$1")"
+    pwid="$(printf "%d\n" "$(get_parent_wid "$1")")"
+    wids="$(xdotool search --class tabbed)"
+    # notify-send "Target is $1"
+    # notify-send "Parent is $(get_parent_wid "$1")"
+    # for owid in "${wids[@]}"; do
+    #     notify-send "Candidate is $(printf "0x%x\n" "$owid")"
+    # done
+    # [[ "${wids[@]}" =~ "$wid" ]] || [[ "${wids[@]}" =~ "$pwid" ]] && echo 1 || echo 0
+    res=0
+    for _wid in "${wids[@]}"; do
+        [[ "$_wid" == "$wid" ]] || [[ "$_wid" == "$pwid" ]] && res=1
+    done
+    printf "%s\n" "$res"
+}
+
+wid="${2:-$(pfw)}"
+
+case "$1" in
+    create)
+        # wrap with a new tabbed container
+        if [[ "$(is_tabbed "$wid")" -eq 1 ]]; then
+            notify-send "is already tabbed"
+            exit 1
+        fi
+        twid=$(tabbed -cd)
+        xdotool windowreparent "$wid" "$twid"
+        ;;
+    detach)
+        # move out of the tabbed container
+        if [[ "$(is_tabbed "$wid")" -eq 0 ]]; then
+            notify-send "is not tabbed"
+            exit 1
+        fi
+        xdotool windowreparent "$wid" "$(get_root_wid)"
+        ;;
+    # TODO action: spawn next opened window in the selected tabbed container
+    # TODO action: move existing window into a tabbed container by direction
+esac
