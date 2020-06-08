@@ -7,8 +7,8 @@ sxhkd_fifo="/tmp/sxhkd-fifo"
 mkfifo "$sxhkd_fifo"
 
 pkill -x sxhkd; sxhkd -s "$sxhkd_fifo" &
-pkill --signal KILL -f $(which panel); panel > /dev/null &
-#autolock &
+pkill -f $(which panel); panel &
+autolock &
 #dunst &
 
 # for monitor in $(bspc query --monitors --names); do
