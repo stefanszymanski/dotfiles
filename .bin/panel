@@ -10,7 +10,7 @@ PANEL_WM_NAME=bspwm_panel
 #     exit 1
 # fi
 
-trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+# trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
 # create FIFO file for external updates
 # written to by script .bin/panel-updates

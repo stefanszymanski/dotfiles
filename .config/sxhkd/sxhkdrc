@@ -24,6 +24,10 @@ super + w ; r
 super + w ; shift + r
     bspc wm --restart
 
+# toggle panel
+super + w ; p
+    panel-toggle
+
 
 # bspwm nodes
 #############
