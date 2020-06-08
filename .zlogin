@@ -14,8 +14,8 @@ if [[ -z $DISPLAY ]] && [[ -z $TMUX ]] && (( $EUID != 0 )) {
         cat << EOF
 Please select:
 
-1. awesomewm
-2. bspwm
+1. bspwm
+2. awesomewm
 3. tmux
 4. continue with zsh
 5. bash
@@ -27,8 +27,8 @@ EOF
         if [[ $REPLY =~ ^[0-4]$ ]]; then
             echo $REPLY
             case $REPLY in
-                1) start_wm "awesome" ;;
-                2) start_wm "bspwm" ;;
+                1) start_wm "bspwm" ;;
+                2) start_wm "awesome" ;;
                 3) exec tmux ;;
                 4) clear; break ;;
                 5) clear; exec bash ;;
