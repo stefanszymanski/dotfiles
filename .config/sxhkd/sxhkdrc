@@ -92,9 +92,9 @@ super + {1-9,0}
 super + shift + {space,n,p}
     bspc desktop --focus {last,next.local,prev.local}
 
-# add/rename/remove desktops
-super + d ; {a,e,c}
-    bspwm-desktop-{add,rename,remove}
+# add/rename/remove/purge desktops
+super + d ; {a,e,c,x}
+    bspwm-desktop-{add,rename,remove,purge}
 
 # set layout
 super + d ; s ; {m,t,l}

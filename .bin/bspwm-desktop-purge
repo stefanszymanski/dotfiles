@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Remove the focused desktop and close all its windows.
+
+# TODO move color definition to a shared file or make it an environment variable
+BORDER_COLOR="cc241d"
+
+options=('y' 'n')
+choice="$(printf '%s\n' ${options[@]} | \
+    rofi -dmenu -i \
+    -lines 0 -auto-select \
+    -theme-str "#window {border-color: #$BORDER_COLOR;}" \
+    -p "purge desktop?" -width -16)"
+
+if [[ ! "$choice" =~ ^[yY1]$ ]]; then
+    bspc node --focus "$winid"
+    exit 1
+fi
+
+bspc query --nodes --desktop | xargs killw
+bspc desktop --remove
