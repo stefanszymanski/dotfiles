@@ -19,11 +19,12 @@ case "$1" in
         prefix="L"
         ;;
     mem)
-        msg="$(cat /proc/meminfo | awk '$1~/MemTotal/ {total=$2} $1~/MemAvailable/ {avail=$2} END {printf "mem %.0fMiB free, %.0f%% used\n", (avail/1024), (total-avail)/total*100}')"
+        msg="$(cat /proc/meminfo | awk '$1~/MemTotal/ {total=$2} $1~/MemAvailable/ {avail=$2} END {printf "mem %.0fmb free\n", (avail/1024)}')"
         prefix="M"
         ;;
     date)
-        msg="$(date '+CW %V, %A, %F %H:%M' | awk '{printf "%s\n", $0}')"
+        msg="$(date '+cw %V, %A, %F %H:%M' | awk '{printf "%s\n", $0}')"
+        msg="${msg,,}"
         prefix="D"
         ;;
     *)
