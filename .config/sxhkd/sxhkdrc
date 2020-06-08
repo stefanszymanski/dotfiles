@@ -72,11 +72,9 @@ super + t ; p ; {h,j,k,l}
 super + Escape
     bspc node --presel-dir cancel
 
-# TODO write script that combines expand and contract
-#      make a prefix that starts a resizing mode, resizing than should not require a combination
-# expand node by moving one of its side outward
+# resize node
 super + alt + {h,j,k,l}
-    bspc node --resize {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+    bspwm-node-resize {west,south,north,east} 50
 
 # contract node by moving one of its side inward
 super + alt + shift + {h,j,k,l}

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Resize nodes with a single binding per direction.
+
+delta="${2:-50}"
+
+case "$1" in
+    north) dim=h; dir=top;    fdir=bottom; sign=- ;;
+    west)  dim=w; dir=left;   fdir=right;  sign=- ;;
+    south) dim=h; dir=bottom; fdir=top;    sign=+ ;;
+    east)  dim=w; dir=right;  fdir=left;   sign=+ ;;
+    *) echo "Usage: resize {north,west,south,east} [delta]" && exit 1 ;;
+esac
+
+x=0; y=0
+case "$dim" in
+    w) x="$delta" ;;
+    h) y="$delta" ;;
+esac
+
+bspc node --resize "$dir" "$sign$x" "$sign$y" || bspc node --resize "$fdir" "$sign$x" "$sign$y";
