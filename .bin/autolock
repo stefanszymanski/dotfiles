@@ -14,11 +14,7 @@ create_image() {
     # Add a lock icon in the middle of each monitor
     IFS=$'\n' read -d "" -ra monitors <<< "$(xrandr --current | awk '$2 ~ /connected/ && /[0-9]+x[0-9]+/ {print $3}')"
     for monitor in "${monitors[@]}"; do
-        IFS=$' ' read -d "" -ra values <<< "$(awk -F'[x+]' '{print $1, $2, $3, $4}' <<< "$monitor")"
-        w=${values[0]}
-        h=${values[1]}
-        x=${values[2]}
-        y=${values[3]}
+        IFS=$' ' read -d "" -r w h x y <<< "$(awk -F'[x+]' '{print $1, $2, $3, $4}' <<< "$monitor")"
         ((ix=x+(w/2)-offset))
         ((iy=y+(h/2)-offset))
         convert "$image" "$icon" -geometry "+$ix+$iy" -composite "$image"
