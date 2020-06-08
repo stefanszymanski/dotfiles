@@ -13,5 +13,4 @@ rofi.drun-show-actions: false
 
 rofi.window-match-fields: title,name
 
-rofi.terminal: termite
-
+rofi.terminal: st

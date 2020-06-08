@@ -1,4 +1,4 @@
-terminal = 'termite'
+terminal = 'st'
 
 #############
 # Behaviour #

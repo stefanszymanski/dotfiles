@@ -112,10 +112,10 @@ super + m ; {n,p}
 ################
 
 super + Return
-    termite
+    st
 
 super + ctrl + Return
-    termite -e tmux
+    st -e tmux
 
 
 ##############
