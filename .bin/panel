@@ -10,7 +10,8 @@ PANEL_WM_NAME=bspwm_panel
 #     exit 1
 # fi
 
-# trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+# kill child process when parent terminates
+trap 'trap - TERM; kill $(jobs -p)' INT TERM QUIT EXIT
 
 # create FIFO file for external updates
 # written to by script .bin/panel-updates
@@ -21,57 +22,13 @@ mkfifo "$UPDATE_FIFO"
 # load colors
 . "$HOME/.panel-colors"
 
-# Pipe stuff through perl to prevent leaky pipes
-# Found at https://unix.stackexchange.com/questions/302444/leaky-pipes-in-linux
-unblock() {
-    perl -w -MFcntl -e 'fcntl STDOUT,F_SETFL,O_NONBLOCK; while (<STDIN>) { syswrite STDOUT,$_ }' | {
-        while read -r line; do 
-            printf "%s\n" "$line"
-        done
-    }
-}
-
-subscribe_file() {
-    while read -r line < "$1"; do
-        printf "%s\n" "${2}${line}" | unblock | tee "${PANEL_FIFOS[@]}"
-    done
-}
-
-subscribe_cmd() {
-    eval "$1" | unblock | tee "${PANEL_FIFOS[@]}"
-}
-
-subscribe_watch() {
-    while true; do
-        printf "%s\n" "$(eval "$2")" | unblock | tee "${PANEL_FIFOS[@]}"
-        sleep "$1"
-    done
-}
-
 # get name, dimension and position of connected monitors
 IFS=$'\n' read -d "" -ra monitors <<< "$(xrandr --current | awk '$2 ~ /connected/ && /[0-9]+x[0-9]+/ {print $1, $3}')"
-
-# create a FIFO file per monitor
-PANEL_FIFOS=()
-for monitor in "${monitors[@]}"; do
-    name="$(awk -F'[ x+]' '{print $1}' <<< "$monitor")"
-    panel_fifo="${PANEL_FIFO}_${name}"
-    [ -e "$panel_fifo" ] && rm "$panel_fifo"
-    mkfifo "$panel_fifo"
-    PANEL_FIFOS+=("$panel_fifo")
-done
-
-# subscribe to the data that should be displayed
-subscribe_cmd "bspc subscribe report" &
-subscribe_watch 5 "panel-update load" &
-subscribe_watch 5 "panel-update mem" &
-subscribe_watch 20 "panel-update date" &
-subscribe_file "/tmp/panel-fifo-updates" &
-subscribe_file "/tmp/sxhkd-fifo" "H" &
 
 # create a panel for each monitor
 # TODO move offset variable to shared file or make it an environment variable
 o=12
+PANEL_FIFOS=()
 for monitor in "${monitors[@]}"; do
     # calculate panel dimension and position
     IFS=$' ' read -d "" -r name w h x y <<< "$(awk -F'[ x+]' '{print $1, $2, $3, $4, $5}' <<< "$monitor")"
@@ -81,8 +38,14 @@ for monitor in "${monitors[@]}"; do
     h="$PANEL_HEIGHT"
     geometry="${w}x${h}+${x}+${y}"
 
-    # create panel
+    # create a FIFO file
     panel_fifo="${PANEL_FIFO}_${name}"
+    [ -e "$panel_fifo" ] && rm "$panel_fifo"
+    mkfifo "$panel_fifo"
+    PANEL_FIFOS+=("$panel_fifo")
+
+    # create panel
+    # panel_fifo="${PANEL_FIFO}_${name}"
     panel_wm_name="${PANEL_WM_NAME}_${name}"
     panel-bar "$name" < "$panel_fifo" | lemonbar \
         -n "$panel_wm_name" \
@@ -98,7 +61,15 @@ for monitor in "${monitors[@]}"; do
     xdo above -t "$rootid" "$winid"
 done
 
-# force update the panels
+# fill panels with data
+# trap "kill $$" SIGINT trap 'kill -HUP 0' EXIT trap 'kill $(jobs -p)' EXIT
+slstatus -s | tee "${PANEL_FIFOS[@]}" &
+bspc subscribe report | tee "${PANEL_FIFOS[@]}" &
+while read -r line < "$UPDATE_FIFO"; do
+    printf "%s\n" "${2}${line}" | tee "${PANEL_FIFOS[@]}"
+done &
 panel-update all
+
+jobs -p
 
 wait

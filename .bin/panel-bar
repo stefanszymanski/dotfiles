@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 target_monitor="$1"
 
@@ -66,9 +66,6 @@ render_block() {
     printf "%s\n" "$res"
 }
 
-sxhkd_last=
-sxhkd_chain=
-
 while read -r line ; do
     [[ -z "$line" ]] && continue
     # parse input
@@ -82,22 +79,14 @@ while read -r line ; do
         M*)
             mem="$(render_block "${line#?}")"
             ;;
+        T*)
+            temp="$(render_block "${line#?}")"
+            ;;
         V*)
             IFS=$' ' read -r chn vol muted <<< "${line#?}"
             case "$chn" in
                 Master) vmaster="$(render_volume "vol" "$vol" "$muted")";;
                 Mic) vmic="$(render_volume "mic" "$vol" "$muted")";;
-            esac
-            ;;
-        H*)
-            name="${line#?}"
-            case "$name" in
-                H*) 
-                    sxhkd_last="${name#?}"
-                    [ -n "$sxhkd_chain" ] && sxhkd_chain="$sxhkd_last"
-                    ;;
-                "BBegin chain") sxhkd_chain="$sxhkd_last";;
-                "EEnd chain") sxhkd_chain=;;
             esac
             ;;
         W*)
@@ -144,5 +133,5 @@ while read -r line ; do
         # *) test="$line";;
     esac
 
-    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{c}${sxhkd_chain} %{r}${vmaster} ${vmic} ${load} ${mem} ${date}"
+    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${vmaster} ${vmic} ${load} ${mem} ${temp} ${date}"
 done

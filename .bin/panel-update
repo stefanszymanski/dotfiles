@@ -4,7 +4,7 @@ UPDATE_FIFO="/tmp/panel-fifo-updates"
 
 case "$1" in
     all)
-        cmds=("alsa Master" "alsa Mic" "load" "mem" "date")
+        cmds=("alsa Master" "alsa Mic")
         for cmd in "${cmds[@]}"; do
             eval "$0 $cmd"
         done
@@ -13,19 +13,6 @@ case "$1" in
         data="$(amixer get "$2" | sed -n 's/^.*\[\([0-9]\+%\).*\[\(on\|off\)\]$/\1\ \2/p' | uniq)"
         msg="$2 $data"
         prefix="V"
-        ;;
-    load)
-        msg="$(cat /proc/loadavg | awk '{printf "load %s %s %s\n", $1, $2, $3}')"
-        prefix="L"
-        ;;
-    mem)
-        msg="$(cat /proc/meminfo | awk '$1~/MemTotal/ {total=$2} $1~/MemAvailable/ {avail=$2} END {printf "mem %.0fmb free\n", (avail/1024)}')"
-        prefix="M"
-        ;;
-    date)
-        msg="$(date '+cw %V, %A, %F %H:%M' | awk '{printf "%s\n", $0}')"
-        msg="${msg,,}"
-        prefix="D"
         ;;
     *)
         printf "%s\n" "Invalid command '$1'"
