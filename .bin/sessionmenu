@@ -35,7 +35,7 @@ CHOICE=$(printf '%s\n' "${OPTIONS[@]}" \
 [[ -z "$CHOICE" ]] && exit 1
 
 case "$CHOICE" in
-    0) awesome-client "awesome.quit()" ;;
+    0) bspc quit ;;
     1) sudo zzz -Z ;;
     2) sudo zzz ;;
     3) sudo zzz -H ;;
