@@ -82,6 +82,9 @@ while read -r line ; do
         T*)
             temp="$(render_block "${line#?}")"
             ;;
+        N*)
+            mail="$(render_block "${line#?}")"
+            ;;
         V*)
             IFS=$' ' read -r chn vol muted <<< "${line#?}"
             case "$chn" in
@@ -130,8 +133,7 @@ while read -r line ; do
                 ((index+=1))
             done
             ;;
-        # *) test="$line";;
     esac
 
-    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${vmaster} ${vmic} ${load} ${mem} ${temp} ${date}"
+    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${vmaster} ${vmic} ${mail} ${load} ${mem} ${temp} ${date}"
 done
