@@ -11,6 +11,7 @@ PANEL_WM_NAME=bspwm_panel
 # fi
 
 # kill child process when parent terminates
+# FIXME according to the logs, sometimes there aren't any child processes and kill fails.
 trap 'trap - TERM; kill $(jobs -p)' INT TERM QUIT EXIT
 
 # create FIFO file for external updates
@@ -62,11 +63,10 @@ for monitor in "${monitors[@]}"; do
 done
 
 # fill panels with data
-# trap "kill $$" SIGINT trap 'kill -HUP 0' EXIT trap 'kill $(jobs -p)' EXIT
-slstatus -s | tee "${PANEL_FIFOS[@]}" &
-bspc subscribe report | tee "${PANEL_FIFOS[@]}" &
+slstatus -s | tee "${PANEL_FIFOS[@]}" > /dev/null &
+bspc subscribe report | tee "${PANEL_FIFOS[@]}" > /dev/null &
 while read -r line < "$UPDATE_FIFO"; do
-    printf "%s\n" "${2}${line}" | tee "${PANEL_FIFOS[@]}"
+    printf "%s\n" "${2}${line}" | tee "${PANEL_FIFOS[@]}" > /dev/null
 done &
 panel-update all
 
