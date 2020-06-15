@@ -1,13 +1,12 @@
 # # Prefixes
 # super + w             -> window manager
-# super + a             -> nodes
+# super + n             -> nodes
 # super + d             -> desktops
 # super + m             -> monitors
 # super + s             -> misc
 #
-# # Reserved keys, that cannot be used as part of a prefix
-#         {n, p, h, j, k, l, space}  -> focus
-# ctrl  + ...                        -> move
+# super + ctrl          -> move nodes
+# super + alt           -> resize nodes
 
 #########
 # bspwm #
@@ -32,40 +31,52 @@ super + w ; p
 # bspwm nodes
 #############
 
-# focus/move node
-super + {_,ctrl + } {h,j,k,l,n,p}
-    bspc node --{focus,swap} {west,south,north,east,next.local,prev.local}
+# focus node
+super + {h,j,k,l}
+    bspc node --focus {west,south,north,east}
 
 # focus last node
 super + space
     bspc node --focus last
 
 # close/kill node
-super + a ; {c,x}
+super + n ; {q,x}
     bspwm-node-close {close,kill}
 
 # set node state
-super + a ; s ; {t,s,f}
+super + n ; s ; {t,s,f}
     bspc node --state {tiled,floating,fullscreen}
 
 # set node flags
-super + a ; f ; {m,l,s,p}
+super + n ; f ; {m,l,s,p}
     bspc node --flag {marked,locked,sticky,private}
 
+# reset node flags
+super + n ; f ; shift + {m,l,s,p}
+    flag={marked,locked,sticky,private}; \
+    for node in $(bspc query --nodes --node ".$flag"); do \
+        bspc node "$node" --flag "${flag}=off"; \
+    done
+
+# move node on current desktop
+super + ctrl + {h,j,k,l}
+    bspwm-node-move {west,south,north,east}
+
 # move node to desktop by number
-super + a ; m ; {1-9,0}
+super + ctrl + {1-9,0}
     bspc node --to-desktop 'focused:^{1-9,10}'
 
 # move node to next/previous monitor
-super + a ; m ; {n,p}
+super + ctrl + {n,p}
     bspc node --to-monitor {next,prev} --follow
 
 # move node to a new desktop
-super + a ; m ; a
+# TODO not only move the focused but prefer all marked
+super + n ; m ; a
     bspwm-node-move-to-new-desktop
 
 # preselect the direction
-super + a ; p ; {h,j,k,l}
+super + n ; p ; {h,j,k,l}
     bspc node --presel-dir {west,south,north,east}
 
 # cancel the preselection for the focused node
@@ -76,9 +87,25 @@ super + Escape
 super + alt + {h,j,k,l}
     bspwm-node-resize {west,south,north,east} 50
 
+# raise/lower node
+super + n ; {plus,minus,equal}
+    bspc node --layer {above,below,normal}
+
+# create receptacle
+super + r ; c ; {h,j,k,l}
+    bspc node --presel-dir {west,south,north,east} --insert-receptacle 
+
+# move node to oldest receptacle
+super + r ; m
+    bspc node focused --to-node "$(bspc query --nodes --node 'any.leaf.!window')" --follow
+
+# remove receptacles on current desktop
+super + r ; q
+    for node in "$(bspc query --nodes --node '.leaf.!window.local')"; do bspc node "$node" --kill; done
+
 # tabbed
-super + t ; {a,d}
-    bspwm-tabbed {create,detach}
+#super + t ; {a,d}
+#    bspwm-tabbed {create,detach}
 
 
 # bspwm desktops
@@ -92,8 +119,12 @@ super + {1-9,0}
 super + shift + {space,n,p}
     bspc desktop --focus {last,next.local,prev.local}
 
+# bubble desktop left/right
+super + shift + {h,l}
+    bspc desktop --bubble {prev,next}
+
 # add/rename/remove/purge desktops
-super + d ; {a,e,c,x}
+super + d ; {c,r,q,x}
     bspwm-desktop-{add,rename,remove,purge}
 
 # set layout

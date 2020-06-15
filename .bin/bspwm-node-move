@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Swap focused node with the one in the given direction.
+# If there isn't any node create a receptacle in this direction and move the
+# current node there.
+
+direction="$1"
+
+[ -n "$(bspc query --nodes --node focused.floating)" ] && exit 1
+
+if [ -n "$(bspc query --nodes --node "${direction}.!floating.local")" ]; then
+    bspc node --swap "$direction" --follow
+else
+    bspc node @/ --presel-dir "$direction" --insert-receptacle
+    receptacle="$(bspc query --nodes --node 'any.leaf.!window.local' | tail -n1)"
+    bspc node --to-node "$receptacle" --follow
+fi
