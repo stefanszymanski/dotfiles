@@ -36,3 +36,4 @@ bspc config right_padding -4
 bspc config bottom_padding -4
 bspc config top_padding 22
 
+bspc rule --add nagstamon state=floating sticky=on focus=off
