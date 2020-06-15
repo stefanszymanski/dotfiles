@@ -28,14 +28,14 @@ IFS=$'\n' read -d "" -ra monitors <<< "$(xrandr --current | awk '$2 ~ /connected
 
 # create a panel for each monitor
 # TODO move offset variable to shared file or make it an environment variable
-o=12
+o=4
 PANEL_FIFOS=()
 for monitor in "${monitors[@]}"; do
     # calculate panel dimension and position
     IFS=$' ' read -d "" -r name w h x y <<< "$(awk -F'[ x+]' '{print $1, $2, $3, $4, $5}' <<< "$monitor")"
     ((w=w-(o*2)))
     ((x=x+o))
-    ((y=y+(o/2)))
+    ((y=y+(o)))
     h="$PANEL_HEIGHT"
     geometry="${w}x${h}+${x}+${y}"
 
