@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+border_colors=(
+    ".marked.focused 0x98971a"
+    ".marked.!focused 0x458588"
+)
+
+while read -r action monitor desktop node; do
+    # change node border colors
+    for bc in "${border_colors[@]}"; do
+        IFS=$' ' read -d "" -r selector color <<< "$bc"
+        for n in $(bspc query --nodes --node "$selector"); do
+            chwb -c "$color" "$n"
+        done
+    done
+done < <(bspc subscribe node_focus)
