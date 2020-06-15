@@ -62,13 +62,6 @@
 
   
   "languageserver": {
-	"lua": {
-      "command": "java",
-      "args": ["-cp", ".languageserver/EmmyLua-LanguageServer/EmmyLua-LS/build/libs/EmmyLua-LS-all.jar", "com.tang.vscode.MainKt"],
-	  "cwd": "~",
-      "filetypes": ["lua"],
-      "rootPatterns": [".git/"]
-	},
     "bash": {
       "command": "bash-language-server",
       "filetypes": ["sh"],
