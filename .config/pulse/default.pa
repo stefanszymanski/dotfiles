@@ -1,0 +1,53 @@
+.fail
+
+### Automatically restore the volume of streams and devices
+load-module module-device-restore
+load-module module-stream-restore
+load-module module-card-restore
+
+### Automatically augment property information from .desktop files
+### stored in /usr/share/application
+load-module module-augment-properties
+
+### Should be after module-*-restore but before module-*-detect
+load-module module-switch-on-port-available
+
+### Automatically load driver modules depending on the hardware available
+load-module module-udev-detect
+
+### Load several protocols
+.ifexists module-esound-protocol-unix.so
+load-module module-esound-protocol-unix
+.endif
+load-module module-native-protocol-unix
+
+### Automatically move streams to the default sink if the sink they are
+### connected to dies, similar for sources
+load-module module-rescue-streams
+
+### Make sure we always have a sink around, even if it is a null sink.
+load-module module-always-sink
+
+### Honour intended role device property
+load-module module-intended-roles
+
+### Automatically suspend sinks/sources that become idle for too long
+load-module module-suspend-on-idle
+
+### If autoexit on idle is enabled we want to make sure we only quit
+### when no local session needs us anymore.
+.ifexists module-console-kit.so
+load-module module-console-kit
+.endif
+.ifexists module-systemd-login.so
+load-module module-systemd-login
+.endif
+
+### Enable positioned event sounds
+load-module module-position-event-sounds
+
+### Cork music/video streams when a phone stream is active
+load-module module-role-cork
+
+# Set default source
+set-default-source alsa_input.pci-0000_00_1b.0.analog-stereo

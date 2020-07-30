@@ -14,12 +14,6 @@ PANEL_WM_NAME=bspwm_panel
 # FIXME according to the logs, sometimes there aren't any child processes and kill fails.
 trap 'trap - TERM; kill $(jobs -p)' INT TERM QUIT EXIT
 
-# create FIFO file for external updates
-# written to by script .bin/panel-updates
-UPDATE_FIFO="/tmp/panel-fifo-updates"
-[ -e "$UPDATE_FIFO" ] && rm "$UPDATE_FIFO"
-mkfifo "$UPDATE_FIFO"
-
 # load colors
 . "$HOME/.panel-colors"
 
@@ -63,13 +57,28 @@ for monitor in "${monitors[@]}"; do
 done
 
 # fill panels with data
+
+# periodically updated information
 slstatus -s | tee "${PANEL_FIFOS[@]}" > /dev/null &
+# bspwm state
 bspc subscribe report | tee "${PANEL_FIFOS[@]}" > /dev/null &
-while read -r line < "$UPDATE_FIFO"; do
-    printf "%s\n" "${2}${line}" | tee "${PANEL_FIFOS[@]}" > /dev/null
+# pulseaudio default sink and source volume
+latest_vol=""
+update_pa() {
+    sink_vol="$(pamixer --get-volume)"
+    sink_mute="$(pamixer --get-mute)"
+    source_vol="$(pamixer --get-volume --default-source)"
+    source_mute="$(pamixer --get-mute --default-source)"
+    cur_vol="$sink_vol $sink_mute $source_vol $source_mute"
+    if [[ "$cur_vol" != "$latest_vol" ]]; then
+        latest_vol="$cur_vol"
+        printf "%s\n" "V${cur_vol}" | tee "${PANEL_FIFOS[@]}" > /dev/null
+    fi
+}
+pactl subscribe | grep --line-buffered -E "(sink|source)" | while IFS= read -r line; do
+    update_pa
 done &
-panel-update all
+update_pa
 
 jobs -p
-
 wait

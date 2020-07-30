@@ -172,11 +172,11 @@ super + comma
 # volume
 ########
 
-{_,ctrl +} XF86Audio{Raise,Lower}Volume
-    vol {Master,Mic} {inc,dec} 5
+{_,shift} + XF86Audio{Raise,Lower}Volume
+    pamixer {_,--default-source} --{increase,decrease} 5
 
-{_,ctrl +} XF86AudioMute
-    vol {Master,Mic} toggle
+{_,shift} + XF86AudioMute
+    pamixer {_,--default-source} --toggle-mute
 
 
 # other

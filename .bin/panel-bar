@@ -53,7 +53,7 @@ render_desktop() {
 
 render_volume() {
     local res="$1 $2"
-    [[ "$3" == "off" ]] && res="$res muted"
+    [[ "$3" == "true" ]] && res="$res muted"
     printf "%s\n" "$(render_block "$res")"
 }
 
@@ -86,11 +86,9 @@ while read -r line ; do
             mail="$(render_block "${line#?}")"
             ;;
         V*)
-            IFS=$' ' read -r chn vol muted <<< "${line#?}"
-            case "$chn" in
-                Master) vmaster="$(render_volume "vol" "$vol" "$muted")";;
-                Mic) vmic="$(render_volume "mic" "$vol" "$muted")";;
-            esac
+            IFS=$' ' read -r sink_vol sink_muted source_vol source_muted <<< "${line#?}"
+            vmaster="$(render_volume "vol" "$sink_vol" "$sink_muted")"
+            vmic="$(render_volume "mic" "$source_vol" "$source_muted")"
             ;;
         W*)
             desktops=()
