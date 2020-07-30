@@ -64,6 +64,13 @@ gitlab.com assets.gitlab-static.net script allow
 bitbucket.org ace-cdn.atlassian.com script allow
 bitbucket.org bitbucket-marketing-cdn.atlassian.com script allow
 bitbucket.org d301sr5gafysq2.cloudfront.net script allow
+bitbucket.org api-private.atlassian.com all allow
+bitbucket.org cloudfront.net all allow
+bitbucket.org cdn.cookielaw.org script allow
+
+# Atlassian
+atlassian.com aid-frontend.prod.atl-paas.net script allow
+atlassian.com aid-static-assets.prod.atl-paas.net script allow
 
 #Google
 google.com content.googleapis.com frame allow
