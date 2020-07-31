@@ -193,3 +193,7 @@ super + s ; l
 # sync mail
 super + s ; m
     PINENTRY_USER_DATA=gtk syncmail -n all
+
+# timer
+super + s ; a
+    timer -g -n "-u critical"

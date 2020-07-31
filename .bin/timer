@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+while getopts "gm:t:n:" option; do
+  case "$option" in
+    g) gui=true;; 
+    m) message="$OPTARG";;
+    t) time="$OPTARG";;
+    n) notify_args="$OPTARG";;
+    \?) echo "Invalid option -$OPTARG" >&2;;
+  esac
+done
+
+if [[ "$gui" ]] && [[ -z "$DISPLAY" ]]; then
+    printf "%s\n" "no display"
+    exit 1
+fi
+
+if [[ "$gui" ]]; then
+    [[ -z "$time" ]] && time="$(rofi -i -lines 0 -width 6 -dmenu -p 'countdown')"
+    [[ -z "$message" ]] && message="$(rofi -i -lines 0 -width 14 -dmenu -p 'message')"
+fi
+
+if [[ -z "$time" ]]; then
+    printf "%s\n" "no time specified"
+    exit 1
+fi
+
+message="${message:-Alarm!}"
+
+# ignore missing quoting of $time and $notify_args
+# shellcheck disable=SC2086
+sleep $time && notify-send $notify_args "$message"
