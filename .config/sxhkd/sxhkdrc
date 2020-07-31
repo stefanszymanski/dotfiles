@@ -1,6 +1,6 @@
 # # Prefixes
 # super + w             -> window manager
-# super + n             -> nodes
+# super + c             -> clients (nodes)
 # super + d             -> desktops
 # super + m             -> monitors
 # super + s             -> misc
@@ -40,19 +40,19 @@ super + space
     bspc node --focus last
 
 # close/kill node
-super + n ; {q,x}
+super + c ; {q,x}
     bspwm-node-close {close,kill}
 
 # set node state
-super + n ; s ; {t,s,f}
+super + c ; s ; {t,s,f}
     bspc node --state {tiled,floating,fullscreen}
 
 # set node flags
-super + n ; f ; {m,l,s,p}
+super + c ; f ; {m,l,s,p}
     bspc node --flag {marked,locked,sticky,private}
 
 # reset node flags
-super + n ; f ; shift + {m,l,s,p}
+super + c ; f ; shift + {m,l,s,p}
     flag={marked,locked,sticky,private}; \
     for node in $(bspc query --nodes --node ".$flag"); do \
         bspc node "$node" --flag "${flag}=off"; \
@@ -72,11 +72,11 @@ super + ctrl + {n,p}
 
 # move node to a new desktop
 # TODO not only move the focused but prefer all marked
-super + n ; m ; a
+super + c ; d
     bspwm-node-move-to-new-desktop
 
 # preselect the direction
-super + n ; p ; {h,j,k,l}
+super + c ; p ; {h,j,k,l}
     bspc node --presel-dir {west,south,north,east}
 
 # cancel the preselection for the focused node
@@ -88,7 +88,7 @@ super + alt + {h,j,k,l}
     bspwm-node-resize {west,south,north,east} 50
 
 # raise/lower node
-super + n ; {plus,minus,equal}
+super + c ; {plus,minus,equal}
     bspc node --layer {above,below,normal}
 
 # create receptacle
@@ -136,8 +136,8 @@ super + d ; s ; {m,t,l}
 ################
 
 # focus next/previous monitor
-super + m ; {n,p}
-    bspc monitor --focus {next,previous}
+super + {n,p}
+    bspc monitor --focus {next,prev}
 
 
 ################
