@@ -27,6 +27,19 @@ fi
 
 message="${message:-Alarm!}"
 
-# ignore missing quoting of $time and $notify_args
+# ignore missing quoting of $time
 # shellcheck disable=SC2086
-sleep $time && notify-send $notify_args "$message"
+sleep_out="$(sleep $time 2>&1)"
+
+if [[ "$?" -gt 0 ]]; then
+    if [[ $gui ]]; then
+        notify-send "Timer failed" "$sleep_out"
+    else
+        printf "%s\n" "Timer failed" "$sleep_out"
+    fi
+    exit 1
+fi
+
+# ignore missing quoting of $notify_args
+# shellcheck disable=SC2086
+notify-send $notify_args "$message"
