@@ -3,6 +3,7 @@
 # super + c             -> clients (nodes)
 # super + d             -> desktops
 # super + m             -> monitors
+# super + x             -> dunst notifications
 # super + s             -> misc
 #
 # super + ctrl          -> move nodes
@@ -177,6 +178,21 @@ super + comma
 
 {_,shift} + XF86AudioMute
     pamixer {_,--default-source} --toggle-mute
+
+# dunst
+#######
+
+# close notification(s)
+super + x ; {_,shift} + q
+    dunstctl {close,close-all}
+
+# open context menu for displayed notifications
+super + x ; c
+    dunstctl context
+
+# redisplay most recently closed notifiction
+super + x ; h
+    dunstctl history-pop
 
 
 # other
