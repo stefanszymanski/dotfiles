@@ -1,0 +1,17 @@
+named-mailboxes Posteo =posteo/inbox
+mailboxes =posteo/sent =posteo/drafts =posteo/archive =posteo/trash
+named-mailboxes Gmail =gmail/inbox
+mailboxes =gmail/sent =gmail/drafts =gmail/archive =gmail/trash
+
+set realname = "Stefan Szymanski"
+
+# PGP
+set pgp_default_key = 0x0B1107A58B58F3E3
+set pgp_sign_as = 0xD202F413FC8BA7A8 
+
+# search addresses in the private address book
+set query_command = "khard email -a private --parsable --search-in-source-files %s"
+
+# when changing into other mailboxes, use different adresses etc.
+folder-hook posteo/* source ~/.config/neomutt/accounts/posteo
+folder-hook gmail/* source ~/.config/neomutt/accounts/gmail

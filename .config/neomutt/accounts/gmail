@@ -1,0 +1,17 @@
+set from = "ctefan.szymanski@gmail.com"
+set sendmail = "msmtp -a gmail"
+
+# Set folders
+set spoolfile = "+gmail/inbox"
+set mbox = "+gmail/archive"
+set postponed = "+gmail/drafts"
+set record = "+gmail/sent"
+set trash = "+gmail/trash"
+
+# Bindings
+macro index,pager A \
+  "<save-message>+gmail/archive<enter>"  \
+  "move message to archive"
+macro index,pager I \
+  "<save-message>+gmail/inbox<enter>"  \
+  "move message to inbox"

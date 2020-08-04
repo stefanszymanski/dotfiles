@@ -1,54 +1,66 @@
-# Copied from https://github.com/sheoak/neomutt-powerline-nerdfonts/blob/master/colors/gruvbox-powerline.neomuttrc
+# custom colors
+set my_lightgray = color246
+set my_darkgray = color237
+set my_blue = color109
+set my_red = color124
+set my_lightblue = color188
+set my_blightgray = brightcolor243
+set my_bblue = brightcolor109
 
-color error         red				color235                # message line error text
-color message       green			color235				# message line success text
-color attachment    color109  		default                 # attachment headers
-color search        color232		brightyellow            # search patterns in pager
-color indicator     black			white                   # selected email in index
+# index
+# normal
+color index 		default 		default 	    "~O"				# old
+color index 		green   		default 	    "~N"				# new
+color index 		$my_lightgray	default 	    "~Q"				# replied to
+color index 		$my_blue 		default 	    "~P"				# from me
+# flagged
+color index 		brightdefault 	default 	    "~F"        		# old
+color index 		brightgreen		default 	    "~N ~F"				# new
+color index 		$my_blightgray 	default 	    "~Q	~F"				# replied to
+color index 		$my_bblue 		default 	    "~P	~F"				# from me
+# tagged
+color index 		default 		$my_darkgray 	"~T"        		# old
+color index 		green    		$my_darkgray 	"~N ~T"				# new
+color index 		$my_lightgray 	$my_darkgray 	"~Q	~T"				# replied to
+color index 		$my_blue 		$my_darkgray 	"~P	~T"				# from me
+# tagged and flagged
+color index 		brightdefault 	$my_darkgray 	"~F ~T"        		# old
+color index 		brightgreen		$my_darkgray 	"~N ~F ~T"  		# new
+color index 		$my_blightgray	$my_darkgray 	"~Q	~F ~T"			# replied to
+color index 		$my_bblue 		$my_darkgray 	"~P	~F ~T"			# from me
+# others
+color index 		default 		$my_red     	"~D"                # deleted
+color indicator     black			yellow                              # selected email in index
 
+# sidebar
+color sidebar_new		green		default
+color sidebar_unread	green		default
+color sidebar_highlight	yellow  	default	
+color sidebar_indicator black       yellow
 
-# index colors
-color index 		color223 		default 	~Q					# replied to
-color index 		color223 		default 	~P					# from me
-color index 		color223 		default 	~O					# old
-color index 		color223 		default 	~F          		# flagged
-color index 		color223 		default 	~N					# new
-color index 		color109 		default 	"~P !~T !~D"		# from me, not tagged nor deleted
-color index 		color243 		default 	"~Q !~T !~D"        # replied to, not tagged nor deleted
-color index 		brightcolor142 	default 	"~N !~T !~D"        # new, not tagged nor deleted
-color index 		color142 		default 	"~O !~T !~D"        # old, not tagged nor deleted
-color index 		color214 		default 	"~F !~T !~D"        # flagged, not tagged nor deleted
-color index 		brightcolor214 	default 	"~F ~N !~T !~D"     # flagged and new, not tagged nor deleted
-color index 		color167 		default 	"~= !~T !~D"        # duplicated, not tagged nor deleted
-color index 		brightcolor109 	default 	"~P ~N !~T !~D"     # from me and new, not tagged nor deleted
-color index 		black 			color223 	"~T"                # tagged
-color index 		color229 		color124 	"~D"                # deleted
-
+# status
+color status        white           default
+color status        color223        color240        '(\s+.*\s+)' 1
 
 # message headers
-color hdrdefault    color222  		color235
-color header        cyan	   		color235    "^(From|To|Cc|Bcc)"
-color header 		brightcyan 		color235 	"^(Subject|Date)"
-
+color header        $my_lightgray	default         ".*"
+color header        cyan	   		default         "^(From|To|Cc|Bcc|Reply-To)"
+color header 		brightcyan 		default 	    "^(Subject|Date)"
 
 # message body
-color quoted        white           color235
-color quoted1       white	        color235
-color quoted2       white	        color235
-color quoted3       white	        color235
-color quoted4       white	        color235
-color signature     default         default
-
+color quoted        white           color236
+color quoted1       white	        color237
+color quoted2       white	        color238
+color quoted3       white	        color239
+color quoted4       white	        color240
 color bold			default			default
 color underline     default			default
 color normal 		default	 		default
-
+color signature     default         default
 # URLs
-color body          color188   		default     "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+color body          $my_lightblue	default     "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
 # mail adresses
-color body          color188	    default	    "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
-
-
+color body          $my_lightblue   default	    "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
 # signature checks
 color body          brightred       default		"(BAD signature)"
 color body          brightgreen     default     "(Good signature)"
@@ -67,8 +79,8 @@ color body     		brightmagenta   default     "can't handle these multiple signat
 color body     		brightmagenta   default     "signature verification suppressed"
 color body 	   		brightmagenta   default 	"invalid node with packet of type"
 
-
-# sidebar
-color sidebar_new		green		default
-color sidebar_unread	green		default
-color sidebar_highlight	color243	default	
+# misc
+color error         red				default                 # message line error text
+color message       green			default                 # message line success text
+color attachment    $my_blue  		default                 # attachment headers
+color search        black   		yellow                  # search patterns in pager

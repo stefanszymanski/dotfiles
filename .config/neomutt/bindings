@@ -15,13 +15,13 @@ bind index,pager <ESC>k sidebar-prev
 bind index,pager <ESC><space> sidebar-open
 
 # jump to specific folders
-macro index,pager <F3> <change-vfolder>Work<enter>
-macro index,pager <F4> <change-vfolder>Private<enter>
+macro index,pager <ESC>1 <change-folder>=posteo/inbox<enter> "open posteo inbox"
+macro index,pager <ESC>2 <change-folder>=gmail/inbox<enter> "open gmail inbox"
 
 # global index and pager shortcuts
 bind index,pager @ compose-to-sender
 bind index,pager R group-reply
-# bind index,pager D purge-message
+bind index,pager X purge-message
 bind index <tab> sync-mailbox
 bind index <space> collapse-thread
 
@@ -29,35 +29,14 @@ bind index <space> collapse-thread
 bind editor <Tab> complete-query
 bind editor ^T complete
 
-# Save all attachments
-macro pager S "<pipe-message> ripmime -i - -d ~/downloads && rm ~/downloads/textfile*" "Save all non-text attachments using ripmime"
 # opening urls with urlscan
 macro pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
-# Sync all email
-macro index,pager O "<shell-escape>syncmail all<enter>" "sync all mail"
-# Purge selected messages
-macro index,pager <ESC>X "<purge-message>" "purge message"
 
 # Reset limit: show all messages again
-macro index a "<limit>all\n" "show all messages (undo limit)"
+macro index A "<limit>all\n" "show all messages (undo limit)"
 
-
-###########
-# notmuch #
-###########
+# sync mails
+macro index S "<shell-escape>~/.bin/syncmail<enter>" "sync mails"
 
 # read entire thread of the current message
 bind index,pager + entire-thread
-
-# tag as inbox
-macro index,pager <ESC>I "<modify-labels-then-hide>+inbox -archive -trash -spam<enter>"
-# tag as archive
-macro index,pager <ESC>A "<modify-labels-then-hide>+archive -inbox -unread -todo -reminder -trash -spam<enter>"
-# tag as todo
-macro index,pager <ESC>T "<modify-labels-then-hide>+inbox +todo -archive -reminder -trash -spam<enter>"
-# tag as reminder
-macro index,pager <ESC>R "<modify-labels-then-hide>+inbox +reminder -archive -todo -trash -spam<enter>"
-# tag as trash
-macro index,pager <ESC>D "<modify-labels-then-hide>+trash -spam -inbox -unread -archive<enter>"
-# tag as spam
-macro index,pager <ESC>J "<modify-labels-then-hide>+spam -inbox -unread -archive -trash<enter>"
