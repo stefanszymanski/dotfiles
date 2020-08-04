@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+while getopts "n" option; do
+  case "$option" in
+    n) notifications=true;; 
+    \?) printf "%s\n" "Invalid option -$OPTARG" >&2;;
+  esac
+  shift
+done
+
+(
+    if ! flock -n -e 200; then
+        if [ $notifications ]; then
+            notify-send -t 3000 "Mail gets already synced. Abort."
+        else
+            printf "%s\n" "Mail gets already synced. Abort."
+        fi
+        exit 1
+    fi
+
+    if [ $notifications ]; then
+        notify-send -t 3000 "Fetch mail ..."
+    fi
+
+    mbsync -a
+    notmuch new
+
+    notmuch tag +gmail -- 'folder:/gmail\/.*/'
+    notmuch tag +posteo -- 'folder:/posteo\/.*/'
+
+    unread="$(notmuch count tag:unread)"
+    new="$(notmuch count tag:new)"
+
+    if [ $notifications ]; then
+        if [ "$new" -gt 0 ]; then
+            notify-send "Mail fetched" "$new new, $unread unread"
+        elif [ "$unread" -gt 0 ]; then
+            notify-send "Mail fetched" "No new mail, but $unread still unread"
+        else
+            notify-send "Mail fetched" "No new mail"
+        fi
+    fi
+
+    notmuch tag -new -- tag:new
+) 200>/tmp/syncmail-"$(whoami)"
