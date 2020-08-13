@@ -213,3 +213,7 @@ super + s ; m
 # timer
 super + s ; a
     timer -g -n "-u critical"
+
+# screenshots
+super + s ; s ; {a,s,w}
+    screenshot {screen,selection,window}

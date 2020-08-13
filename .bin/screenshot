@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+dir="${SCREENSHOT_DIR:-./screenshots}"
+
+if [ -e "$dir" ] && [ ! -d "$dir" ]; then
+    printf "%s\n" "$dir must be a directory"
+    exit 1
+fi
+
+if [ ! -d "$dir" ]; then
+    mkdir "$dir"
+fi
+
+case "$1" in
+    screen)
+        scrot_args=()
+        filename="screenshot-screen_%Y-%m-%d_%H-%M-%S_\$wx\$h.png"
+        ;;
+    selection)
+        scrot_args=("--select")
+        filename="screenshot-selection_%Y-%m-%d_%H-%M-%S_\$wx\$h.png"
+        ;;
+    window)
+        scrot_args=("--focused")
+        filename="screenshot-focused_%Y-%m-%d_%H-%M-%S_\$wx\$h.png"
+        ;;
+    *) 
+        printf "%s\n" "Invalid mode"
+        exit 1
+        ;;
+esac
+
+_filename="$(rofi -dmenu -i -lines 0 -p "screenshot file name" -width 20)"
+if [ "$_filename" ]; then
+    filename="$_filename"
+fi
+
+cmd=(scrot ${scrot_args[*]} "$filename" --exec "mv \$f $dir && echo \$n")
+file="$("${cmd[@]}")"
+
+notify-send "Screenshot saved" "as ${dir}/${file}"
