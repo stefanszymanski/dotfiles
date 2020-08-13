@@ -41,7 +41,7 @@ super + space
     bspc node --focus last
 
 # close/kill node
-super + c ; {q,x}
+super + shift + {q,x}
     bspwm-node-close {close,kill}
 
 # set node state
