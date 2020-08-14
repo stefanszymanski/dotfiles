@@ -1,6 +1,0 @@
-# vim: ft=zsh ts=2 sw=2 et fenc=utf-8
-
-zincs_vi_mode_indicator_display_hidden ()
-{
-  ! $VI_MODE_INDICATOR_DISPLAY
-}
