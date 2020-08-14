@@ -94,7 +94,7 @@ c.input.insert_mode.plugins = False
 # misc input
 c.input.links_included_in_focus_chain = False
 c.input.partial_timeout = 2500
-c.input.rocker_gestures = False
+c.input.mouse.rocker_gestures = False
 c.input.spatial_navigation = False
 
 # session
@@ -136,7 +136,7 @@ c.keyhint.radius = 0
 c.prompt.radius = 0
 
 # statusbar
-c.statusbar.hide = False
+c.statusbar.show = "always"
 c.statusbar.position = 'bottom'
 c.statusbar.padding = {'bottom': 2, 'top': 2, 'left': 0, 'right': 0}
 
@@ -177,7 +177,7 @@ c.bindings.commands = {
         # edit URL and open in new tab
         'eO': 'set-cmd-text -s :open -t {url}',
         # open developer tools
-        '<F12>': 'inspector',
+        '<F12>': 'devtools',
     },
     'insert': {
         # readline: moving
