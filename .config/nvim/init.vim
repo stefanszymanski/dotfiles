@@ -78,6 +78,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/icalendar.vim'
     Plug 'neomutt/neomutt.vim'
 
+    " color preview
+    Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase'}
+
     " LaTeX
     Plug 'lervag/vimtex'
 
@@ -137,6 +140,7 @@ set signcolumn=yes              " Always display the sign column
 set synmaxcol=500               " Restrict syntax highlighting to 500 characters per line
 " set exrc
 set path+=**
+set termguicolors
 
 " line numbering: relative in active buffer, absolute in inactive buffers
 set number relativenumber
@@ -219,6 +223,17 @@ let g:startify_lists = [
     \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
     \ { 'type': 'commands',  'header': ['   Commands']       },
     \ ]
+
+" hexokinase
+let g:Hexokinase_highlighters = ['backgroundfull']
+let g:Hexokinase_optInPatterns = [
+\     'full_hex',
+\     'triple_hex',
+\     'rgb',
+\     'rgba',
+\     'hsl',
+\     'hsla',
+\ ]
 
 " grammarous
 " let g:grammarous#use_vim_spelllang = 1
