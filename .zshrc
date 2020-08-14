@@ -246,6 +246,10 @@ alias g='git'
 # dotfile versioning
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias pconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-private/ --work-tree=$HOME'
+alias wconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-work/ --work-tree=$HOME'
+
+# password store
+alias wpass='PASSWORD_STORE_DIR=$HOME/.password-store-work/ pass'
 
 # vim as pager
 alias vless='/usr/share/nvim/runtime/macros/less.sh'
