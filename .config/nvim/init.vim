@@ -11,6 +11,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'christoomey/vim-sort-motion'
     Plug 'svermeulen/vim-subversive'
     Plug 'tpope/vim-unimpaired'
+    Plug 'matze/vim-move'
 
     " theme and visualization
     Plug 'itchyny/lightline.vim'
