@@ -20,5 +20,5 @@ nmap <leader>gL :GV!<cr>
 " open commit browser for visual selection
 vmap <leader>gl :GV<cr>
 " fill location list with revisions of current file / visual selection
-nmap <leader>gr :GV!<cr>
-vmap <leader>gr :GV!<cr>
+nmap <leader>gr :GV?<cr>
+vmap <leader>gr :GV?<cr>
