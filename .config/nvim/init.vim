@@ -203,7 +203,8 @@ let g:pear_tree_ft_disabled = ['clap_input']
 let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
     \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint',
     \ 'coc-phpls', 'coc-tslint', 'coc-tsserver', 'coc-yaml',
-    \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists']
+    \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists',
+    \ 'coc-go']
 
 " obsession
 " let g:obsession_no_bufenter = 1
