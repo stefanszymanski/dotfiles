@@ -215,7 +215,7 @@ preexec_functions+=_gpg-agent-update-tty
 # MISC #
 ########
 
-WORDCHARS='*?_-[]~&;!#$%^(){}<>'
+WORDCHARS='*?[]~&;!#$%^(){}<>'
 
 # changing directories
 setopt auto_cd                      # change directories without cd
