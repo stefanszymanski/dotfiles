@@ -1,0 +1,9 @@
+{
+    "config": {
+        "vendor-dir": "$HOME/.composer-vendor"
+    },
+    "require": {
+        "psy/psysh": "@stable"
+    }
+
+}

@@ -96,6 +96,9 @@ call plug#begin('~/.local/share/nvim/plugged')
     " markdown
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
+    " REPL
+    Plug 'metakirby5/codi.vim'
+
     " Language documentation integration
     Plug 'Shougo/echodoc.vim'
 
