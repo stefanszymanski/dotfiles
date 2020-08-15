@@ -4,7 +4,6 @@
 # super + d             -> desktops
 # super + m             -> monitors
 # super + x             -> dunst notifications
-# super + s             -> misc
 #
 # super + ctrl          -> move nodes
 # super + alt           -> resize nodes
@@ -77,7 +76,7 @@ super + c ; d
     bspwm-node-move-to-new-desktop
 
 # preselect the direction
-super + c ; p ; {h,j,k,l}
+super + c ; {h,j,k,l}
     bspc node --presel-dir {west,south,north,east}
 
 # cancel the preselection for the focused node
@@ -89,11 +88,11 @@ super + alt + {h,j,k,l}
     bspwm-node-resize {west,south,north,east} 50
 
 # raise/lower node
-super + c ; {plus,minus,equal}
+super + {plus,minus,equal}
     bspc node --layer {above,below,normal}
 
 # create receptacle
-super + r ; c ; {h,j,k,l}
+super + r ; {h,j,k,l}
     bspc node --presel-dir {west,south,north,east} --insert-receptacle 
 
 # move node to oldest receptacle
@@ -128,9 +127,9 @@ super + shift + {h,l}
 super + d ; {c,r,q,x}
     bspwm-desktop-{add,rename,remove,purge}
 
-# set layout
-super + d ; s ; {m,t,l}
-    bspc desktop --layout {monocle,tiled,next}
+# toggle layout
+super + d ; s
+    bspc desktop --layout nexTrue
 
 
 # bspwm monitors
@@ -183,40 +182,40 @@ super + comma
 #######
 
 # close notification(s)
-super + x ; {_,shift} + q
+hyper + n ; {q,x}
     dunstctl {close,close-all}
 
 # open context menu for displayed notifications
-super + x ; c
+hyper + n ; c
     dunstctl context
 
-# redisplay most recently closed notifiction
-super + x ; h
+# redisplay most recently closed notification
+hyper + n ; h
     dunstctl history-pop
 
 
 # other
 #######
 
-# copy between clipboard and primary buffer
-super + s ; c ; {c,p}
-    {p2cb,cb2p} notify
-
 # lock screen
-super + s ; l
+super + a
     xautolock -locknow
 
+# copy between clipboard and primary buffer
+hyper + c ; {c,p}
+    {p2cb,cb2p} notify
+
 # sync mail
-super + s ; m
+hyper + m
     PINENTRY_USER_DATA=gtk syncmail -n all
 
 XF86Mail
     PINENTRY_USER_DATA=gtk syncmail -n all
 
 # timer
-super + s ; a
+hyper + t
     timer -g -n "-u critical"
 
 # screenshots
-super + s ; s ; {a,s,w}
+hyper + s ; {a,s,w}
     screenshot {screen,selection,window}
