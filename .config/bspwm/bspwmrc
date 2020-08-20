@@ -6,7 +6,11 @@ pkill -x sxhkd; sxhkd &
 pkill -f $(which panel); panel &
 pkill -f $(which bspwm-event-listener); bspwm-event-listener &
 autolock &
-#dunst &
+dunst &
+
+pkill --signal KILL -x redshift
+redshift -x
+redshift &
 
 # for monitor in $(bspc query --monitors --names); do
 #     bspc monitor "$monitor" --reset-desktops "default"
