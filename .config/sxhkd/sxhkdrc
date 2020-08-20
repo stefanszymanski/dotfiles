@@ -219,3 +219,7 @@ hyper + t
 # screenshots
 hyper + s ; {a,s,w}
     screenshot {screen,selection,window}
+
+# redshift toggle
+hyper + r
+    pkill -USR1 redshift
