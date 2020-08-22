@@ -63,7 +63,7 @@ render_block() {
     fg="$COLOR_BLOCK_FG"
     bg="$COLOR_BLOCK_BG"
     res="%{F${fg}}%{B${bg}} ${1} %{B-}%{F-}"
-    printf "%s\n" "$res"
+    [ -n "$res" ] && printf " %s\n" "$res"
 }
 
 while read -r line ; do
@@ -89,6 +89,9 @@ while read -r line ; do
             IFS=$' ' read -r sink_vol sink_muted source_vol source_muted <<< "${line#?}"
             vmaster="$(render_volume "vol" "$sink_vol" "$sink_muted")"
             vmic="$(render_volume "mic" "$source_vol" "$source_muted")"
+            ;;
+        B*)
+            bat="$(render_block "${line#?}")"
             ;;
         W*)
             desktops=()
@@ -133,5 +136,5 @@ while read -r line ; do
             ;;
     esac
 
-    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${vmaster} ${vmic} ${mail} ${load} ${mem} ${temp} ${date}"
+    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${vmaster}${vmic}${mail}${load}${mem}${temp}${bat}${date}"
 done
