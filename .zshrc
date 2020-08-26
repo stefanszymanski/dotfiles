@@ -4,19 +4,41 @@ fpath=(~/.local/share/zsh/completion $fpath)
 
 zmodload -i zsh/complist
 
+
 ###########
 # PLUGINS #
 ###########
 
-source ~/.zplug/init.zsh
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug "ael-code/zsh-colored-man-pages", defer:2
-zplug "zdharma/fast-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-completions"
-zplug "peterhurford/up.zsh"
-zplug "MichaelAquilina/zsh-autoswitch-virtualenv"
-zplug load
+### Install zinit if not present
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node \
+
+zinit wait lucid light-mode for \
+    atinit"zicompinit; zicdreplay" \
+        zdharma/fast-syntax-highlighting \
+    atload"_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    blockf atpull'zinit creinstall -q .' \
+        zsh-users/zsh-completions \
+    ael-code/zsh-colored-man-pages \
+    peterhurford/up.zsh
 
 
 ##############
@@ -301,14 +323,6 @@ alias mcp='noglob zmb -C'
 ########################
 # SHELL INITIALISATION #
 ########################
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
 
 # Load fzf
 if [ -r ~/.fzf.zsh ]; then
