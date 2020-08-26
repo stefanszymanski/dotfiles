@@ -172,20 +172,9 @@ bindkey '^r'        history-incremental-search-backward
 bindkey '^s'        history-incremental-search-forward
 # text editing
 bindkey '^d'        delete-char
-bindkey '\e[3~'     delete-char     # delete
-bindkey '^t'        transpose-chars
-bindkey '^[t'       transpose-words
-bindkey '^[u'       up-case-word
-bindkey '^[l'       down-case-word
-bindkey '^[c'       capitalize-word
-# killing and yanking
-bindkey '^[d'       forward-kill-word
 bindkey '^w'        backward-kill-word
-# miscellaneous
-bindkey '^[#'       pound-insert
-bindkey '^[_'       undo
 
-# BINDINGS - OTHERS
+# OTHER BINDINGS
 
 # completion
 bindkey -M menuselect " "       accept-and-menu-complete
