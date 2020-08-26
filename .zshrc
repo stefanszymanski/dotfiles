@@ -36,7 +36,13 @@ zinit wait lucid light-mode for \
     atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     blockf atpull'zinit creinstall -q .' \
-        zsh-users/zsh-completions \
+        zsh-users/zsh-completions
+
+zinit wait'0b' lucid light-mode for \
+    zsh-vi-more/vi-increment \
+    zsh-vi-more/vi-motions
+
+zinit wait'1' lucid light-mode for \
     ael-code/zsh-colored-man-pages \
     peterhurford/up.zsh
 
