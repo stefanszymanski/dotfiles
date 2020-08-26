@@ -130,21 +130,17 @@ if [ "x$COMPLETION_WAITING_DOTS" = "xtrue" ]; then
   bindkey "^I" expand-or-complete-with-dots
 fi
 
-# custom commands
-compdef _hosts sshp
-
 
 ##############
 # CORRECTION #
 ##############
 
 setopt correct                      # enable spelling correction of commands
-setopt dvorak                       # use Dvorak keyboard layout as basis for examining spelling mistakes
+# setopt dvorak                       # use Dvorak keyboard layout as basis for examining spelling mistakes
 
 alias man='nocorrect man'
 alias mv='nocorrect mv'
 alias mkdir='nocorrect mkdir'
-alias gist='nocorrect gist'
 alias sudo='nocorrect sudo'
 alias ln='nocorrect ln'
 
