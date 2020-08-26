@@ -133,3 +133,10 @@ reddit.com www.redditstatic.com other allow
 reddit.com v.redd.it media allow
 reddit.com v.redd.it xhr allow
 
+# Wikipedia
+wikipedia.org upload.wikimedia.org media allow
+
+# Steam
+store.steampowered.com store.cloudflare.steamstatic.com script allow
+store.steampowered.com store.cloudflare.steamstatic.com other allow
+store.steampowered.com cdn.cloudflare.steamstatic.com media allow
