@@ -1,0 +1,41 @@
+# enter copy mode
+prefix ; v
+
+# enter rectangular copy mode
+prefix ; V
+
+# copy mode - begin selection
+v
+
+# copy mode - start search
+/
+
+# copy mode - yank selection
+y
+
+# copy mode - open selection with xdg-open
+o
+
+# copy mode - open selection with $EDITOR
+ctrl + o
+
+# copy mode - google selection
+S
+
+# search URLs
+prefix ; ctrl + u
+
+# search files
+prefix ; ctrl + f
+
+# search git status files
+prefix ; ctrl + g
+
+# search hashes
+prefix ; ctrl + h
+
+# search numbers
+prefix ; ctrl + d
+
+# search IP address
+prefix ; ctrl + alt + i
