@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-export PINENTRY_USER_DATA=gtk 
-export PASSWORD_STORE_DIR=~/.password-store-work 
-qutebrowser --set "session.default_name" "work" --basedir ".qutebrowser-work" --restore "work" --enable-webengine-inspector $@
