@@ -1,8 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Terminal=false
-Type=Application
-Categories=Qt;Network;WebBrowser
-Exec=qutebrowser-work %u
-Name=Qutebrowser (work)
-GenericName=Web Browser (work)
