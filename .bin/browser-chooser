@@ -2,24 +2,42 @@
 
 [[ -z "$DISPLAY" ]] && exit 1
 
-local OUT=(
-    '1: Qutebrowser (personal)'
-    '2: Qutebrowser (work)'
-    '3: Firefox'
-    '4: Chromium'
-)
+_exists() {
+    command -v "$1" &> /dev/null && return 0 || return 1
+}
 
-CHOICE=$(printf '%s\n' "${OUT[@]}" \
-    | rofi -i -lines 4 -width 12 -dmenu -p 'web browser' \
+names=()
+cmds=()
+
+if _exists qutebrowser && _exists qutebrowser-work; then
+    names+=("Qutebrowser (personal)" "Qutebrowser (work)")
+    cmds+=("qutebrowser.desktop" "qutebrowser-work.desktop")
+elif _exists qutebrowser; then
+    names+=("Qutebrowser")
+    cmds+=("qutebrowser.desktop")
+fi
+
+if _exists firefox; then
+    names+=("Firefox")
+    cmds+=("firefox.desktop")
+fi
+
+if _exists chromium; then
+    names+=("Chromium")
+    cmds+=("chromium.desktop")
+fi
+
+options=()
+for i in "${!names[@]}"; do
+    options+=("$((i+1)): ${names[$i]}")
+done
+
+choice=$(printf '%s\n' "${options[@]}" \
+    | rofi -i -lines "${#options[@]}" -width 12 -dmenu -p 'web browser' \
     | cut -d ':' -f 1)
 
-[[ -z "$CHOICE" ]] && exit 0
+[[ -z "$choice" ]] && exit 0
 
-case "$CHOICE" in
-    1) FILE="qutebrowser.desktop" ;;
-    2) FILE="qutebrowser-work.desktop" ;;
-    3) FILE="firefox.desktop" ;;
-    4) FILE="chromium.desktop" ;;
-esac
+file="${cmds[$((choice-1))]}"
 
-[[ -n "$FILE" ]] && gtk-launch "$FILE" "$@"
+[[ -n "$file" ]] && gtk-launch "$file" "$@" &> /dev/null
