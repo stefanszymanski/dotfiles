@@ -228,6 +228,10 @@ hyper + s ; {a,s,w}
 hyper + r
     pkill -USR1 redshift
 
+# rofi-calc
+hyper + shift + c
+    rofi -show calc -modi calc -no-show-match -no-history -no-show-match -terse -calc-command "echo -n '{result}'" -lines 0 -width 500 | xclip -selection clipboard
+
 # show sxhkd help
 hyper + h
     sxhkd-help
