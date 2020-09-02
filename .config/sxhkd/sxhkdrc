@@ -227,3 +227,7 @@ hyper + s ; {a,s,w}
 # redshift toggle
 hyper + r
     pkill -USR1 redshift
+
+# show sxhkd help
+hyper + h
+    sxhkd-help
