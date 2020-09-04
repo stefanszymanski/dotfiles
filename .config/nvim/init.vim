@@ -159,11 +159,6 @@ set wildmenu
 set wildmode=longest:full,full
 set wildoptions=pum
 
-
-let g:python3_host_prog = '~/.virtualenvs/nvim3/bin/python'
-" let g:python_host_prog = '~/.virtualenvs/nvim2/bin/python'
-
-
 " disable netrw
 let g:loaded_netrw       = 1
 let g:loaded_netrwPlugin = 1
