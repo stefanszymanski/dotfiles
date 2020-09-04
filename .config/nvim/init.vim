@@ -62,7 +62,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'wellle/targets.vim'
 
     " auto close (quotes, braces, tags, ...)
-    Plug 'tmsvg/pear-tree'
     Plug 'alvan/vim-closetag'
 
     " unix shell commands
