@@ -1,6 +1,9 @@
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
+" Close the preview window when completion is done.
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
 
 " === Mappings === "
 
@@ -28,12 +31,9 @@ nnoremap <silent> <leader>lC  :<C-u>CocListResume<CR>
 "   <tab>           - select next completion
 "   <shift><tab>    - select previous completion
 inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <expr> <c-cr> pumvisible() ? '<C-y>' : '<C-g>u<CR>'
-inoremap <silent><expr> <TAB>
-    \ pumvisible() ? '<C-n>' :
-    \ <SID>check_back_space() ? '<TAB>' :
-    \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? '<C-p>' : '<C-h>'
+inoremap <expr> <CR> pumvisible() ? '<C-y>' : '<C-g>u<CR>'
+inoremap <expr> <Tab> pumvisible() ? '<C-n>' : '<Tab>'
+inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<S-Tab>'
 
 " Bindings for the symbol under the cursor
 "   <leader>lc   - list references
@@ -85,12 +85,6 @@ endfunction
 
 
 " === Helper functions === "
-
-" Helper function for completion
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
 " Helper function for displaying documentation
 function! s:show_documentation()

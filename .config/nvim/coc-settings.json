@@ -4,40 +4,37 @@
   "diagnostic.warningSign": "",
   "diagnostic.infoSign": "ℹ",
   "diagnostic.hintSign": "•",
-  "diagnostic.messageTarget": "echo",
+  "diagnostic.messageTarget": "float",
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": " ❯❯ ",
+  "diagnostic.enableMessage": "always",
+  "diagnostic.messageDelay": 1000,
+  "diagnostic.refreshOnInsertMode": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
 
   "coc.preferences.rootPatterns": [".vim",".git/",".svn/",".hg",".projections.json"],
-
-  "coc.preferences.useQuickfixForLocations": true,
-
-  "coc.preferences.triggerAfterInsertEnter": true,
-  "coc.preferences.hyphenAsKeyword": true,
-
-  "coc.preferences.timeout": 2000,
-  "coc.preferences.acceptSuggestionOnCommitCharacter": true,
-
-  "coc.preferences.snippetIndicator": " ★",
-
-  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
-
   "coc.preferences.hoverTarget": "float",
   "coc.preferences.enableFloatHighlight": false,
-  "coc.preferences.echodocSupport": true,
-
+  "coc.preferences.useQuickfixForLocations": false,
+  "coc.preferences.jumpCommand": "edit",
+  "coc.preferences.colorSupport": true,
+  "coc.preferences.bracketEnterImprove": true,
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "coc.preferences.formatOnType": false,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "markdown",
-    "python",
-    "reason",
-    "typescript",
-    "typescript.tsx",
-    "yaml",
-	"lua",
-    "php",
-    "vim"
-  ],
+  "coc.preferences.formatOnInsertLeave": false,
+
+  "suggest.timeout": 2000,
+  "suggest.triggerAfterInsertEnter": true,
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.localityBonus": true,
+  "suggest.enablePreview": false,
+  "suggest.snippetIndicator": " ★",
+  "suggest.enablePreselect": false,
+  "suggest.fixInsertedWord": true,
+  "suggest.autoTrigger": "trigger",
+  "suggest.detailField": "preview",
+  "suggest.floatEnable": true,
+  "suggest.echodocSupport": true,
 
   "codeLens.enable": true,
 
