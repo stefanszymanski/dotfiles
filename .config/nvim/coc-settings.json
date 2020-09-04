@@ -50,20 +50,26 @@
   "python.linting.pydocstyleEnabled": true,
   "python.venvPath": "~/.virtualenvs",
 
-  "suggest.floatEnable": true,
-  "suggest.echodocSupport": true,
-
   "signature.enable": true,
   "signature.target": "float",
   "signature.triggerSignatureWait": 300,
 
-  
+  "intelephense.telemetry.enabled": false,
+  "intelephense.phpdoc.returnVoid": true,
+
   "languageserver": {
-    "bash": {
-      "command": "bash-language-server",
-      "filetypes": ["sh"],
-      "args": ["start"],
-      "ignoredRootPaths": ["~"]
+    "phan": {
+        "command": "phan",
+        "args": [
+            "--quick",
+ 			"--allow-polyfill-parser",
+ 			"--language-server-on-stdin"
+        ],
+        "filetypes": ["php"],
+        "initializationOptions":
+ 		{
+ 			"storagePath": "/tmp/phan"
+ 		}
     }
   }
 }
