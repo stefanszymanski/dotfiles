@@ -63,6 +63,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 
     " auto close (quotes, braces, tags, ...)
     Plug 'alvan/vim-closetag'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'tpope/vim-endwise'
 
     " unix shell commands
     Plug 'tpope/vim-eunuch'
