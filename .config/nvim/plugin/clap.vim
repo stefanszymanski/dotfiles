@@ -71,11 +71,6 @@ nnoremap <silent> <leader>sW  :<C-u>Clap grep ++query=<cword><CR>
 vnoremap <silent> <leader>sg  :<C-u>Clap grep2 ++query=@visual<CR>
 vnoremap <silent> <leader>sG  :<C-u>Clap grep ++query=@visual<CR>
 
-" coc lists
-nnoremap <silent> <leader>ld  :<C-u>Clap coc_diagnostics<CR>
-nnoremap <silent> <leader>lo  :<C-u>Clap coc_outline<CR>
-nnoremap <silent> <leader>ls  :<C-u>Clap coc_symbols<CR>
-
 " other searches
 nnoremap <silent> <leader>bb  :<C-u>Clap buffers<CR>
 nnoremap <silent> <leader>ww  :<C-u>Clap windows<CR>

@@ -19,9 +19,9 @@ nmap <silent> ]d <Plug>(coc-diagnostic-next)
 nmap <silent> [D <Plug>(coc-diagnostic-prev-error)
 nmap <silent> ]D <Plug>(coc-diagnostic-next-error)
 " the following mappings were replaced in plugin/clap.vim
-" nnoremap <silent> <leader>ld :<C-u>CocList -A diagnostics<CR>
-" nnoremap <silent> <leader>lo :<C-u>CocList -A outline<CR>
-" nnoremap <silent> <leader>ls :<C-u>CocList -I -A symbols<CR>
+nnoremap <silent> <leader>ld :<C-u>CocList -A diagnostics<CR>
+nnoremap <silent> <leader>lo :<C-u>CocList -A outline<CR>
+nnoremap <silent> <leader>ls :<C-u>CocList -I -A symbols<CR>
 nnoremap <silent> <leader>lC  :<C-u>CocListResume<CR>
 
 " Completion

@@ -46,7 +46,6 @@ call plug#begin('~/.local/share/nvim/plugged')
     " Plug 'Shougo/denite.nvim'
     " Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
     Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-    Plug 'vn-ki/coc-clap'
     Plug 'scrooloose/nerdtree'
     "Plug 'tpope/vim-vinegar'
 
