@@ -3,7 +3,9 @@
         "vendor-dir": "$HOME/.composer-vendor"
     },
     "require": {
-        "psy/psysh": "@stable"
+        "psy/psysh": "@stable",
+        "phan/phan": "@stable",
+        "helmich/typo3-typoscript-lint": "@stable"
     }
 
 }
