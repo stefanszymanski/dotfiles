@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 # Ask with rofi for desktop names and create them.
 # Names are separated by commas, colons or spaces.
