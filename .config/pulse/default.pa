@@ -15,6 +15,8 @@ load-module module-switch-on-port-available
 ### Automatically load driver modules depending on the hardware available
 load-module module-udev-detect
 
+### Load ALSA modules
+
 ### Load several protocols
 .ifexists module-esound-protocol-unix.so
 load-module module-esound-protocol-unix
@@ -48,6 +50,3 @@ load-module module-position-event-sounds
 
 ### Cork music/video streams when a phone stream is active
 load-module module-role-cork
-
-# Set default source
-set-default-source alsa_input.pci-0000_00_1b.0.analog-stereo
