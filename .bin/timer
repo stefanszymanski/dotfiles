@@ -1,12 +1,32 @@
 #!/usr/bin/env bash
 
+usage() {
+    local _usage
+    read -rd '' _usage <<'EOF'
+Usage:
+  timer [arguments...]
+
+Arguments:
+  -g            ask with rofi for delay and message
+  -m MESSAGE    notification message
+  -t DELAY      delay as expected by sleep
+  -n ARGS       arguments for notify-send
+
+Examples
+  alarm -g -n "-u critical"
+  alarm -t "10m" -m "Pizza!" 
+EOF
+    printf '%s\n' "$_usage"
+    exit 1
+}
+
 while getopts "gm:t:n:" option; do
   case "$option" in
     g) gui=true;; 
     m) message="$OPTARG";;
     t) time="$OPTARG";;
     n) notify_args="$OPTARG";;
-    \?) echo "Invalid option -$OPTARG" >&2;;
+    \?) usage;;
   esac
 done
 
@@ -22,10 +42,12 @@ fi
 
 if [[ -z "$time" ]]; then
     printf "%s\n" "no time specified"
-    exit 1
+    usage
 fi
 
 message="${message:-Alarm!}"
+
+notify-send "Timer started" "Alarm in $time"
 
 # ignore missing quoting of $time
 # shellcheck disable=SC2086
