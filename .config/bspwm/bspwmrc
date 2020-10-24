@@ -12,10 +12,6 @@ pkill --signal KILL -x redshift
 redshift -x
 redshift &
 
-# for monitor in $(bspc query --monitors --names); do
-#     bspc monitor "$monitor" --reset-desktops "default"
-# done
-
 # TODO move colors and widths to a another file that is shared with the panel script
 bspc config border_width 2
 bspc config normal_border_color "#504945"
@@ -40,4 +36,5 @@ bspc config right_padding -4
 bspc config bottom_padding -4
 bspc config top_padding 22
 
-bspc rule --add nagstamon state=floating sticky=on focus=off
+bspc rule --add nagstamon state=floating sticky=on focus=off private=on
+bspc rule --add Zathura state=tiled
