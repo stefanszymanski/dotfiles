@@ -31,9 +31,7 @@ nnoremap <silent> <leader>lC  :<C-u>CocListResume<CR>
 "   <tab>           - select next completion
 "   <shift><tab>    - select previous completion
 inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <expr> <CR> pumvisible() ? '<C-y>' : '<C-g>u<CR>'
-inoremap <expr> <Tab> pumvisible() ? '<C-n>' : '<Tab>'
-inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<S-Tab>'
+inoremap <expr> <Tab> pumvisible() ? '<C-y>' : '<C-g>u<Tab>'
 
 " Bindings for the symbol under the cursor
 "   <leader>lc   - list references
@@ -47,6 +45,8 @@ nmap <silent> <leader>lc <Plug>(coc-references)
 nmap <silent> <leader>lj <Plug>(coc-definition)
 nmap <silent> <leader>lD <Plug>(coc-declaration)
 " nmap <silent> <leader>lC <Plug>(coc-codelens-action)
+nmap <silent> <leader>la <Plug>(coc-codeaction-line)
+vmap <silent> <leader>la <Plug>(coc-codeaction-selected)
 nmap <silent> <leader>li <Plug>(coc-implementation)
 nmap <silent> <leader>lr <Plug>(coc-rename)
 nmap <silent> <leader>lt <Plug>(coc-type-definition)
