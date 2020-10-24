@@ -1,17 +1,57 @@
 #!/usr/bin/env bash
 
 dir="${SCREENSHOT_DIR:-./screenshots}"
+cmd="$(basename "$0")"
 
-if [ -e "$dir" ] && [ ! -d "$dir" ]; then
-    printf "%s\n" "$dir must be a directory"
+_usage() {
+    printf "%s\n" "Usage: $cmd [menu|screen|selection|window]"
     exit 1
-fi
+}
 
-if [ ! -d "$dir" ]; then
-    mkdir "$dir"
-fi
+check_directory() {
+    if [ -e "$1" ] && [ ! -d "$1" ]; then
+        printf "%s\n" "$1 must be a directory"
+        exit 1
+    fi
+    if [ ! -d "$1" ]; then
+        mkdir "$1"
+    fi
+}
+
+show_menu() {
+    options=(
+        '1: Selection'
+        '2: Screen'
+        '3: Window'
+    )
+    choice=$(printf '%s\n' "${options[@]}" \
+        | rofi -i -lines 3 -dmenu -p 'screenshot' \
+        | cut -d ':' -f 1)
+    [[ -z "$choice" ]] && exit 1
+    case "$choice" in
+        1) $cmd selection;;
+        2) $cmd screen;;
+        3) $cmd window;;
+    esac
+}
+
+ask_for_filename() {
+    local filename custom
+    filename="$1"
+    custom="$(rofi -dmenu -i -lines 0 -p "screenshot file name" -width 20)"
+    [ "$custom" ] && filename="$custom"
+    printf "%s\n" "$filename"
+}
+
+[ "$#" -ne 1 ] && _usage
+
+check_directory "$dir"
 
 case "$1" in
+    menu)
+        show_menu
+        exit 0
+        ;;
     screen)
         scrot_args=()
         filename="screenshot-screen_%Y-%m-%d_%H-%M-%S_\$wx\$h.png"
@@ -25,17 +65,15 @@ case "$1" in
         filename="screenshot-focused_%Y-%m-%d_%H-%M-%S_\$wx\$h.png"
         ;;
     *) 
-        printf "%s\n" "Invalid mode"
-        exit 1
+        _usage
         ;;
 esac
 
-_filename="$(rofi -dmenu -i -lines 0 -p "screenshot file name" -width 20)"
-if [ "$_filename" ]; then
-    filename="$_filename"
-fi
+filename="$(ask_for_filename "$filename")"
 
 cmd=(scrot ${scrot_args[*]} "$filename" --exec "mv \$f $dir && echo \$n")
 file="$("${cmd[@]}")"
+
+[ -z "$file" ] && exit 2
 
 notify-send "Screenshot saved" "as ${dir}/${file}"

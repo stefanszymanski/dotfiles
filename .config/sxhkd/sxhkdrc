@@ -223,8 +223,8 @@ hyper + t
     timer -g -n "-u critical"
 
 # screenshots
-hyper + s ; {a,s,w}
-    screenshot {screen,selection,window}
+hyper + s
+    screenshot menu
 
 # redshift toggle
 hyper + r
