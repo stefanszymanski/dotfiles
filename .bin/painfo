@@ -1,0 +1,62 @@
+#!/bin/sh
+
+_usage() {
+    printf "%s\n" "Usage: $(basename "$0") [sink-volume|source-volume|sink-mute|source-mute]"
+    exit 1
+}
+
+getdefaultsink() {
+    pacmd stat | awk -F": " '/^Default sink name: /{print $2}'
+}
+
+getdefaultsource() {
+    pacmd stat | awk -F": " '/^Default source name: /{print $2}'
+}
+
+getsinkvolume() {
+    pacmd list-sinks |
+        awk '/^\s+name: /{target = $2 == "<'"$1"'>"}
+            /^\s+volume: / && target {print $5; exit}' |
+        awk -F"%" '{print $1}'
+}
+
+getsourcevolume() {
+    pacmd list-sources |
+        awk '/^\s+name: /{target = $2 == "<'"$1"'>"}
+            /^\s+volume: / && target {print $5; exit}' |
+        awk -F"%" '{print $1}'
+}
+
+getsinkmute() {
+    pacmd list-sinks |
+        awk '/^\s+name: /{target = $2 == "<'"$1"'>"}
+            /^\s+muted: / && target {print $2; exit}' |
+        awk -F"%" '{print $1}'
+}
+
+getsourcemute() {
+    pacmd list-sources |
+        awk '/^\s+name: /{target = $2 == "<'"$1"'>"}
+            /^\s+muted: / && target {print $2; exit}' |
+        awk -F"%" '{print $1}'
+}
+
+[ "$#" -ne 1 ] && _usage
+
+case "$1" in
+    sink-volume)
+        getsinkvolume "$(getdefaultsink)"
+        ;;
+    source-volume)
+        getsourcevolume "$(getdefaultsource)"
+        ;;
+    sink-mute)
+        getsinkmute "$(getdefaultsink)"
+        ;;
+    source-mute)
+        getsourcemute "$(getdefaultsource)"
+        ;;
+    *)
+        _usage
+        ;;
+esac

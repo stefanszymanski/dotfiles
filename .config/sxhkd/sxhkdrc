@@ -176,11 +176,13 @@ super + comma
 # volume
 ########
 
+# raise/lower sink/source volume
 {_,shift} + XF86Audio{Raise,Lower}Volume
-    pamixer {_,--default-source} --{increase,decrease} 5
+    pactl {set-sink-volume @DEFAULT_SINK@,set-source-volume @DEFAULT_SOURCE@} {+,-}5%
 
+# toggle mute of sink/source
 {_,shift} + XF86AudioMute
-    pamixer {_,--default-source} --toggle-mute
+    pactl {set-sink-mute @DEFAULT_SINK@,set-source-mute @DEFAULT_SOURCE@} toggle
 
 # dunst
 #######
