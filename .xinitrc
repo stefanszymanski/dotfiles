@@ -9,7 +9,7 @@ fi
 
 pulseaudio --start
 start-pulseaudio-x11
-unclutter -idle 3
+unclutter -idle 3 &
 
 wm="${WM:-bspwm}"
 
