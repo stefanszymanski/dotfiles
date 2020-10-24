@@ -43,15 +43,15 @@ super + space
 super + shift + {q,x}
     bspwm-node-close {close,kill}
 
-# set node state
+# set node state (tiling/floating/fullscreen)
 super + c ; s ; {t,s,f}
     bspc node --state {tiled,floating,fullscreen}
 
-# set node flags
+# set node flags (marked/locked/sticky/private)
 super + c ; f ; {m,l,s,p}
     bspc node --flag {marked,locked,sticky,private}
 
-# reset node flags
+# reset node flags (marked/locked/sticky/private)
 super + c ; f ; shift + {m,l,s,p}
     flag={marked,locked,sticky,private}; \
     for node in $(bspc query --nodes --node ".$flag"); do \
@@ -71,7 +71,6 @@ super + ctrl + {n,p}
     bspc node --to-monitor {next,prev} --follow
 
 # move node to a new desktop
-# TODO not only move the focused but prefer all marked
 super + c ; d
     bspwm-node-move-to-new-desktop
 
@@ -87,7 +86,7 @@ super + Escape
 super + alt + {h,j,k,l}
     bspwm-node-resize {west,south,north,east} 50
 
-# raise/lower node
+# raise/lower/reset node layer
 super + {plus,minus,equal}
     bspc node --layer {above,below,normal}
 
@@ -99,17 +98,13 @@ super + !button{1,3}
 super + r ; {h,j,k,l}
     bspc node --presel-dir {west,south,north,east} --insert-receptacle 
 
-# move node to oldest receptacle
+# move node to latest receptacle
 super + r ; m
     bspc node focused --to-node "$(bspc query --nodes --node 'any.leaf.!window')" --follow
 
 # remove receptacles on current desktop
 super + r ; q
     for node in "$(bspc query --nodes --node '.leaf.!window.local')"; do bspc node "$node" --kill; done
-
-# tabbed
-#super + t ; {a,d}
-#    bspwm-tabbed {create,detach}
 
 
 # bspwm desktops
@@ -131,9 +126,9 @@ super + shift + {h,l}
 super + d ; {c,r,q,x}
     bspwm-desktop-{add,rename,remove,purge}
 
-# toggle layout
+# toggle desktop layout
 super + d ; s
-    bspc desktop --layout nexTrue
+    bspc desktop --layout next
 
 
 # bspwm monitors
@@ -148,9 +143,11 @@ super + {n,p}
 # applications #
 ################
 
+# open terminal emulator
 super + Return
     st
 
+# open terminal emulator with tmux
 super + ctrl + Return
     st -e tmux
 
@@ -159,12 +156,15 @@ super + ctrl + Return
 # rofi menus #
 ##############
 
+# open application launcher
 super + period
     rofi -show drun
 
+# open window selector
 super + minus
     rofi -show window
 
+# open session menu
 super + comma
     sessionmenu
 
@@ -187,15 +187,15 @@ super + comma
 # dunst
 #######
 
-# close notification(s)
+# close latest/all dunst notification(s)
 hyper + n ; {q,x}
     dunstctl {close,close-all}
 
-# open context menu for displayed notifications
+# open context menu for displayed dunst notifications
 hyper + n ; c
     dunstctl context
 
-# redisplay most recently closed notification
+# redisplay most recently closed dunst notification
 hyper + n ; h
     dunstctl history-pop
 
@@ -226,7 +226,7 @@ hyper + t
 hyper + s
     screenshot menu
 
-# redshift toggle
+# toggle redshift
 hyper + r
     pkill -USR1 redshift
 
