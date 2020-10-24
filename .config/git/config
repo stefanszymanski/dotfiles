@@ -13,6 +13,7 @@
     whitespace = fix,trailing-space,cr-at-eol
     pager = diff-so-fancy | less --tabs=4 -RFX
     excludesfile = ~/.config/git/ignore
+	autocrlf = input
 
 [gpg]
 	program = gpg2
