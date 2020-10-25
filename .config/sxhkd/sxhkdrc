@@ -205,7 +205,7 @@ hyper + n ; h
 
 # lock screen
 super + a
-    xautolock -locknow
+    autolock lock
 
 # copy between clipboard and primary buffer
 hyper + c ; {c,p}

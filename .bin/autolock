@@ -4,7 +4,7 @@ image="$HOME/.cache/i3lock_background.png"
 icon="$HOME/.config/i3lock/icon.png"
 
 create_image() {
-    local monitors values
+    local monitors w h x y
     # Half the icon's dimensions
     local offset=16
     # Take a screenshot
@@ -21,9 +21,29 @@ create_image() {
     done
 }
 
-if [[ "$1" = "lock" ]]; then
-    [[ "$2" = "update-image" ]] && create_image
+lock_with_i3lock() {
+    create_image
     exec i3lock -uti "$image" || "$0 lock"
+}
+
+lock_with_xsecurelock() {
+    XSECURELOCK_BLANK_TIMEOUT=30 \
+    XSECURELOCK_BLANK_DPMS_STATE=suspend \
+    XSECURELOCK_PASSWORD_PROMPT=time_hex \
+    XSECURELOCK_SAVER_RESET_ON_AUTH_CLOSE=1 \
+    XSECURELOCK_DATETIME_FORMAT="%Y-%m-%d %H:%M" \
+    XSECURELOCK_SHOW_HOSTNAME=0 \
+    XSECURELOCK_SHOW_USERNAME=0 \
+    XSECURELOCK_SHOW_DATETIME=1 \
+    XSECURELOCK_AUTH_TIMEOUT=10 \
+    XSECURELOCK_AUTH_FOREGROUND_COLOR="rgb:eb/db/b2" \
+    XSECURELOCK_AUTH_WARNING_COLOR="rgb:fb/49/34" \
+    exec xsecurelock
+}
+
+if [[ "$1" = "lock" ]]; then
+    # lock_with_i3lock
+    lock_with_xsecurelock
 fi
 
 title="Autolock"
@@ -37,24 +57,4 @@ xautolock \
     -time 5 \
     -notify 20 \
     -notifier "$notifier_cmd" \
-    -locker "$0 lock update-image"
-
-
-# Maybe I should switch to xsecurelock, but it can't display my fancy pixelated
-# screenshot because it doesn't support different images on multiple monitors :(
-
-# XSECURELOCK_BLANK_TIMEOUT=30 \
-# XSECURELOCK_BLANK_DPMS_STATE=suspend \
-# XSECURELOCK_PASSWORD_PROMPT=time_hex \
-# XSECURELOCK_SAVER=saver_mpv \
-# XSECURELOCK_LIST_VIDEOS_COMMAND="echo $image" \
-# XSECURELOCK_IMAGE_DURATION_SECONDS=100000 \
-# XSECURELOCK_SAVER_RESET_ON_AUTH_CLOSE=1 \
-# XSECURELOCK_DATETIME_FORMAT="%Y-%m-%d %H:%M" \
-# XSECURELOCK_SHOW_HOSTNAME=0 \
-# XSECURELOCK_SHOW_USERNAME=0 \
-# XSECURELOCK_SHOW_DATETIME=1 \
-# XSECURELOCK_AUTH_TIMEOUT=10 \
-# XSECURELOCK_AUTH_FOREGROUND_COLOR="rgb:eb/db/b2" \
-# XSECURELOCK_AUTH_WARNING_COLOR="rgb:fb/49/34" \
-# exec xsecurelock
+    -locker "$0 lock"
