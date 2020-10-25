@@ -1,48 +1,31 @@
 #!/usr/bin/env bash
 
-screensaver-disable() {
-    xset s off
-    xset s noblank
-    xset -dpms
-}
-
-screensaver-enable() {
-    xset s on
-    xset s blank
-    xset +dpms
-}
-
-
-[[ -z "$DISPLAY" ]] && exit 1
+if [[ -z "$DISPLAY" ]]; then
+    echo "\$DISPLAY must not be empty."
+    exit 1
+fi
 
 OPTIONS=(
-    '0: Logout'
     '1: Hibernate'
     '2: Suspend'
     '3: Suspend hybrid'
-    '4: Reboot'
-    '5: Shutdown'
-    '6: Disable Screensaver'
-    '7: Enable Screensaver'
-    '8: Disable Autolock'
-    '9: Enable Autolock'
+    '4: Suspend and reboot'
+    '5: Reboot'
+    '6: Shutdown'
+    '7: Logout'
 )
-
 CHOICE=$(printf '%s\n' "${OPTIONS[@]}" \
-    | rofi -i -lines 10 -dmenu -p 'session' \
+    | rofi -i -width 10 -lines "${#OPTIONS[@]}" -dmenu -p 'session' \
     | cut -d ':' -f 1)
 
 [[ -z "$CHOICE" ]] && exit 1
 
 case "$CHOICE" in
-    0) bspc quit ;;
     1) sudo zzz -Z ;;
     2) sudo zzz ;;
     3) sudo zzz -H ;;
-    4) sudo shutdown -r now ;;
-    5) sudo shutdown -h now ;;
-    6) screensaver-disable ;;
-    7) screensaver-enable ;;
-    8) xautolock -disable ;;
-    9) xautolock -enable ;;
+    4) sudo zzz -R ;;
+    5) sudo shutdown -r now ;;
+    6) sudo shutdown -h now ;;
+    7) bspc quit ;;
 esac
