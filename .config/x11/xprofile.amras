@@ -16,6 +16,3 @@ xrandr --output VGA-0 --off
 xset s off
 xset -dpms
 xset s noblank
-
-xautolock -disable
-numlockx on

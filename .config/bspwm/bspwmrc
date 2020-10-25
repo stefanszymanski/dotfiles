@@ -5,12 +5,7 @@ xsetroot -solid "#282828" &
 pkill -x sxhkd; sxhkd &
 pkill -f "$(which panel)"; panel &
 pkill -f "$(which bspwm-event-listener)"; bspwm-event-listener &
-autolock &
 dunst &
-
-pkill --signal KILL -x redshift
-redshift -x
-redshift &
 
 # TODO move colors and widths to a another file that is shared with the panel script
 bspc config border_width 2
