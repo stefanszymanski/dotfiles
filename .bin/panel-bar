@@ -99,21 +99,22 @@ while read -r line ; do
             test="$line"
             IFS=':'
             set -- ${line#?}
+            monitor_index=0
             while [ $# -gt 0 ] ; do
                 # item=${1#?}
                 item="$1"
                 name="${item#?}"
                 case "$item" in
                     [mM]*)
-                        monitor_name="$name"
-                        [[ "$monitor_name" != "$target_monitor" ]] && shift && continue
+                        ((monitor_index++))
+                        [[ "$monitor_index" -ne "$target_monitor" ]] && shift && continue
                         case "$item" in
                             m*) is_monitor_active=0;;
                             M*) is_monitor_active=1;;
                         esac
                         ;;
                     [oOfFuULTG]*)
-                        [[ "$monitor_name" != "$target_monitor" ]] && shift && continue
+                        [[ "$monitor_index" -ne "$target_monitor" ]] && shift && continue
                         case "$item" in
                             [oOfFuU]*) desktops+=("$item");;
                             L*) desktop_layout="$name";;

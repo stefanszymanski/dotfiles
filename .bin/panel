@@ -24,7 +24,9 @@ IFS=$'\n' read -d "" -ra monitors <<< "$(xrandr --current | awk '$2 ~ /connected
 # TODO move offset variable to shared file or make it an environment variable
 o=4
 PANEL_FIFOS=()
+monitor_index=0
 for monitor in "${monitors[@]}"; do
+    ((monitor_index++))
     # calculate panel dimension and position
     IFS=$' ' read -d "" -r name w h x y <<< "$(awk -F'[ x+]' '{print $1, $2, $3, $4, $5}' <<< "$monitor")"
     ((w=w-(o*2)))
@@ -42,7 +44,7 @@ for monitor in "${monitors[@]}"; do
     # create panel
     # panel_fifo="${PANEL_FIFO}_${name}"
     panel_wm_name="${PANEL_WM_NAME}_${name}"
-    panel-bar "$name" < "$panel_fifo" | lemonbar \
+    panel-bar "$monitor_index" < "$panel_fifo" | lemonbar \
         -n "$panel_wm_name" \
         -g "$geometry" \
         -f "$PANEL_FONT" \
