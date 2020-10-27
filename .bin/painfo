@@ -6,39 +6,39 @@ _usage() {
 }
 
 getdefaultsink() {
-    pacmd stat | awk -F": " '/^Default sink name: /{print $2}'
+    pacmd stat | gawk -F": " '/^Default sink name: /{print $2}'
 }
 
 getdefaultsource() {
-    pacmd stat | awk -F": " '/^Default source name: /{print $2}'
+    pacmd stat | gawk -F": " '/^Default source name: /{print $2}'
 }
 
 getsinkvolume() {
     pacmd list-sinks |
-        awk '/^\s+name: /{target = $2 == "<'"$1"'>"}
+        gawk '/^\s+name: /{target = $2 == "<'"$1"'>"}
             /^\s+volume: / && target {print $5; exit}' |
-        awk -F"%" '{print $1}'
+        gawk -F"%" '{print $1}'
 }
 
 getsourcevolume() {
     pacmd list-sources |
-        awk '/^\s+name: /{target = $2 == "<'"$1"'>"}
+        gawk '/^\s+name: /{target = $2 == "<'"$1"'>"}
             /^\s+volume: / && target {print $5; exit}' |
-        awk -F"%" '{print $1}'
+        gawk -F"%" '{print $1}'
 }
 
 getsinkmute() {
     pacmd list-sinks |
-        awk '/^\s+name: /{target = $2 == "<'"$1"'>"}
+        gawk '/^\s+name: /{target = $2 == "<'"$1"'>"}
             /^\s+muted: / && target {print $2; exit}' |
-        awk -F"%" '{print $1}'
+        gawk -F"%" '{print $1}'
 }
 
 getsourcemute() {
     pacmd list-sources |
-        awk '/^\s+name: /{target = $2 == "<'"$1"'>"}
+        gawk '/^\s+name: /{target = $2 == "<'"$1"'>"}
             /^\s+muted: / && target {print $2; exit}' |
-        awk -F"%" '{print $1}'
+        gawk -F"%" '{print $1}'
 }
 
 [ "$#" -ne 1 ] && _usage
