@@ -12,7 +12,8 @@ xrandr --output HDMI-1-1 --mode "2560x1440_30.00" --right-of LVDS-1-1
 xrandr --output VGA-1-1 --off
 xrandr --output VGA-0 --off
 
-# Disable display power management and prevent the screen from blanking
-xset s off
-xset -dpms
-xset s noblank
+# Configure screensaver and monitor power saving
+xset s 600 20
+xset dpms 600 600 600
+
+numlockx on
