@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-image="$HOME/.cache/i3lock_background.png"
-icon="$HOME/.config/i3lock/icon.png"
-
-create_image() {
-    local monitors w h x y
+lock_with_i3lock() {
+    local image icon offset monitors w h x y
+    image="$HOME/.cache/i3lock_background.png"
+    icon="$HOME/.config/i3lock/icon.png"
     # Half the icon's dimensions
-    local offset=16
+    offset=16
     # Take a screenshot
     scrot -o "$image"
     # Pixelate the screenshot
@@ -15,14 +14,10 @@ create_image() {
     IFS=$'\n' read -d "" -ra monitors <<< "$(xrandr --current | awk '$2 ~ /connected/ && /[0-9]+x[0-9]+/ {print $3}')"
     for monitor in "${monitors[@]}"; do
         IFS=$' ' read -d "" -r w h x y <<< "$(awk -F'[x+]' '{print $1, $2, $3, $4}' <<< "$monitor")"
-        ((ix=x+(w/2)-offset))
-        ((iy=y+(h/2)-offset))
+        ix=$((x+(w/2)-offset))
+        iy=$((y+(h/2)-offset))
         convert "$image" "$icon" -geometry "+$ix+$iy" -composite "$image"
     done
-}
-
-lock_with_i3lock() {
-    create_image
     exec i3lock -uti "$image" || "$0 lock"
 }
 
@@ -41,20 +36,48 @@ lock_with_xsecurelock() {
     exec xsecurelock
 }
 
-if [[ "$1" = "lock" ]]; then
-    # lock_with_i3lock
-    lock_with_xsecurelock
-fi
+notify() {
+    local timeout
+    printf "%s\n" "autolock: start notify"
+    IFS=$' ' read -d "" -r timeout <<< "$(get_xset_timeout)"
+    timeout=$((timeout * 1))
+    printf "%s\n" "autolock: start countdown of $timeout seconds"
+    while [[ "$timeout" -gt 0 ]]; do
+        notify-send \
+            -t 1100 \
+            -u critical \
+            -h string:private-synchronous:autolock \
+            "Autolock" \
+            "Locking screen in $timeout seconds."
+        ((timeout--))
+        sleep 1
+    done
+    printf "%s\n" "autolock: end notify"
+}
 
-title="Autolock"
-text="Locking screen in 20 seconds."
-timeout=18
-notifier_cmd="notify-send -t $((timeout*1000)) -u critical '$title' '$text'"
+get_xset_timeout() {
+    xset q |
+        gawk '/^Screen Saver:/{target = 1}
+        /^\s+timeout:\s+[0-9]+\s+cycle:\s+[0-9]+/ && target {print $4; exit}'
+}
 
-xautolock \
-    -resetsaver \
-    -detectsleep \
-    -time 5 \
-    -notify 20 \
-    -notifier "$notifier_cmd" \
-    -locker "$0 lock"
+case "$1" in
+    lock) lock_with_xsecurelock;;
+    fancylock) lock_with_i3lock;;
+    notify) notify;;
+esac
+
+[[ -n "$1" ]] && exit 0
+
+exec xss-lock \
+    --notifier="$0 notify" \
+    --ignore-sleep \
+    "$0" lock
+
+# xautolock \
+#     -resetsaver \
+#     -detectsleep \
+#     -time 1 \
+#     -notify 20 \
+#     -notifier "$0 notify" \
+#     -locker "$0 lock"
