@@ -43,13 +43,13 @@ super + space
 super + shift + {q,x}
     bspwm-node-close {close,kill}
 
-# set node state (tiling/floating/fullscreen)
-super + c ; s ; {t,s,f}
-    bspc node --state {tiled,floating,fullscreen}
+# set node state
+super + c ; s
+    bspwm-node-menus state
 
-# set node flags (marked/locked/sticky/private)
-super + c ; f ; {m,l,s,p}
-    bspc node --flag {marked,locked,sticky,private}
+# set node flags
+super + c ; f
+    bspwm-node-menus flag
 
 # reset node flags (marked/locked/sticky/private)
 super + c ; f ; shift + {m,l,s,p}
@@ -72,7 +72,11 @@ super + ctrl + {n,p}
 
 # move node to a new desktop
 super + c ; d
-    bspwm-node-move-to-new-desktop
+    bspwm-node-menus move-to-new-desktop
+
+# move node to another desktop, selected with rofi
+super + c ; m
+    bspwm-node-menus move-to-desktop
 
 # preselect the direction
 super + c ; {h,j,k,l}

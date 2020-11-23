@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+
+show_state_menu() {
+    local options choice state
+    options=(
+        "1: Tiled $(option_suffix tiled)"
+        "2: Floating $(option_suffix floating)"
+        "3: Fullscreen $(option_suffix fullscreen)"
+    )
+    choice=$(printf '%s\n' "${options[@]}" \
+        | rofi -i -lines "${#options[@]}" -dmenu -p "Node state" \
+        | cut -d ":" -f 1)
+    [[ -z "$choice" ]] && exit 1
+    case "$choice" in
+        1) state="tiled";;
+        2) state="floating";;
+        3) state="fullscreen";;
+    esac
+    printf "%s" "$state"
+}
+
+show_flag_menu() {
+    local options choice flag
+    options=(
+        "1: Marked $(option_suffix marked)"
+        "2: Locked $(option_suffix locked)"
+        "3: Sticky $(option_suffix sticky)"
+        "4: Private $(option_suffix private)"
+    )
+    choice=$(printf '%s\n' "${options[@]}" \
+        | rofi -i -lines "${#options[@]}" -dmenu -p "Node flags" \
+        | cut -d ":" -f 1)
+    [[ -z "$choice" ]] && exit 1
+    case "$choice" in
+        1) flag="marked";;
+        2) flag="locked";;
+        3) flag="sticky";;
+        4) flag="private";;
+    esac
+    printf "%s" "$flag"
+}
+
+option_suffix() {
+    bspc query --node focused."$1" --nodes &> /dev/null && printf "%s" "(active)"
+}
+
+desktop_suffix() {
+    local current
+    current="$(bspc query --desktops --node)"
+    [[ "$current" == "$1" ]] && printf "%s" "(current)"
+}
+
+show_move_to_desktop_menu() {
+    local monitors monitor 
+    local desktop_names desktop_keys desktop_name desktop_key
+    local options targets choice target
+    options=()
+    targets=()
+    IFS=$'\n' read -d "" -ra monitors <<< "$(bspc query --monitors --names)"
+    option_index=1
+    for monitor in "${monitors[@]}"; do
+        IFS=$'\n' read -d "" -ra desktop_names <<< "$(bspc query --desktops --names --monitor "$monitor")"
+        IFS=$'\n' read -d "" -ra desktop_keys <<< "$(bspc query --desktops --monitor "$monitor")"
+        for i in "${!desktop_names[@]}"; do
+            desktop_name="${desktop_names[$i]}"
+            desktop_key="${desktop_keys[$i]}"
+            options+=("$option_index: $monitor - $desktop_name $(desktop_suffix "$desktop_key")")
+            targets+=("$desktop_key")
+            option_index="$((option_index+1))"
+        done
+    done
+    choice=$(printf '%s\n' "${options[@]}" \
+        | rofi -i -lines "${#options[@]}" -dmenu -p "Target desktop" -format i)
+    [[ -z "$choice" ]] && exit 1
+    target="${targets[$choice]}"
+    printf "%s" "$target"
+}
+
+show_move_to_new_desktop_menu() {
+    local name
+    name="$(rofi -dmenu -i -lines 0 -p "new desktop name")"
+    [[ -z "$name" ]] && exit 1
+    name="${name//[,: ]/$''}"
+    printf "%s" "$name"
+}
+
+case "$1" in
+    state)
+        # show list of states and set selected state for the node
+        state="$(show_state_menu)"
+        [[ -n "$state" ]] && bspc node --state "$state"
+        ;;
+    flag)
+        # show list of flags and toggle selected flag for the node
+        # then redisplay the flag list
+        flag="$(show_flag_menu)"
+        if [[ -n "$flag" ]]; then
+            bspc node --flag "$flag"
+            "$0" flag
+        fi
+        ;;
+    move-to-desktop)
+        # show list of all desktops and move node to selected desktop
+        target="$(show_move_to_desktop_menu)"
+        [[ -n "$target" ]] && bspc node --to-desktop "$target"
+        ;;
+    move-to-new-desktop)
+        # show an input for the name of a new desktop and move node to the newly created desktop
+        # TODO find a better ways to determine the id of the added desktop
+        #      right now I simply get the last one in list
+        name="$(show_move_to_new_desktop_menu)"
+        if [[ -n "$name" ]]; then
+            bspc monitor --add-desktops "$name"
+            bspc node --to-desktop "$(bspc query --desktops --monitor | tail -n1)"
+        fi
+        ;;
+    move-to-latest-receptacle)
+        # show list of all nodes and move selected node to latest receptacle
+        # TODO implement
+        exit 1
+        ;;
+    *)
+        exit 1
+        ;;
+esac
