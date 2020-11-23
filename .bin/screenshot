@@ -53,6 +53,7 @@ case "$1" in
         exit 0
         ;;
     screen)
+        sleep 0.1
         scrot_args=()
         filename="screenshot-screen_%Y-%m-%d_%H-%M-%S_\$wx\$h.png"
         ;;
@@ -61,6 +62,7 @@ case "$1" in
         filename="screenshot-selection_%Y-%m-%d_%H-%M-%S_\$wx\$h.png"
         ;;
     window)
+        sleep 0.1
         scrot_args=("--focused")
         filename="screenshot-focused_%Y-%m-%d_%H-%M-%S_\$wx\$h.png"
         ;;
