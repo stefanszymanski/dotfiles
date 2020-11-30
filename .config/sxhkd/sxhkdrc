@@ -204,6 +204,26 @@ hyper + n ; h
     dunstctl history-pop
 
 
+# pass
+######
+
+# show passmenu
+hyper + p ; p
+    passmenu
+
+# type username of saved passmenu entry
+hyper + p ; u
+    passmenu type-username
+
+# type password of saved passmenu entry
+hyper + p ; s
+    passmenu type-password
+
+# clear saved passmenu entry
+hyper + p ; c
+    passmenu clear
+
+
 # other
 #######
 

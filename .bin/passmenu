@@ -1,0 +1,235 @@
+#!/usr/bin/env bash
+
+has_work_pass() {
+    [ -d "$HOME/.password-store-work" ]
+}
+
+# Ask for the store to use if there are multiple.
+ask_for_store() {
+    local options sel store
+    if has_work_pass; then
+        options=(
+            "1: Personal"
+            "2: Work"
+        )
+        sel="$(printf "%s\n" "${options[@]}" | rofi -dmenu -i -lines 2 -p "Choose password store" | cut -d ':' -f 1)"
+        case "$sel" in
+            1) store="$HOME/.password-store/";;
+            2) store="$HOME/.password-store-work/";;
+        esac
+    else
+        store="$HOME/.password-store/"
+    fi
+    printf "%s\n" "$store"
+}
+
+# Get file names relative to given password store directory.
+get_files() {
+    local files
+    IFS=$'\n' read -d "" -ra files <<< "$(find -L "$1" -name '*.gpg')"
+    printf "%s\n" "${files[@]#$1}"
+}
+
+# Convert given file names to entry names by simply removing the trailing .gpg.
+get_entries() {
+    local entries
+    IFS=$'\n' read -d "" -ra entries <<< "$1"
+    printf "%s\n" "${entries[@]%.gpg}"
+}
+
+# Get password for the given store-entry-combination.
+get_password() {
+    PASSWORD_STORE_DIR="$1" pass show "$2"
+}
+
+# Return last segment of given path (i.e. a slash separeted string).
+get_username() {
+    local segments
+    IFS=$'/' read -d "" -ra segments <<< "$1"
+    printf "%s\n" "${segments[-1]}"
+}
+
+# Autotype given string.
+autotype() {
+    printf "%s" "$1" | xdotool type --delay 20 --clearmodifiers --file -
+}
+
+# Display a notification.
+notify() {
+    notify-send "Passmenu" "$1"
+}
+
+# Get the passmenu cache directory.
+get_cache_dir() {
+    local cache_dir
+    cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}"
+    mkdir -p "$cache_dir/passmenu"
+    printf "%s\n" "$cache_dir/passmenu"
+}
+
+# Save a entry and its store's path to a file.
+remember() {
+    printf "%s\n" "$1" "$2" > "$(get_cache_dir)/active"
+}
+
+# Type username of the active entry.
+type_active_username() {
+    local file store entry username
+    file="$(get_cache_dir)/active"
+    if [[ -f "$file" ]]; then
+        IFS=$'\n' read -d "" -r store entry < "$file"
+        username="$(get_username "$entry")"
+        autotype "$username"
+    else
+        notify "Could not type username because there's no active entry."
+    fi
+}
+
+# Type password of the active entry.
+type_active_password() {
+    local file store entry password
+    file="$(get_cache_dir)/active"
+    if [[ -f "$file" ]]; then
+        IFS=$'\n' read -d "" -r store entry < "$file"
+        password="$(get_password "$store" "$entry")"
+        autotype "$password"
+    else
+        notify "Could not type password because there's no active entry."
+    fi
+}
+
+# Remove the active entry.
+unremember() {
+    local file
+    file="$(get_cache_dir)/active"
+    if [[ -f "$file" ]]; then
+        rm "$file"
+        notify "Active entry was cleared."
+    else
+        notify "Could not clear active entry because none was set."
+    fi
+}
+
+# Update the history and its entries scores.
+history_update() {
+    local weight file
+    file="$(get_cache_dir)/history"
+    [[ ! -f "$file" ]] && touch "$file"
+    weight=0.8
+    awk -v weight="$weight" -v store="$1" -v entry="$2" \
+        'BEGIN {inlist=0}
+        $2==store && $3==entry {print $1 * weight + 1.0, $2, $3; inlist=1}
+        $2!=store || $3!=entry {print $1*weight, $2, $3}
+        END {if (inlist==0) print 1.0, store, entry}
+        ' \
+        "$file" | sort -n -r > "${file}.new"
+    mv "${file}.new" "$file"
+}
+
+# Show help with rofi.
+show_help() {
+    local entries tab
+    tab=$'\t'
+    entries=(
+        "Return${tab}Save as context"
+        "Ctrl+Return${tab}Type password"
+        "Alt+Return${tab}Type username + Tab + password"
+        "?${tab}Show this help"
+    )
+    printf "%s\n" "${entries[@]}" | \
+        column -t -s $'\t' | \
+        rofi \
+            -dmenu \
+            -i \
+            -p "Help" \
+            -lines "${#entries[@]}" \
+        &> /dev/null
+}
+
+# Show a list of all pass entries with rofi and
+# perform an action depending on press key combination.
+ask_for_entry() {
+    local store selection files
+    local entry rofi_exit
+    local password username
+    store="$1"
+    selection="${2:-0}"
+    files="$(get_files "$store")"
+    IFS=$'\n' read -d "" -ra entries <<< "$(get_entries "$files")"
+
+    # TODO sort entries by scores in "$(get_cache_dir)/history"
+
+    selection="$(printf "%s\n" "${entries[@]}" | \
+        rofi \
+            -dmenu \
+            -i \
+            -width 600 \
+            -format "i" \
+            -selected-row "$selection" \
+            -p "Choose entry" \
+            -kb-accept-custom "" \
+            -kb-custom-1 "Control+Return" \
+            -kb-custom-2 "Alt+Return" \
+            -kb-custom-3 "question" \
+        )"
+    rofi_exit="$?"
+    entry="${entries[$selection]}"
+
+    case "$rofi_exit" in
+        0) 
+            # default binding - save selected entry as context for other script actions
+            remember "$store" "$entry"
+            notify "Active entry is now <i>$entry</i>"
+            ;;
+        1)
+            # selection was aborted - exit
+            exit 1
+            ;;
+        10) 
+            # custom binding 1 - type password of selected entry
+            password="$(get_password "$store" "$entry")"
+            sleep 0.1
+            autotype "$password"
+            ;;
+        11)
+            # custom binding 2 - type username, a tab and password of selected entry
+            password="$(get_password "$store" "$entry")"
+            username="$(get_username "$entry")"
+            sleep 0.1
+            autotype "$username"
+            xdotool key Tab
+            sleep 0.1
+            autotype "$password"
+            ;;
+        12) 
+            # custom binding 3 - show help, when closed redisplay previous menu
+            show_help
+            ask_for_entry "$store" "$selection"
+            exit 0
+            ;;
+    esac
+    history_update "$store" "$entry"
+}
+
+if [[ -z "$1" ]]; then
+    store="$(ask_for_store)"
+    [ -z "$store" ] && exit 1
+    ask_for_entry "$store"
+fi
+
+case "$1" in
+    type-username)
+        sleep 0.1
+        type_active_username
+        ;;
+    type-password)
+        sleep 0.1
+        type_active_password
+        ;;
+    clear)
+        unremember
+        ;;
+    *)
+        exit 1
+        ;;
+esac
