@@ -12,29 +12,28 @@ fi
 
 winid="${2-$(pfw)}"
 
-wattr xy "$winid" | {
-    chwb -c "0x$BORDER_COLOR" "$winid"
+chwb -c "0x$BORDER_COLOR" "$winid"
 
-    read -r x y
-    # TODO:
-    # x and y are relative to the full display, not to the current monitor.
-    # Currently -m 1 means relative to the first detected monitor, but thats unreliable.
-    # I see two solutions to do better than this:
-    # 1. set -m to the name of the most left monitor
-    # 2. set -m -4 (-4 means monitor with focused window) and make x and y relative to the current monitor
-    options=('y' 'n')
-    choice="$(printf '%s\n' ${options[@]} | \
-        rofi -dmenu -i \
-        -lines 0 -auto-select \
-        -m 1 -location 1 \
-        -xoffset $x -yoffset $y \
-        -theme-str "#window {border-color: #$BORDER_COLOR;}" \
-        -p "$1 window?" -width -15)"
+IFS=$' ' read -d -r x y <<< "$(wattr xy "$winid")"
 
-    if [[ ! "$choice" =~ ^[yY1]$ ]]; then
-        bspc node --focus "$winid"
-        exit 1
-    fi
+# TODO:
+# x and y are relative to the full display, not to the current monitor.
+# Currently -m 0 means relative to the first detected monitor, but that may be unreliable.
+# I see two solutions to do better than this:
+# 1. set -m to the name of the most left monitor
+# 2. set -m -4 (-4 means monitor with focused window) and make x and y relative to the current monitor
+options=('y' 'n')
+choice="$(printf '%s\n' "${options[@]}" | \
+    rofi -dmenu -i \
+    -lines 0 -auto-select \
+    -m 0 -location 1 \
+    -xoffset "$x" -yoffset "$y" \
+    -theme-str "#window {border-color: #$BORDER_COLOR;}" \
+    -p "$1 window?" -width -15)"
 
-    bspc node "--${1}"
-}
+if [[ ! "$choice" =~ ^[yY1]$ ]]; then
+    bspc node --focus "$winid"
+    exit 1
+fi
+
+bspc node "--${1}"
