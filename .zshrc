@@ -273,6 +273,7 @@ alias vless='/usr/share/nvim/runtime/macros/less.sh'
 # nvim due to problem with prompts from external programs
 alias nvim='PINENTRY_USER_DATA=gtk nvim'
 alias vim=nvim
+alias v=nvim
 
 # exa
 if type exa &> /dev/null; then
@@ -295,7 +296,6 @@ function lt {
 }
 
 # fasd
-alias v='fasd -e nvim'
 alias o='fasd -a -e xdg-open'
 
 # backlightcontrol
