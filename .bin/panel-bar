@@ -96,8 +96,6 @@ while read -r line ; do
             ;;
         W*)
             desktops=()
-            mons=
-            test="$line"
             IFS=':'
             set -- ${line#?}
             monitor_index=0
