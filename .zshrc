@@ -262,8 +262,7 @@ alias pconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-private/ --work-tree=$HOME
 
 # work dotfiles
 alias wconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-work/ --work-tree=$HOME'
-alias wconfig-ssh='git --git-dir=$HOME/.ssh/config.d/work/.git --work-tree=$HOME/.ssh/config.d/work'
-alias wconfig-qutebrowser='git --git-dir=$HOME/.qutebrowser-work/.git --work-tree=$HOME/.qutebrowser-work'
+alias wdeployconfig='/usr/bin/git --git-dir=$HOME/work/projects/deploy.confd/.git --work-tree=$HOME/work/projects/deploy.confd'
 
 # work password store
 alias wpass='PASSWORD_STORE_DIR=$HOME/.password-store-work/ pass'
