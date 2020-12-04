@@ -17,5 +17,5 @@ if [[ ! "$choice" =~ ^[yY1]$ ]]; then
     exit 1
 fi
 
-bspc query --nodes --desktop | xargs killw
+bspc query --nodes --desktop --node .!sticky | xargs killw
 bspc desktop --remove

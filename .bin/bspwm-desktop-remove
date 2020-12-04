@@ -2,6 +2,6 @@
 
 # Remove the current desktop only if it's empty.
 
-IFS=$'\n' read -d "" -ra nodes <<< "$(bspc query --nodes --desktop)"
+IFS=$'\n' read -d "" -ra nodes <<< "$(bspc query --nodes --desktop --node .!sticky)"
 [[ "${#nodes[@]}" -gt 0 ]] && exit 1
 bspc desktop --remove
