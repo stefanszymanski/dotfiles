@@ -249,6 +249,7 @@
 	p = pull
 	f = fetch --tags
 	fa = fetch --all --tags
+	fap = fetch --all --tags --prune
 	pfa = "!f() { git remote | xargs -I@ -P0 git fetch --tags \"$@\" @; }; f"
 	pu = push
 	puu = "!f() { [ \"$#\" -gt 1 ] && REMOTE=$1 && shift; git push \"$@\" -u \"${REMOTE:-origin}\" \"$(git rev-parse --short --abbrev-ref HEAD)\"; }; f"
