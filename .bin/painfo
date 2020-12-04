@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 _usage() {
     printf "%s\n" "Usage: $(basename "$0") [sink-volume|source-volume|sink-mute|source-mute]"
     exit 1
@@ -15,46 +16,61 @@ getdefaultsource() {
 
 getsinkvolume() {
     pacmd list-sinks |
-        gawk '/^\s+name: /{target = $2 == "<'"$1"'>"}
-            /^\s+volume: / && target {print $5; exit}' |
+        gawk -v sink="$1" '
+            /^\s+ index: [0-9]+/{target = $2 == sink}
+            /^\s+\* index: [0-9]+/{target = $3 == sink}
+            /^\s+volume: / && target {print $5; exit}
+        ' |
         gawk -F"%" '{print $1}'
 }
 
 getsourcevolume() {
     pacmd list-sources |
-        gawk '/^\s+name: /{target = $2 == "<'"$1"'>"}
-            /^\s+volume: / && target {print $5; exit}' |
+        gawk -v sink="$1" '
+            /^\s+ index: [0-9]+/{target = $2 == sink}
+            /^\s+\* index: [0-9]+/{target = $3 == sink}
+            /^\s+volume: / && target {print $5; exit}
+        ' |
         gawk -F"%" '{print $1}'
 }
 
 getsinkmute() {
     pacmd list-sinks |
-        gawk '/^\s+name: /{target = $2 == "<'"$1"'>"}
-            /^\s+muted: / && target {print $2; exit}' |
+        gawk -v sink="$1" '
+            /^\s+ index: [0-9]+/{target = $2 == sink}
+            /^\s+\* index: [0-9]+/{target = $3 == sink}
+            /^\s+muted: / && target {print $2; exit}
+        ' |
         gawk -F"%" '{print $1}'
 }
 
 getsourcemute() {
     pacmd list-sources |
-        gawk '/^\s+name: /{target = $2 == "<'"$1"'>"}
-            /^\s+muted: / && target {print $2; exit}' |
+        gawk -v sink="$1" '
+            /^\s+ index: [0-9]+/{target = $2 == sink}
+            /^\s+\* index: [0-9]+/{target = $3 == sink}
+            /^\s+muted: / && target {print $2; exit}
+        ' |
         gawk -F"%" '{print $1}'
 }
 
-[ "$#" -ne 1 ] && _usage
+[ "$#" -ne 2 ] && _usage
+
+sink="$2"
 
 case "$1" in
     sink-volume)
-        getsinkvolume "$(getdefaultsink)"
+        # getsinkvolume "$(getdefaultsink)"
+        getsinkvolume "$sink"
         ;;
     source-volume)
-        getsourcevolume "$(getdefaultsource)"
+        getsourcevolume "$sink"
         ;;
     sink-mute)
-        getsinkmute "$(getdefaultsink)"
+        getsinkmute "$sink"
         ;;
     source-mute)
-        getsourcemute "$(getdefaultsource)"
+        getsourcemute "$sink"
         ;;
     *)
         _usage

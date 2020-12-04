@@ -181,12 +181,12 @@ super + comma
 ########
 
 # raise/lower sink/source volume
-{_,shift} + XF86Audio{Raise,Lower}Volume
-    pactl {set-sink-volume @DEFAULT_SINK@,set-source-volume @DEFAULT_SOURCE@} {+,-}5%
+{_,ctrl,shift} + XF86Audio{Raise,Lower}Volume
+    pactl {set-sink-volume 0,set-sink-volume 1,set-source-volume 1} {+,-}5%
 
 # toggle mute of sink/source
-{_,shift} + XF86AudioMute
-    pactl {set-sink-mute @DEFAULT_SINK@,set-source-mute @DEFAULT_SOURCE@} toggle
+{_,ctrl,shift} + XF86AudioMute
+    pactl {set-sink-mute 0,set-sink-mute 1,set-source-mute 1} toggle
 
 # dunst
 #######
