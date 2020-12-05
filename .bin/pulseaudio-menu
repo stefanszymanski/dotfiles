@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+
+SINKS=(
+    "Speakers"
+    "Headphones"
+)
+
+# Get a list of sink inputs.
+get_inputs() {
+    pacmd list-sink-inputs | gawk '
+        /^\s+index: [0-9]+/ {id = $2}
+        /^\s+sink: [0-9]+ <.+>/ {sink = $2}
+        /^\s+volume:/ {volume = $5}
+        /^\s+muted:/ {muted = $2}
+        /^\s+client: [0-9]+ <.+>/ {
+            $1 = $2 = "";
+            name = $0;
+            print id, sink, volume, muted, name
+        }'
+}
+
+# Convert a list of sink input data into lines for rofi.
+get_lines() {
+    local inputs input sink index volume muted name
+    inputs=("$@")
+    for input in "${inputs[@]}"; do
+        IFS=$' ' read -r index sink volume muted name <<< "$input"
+        name="${name:1:${#name}-2}"
+        sink="$(sink_name "$sink")"
+        [ "$muted" == "yes" ] && muted="muted" || muted=""
+        printf  "%s\n" "$index^$name^$volume^$muted^$sink"
+    done
+}
+
+# Toggle the sink of a sink input between speakers and headphones.
+sink_toggle() {
+    local sink
+    [ "$2" -eq 0 ] && sink=1 || sink=0
+    pactl move-sink-input "$1" "$sink"
+}
+
+# Get the name of a sink.
+sink_name() {
+    printf "%s" "${SINKS[$1]}"
+}
+
+# Show help with rofi.
+show_help() {
+    local entries
+    entries=(
+        "Alt+a^Toggle between speakers and headphones"
+        "Alt+u^Increase volume"
+        "Alt+d^Decrease volume"
+        "Alt+m^Toggle mute"
+        "?^Show this help"
+    )
+    printf "%s\n" "${entries[@]}" | \
+        column -s"\^" -t | \
+        rofi \
+            -dmenu \
+            -i \
+            -p "Help" \
+            -lines "${#entries[@]}" \
+        &> /dev/null
+}
+
+# Show a list of all sink inputs with rofi.
+ask() {
+    local selection inputs lines
+    selection="${1:-0}"
+    IFS=$'\n' read -d "" -ra inputs <<< "$(get_inputs)"
+    IFS=$'\n' read -d "" -ra lines <<< "$(get_lines "${inputs[@]}")"
+    selection="$(printf "%s\n" "${lines[@]}" | \
+        column -s"\^" -t |
+        rofi \
+            -dmenu \
+            -i \
+            -format "i" \
+            -selected-row "$selection" \
+            -lines "${#lines[@]}" \
+            -p "Inputs" \
+            -kb-custom-1 "Alt+m" \
+            -kb-custom-2 "Alt+u" \
+            -kb-custom-3 "Alt+d" \
+            -kb-custom-4 "Alt+a" \
+            -kb-custom-5 "question" \
+    )"
+    rofi_exit="$?"
+    input="${inputs[$selection]}"
+    IFS=$' ' read -r input_index input_sink _ <<< "$input"
+
+    case "$rofi_exit" in
+        10) 
+            # custom binding 1 - toggle mute
+            pactl set-sink-input-mute "$input_index" toggle
+            ;;
+        11)
+            # custom binding 2 - increase volume
+            pactl set-sink-input-volume "$input_index" +5%
+            ;;
+        12) 
+            # custom binding 3 - decrease volume
+            pactl set-sink-input-volume "$input_index" -5%
+            ;;
+        13) 
+            # custom binding 4 - toggle sink
+            sink_toggle "$input_index" "$input_sink"
+            ;;
+        14) 
+            # custom binding 5 - show help
+            show_help
+            ;;
+        *)
+            exit 0
+            ;;
+    esac
+    # redisplay the menu and preselect the latest entry
+    ask "$selection"
+}
+
+ask

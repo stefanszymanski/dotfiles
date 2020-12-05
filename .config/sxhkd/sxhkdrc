@@ -177,8 +177,8 @@ super + comma
 # misc #
 ########
 
-# volume
-########
+# pulseaudio
+############
 
 # raise/lower sink/source volume
 {_,ctrl,shift} + XF86Audio{Raise,Lower}Volume
@@ -187,6 +187,10 @@ super + comma
 # toggle mute of sink/source
 {_,ctrl,shift} + XF86AudioMute
     pactl {set-sink-mute 0,set-sink-mute 1,set-source-mute 1} toggle
+
+hyper + v
+    pulseaudio-menu
+
 
 # dunst
 #######
