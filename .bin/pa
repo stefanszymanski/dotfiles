@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+
+declare -A CMDS
+CMDS=(
+    [sink-get-list]="list-sinks"
+    [sink-set-volume]="set-sink-volume"
+    [sink-set-mute]="set-sink-mute"
+    [source-get-list]="list-sources"
+    [source-set-volume]="set-source-volume"
+    [source-set-mute]="set-source-mute"
+)
+
+declare -A NAMES
+NAMES=(
+    [sink-speakers]="alsa_output.pci-0000_0a_00.1.hdmi-stereo-extra3"
+    [sink-headphones]="alsa_output.pci-0000_0c_00.4.analog-stereo"
+    [source-mic]="alsa_input.pci-0000_0c_00.4.analog-stereo"
+)
+
+_usage() {
+    # TODO update usage text
+    printf "%s\n" "Usage: $(basename "$0") [sink|source] [name|info|volume|mute] <device>"
+    exit 1
+}
+
+
+# Get the subcommand for pacmd or pactl.
+# Usage: cmd [sink|source] [get|set] [list|volume|mute]
+# See $CMDS
+cmd() {
+    printf "%s" "${CMDS[${1}-${2}-${3}]}"
+}
+
+# Get the name of a sink or source.
+# Usage: name [sink|source] [speakers|headphones|mic]
+name() {
+    printf "%s" "${NAMES[${1}-${2}]}"
+}
+
+info() {
+    local cmd
+    cmd="$(cmd "$1" get list)"
+    pacmd "$cmd" | gawk -v subject="<$2>" '
+        /^\s+\*?\s+index: [0-9]+$/ {i = $0; target = 0}
+        /^\s+name: <[^<>]+>$/ {target = $2 == subject; if (target) print i }
+        target == 1 {print $0}'
+}
+
+get_volume() {
+    info "$1" "$2" | gawk '/^\s+volume: / {print $5}'
+}
+
+set_volume() {
+    pactl "$(cmd "$1" set volume)" "$2" "$3"
+
+}
+
+get_mute() {
+    info "$1" "$2" | gawk '/^\s+muted: /{print $2}'
+}
+
+set_mute() {
+    pactl "$(cmd "$1" set mute)" "$2" "$3"
+}
+
+
+scope="$1"
+property="$2"
+subject="$(name "$scope" "$3")"
+
+case "$#" in
+    3)
+        # 3 arguments: get information
+        # [source|sink] <property> <subject>
+        case "$property" in
+            name) printf "%s\n" "$subject" ;;
+            info) info "$scope" "$subject" ;;
+            volume) get_volume "$scope" "$subject" ;;
+            mute) get_mute "$scope" "$subject" ;;
+            *) _usage ;;
+        esac
+        ;;
+    4)
+        # 4 arguments: set properties
+        # [source|sink] <property> <subject> <value>
+        value="$4"
+        case "$property" in
+            volume) set_volume "$scope" "$subject" "$value" ;;
+            mute) set_mute "$scope" "$subject" "$value" ;;
+            *) _usage ;;
+        esac
+        ;;
+    *) _usage ;;
+esac
+

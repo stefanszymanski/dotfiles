@@ -71,12 +71,12 @@ bspc subscribe report | tee "${PANEL_FIFOS[@]}" > /dev/null &
 # pulseaudio default sink and source volume
 latest_vol=""
 update_pa() {
-    speakers_vol="$(painfo sink-volume 0)"
-    speakers_mute="$(painfo sink-mute 0)"
-    headphones_vol="$(painfo sink-volume 1)"
-    headphones_mute="$(painfo sink-mute 1)"
-    mic_vol="$(painfo source-volume 1)"
-    mic_mute="$(painfo source-mute 1)"
+    speakers_vol="$(pa sink volume speakers)"
+    speakers_mute="$(pa sink mute speakers)"
+    headphones_vol="$(pa sink volume headphones)"
+    headphones_mute="$(pa sink mute headphones)"
+    mic_vol="$(pa source volume mic)"
+    mic_mute="$(pa source mute mic)"
     cur_vol="$speakers_vol $speakers_mute $headphones_vol $headphones_mute $mic_vol $mic_mute"
     if [[ "$cur_vol" != "$latest_vol" ]]; then
         latest_vol="$cur_vol"

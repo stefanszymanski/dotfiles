@@ -52,7 +52,7 @@ render_desktop() {
 }
 
 render_volume() {
-    local res="$1 $2%"
+    local res="$1 $2"
     [[ "$3" == "yes" ]] && res="$res muted"
     printf "%s\n" "$(render_block "$res")"
 }
