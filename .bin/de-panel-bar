@@ -66,6 +66,13 @@ render_date_block() {
     [ -n "$res" ] && printf " %s\n" "$res"
 }
 
+render_disabled() {
+    local bg fg
+    bg="$COLOR_DISABLED_BG"
+    fg="$COLOR_DISABLED_FG"
+    [ -n "$1" ] && printf " %s\n" "%{F${fg}}%{B${bg}} $1 %{B-}%{F-}"
+}
+
 render_block() {
     [ -z "$1" ] && exit
     local fg bg
@@ -74,6 +81,12 @@ render_block() {
     res="%{F${fg}}%{B${bg}} ${1} %{B-}%{F-}"
     [ -n "$res" ] && printf " %s\n" "$res"
 }
+
+this_or_empty() {
+    [ "$1" == "$2" ] && printf "%s\n" "$3"
+}
+
+declare -A disabled_features
 
 while read -r line ; do
     [[ -z "$line" ]] && continue
@@ -102,6 +115,9 @@ while read -r line ; do
             ;;
         B*)
             bat="$(render_block "${line#?}")"
+            ;;
+        A*) 
+            disabled_features[notifications]="$(this_or_empty "${line#?}" "true" "notifications")"
             ;;
         W*)
             desktops=()
@@ -145,5 +161,7 @@ while read -r line ; do
             ;;
     esac
 
-    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${vspeakers}${vheadphones}${vmic}${mail}${load}${mem}${temp}${bat}${date}"
+    disabled="$(render_disabled "${disabled_features[notifications]}")"
+
+    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${vspeakers}${vheadphones}${vmic}${mail}${load}${mem}${temp}${bat}${disabled}${date}"
 done

@@ -207,6 +207,10 @@ hyper + n ; c
 hyper + n ; h
     dunstctl history-pop
 
+# toggle dunst notifications
+hyper + n ; t
+    de-dunst toggle
+
 
 # pass
 ######
