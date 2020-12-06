@@ -231,6 +231,18 @@ hyper + p ; c
     passmenu clear
 
 
+# cmus
+######
+
+# pause/unpause cmus
+hyper + shift + l
+    cmus-remote --pause
+
+# show cmus status
+hyper + l
+    cmus-status-notification
+
+
 # other
 #######
 
@@ -264,10 +276,6 @@ hyper + r
 # rofi-calc
 hyper + shift + c
     rofi -show calc -modi calc -no-show-match -no-history -no-show-match -terse -calc-command "echo -n '{result}'" -lines 0 -width 500 | xclip -selection clipboard
-
-# show cmus status
-hyper + l
-    cmus-status-notification
 
 # show sxhkd help
 hyper + h
