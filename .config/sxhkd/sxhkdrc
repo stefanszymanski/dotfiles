@@ -3,7 +3,6 @@
 # super + c             -> clients (nodes)
 # super + d             -> desktops
 # super + m             -> monitors
-# super + x             -> dunst notifications
 #
 # super + ctrl          -> move nodes
 # super + alt           -> resize nodes
