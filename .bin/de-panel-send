@@ -4,7 +4,7 @@
 FIFO_BASE=/tmp/panel-fifo
 
 if [ -n "$1" ]; then
-    printf "%s\n" "$1" | tee "${FIFO_BASE}_"*
+    printf "%s\n" "$1" | tee "${FIFO_BASE}_"* > /dev/null
 else
-    tee "${FIFO_BASE}_"* <&0
+    tee "${FIFO_BASE}_"* <&0 > /dev/null
 fi
