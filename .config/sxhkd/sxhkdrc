@@ -25,7 +25,7 @@ super + w ; shift + r
 
 # toggle panel
 super + w ; p
-    panel-toggle
+    de-panel-toggle
 
 
 # bspwm nodes

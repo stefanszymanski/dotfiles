@@ -48,7 +48,7 @@ for monitor in "${monitors[@]}"; do
     # create panel
     # panel_fifo="${PANEL_FIFO}_${name}"
     panel_wm_name="${PANEL_WM_NAME}_${name}"
-    panel-bar "$monitor_index" < "$panel_fifo" | lemonbar \
+    de-panel-bar "$monitor_index" < "$panel_fifo" | lemonbar \
         -n "$panel_wm_name" \
         -g "$geometry" \
         -f "$PANEL_FONT" \
@@ -65,9 +65,11 @@ done
 # fill panels with data
 
 # periodically updated information
-slstatus -s | tee "${PANEL_FIFOS[@]}" > /dev/null &
+slstatus -s | de-panel-send &
+
 # bspwm state
-bspc subscribe report | tee "${PANEL_FIFOS[@]}" > /dev/null &
+bspc subscribe report | de-panel-send &
+
 # pulseaudio default sink and source volume
 latest_vol=""
 update_pa() {
@@ -80,7 +82,7 @@ update_pa() {
     cur_vol="$speakers_vol $speakers_mute $headphones_vol $headphones_mute $mic_vol $mic_mute"
     if [[ "$cur_vol" != "$latest_vol" ]]; then
         latest_vol="$cur_vol"
-        printf "%s\n" "V${cur_vol}" | tee "${PANEL_FIFOS[@]}" > /dev/null
+        de-panel-send "V${cur_vol}"
     fi
 }
 pactl subscribe | grep --line-buffered -E "(sink|source)" | while IFS= read -r line; do

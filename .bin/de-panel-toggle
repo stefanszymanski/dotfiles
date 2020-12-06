@@ -2,10 +2,10 @@
 # Toggle the panel by killing or starting it.
 # TODO move padding to a shared file
 
-pkill -xf "bash $(which panel)"
+pkill -xf "bash $(which de-panel)"
 if [ $? -eq 0 ]; then
     bspc config top_padding 0
 else
     bspc config top_padding 20
-    panel > /dev/null &
+    de-panel > /dev/null &
 fi

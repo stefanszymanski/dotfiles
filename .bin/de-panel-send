@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# TODO move this path to a shared file
+FIFO_BASE=/tmp/panel-fifo
+
+if [ -n "$1" ]; then
+    printf "%s\n" "$1" | tee "${FIFO_BASE}_"*
+else
+    tee "${FIFO_BASE}_"* <&0
+fi
