@@ -57,6 +57,15 @@ render_volume() {
     printf "%s\n" "$(render_block "$res")"
 }
 
+render_date_block() {
+    [ -z "$1" ] && exit
+    local fg bg
+    fg="$COLOR_DATE_FG"
+    bg="$COLOR_DATE_BG"
+    res="%{F${fg}}%{B${bg}} ${1} %{B-}%{F-}"
+    [ -n "$res" ] && printf " %s\n" "$res"
+}
+
 render_block() {
     [ -z "$1" ] && exit
     local fg bg
@@ -74,7 +83,7 @@ while read -r line ; do
             load="$(render_block "${line#?}")"
             ;;
         D*)
-            date="$(render_block "${line#?}")"
+            date="$(render_date_block "${line#?}")"
             ;;
         M*)
             mem="$(render_block "${line#?}")"
