@@ -12,24 +12,13 @@ find_temp() {
 }
 
 # Find and print temperature.
-# Usage: temp <dir> <label> <key>
+# Usage: temp <dir> <label>
 get_temp() {
     local value
     value="$(find_temp "$1" "$2")"
     if [ -n "$value" ]; then
-        printf "%s\n" "$3 $value"
+        printf "%s" "$value"
     fi
-}
-
-# Print temperatures in the order they were found.
-print_temps() {
-    for dir in /sys/class/hwmon/hwmon*/; do
-        case "$(<"$dir/name")" in
-            amdgpu) get_temp "$dir" "edge" "gpu" ;;
-            k10temp) get_temp "$dir" "Tdie" "cpu" ;;
-            nvme) get_temp "$dir" "Composite" "nvme" ;;
-        esac
-    done
 }
 
 # Convert a raw temperature value to degree celcius.
@@ -38,19 +27,21 @@ celcius() {
     printf "%s" "$((temp/1000))°C"
 }
 
+declare -A temps
+for dir in /sys/class/hwmon/hwmon*/; do
+    case "$(<"$dir/name")" in
+        amdgpu) temps[gpu]="$(get_temp "$dir" "edge")" ;;
+        k10temp) temps[cpu]="$(get_temp "$dir" "Tdie")" ;;
+        nvme) temps[nvme]="$(get_temp "$dir" "Composite")" ;;
+    esac
+done
+
 case "$1" in
     panel)
         # generate output for my lemonbar panel
-        declare -A dev
-        IFS=$'\n' read -d "" -ra temps <<< "$(print_temps)"
-        for temp in "${temps[@]}"; do
-            IFS=$' ' read -r name value <<< "$temp"
-            dev["$name"]="$value"
-        done
-        printf "%s\n" "$(celcius "${dev[cpu]}") / $(celcius "${dev[gpu]}") / $(celcius "${dev[nvme]}")"
+        printf "%s\n" "$(celcius "${temps[cpu]}") / $(celcius "${temps[gpu]}") / $(celcius "${temps[nvme]}")"
         ;;
     *)
-        # just print the temperatures
-        print_temps
+        printf "%s\n" "cpu ${temps[cpu]}" "gpu ${temps[gpu]}" "nvme ${temps[nvme]}"
         ;;
 esac
