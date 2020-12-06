@@ -265,6 +265,10 @@ hyper + r
 hyper + shift + c
     rofi -show calc -modi calc -no-show-match -no-history -no-show-match -terse -calc-command "echo -n '{result}'" -lines 0 -width 500 | xclip -selection clipboard
 
+# show cmus status
+hyper + l
+    cmus-status-notification
+
 # show sxhkd help
 hyper + h
     sxhkd-help

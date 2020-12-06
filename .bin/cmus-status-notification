@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+DATA="$(cmus-remote -Q)"
+
+prop() {
+    local offset=$(($(wc -w <<< "$1")+1))
+    printf "%s\n" "$DATA" | grep -E "^$1 " | cut -d ' ' -f "${offset}-"
+}
+
+notify() {
+    notify-send -h string:private-synchronous:cmus-notification "$1" "$2"
+}
+
+info() {
+    if [ -n "$STREAM" ] && [ -n "$TITLE" ]; then
+        printf "%s" "$STREAM ($TITLE)"
+    elif [ -n "$TITLE" ] && [ -n "$ARTIST" ] && [ -n "$ALBUM" ]; then
+        printf "%s" "$ARTIST - $TITLE ($ALBUM)"
+    elif [ -n "$TITLE" ] && [ -n "$ARTIST" ]; then
+        printf "%s" "$ARTIST - $TITLE"
+    elif [ -n "$TITLE" ]; then
+        printf "%s" "$TITLE"
+    fi
+}
+
+STATUS="$(prop "status")"
+TITLE="$(prop "tag title")"
+ARTIST="$(prop "tag artist")"
+ALBUM="$(prop "tag album")"
+STREAM="$(prop "stream")"
+
+if [ "$(wc -l <<< "$DATA")" -eq 1 ]; then
+    notify "Nothing plays right now" "cmus isn't even started"
+    exit
+fi
+
+if [ "$STATUS" == "stopped" ]; then
+    notify "Playback is stopped" "$(info)"
+    exit
+fi
+
+if [ -n "$STREAM" ]; then
+    notify "Now streaming" "$(info)"
+else
+    notify "Now playing" "$(info)"
+fi
