@@ -181,11 +181,11 @@ super + comma
 
 # raise/lower sink/source volume
 {_,ctrl,shift} + XF86Audio{Raise,Lower}Volume
-    pa {sink volume speakers, sink volume headphones, source volume mic} {+,-}5%
+    pa {set-sink-volume speakers, set-sink-volume headphones, set-source-volume mic} {+,-}5%
 
 # toggle mute of sink/source
 {_,ctrl,shift} + XF86AudioMute
-    pa {sink mute speakers, sink mute headphones, source mute mic} toggle
+    pa {set-sink-mute speakers, set-sink-mute headphones, set-source-mute mic} toggle
 
 hyper + v
     pulseaudio-menu

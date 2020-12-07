@@ -1,15 +1,10 @@
 #!/usr/bin/env bash
 
-SINKS=(
-    "Speakers"
-    "Headphones"
-)
-
 # Get a list of sink inputs.
 get_inputs() {
     pacmd list-sink-inputs | gawk '
         /^\s+index: [0-9]+/ {id = $2}
-        /^\s+sink: [0-9]+ <.+>/ {sink = $2}
+        /^\s+sink: [0-9]+ <.+>/ {sink = $3}
         /^\s+volume:/ {volume = $5}
         /^\s+muted:/ {muted = $2}
         /^\s+client: [0-9]+ <.+>/ {
@@ -28,20 +23,22 @@ get_lines() {
         name="${name:1:${#name}-2}"
         sink="$(sink_name "$sink")"
         [ "$muted" == "yes" ] && muted="muted" || muted=""
-        printf  "%s\n" "$index^$name^$volume^$muted^$sink"
+        printf  "%s\n" "$index^$name^$volume^$muted^${sink^}"
     done
 }
 
 # Toggle the sink of a sink input between speakers and headphones.
+# Usage: sink_toggle <sinkinput_id> <sink_key>
 sink_toggle() {
-    local sink
-    [ "$2" -eq 0 ] && sink=1 || sink=0
+    local sink name
+    name="$(sink_name "$2")"
+    [ "$name" == "speakers" ] && sink="$(pa get-sink-name headphones)" || sink="$(pa get-sink-name speakers)"
     pactl move-sink-input "$1" "$sink"
 }
 
 # Get the name of a sink.
 sink_name() {
-    printf "%s" "${SINKS[$1]}"
+    pa get-sink-label "${1:1:${#1}-2}"
 }
 
 # Show help with rofi.

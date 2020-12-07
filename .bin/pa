@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO add commands for retrieving all confiured names/labels.
+
 declare -A CMDS
 CMDS=(
     [sink-get-list]="list-sinks"
@@ -18,8 +20,30 @@ NAMES=(
 )
 
 _usage() {
-    # TODO update usage text
-    printf "%s\n" "Usage: $(basename "$0") [sink|source] [name|info|volume|mute] <device>"
+    cat <<-END
+Usage: pa -t <command> <args...>
+
+Commands:
+    get-sink-name     <sink>
+    get-sink-label    <sink>
+    get-sink-info     <sink>
+    get-sink-volume   <sink>
+    get-sink-mute     <sink>
+    get-source-name   <source>
+    get-source-label  <source>
+    get-source-info   <source>
+    get-source-volume <source>
+    get-source-mute   <source>
+    set-sink-volume   <sink>   <value>
+    set-sink-mute     <sink>   <value>
+    set-source-volume <source> <value>
+    set-source-mute   <source> <value>
+
+Argument <sink> and <source> are always the custom labels,
+except for get-*-label it's the pulseaudio name.
+
+Argument <value> is the same as for \`pactl set-{sink|souce}-{volume|mute}\`.
+END
     exit 1
 }
 
@@ -28,16 +52,36 @@ _usage() {
 # Usage: cmd [sink|source] [get|set] [list|volume|mute]
 # See $CMDS
 cmd() {
-    printf "%s" "${CMDS[${1}-${2}-${3}]}"
+    printf "%s\n" "${CMDS[${1}-${2}-${3}]}"
 }
 
 # Get the name of a sink or source.
 # Usage: name [sink|source] [speakers|headphones|mic]
-name() {
-    printf "%s" "${NAMES[${1}-${2}]}"
+get_name() {
+    local name="${NAMES[${1}-${2}]}"
+    if [ -z "$name" ]; then
+        printf "%s\n" "Invalid label" >&2
+        exit 1
+    fi
+    printf "%s\n" "$name"
 }
 
-info() {
+# Get the label of a sink or source
+# Usage: label [sink|source] <name>
+get_label() {
+    local key name
+    for key in "${!NAMES[@]}"; do
+        name="${NAMES[$key]}"
+        if [ "$name" == "$2" ] && [ "${key:0:${#1}}" == "$1" ]; then
+            printf "%s\n" "${key:${#1}+1}"
+            return
+        fi
+    done
+    printf "%s\n" "Unconfigured name" >&2
+    exit 1
+}
+
+get_info() {
     local cmd
     cmd="$(cmd "$1" get list)"
     pacmd "$cmd" | gawk -v subject="<$2>" '
@@ -47,7 +91,7 @@ info() {
 }
 
 get_volume() {
-    info "$1" "$2" | gawk '/^\s+volume: / {print $5}'
+    get_info "$1" "$2" | gawk '/^\s+volume: / {print $5}'
 }
 
 set_volume() {
@@ -56,40 +100,57 @@ set_volume() {
 }
 
 get_mute() {
-    info "$1" "$2" | gawk '/^\s+muted: /{print $2}'
+    get_info "$1" "$2" | gawk '/^\s+muted: /{print $2}'
 }
 
 set_mute() {
     pactl "$(cmd "$1" set mute)" "$2" "$3"
 }
 
-
-scope="$1"
-property="$2"
-subject="$(name "$scope" "$3")"
-
-case "$#" in
-    3)
-        # 3 arguments: get information
-        # [source|sink] <property> <subject>
-        case "$property" in
-            name) printf "%s\n" "$subject" ;;
-            info) info "$scope" "$subject" ;;
-            volume) get_volume "$scope" "$subject" ;;
-            mute) get_mute "$scope" "$subject" ;;
-            *) _usage ;;
-        esac
+case "$1" in
+    get-sink-name)
+        get_name sink "$2"
         ;;
-    4)
-        # 4 arguments: set properties
-        # [source|sink] <property> <subject> <value>
-        value="$4"
-        case "$property" in
-            volume) set_volume "$scope" "$subject" "$value" ;;
-            mute) set_mute "$scope" "$subject" "$value" ;;
-            *) _usage ;;
-        esac
+    get-sink-label)
+        get_label sink "$2"
         ;;
-    *) _usage ;;
+    get-sink-info)
+        get_info sink "$(get_name sink "$2")"
+        ;;
+    get-sink-volume)
+        get_volume sink "$(get_name sink "$2")"
+        ;;
+    get-sink-mute)
+        get_mute sink "$(get_name sink "$2")"
+        ;;
+    get-source-name)
+        get_name source "$2"
+        ;;
+    get-source-label)
+        get_label source "$2"
+        ;;
+    get-source-info)
+        get_info source "$(get_name source "$2")"
+        ;;
+    get-source-volume)
+        get_volume source "$(get_name source "$2")"
+        ;;
+    get-source-mute)
+        get_mute source "$(get_name source "$2")"
+        ;;
+    set-sink-volume)
+        set_volume sink "$(get_name sink "$2")" "$3"
+        ;;
+    set-sink-mute)
+        set_mute sink "$(get_name sink "$2")" "$3"
+        ;;
+    set-source-volume)
+        set_volume source "$(get_name source "$2")" "$3"
+        ;;
+    set-source-mute)
+        set_mute source "$(get_name source "$2")" "$3"
+        ;;
+    *)
+        _usage
+        ;;
 esac
-
