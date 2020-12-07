@@ -197,6 +197,10 @@ c.bindings.commands = {
         '<Ctrl-w>': 'fake-key <Ctrl-Backspace>',
         '<Alt-Backspace>': 'fake-key <Ctrl-Backspace>',
         '<Ctrl-y>': 'insert-text {primary}',
+    },
+    'command': {
+        '<Ctrl+j>': 'completion-item-focus next',
+        '<Ctrl+k>': 'completion-item-focus prev'
     }
 }
 
