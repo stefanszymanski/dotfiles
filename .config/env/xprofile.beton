@@ -1,0 +1,5 @@
+# Configure screensaver and monitor power saving
+xset s 600 20
+xset dpms 600 600 600
+
+numlockx on

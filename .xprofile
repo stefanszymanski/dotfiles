@@ -13,7 +13,7 @@ do
 done
 
 # Load host specific configuration
-HOST_XPROFILE="$HOME/.config/x11/xprofile.$(hostname)"
+HOST_XPROFILE="$HOME/.config/env/xprofile.$(hostname)"
 if [ -e "$HOST_XPROFILE" ] ; then
     . "$HOST_XPROFILE"
 fi
