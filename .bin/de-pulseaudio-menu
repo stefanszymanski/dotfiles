@@ -21,31 +21,38 @@ get_lines() {
     for input in "${inputs[@]}"; do
         IFS=$' ' read -r index sink volume muted name <<< "$input"
         name="${name:1:${#name}-2}"
-        sink="$(sink_name "$sink")"
+        sink="$(sink_key "$sink")"
         [ "$muted" == "yes" ] && muted="muted" || muted=""
         printf  "%s\n" "$index^$name^$volume^$muted^${sink^}"
     done
 }
 
-# Toggle the sink of a sink input between speakers and headphones.
-# Usage: sink_toggle <sinkinput_id> <sink_key>
-sink_toggle() {
-    local sink name
-    name="$(sink_name "$2")"
-    [ "$name" == "speakers" ] && sink="$(pa get-sink-name headphones)" || sink="$(pa get-sink-name speakers)"
-    pactl move-sink-input "$1" "$sink"
+# Switch through the available sinks.
+# Usage: sink_toggle <sinkinput-id> <sink-key>
+sink_switch() {
+    local sinks next name i
+    IFS=$'\n' read -d "" -ra sinks <<< "$(de-pulseaudio get-sink-keys)"
+    for i in "${!sinks[@]}"; do
+        if [ "${sinks[$i]}" == "$(sink_key "$2")" ]; then
+            [ "$((i+1))" -eq "${#sinks[@]}" ] && next=0 || next="$((i+1))"
+            name="${sinks[$next]}"
+            break
+        fi
+    done
+    pactl move-sink-input "$1" "$(de-pulseaudio get-sink-name "$name")"
 }
 
-# Get the name of a sink.
-sink_name() {
-    pa get-sink-label "${1:1:${#1}-2}"
+# Get the key of a sink by its pulseaudio name.
+# Expects $1 to be wrapped in <>.
+sink_key() {
+    de-pulseaudio get-sink-key "${1:1:${#1}-2}"
 }
 
 # Show help with rofi.
 show_help() {
     local entries
     entries=(
-        "Alt+a^Toggle between speakers and headphones"
+        "Alt+a^Switch through sinks"
         "Alt+u^Increase volume"
         "Alt+d^Decrease volume"
         "Alt+m^Toggle mute"
@@ -101,7 +108,7 @@ ask() {
             ;;
         13) 
             # custom binding 4 - toggle sink
-            sink_toggle "$input_index" "$input_sink"
+            sink_switch "$input_index" "$input_sink"
             ;;
         14) 
             # custom binding 5 - show help

@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+# Print temperatures of configured devices.
+# 
+# Configuration happens through environment variables.
+# E.g.: `DE_TEMP_GPU="amdgpu:edge"` searches for a device named "amdgpu" with 
+# an input named "edge". Its temperature is returned labeled "gpu".
+
+# read configured devices from environment variables
+declare -A DEVICES
+while read -r key val; do
+    read -r name input <<< "$(awk -F ':' '{print $1, $2}' <<< "$val")"
+    label="${key:8}"
+    DEVICES["$name"]="$input ${label,,}"
+done <<< "$(set | awk -F '=' '/^DE_TEMP_.+/ {print $1, $2}')"
+
 # Find temperature by label.
 # Usage: find_temp <dir> <label>
 find_temp() {
@@ -29,11 +43,11 @@ celcius() {
 
 declare -A temps
 for dir in /sys/class/hwmon/hwmon*/; do
-    case "$(<"$dir/name")" in
-        amdgpu) temps[gpu]="$(get_temp "$dir" "edge")" ;;
-        k10temp) temps[cpu]="$(get_temp "$dir" "Tdie")" ;;
-        nvme) temps[nvme]="$(get_temp "$dir" "Composite")" ;;
-    esac
+    name="$(<"$dir/name")"
+    if [ -v "DEVICES[$name]" ]; then
+        read -r input label <<< "$(awk '{print $1, $2}' <<< "${DEVICES["$name"]}")"
+        temps["$label"]="$(get_temp "$dir" "$input")"
+    fi
 done
 
 case "$1" in

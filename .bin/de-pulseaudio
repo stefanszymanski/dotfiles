@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-# TODO add commands for retrieving all confiured names/labels.
+# Read and set some pulseaudio settings for sinks and sources.
+# 
+# Configuration happens through environment variables.
+# E.g.: `DE_PULSEAUDIO_SINK_SPEAKERS="alsa_output.analog-stereo"` searches for
+# a sink named "alsa_output.analog-stereo" and labels it "speakers".
+# Source variables are named respectivly, e.g.: `DE_PULSEAUDIO_SOURCE_MIC="xxx"`.
 
 declare -A CMDS
 CMDS=(
@@ -12,35 +17,35 @@ CMDS=(
     [source-set-mute]="set-source-mute"
 )
 
+# read configured sinks and sources from environment variables
 declare -A NAMES
-NAMES=(
-    [sink-speakers]="alsa_output.pci-0000_0a_00.1.hdmi-stereo-extra3"
-    [sink-headphones]="alsa_output.pci-0000_0c_00.4.analog-stereo"
-    [source-mic]="alsa_input.pci-0000_0c_00.4.analog-stereo"
-)
+while read -r key val; do
+    read -r realm name <<< "$(awk -F '_' '{print $3, $4}' <<< "$key")"
+    NAMES["${realm,,}-${name,,}"]="$val"
+done <<< "$(set | awk -F '=' '/^DE_PULSEAUDIO_(SINK|SOURCE)_.+/ {print $1, $2}')"
+
 
 _usage() {
     cat <<-END
 Usage: pa -t <command> <args...>
 
 Commands:
-    get-sink-name     <sink>
-    get-sink-label    <sink>
-    get-sink-info     <sink>
-    get-sink-volume   <sink>
-    get-sink-mute     <sink>
-    get-source-name   <source>
-    get-source-label  <source>
-    get-source-info   <source>
-    get-source-volume <source>
-    get-source-mute   <source>
-    set-sink-volume   <sink>   <value>
-    set-sink-mute     <sink>   <value>
-    set-source-volume <source> <value>
-    set-source-mute   <source> <value>
-
-Argument <sink> and <source> are always the custom labels,
-except for get-*-label it's the pulseaudio name.
+    get-sink-names
+    get-sink-name     <sink-key>
+    get-sink-key      <sink-name>
+    get-sink-info     <sink-key>
+    get-sink-volume   <sink-key>
+    get-sink-mute     <sink-key>
+    get-source-names
+    get-source-name   <source-key>
+    get-source-key    <source-name>
+    get-source-info   <source-key>
+    get-source-volume <source-key>
+    get-source-mute   <source-key>
+    set-sink-volume   <sink-key>   <value>
+    set-sink-mute     <sink-key>   <value>
+    set-source-volume <source-key> <value>
+    set-source-mute   <source-key> <value>
 
 Argument <value> is the same as for \`pactl set-{sink|souce}-{volume|mute}\`.
 END
@@ -55,8 +60,14 @@ cmd() {
     printf "%s\n" "${CMDS[${1}-${2}-${3}]}"
 }
 
+get_keys() {
+    for key in "${!NAMES[@]}"; do
+        [ "${key:0:${#1}}" == "$1" ] && printf "%s\n" "${key:${#1}+1}"
+    done
+}
+
 # Get the name of a sink or source.
-# Usage: name [sink|source] [speakers|headphones|mic]
+# Usage: get_name [sink|source] <key>
 get_name() {
     local name="${NAMES[${1}-${2}]}"
     if [ -z "$name" ]; then
@@ -66,9 +77,9 @@ get_name() {
     printf "%s\n" "$name"
 }
 
-# Get the label of a sink or source
-# Usage: label [sink|source] <name>
-get_label() {
+# Get the key of a sink or source
+# Usage: get_key [sink|source] <name>
+get_key() {
     local key name
     for key in "${!NAMES[@]}"; do
         name="${NAMES[$key]}"
@@ -108,11 +119,14 @@ set_mute() {
 }
 
 case "$1" in
+    get-sink-keys)
+        get_keys sink
+        ;;
     get-sink-name)
         get_name sink "$2"
         ;;
-    get-sink-label)
-        get_label sink "$2"
+    get-sink-key)
+        get_key sink "$2"
         ;;
     get-sink-info)
         get_info sink "$(get_name sink "$2")"
@@ -123,11 +137,14 @@ case "$1" in
     get-sink-mute)
         get_mute sink "$(get_name sink "$2")"
         ;;
+    get-source-keys)
+        get_keys source
+        ;;
     get-source-name)
         get_name source "$2"
         ;;
-    get-source-label)
-        get_label source "$2"
+    get-source-key)
+        get_key source "$2"
         ;;
     get-source-info)
         get_info source "$(get_name source "$2")"
