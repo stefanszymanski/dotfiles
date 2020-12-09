@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export BLCTL_DEVICES="left:ddc:0;right:ddc:2"
+
+export DE_PULSEAUDIO_SINK_SPEAKERS="alsa_output.pci-0000_00_1b.0.analog-stereo"
+export DE_PULSEAUDIO_SOURCE_MIC="alsa_input.pci-0000_00_1b.0.analog-stereo"
+
+export DE_TEMP_CPU="coretemp:Package id 0"
