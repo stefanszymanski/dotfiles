@@ -41,6 +41,7 @@ def namespace(path):
 
 
 def parse_property_definition(line):
+    import re
     def split(var):
         t, n = var.strip().split()
         if t[0] == '?':
@@ -48,8 +49,10 @@ def parse_property_definition(line):
             o = True
         else:
             o = False
-        return (t, n, o)
-    vars = line.split(',')
+        tm, tr = (t.strip().split('|', 1) + [None])[:2]
+        tm = re.split('<|\[', tm)[0]
+        return (t, tm, tr, n, o)
+    vars = line.split(';')
     vars = map(split, vars)
     return list(vars)
 
@@ -66,29 +69,31 @@ def property(snip, type, name, optional):
     snip += 'protected $%s;' % name
 
 
-def getter(snip, type, name, optional):
+def getter(snip, type, type_main, name, optional):
     nullable = '?' if optional else ''
     snip += '/**'
     snip += ' * @return {}'.format(type)
     snip += ' */'
-    snip += 'public function get{}(): {}{}'.format(name.capitalize(), nullable, type)
+    snip += 'public function get{}(): {}{}'.format(upperfirst(name), nullable, type_main)
     snip += '{'
     snip += '\treturn $this->{};'.format(name)
     snip += '}'
 
 
-def setter(snip, type, name, optional):
+def setter(snip, type, type_main, name, optional):
     nullable = '?' if optional else ''
     snip += '/**'
     snip += ' * @param {} ${}'.format(type, name)
     snip += ' * @return void'
     snip += ' */'
     snip += 'public function set{}({}{} ${}): void'.format(
-        name.capitalize(), nullable, type, name)
+        upperfirst(name), nullable, type_main, name)
     snip += '{'
     snip += '\t$this->{} = ${};'.format(name, name)
     snip += '}'
 
+def upperfirst(x):
+    return x[:1].upper() + x[1:]
 
 #
 # docblock generation

@@ -19,7 +19,7 @@ class `!p snip.rv = snip.basename`${1}
 }
 endsnippet
 
-snippet "([pgs]{1,3})\s+(((\??\w+)\s+(\w+))(,\s*(\??\w+)\s+(\w+))*)" "Properties with getters and setters" br
+snippet "([pgs]{1,3})\s+(((\??[\w\\<>,]+)(\|([\w\[\]]+))?\s+(\w+))(;\s*(\??[\w\\<>,]+)(\|([\w\[\]]+))?\s+(\w+))*)" "Properties with getters and setters" br
 `!p
 vars = parse_property_definition(match.group(2))
 actions = match.group(1)
@@ -27,15 +27,15 @@ cp = 'p' in actions
 cg = 'g' in actions
 cs = 's' in actions
 if cp:
-	for t, n, o in vars:
-		property(snip, t, n, o)
-		snip += ''
-for t, n, o in vars:
-	if cg:
-		getter(snip, t, n, o)
-		snip += ''
-	if cs:
-		setter(snip, t, n, o)
-		snip += ''
+    for t, _, _, n, o in vars:
+        property(snip, t, n, o)
+        snip += ''
+for t, tm, _, n, o in vars:
+    if cg:
+        getter(snip, t, tm, n, o)
+        snip += ''
+    if cs:
+        setter(snip, t, tm, n, o)
+        snip += ''
 `${0}
 endsnippet
