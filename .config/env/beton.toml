@@ -1,0 +1,27 @@
+[pulseaudio]
+    
+    [pulseaudio.sink.speakers]
+    name = "alsa_output.pci-0000_0a_00.1.hdmi-stereo-extra2"
+
+    [pulseaudio.sink.headphones]
+    name = "alsa_output.pci-0000_0c_00.4.analog-stereo"
+
+    [pulseaudio.source.mic]
+    name = "alsa_input.pci-0000_0c_00.4.analog-stereo"
+
+[temp]
+
+    [temp.cpu]
+    path = "/sys/class/hwmon/hwmon2/temp2_input"
+    warn = 65000
+    crit = 80000
+
+    [temp.gpu]
+    path = "/sys/class/hwmon/hwmon1/temp1_input"
+    warn = 50000
+    crit = 65000
+
+    [temp.nvme]
+    path = "/sys/class/hwmon/hwmon0/temp1_input"
+    warn = 60000
+    crit = 75000

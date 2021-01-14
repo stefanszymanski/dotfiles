@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-# Read and set some pulseaudio settings for sinks and sources.
-# 
-# Configuration happens through environment variables.
-# E.g.: `DE_PULSEAUDIO_SINK_SPEAKERS="alsa_output.analog-stereo"` searches for
-# a sink named "alsa_output.analog-stereo" and labels it "speakers".
-# Source variables are named respectivly, e.g.: `DE_PULSEAUDIO_SOURCE_MIC="xxx"`.
-
 declare -A CMDS
 CMDS=(
     [sink-get-list]="list-sinks"
@@ -16,14 +9,6 @@ CMDS=(
     [source-set-volume]="set-source-volume"
     [source-set-mute]="set-source-mute"
 )
-
-# read configured sinks and sources from environment variables
-declare -A NAMES
-while read -r key val; do
-    read -r realm name <<< "$(awk -F '_' '{print $3, $4}' <<< "$key")"
-    NAMES["${realm,,}-${name,,}"]="$val"
-done <<< "$(set | awk -F '=' '/^DE_PULSEAUDIO_(SINK|SOURCE)_.+/ {print $1, $2}')"
-
 
 _usage() {
     cat <<-END
@@ -52,6 +37,15 @@ END
     exit 1
 }
 
+config="$(de-config get "pulseaudio")"
+if [ "$?" -gt 0 ]; then
+    printf "%s\n" "Configuration not found"
+    exit 1
+fi
+
+cfg() {
+    jq -r "$1" <<< "$config"
+}
 
 # Get the subcommand for pacmd or pactl.
 # Usage: cmd [sink|source] [get|set] [list|volume|mute]
@@ -61,35 +55,33 @@ cmd() {
 }
 
 get_keys() {
-    for key in "${!NAMES[@]}"; do
-        [ "${key:0:${#1}}" == "$1" ] && printf "%s\n" "${key:${#1}+1}"
-    done
+    cfg ".${1} | keys_unsorted | to_entries[] | .value"
 }
 
 # Get the name of a sink or source.
 # Usage: get_name [sink|source] <key>
 get_name() {
-    local name="${NAMES[${1}-${2}]}"
-    if [ -z "$name" ]; then
+    local name
+    name="$(cfg ".${1}.${2}.name")"
+    if [ -n "$name" ]; then
+        printf "%s\n" "$name"
+    else
         printf "%s\n" "Invalid label" >&2
         exit 1
     fi
-    printf "%s\n" "$name"
 }
 
 # Get the key of a sink or source
 # Usage: get_key [sink|source] <name>
 get_key() {
-    local key name
-    for key in "${!NAMES[@]}"; do
-        name="${NAMES[$key]}"
-        if [ "$name" == "$2" ] && [ "${key:0:${#1}}" == "$1" ]; then
-            printf "%s\n" "${key:${#1}+1}"
-            return
-        fi
-    done
-    printf "%s\n" "Unconfigured name" >&2
-    exit 1
+    local name
+    name="$(cfg ".${1} | to_entries[] | select(.value.name == \"$2\") | .key")"
+    if [ -n "$name" ]; then
+        printf "%s\n" "$name"
+    else
+        printf "%s\n" "Unconfigured name" >&2
+        exit 1
+    fi
 }
 
 get_info() {
@@ -107,7 +99,6 @@ get_volume() {
 
 set_volume() {
     pactl "$(cmd "$1" set volume)" "$2" "$3"
-
 }
 
 get_mute() {
@@ -116,6 +107,10 @@ get_mute() {
 
 set_mute() {
     pactl "$(cmd "$1" set mute)" "$2" "$3"
+}
+
+get_volume_and_mute() {
+    get_info "$1" "$2" | gawk '/^\s+volume: / {print $5} /^\s+muted: /{print $2}' | tr '\n' ' '
 }
 
 case "$1" in
@@ -166,6 +161,15 @@ case "$1" in
         ;;
     set-source-mute)
         set_mute source "$(get_name source "$2")" "$3"
+        ;;
+    panel)
+        # generate output for my lemonbar panel
+        while read -r key; do
+            printf "%s " "$(get_volume_and_mute sink "$key")"
+        done <<< "$(cfg '.sink | to_entries[] | .value.name')"
+        while read -r key; do
+            printf "%s " "$(get_volume_and_mute source "$key")"
+        done <<< "$(cfg '.source | to_entries[] | .value.name')"
         ;;
     *)
         _usage

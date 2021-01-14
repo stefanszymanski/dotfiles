@@ -1,61 +1,42 @@
 #!/usr/bin/env bash
 
 # Print temperatures of configured devices.
-# 
-# Configuration happens through environment variables.
-# E.g.: `DE_TEMP_GPU="amdgpu:edge"` searches for a device named "amdgpu" with 
-# an input named "edge". Its temperature is returned labeled "gpu".
 
-# read configured devices from environment variables
-declare -A DEVICES
-while read -r key val; do
-    read -r name input <<< "$(awk -F ':' '{print $1, $2}' <<< "$val")"
-    label="${key:8}"
-    DEVICES["$name"]="$input ${label,,}"
-done <<< "$(set | awk -F '=' '/^DE_TEMP_.+/ {print $1, $2}')"
+config="$(de-config get "temp")"
+if [ "$?" -gt 0 ]; then
+    printf "%s\n" "Configuration not found"
+    exit 1
+fi
 
-# Find temperature by label.
-# Usage: find_temp <dir> <label>
-find_temp() {
-    local file
-    for file in "$1"temp*_label; do
-        if [ "$(<"$file")" == "$2" ]; then
-            printf "%s" "$(<"${file//_label/_input}")"
-        fi
-    done
-}
-
-# Find and print temperature.
-# Usage: temp <dir> <label>
-get_temp() {
-    local value
-    value="$(find_temp "$1" "$2")"
-    if [ -n "$value" ]; then
-        printf "%s" "$value"
-    fi
+cfg() {
+    jq -r "$1" <<< "$config"
 }
 
 # Convert a raw temperature value to degree celcius.
 celcius() {
-    local temp="$1"
+    read -r temp <&0
     printf "%s" "$((temp/1000))°C"
 }
-
-declare -A temps
-for dir in /sys/class/hwmon/hwmon*/; do
-    name="$(<"$dir/name")"
-    if [ -v "DEVICES[$name]" ]; then
-        read -r input label <<< "$(awk '{print $1, $2}' <<< "${DEVICES["$name"]}")"
-        temps["$label"]="$(get_temp "$dir" "$input")"
-    fi
-done
 
 case "$1" in
     panel)
         # generate output for my lemonbar panel
-        printf "%s\n" "$(celcius "${temps[cpu]}") / $(celcius "${temps[gpu]}") / $(celcius "${temps[nvme]}")"
+        while read -r label; do
+            read -r path warn crit <<< "$(cfg ".$label | \"\(.path) \(.warn) \(.crit)\"")"
+            temp="$(< "$path")"
+            if [ "$crit" != "null" ] && [ "$temp" -ge "$crit" ]; then
+                state="crit"
+            elif [ "$warn" != "null" ] && [ "$temp" -ge "$warn" ]; then
+                state="warn"
+            else
+                state="norm"
+            fi
+            printf "%s\n" "$(celcius <<< "$temp") $state" 
+        done <<< "$(cfg 'keys_unsorted | to_entries[] | .value')" | tr '\n' $' '
         ;;
     *)
-        printf "%s\n" "cpu ${temps[cpu]}" "gpu ${temps[gpu]}" "nvme ${temps[nvme]}"
+        while read -r label; do
+            printf "%s\n" "$label $(celcius < "$(cfg ".${label}.path")")" 
+        done <<< "$(cfg 'keys_unsorted | to_entries[] | .value')"
         ;;
 esac

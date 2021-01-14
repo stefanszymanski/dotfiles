@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+if [ ! -r "$DE_CONFIG" ]; then
+    printf "%s\n" "Configuration not found: $$DE_CONFIG is not a readable file."
+    exit 1
+fi
+
+case "$1" in 
+    get)
+        config="$(toml get "$DE_CONFIG" "$2")"
+        [[ "$config" == "null" ]] && exit 1
+        if [ -n "$3" ]; then
+            jq -r "$3" <<< "$config"
+            exit $?
+        else
+            printf "%s\n" "$config"
+        fi
+        ;;
+    *) 
+        exit 1
+        ;;
+esac
