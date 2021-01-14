@@ -96,11 +96,10 @@ alternative_order text/calendar text/plain text/enriched text/html
 # sidebar
 set sidebar_visible
 set sidebar_short_path
-set sidebar_folder_indent
-set sidebar_width = 30
+set sidebar_folder_indent = no
 set sidebar_divider_char = " ▏"
-set sidebar_indent_string = "  "
-set sidebar_format = "%B %* [%?N?%N / ?%S]"
+set sidebar_width = 30
+set sidebar_format = "%D %* [%?N?%N / ?%S]"
 
 # GPG/PGP 
 set pgp_self_encrypt = yes

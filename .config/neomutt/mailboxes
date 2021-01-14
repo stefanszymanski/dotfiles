@@ -1,7 +1,13 @@
-named-mailboxes Posteo =posteo/inbox
-mailboxes =posteo/sent =posteo/drafts =posteo/archive =posteo/trash
-named-mailboxes Gmail =gmail/inbox
-mailboxes =gmail/sent =gmail/drafts =gmail/archive =gmail/trash
+named-mailboxes " Posteo" =posteo/inbox
+named-mailboxes "   sent" =posteo/sent
+named-mailboxes "   drafts" =posteo/drafts
+named-mailboxes "   archive" =posteo/archive
+named-mailboxes "   trash" =posteo/trash
+named-mailboxes " Gmail" =gmail/inbox
+named-mailboxes "   sent" =gmail/sent
+named-mailboxes "   drafts" =gmail/drafts
+named-mailboxes "   archive" =gmail/archive
+named-mailboxes "   trash" =gmail/trash
 
 set realname = "Stefan Szymanski"
 
