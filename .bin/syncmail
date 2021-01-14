@@ -11,15 +11,22 @@ done
 (
     if ! flock -n -e 200; then
         if [ $notifications ]; then
-            notify-send -t 3000 "Mail gets already synced. Abort."
+            notify-send \
+                -t 3000 \
+                "Mail already get synced. Abort."
         else
-            printf "%s\n" "Mail gets already synced. Abort."
+            printf "%s\n" "Mail already get synced. Abort."
         fi
         exit 1
     fi
 
     if [ $notifications ]; then
-        notify-send -t 3000 "Fetch mail ..."
+        notify-send \
+            -t 0 \
+            -h string:private-synchronous:syncmail \
+            "Fetch mail ..."
+    else
+        printf "%s\n" "Fetch mail ..."
     fi
 
     mbsync -a
@@ -31,14 +38,20 @@ done
     unread="$(notmuch count tag:unread)"
     new="$(notmuch count tag:new)"
 
+    if [ "$new" -gt 0 ]; then
+        text="$new new, $unread unread"
+    elif [ "$unread" -gt 0 ]; then
+        text="No new mail, but $unread still unread"
+    else
+        text="No new mail"
+    fi
+
     if [ $notifications ]; then
-        if [ "$new" -gt 0 ]; then
-            notify-send "Mail fetched" "$new new, $unread unread"
-        elif [ "$unread" -gt 0 ]; then
-            notify-send "Mail fetched" "No new mail, but $unread still unread"
-        else
-            notify-send "Mail fetched" "No new mail"
-        fi
+        notify-send \
+            -h string:private-synchronous:syncmail \
+            "Mail fetched" "$text"
+    else
+        printf "%s\n" "Mail fetched: $text"
     fi
 
     notmuch tag -new -- tag:new
