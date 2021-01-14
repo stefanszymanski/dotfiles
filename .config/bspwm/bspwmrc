@@ -33,6 +33,8 @@ bspc config pointer_follows_monitor true
 bspc config honor_size_hints true
 bspc config ignore_ewmh_focus true
 
+bspc config pointer_modifier mod4
+
 bspc config left_padding -4
 bspc config right_padding -4
 bspc config bottom_padding -4
