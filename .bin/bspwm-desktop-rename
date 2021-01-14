@@ -3,7 +3,7 @@
 # Ask with rofi for a new name for the current desktop.
 # Commas, colons and spaces get removed.
 
-name=$(rofi -dmenu -i -lines 0 -p "rename desktop" -width 20)
+name=$(rofi -dmenu -i -lines 0 -p "rename desktop")
 
 [ -z "$name" ] && exit 1
 

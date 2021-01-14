@@ -33,7 +33,7 @@ for i in "${!names[@]}"; do
 done
 
 choice=$(printf '%s\n' "${options[@]}" \
-    | rofi -i -lines "${#options[@]}" -width 12 -dmenu -p 'web browser' \
+    | rofi -i -lines "${#options[@]}" -dmenu -p 'web browser' \
     | cut -d ':' -f 1)
 
 [[ -z "$choice" ]] && exit 0

@@ -163,7 +163,7 @@ ask_for_entry() {
         rofi \
             -dmenu \
             -i \
-            -width 600 \
+            -width -80 \
             -format "i" \
             -selected-row "$selection" \
             -p "Choose entry" \

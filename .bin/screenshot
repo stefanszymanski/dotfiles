@@ -38,7 +38,7 @@ show_menu() {
 ask_for_filename() {
     local filename custom
     filename="$1"
-    custom="$(rofi -dmenu -i -lines 0 -p "screenshot file name" -width 20)"
+    custom="$(rofi -dmenu -i -lines 0 -p "screenshot file name" -width -80)"
     [ "$custom" ] && filename="$custom"
     printf "%s\n" "$filename"
 }

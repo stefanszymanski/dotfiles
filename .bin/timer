@@ -36,8 +36,8 @@ if [[ "$gui" ]] && [[ -z "$DISPLAY" ]]; then
 fi
 
 if [[ "$gui" ]]; then
-    [[ -z "$time" ]] && time="$(rofi -i -lines 0 -width 6 -dmenu -p 'countdown')"
-    [[ -z "$message" ]] && message="$(rofi -i -lines 0 -width 14 -dmenu -p 'message')"
+    [[ -z "$time" ]] && time="$(rofi -i -lines 0 -width -25 -dmenu -p 'countdown')"
+    [[ -z "$message" ]] && message="$(rofi -i -lines 0 -dmenu -p 'message')"
 fi
 
 if [[ -z "$time" ]]; then

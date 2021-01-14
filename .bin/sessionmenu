@@ -15,7 +15,7 @@ OPTIONS=(
     '7: Logout'
 )
 CHOICE=$(printf '%s\n' "${OPTIONS[@]}" \
-    | rofi -i -width 10 -lines "${#OPTIONS[@]}" -dmenu -p 'session' \
+    | rofi -i -lines "${#OPTIONS[@]}" -dmenu -p 'session' \
     | cut -d ':' -f 1)
 
 [[ -z "$CHOICE" ]] && exit 1
