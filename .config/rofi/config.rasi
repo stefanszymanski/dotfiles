@@ -1,0 +1,14 @@
+configuration {
+	modi: "window,run,ssh,drun,combi";
+	width: -50;
+	lines: 10;
+	show-icons: false;
+	terminal: "st";
+	window-match-fields: "title,name";
+	drun-match-fields: "name";
+	drun-show-actions: false;
+	drun-display-format: "{name}";
+	case-sensitive: false;
+	matching: "fuzzy";
+	theme: "~/.config/rofi/gruvbox.rasi";
+}
