@@ -115,7 +115,13 @@ c.url.searchengines = {
     'DEFAULT': 'https://google.com/search?q={}',
     'd': 'https://duckduckgo.com/?q={}',
     'y': 'https://youtube.com/results?search_query={}',
-    'l': 'https://dict.leo.org/?search={}'
+    'leo': 'https://dict.leo.org/?search={}',
+    'crate': 'https://crates.io/search?q={}',
+    'ter': 'https://extensions.typo3.org/?tx_solr[q]={}',
+    'github': 'https://github.com/search?q={}',
+    'gitlab': 'https://gitlab.com/search?search={}',
+    'amazon': 'https://www.amazon.de/s?k={}',
+    'dhl': 'https://www.dhl.de/de/privatkunden/dhl-sendungsverfolgung.html?piececode={}',
 }
 
 
