@@ -40,5 +40,11 @@ bspc config right_padding -4
 bspc config bottom_padding -4
 bspc config top_padding 22
 
+bspc config remove_disabled_monitors false
+bspc config remove_unplugged_monitors false
+bspc config merge_overlapping_monitors false
+
 bspc rule --add nagstamon state=floating sticky=on focus=off private=on
 bspc rule --add Zathura state=tiled
+
+wait
