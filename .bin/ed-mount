@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Usage fd-mount <device> <keyfile> <mountpath>
+
+if [ ! "${#@}" -eq 3 ]
+then
+    printf "%s\n" "Wrong usage."
+    exit 1
+fi
+
+dev="$1"
+keyfile="$2"
+mapname="crypt-${dev//\//-}"
+mountpath="$3"
+
+gpg2 --quiet --decrypt "$keyfile" 2> /dev/null | \
+    sudo cryptsetup \
+        --verbose \
+        --key-file=- \
+        luksOpen "$dev" "$mapname"
+
+sudo mkdir -p "$mountpath"
+sudo mount "/dev/mapper/$mapname" "$mountpath"
+printf "# %s\n" "Device is mounted at $mountpath."

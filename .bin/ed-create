@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+# Encrypts a disk with luks and creates a btrfs partition.
+# Usage ed-create <device> <encrypted-keyfile> <btrfs-partition-label>
+#
+# Example usage: ed-create /dev/sdc path/to/encrypted/keyfile backup-disk
+
+if [ ! "${#@}" -eq 3 ]
+then
+    printf "%s\n" "Wrong usage."
+    exit 1
+fi
+
+dev="$1"
+keyfile="$2"
+fslabel="$3"
+mapname="crypt-${dev//\//-}"
+
+printf "# %s\n" "Start encryption of device $dev"
+gpg2 --quiet --decrypt "$keyfile" 2> /dev/null | \
+    sudo cryptsetup \
+        --verbose \
+        --key-file=- \
+        --cipher aes-xts-plain64 \
+        --key-size 512 \
+        --hash sha512 \
+        --iter-time 3000 \
+        --use-random \
+        --type luks2 \
+        luksFormat "$dev"
+
+printf "# %s\n" "Open encrypted device"
+gpg2 --quiet --decrypt "$keyfile" 2> /dev/null | \
+    sudo cryptsetup \
+        --verbose \
+        --key-file=- \
+        luksOpen "$dev" "$mapname"
+
+printf "# %s" "Should the device get filled with zeros? [y/n]: "
+read -r shouldfill
+if [ "$shouldfill" == "y" ]
+then
+    printf "# %s\n" "Fill the device with zeros"
+    sudo dd if=/dev/zero of="/dev/mapper/$mapname" status=progress
+fi
+
+printf "# %s\n" "Luks device available as /dev/mapper/$mapname"
+
+printf "# %s\n" "Create btrfs filesystem"
+sudo mkfs.btrfs \
+    --label "$fslabel" \
+    "/dev/mapper/$mapname"
+
+printf "# %s\n\n" "Finished!"
+
+printf "# %s" "Do you want to use the device now? [y/n]: "
+read -r usenow
+if [ "$usenow" == "y" ]
+then
+    printf "# %s" "Where to mount the partition? [enter a path]: "
+    read -r mountpath
+    sudo mkdir -p "$mountpath"
+    sudo mount "/dev/mapper/$mapname" "$mountpath"
+    printf "# %s\n" "Device is mounted at $mountpath."
+else
+    sudo cryptsetup luksClose "$mapname"
+    printf "# %s\n" "Device is closed."
+fi
