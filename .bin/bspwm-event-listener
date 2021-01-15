@@ -1,16 +1,23 @@
 #!/usr/bin/env bash
 
+# Change node border colors depending on certain selectors.
+# This script is used instead of `bspc config *_border_color` because `bspc config`
+# does not allow different colors for marked nodes.
+
 border_colors=(
-    ".marked.focused 0x98971a"
-    ".marked.!focused 0x458588"
+    ".!marked 0x504945"
+    ".active.!focused.!marked 0xa89984"
+    ".focused.!marked 0xd79921"
+    ".marked 0x458588"
+    ".focused.marked 0x8ec07c"
 )
 
-while read -r action monitor desktop node; do
+while read -r; do
     # change node border colors
     for bc in "${border_colors[@]}"; do
         IFS=$' ' read -d "" -r selector color <<< "$bc"
-        for n in $(bspc query --nodes --node "$selector"); do
-            chwb -c "$color" "$n"
+        for wid in $(bspc query --nodes --node "$selector"); do
+            chwb -c "$color" "$wid"
         done
     done
-done < <(bspc subscribe node_focus)
+done < <(bspc subscribe node)

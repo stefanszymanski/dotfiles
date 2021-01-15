@@ -3,8 +3,8 @@
 xsetroot -solid "#282828" &
 
 pkill -x sxhkd; sxhkd &
-pkill -f "$(which de-panel)"; de-panel &
-pkill -f "$(which bspwm-event-listener)"; bspwm-event-listener &
+pkill -xf "bash $(which de-panel)"; de-panel &
+pkill -xf "bash $(which bspwm-event-listener)"; bspwm-event-listener &
 dunst &
 
 # rename monitors
@@ -16,9 +16,6 @@ done
 
 # TODO move colors and widths to a another file that is shared with the panel script
 bspc config border_width 2
-bspc config normal_border_color "#504945"
-bspc config active_border_color "#a89984"
-bspc config focused_border_color "#d79921"
 bspc config window_gap 8
 
 bspc config split_ratio 0.5
