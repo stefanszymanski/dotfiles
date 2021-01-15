@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 target_monitor="$1"
+layout="${2:-minimal}"
 
 . "$HOME/.panel-colors"
 
@@ -123,22 +124,22 @@ while read -r line ; do
             desktops=()
             IFS=':'
             set -- ${line#?}
-            monitor_index=0
+            current_monitor=""
             while [ $# -gt 0 ] ; do
                 # item=${1#?}
                 item="$1"
                 name="${item#?}"
                 case "$item" in
                     [mM]*)
-                        ((monitor_index++))
-                        [[ "$monitor_index" -ne "$target_monitor" ]] && shift && continue
+                        current_monitor="$name"
+                        [[ "$current_monitor" != "$target_monitor" ]] && shift && continue
                         case "$item" in
                             m*) is_monitor_active=0;;
                             M*) is_monitor_active=1;;
                         esac
                         ;;
                     [oOfFuULTG]*)
-                        [[ "$monitor_index" -ne "$target_monitor" ]] && shift && continue
+                        [[ "$current_monitor" != "$target_monitor" ]] && shift && continue
                         case "$item" in
                             [oOfFuU]*) desktops+=("$item");;
                             L*) desktop_layout="$name";;
@@ -163,5 +164,13 @@ while read -r line ; do
 
     disabled="$(render_disabled "${disabled_features[notifications]}")"
 
-    printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${vspeakers}${vheadphones}${vmic}${mail}${load}${mem}${temp}${bat}${disabled}${date}"
+    case "$layout" in
+        minimal)
+            printf "%s\n" "%{l}${dl}${nl}${nf} ${ds}"
+            ;;
+        full)
+            printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${volumes}${mail}${load}${mem}${temp}${bat}${disabled}${date}"
+            ;;
+        *) printf "%s\n" "Unknown layout: $layout"
+    esac
 done

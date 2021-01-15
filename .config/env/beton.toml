@@ -37,3 +37,10 @@
     name = "Partial Fullscreen"
     area = "3072x1440+0+0"
     overlaps = ["A", "B"]
+
+[panel]
+
+    [panel.monitors]
+    A = "minimal"
+    B = "minimal"
+    C = "full"
