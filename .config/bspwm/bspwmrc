@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-xsetroot -solid "#282828" &
+xsetroot -solid "#282828"
+xsetroot -cursor_name left_ptr
 
 pkill -x sxhkd; sxhkd &
 pkill -xf "bash $(which de-panel)"; de-panel &
