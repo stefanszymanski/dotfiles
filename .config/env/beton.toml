@@ -33,10 +33,15 @@
     area = "5120x1440+0+0"
     overlaps = ["A", "B", "C"]
 
-    [fullscreen.partial]
-    name = "Partial Fullscreen"
+    [fullscreen.lpartial]
+    name = "Partial Fullscreen (Left)"
     area = "3072x1440+0+0"
     overlaps = ["A", "B"]
+
+    [fullscreen.rpartial]
+    name = "Partial Fullscreen (Right)"
+    area = "4096x1440+1024+0"
+    overlaps = ["B", "C"]
 
 [panel]
 

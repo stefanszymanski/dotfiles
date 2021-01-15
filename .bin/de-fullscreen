@@ -30,7 +30,7 @@ cfg() {
 
 _usage() {
     cat <<-END
-Usage: bspwm-node-fullscreen toggle [<wid>]
+Usage: de-fullscreen toggle [<wid>]
 END
     exit 1
 }
@@ -42,7 +42,7 @@ select_mode() {
         rofi \
             -dmenu \
             -i \
-            -lines 2 \
+            -lines "${#options[@]}" \
             -format "i" \
             -p "Choose mode" \
         )"
