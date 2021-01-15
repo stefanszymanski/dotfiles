@@ -299,9 +299,9 @@ function lt {
 alias o='fasd -a -e xdg-open'
 
 # backlightcontrol
-alias blc='backlightcontrol'
-alias blc0='backlightcontrol set 0'
-alias blc1='backlightcontrol set 100'
+alias bl='de-backlight'
+alias bl0='de-backlight set 0'
+alias bl1='de-backlight set 100'
 
 # khal (wip)
 alias iwcal='ikhal -c $HOME/.config/khal/config-work'

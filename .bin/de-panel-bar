@@ -164,6 +164,9 @@ while read -r line ; do
         B*)
             bat="$(render_block "${line#?}")"
             ;;
+        C*)
+            backlight="$(render_block "${line#?}")"
+            ;;
         A*) 
             disabled_features[notifications]="$(this_or_empty "${line#?}" "true" "notifications")"
             ;;
@@ -216,7 +219,7 @@ while read -r line ; do
             printf "%s\n" "%{l}${dl}${nl}${nf} ${ds}"
             ;;
         full)
-            printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${volumes}${mail}${load}${mem}${temp}${bat}${disabled}${date}"
+            printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${volumes}${backlight}${mail}${load}${mem}${temp}${bat}${disabled}${date}"
             ;;
         *) 
             printf "%s\n" "Unknown layout: $layout"

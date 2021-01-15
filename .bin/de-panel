@@ -79,7 +79,10 @@ update_pa() {
 pactl subscribe | grep --line-buffered -E "(sink|source)" | while IFS= read -r line; do
     update_pa
 done &
-update_pa
+
+update_pa &
+
+de-backlight update &
 
 jobs -p
 wait

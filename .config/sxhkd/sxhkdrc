@@ -191,6 +191,13 @@ hyper + v
     de-pulseaudio-menu
 
 
+# monitor backlight
+###################
+
+XF86MonBrightness{Up,Down}
+    de-backlight {inc,dec}
+
+
 # dunst
 #######
 

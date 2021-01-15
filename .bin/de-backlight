@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+_usage() {
+    cat <<-END
+Usage: de-backlight [inc|dec|set|get] [<args>]
+
+Commands:
+    inc [<value>]
+    dec [<value>]
+    set <value>
+    get
+END
+    exit 1
+}
+
+change_brightness() {
+    local value="$1"
+    local prefix="$2"
+    # shellcheck disable=SC2086
+    ddcutil --sleep-less --sleep-multiplier .1 --noverify setvcp 10 $prefix $value
+}
+
+get_brightness() {
+    ddcutil --sleep-less --sleep-multiplier .1  --terse getvcp 10 | cut -d" " -f4
+}
+
+case "$1" in
+    inc|dec)
+        step="${2:-10}"
+        case "$1" in
+            inc)
+                change_brightness "$step" +
+                ;;
+            dec)
+                change_brightness "$step" -
+                ;;
+        esac
+        ;;
+    set)
+        value="$2"
+        [ -z "$value" ] && _usage
+        change_brightness "$value"
+        ;;
+    get)
+        get_brightness
+        exit
+        ;;
+    update)
+        ;;
+    *)
+        _usage
+        ;;
+esac
+
+brightness="$(get_brightness)"
+[ -n "$brightness" ] && de-panel-send "Cbacklight $brightness%"
