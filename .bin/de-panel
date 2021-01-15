@@ -70,13 +70,7 @@ bspc subscribe report | de-panel-send &
 # pulseaudio default sink and source volume
 latest_vol=""
 update_pa() {
-    speakers_vol="$(de-pulseaudio get-sink-volume speakers)"
-    speakers_mute="$(de-pulseaudio get-sink-mute speakers)"
-    headphones_vol="$(de-pulseaudio get-sink-volume headphones)"
-    headphones_mute="$(de-pulseaudio get-sink-mute headphones)"
-    mic_vol="$(de-pulseaudio get-source-volume mic)"
-    mic_mute="$(de-pulseaudio get-source-mute mic)"
-    cur_vol="$speakers_vol $speakers_mute $headphones_vol $headphones_mute $mic_vol $mic_mute"
+    cur_vol="$(de-pulseaudio panel)"
     if [[ "$cur_vol" != "$latest_vol" ]]; then
         latest_vol="$cur_vol"
         de-panel-send "V${cur_vol}"

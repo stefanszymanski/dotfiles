@@ -52,10 +52,57 @@ render_desktop() {
     printf "%s\n" "%{F${fg}}%{B${bg}} ${index} | ${name} %{B-}%{F-}"
 }
 
-render_volume() {
-    local res="$1 $2"
-    [[ "$3" == "yes" ]] && res="$res muted"
-    printf "%s\n" "$(render_block "$res")"
+render_volumes() {
+    local red="#d5443e"
+    local -a vols
+    local joined
+    while [ "$#" -gt 0 ]; do
+        vol="$1"
+        [[ "$2" == "yes" ]] && vol="%{F${red}}${vol}%{F-}"
+        vols+=("$vol")
+        shift 2
+    done
+    printf -v joined '%s / ' "${vols[@]}"
+    printf "%s\n" "$(render_block "volume ${joined% / }")"
+}
+
+render_temps() {
+    local fg_crit="#d5443e"
+    local fg_warn="#fe8019"
+    local -a temps
+    local joined
+    while [ "$#" -gt 0 ]; do
+        temp="$1"
+        case "$2" in
+            warn) temp="%{F${fg_warn}}${temp}%{F-}" ;;
+            crit) temp="%{F${fg_crit}}${temp}%{F-}" ;;
+            *) ;;
+        esac
+        temps+=("$temp")
+        shift 2
+    done
+    printf -v joined '%s / ' "${temps[@]}"
+    printf "%s\n" "$(render_block "temp ${joined% / }")"
+}
+
+render_load() {
+    local fg_crit="#d5443e"
+    local fg_warn="#fe8019"
+    local -a loads
+    local load cores joined
+    cores="$(nproc)"
+    while [ "$#" -gt 0 ]; do
+        load="$1"
+        if [ "${load%.*}" -ge "$((cores*2))" ]; then
+            load="%{F${fg_crit}}${load}%{F-}"
+        elif [ "${load%.*}" -ge "$cores" ]; then
+            load="%{F${fg_warn}}${load}%{F-}"
+        fi
+        loads+=("$load")
+        shift
+    done
+    printf -v joined '%s ' "${loads[@]}"
+    printf "%s\n" "$(render_block "load ${joined% }")"
 }
 
 render_date_block() {
@@ -94,7 +141,8 @@ while read -r line ; do
     # parse input
     case $line in
         L*)
-            load="$(render_block "${line#?}")"
+            IFS=$' ' read -ra args <<< "${line#?}"
+            load="$(render_load "${args[@]}")"
             ;;
         D*)
             date="$(render_date_block "${line#?}")"
@@ -103,16 +151,15 @@ while read -r line ; do
             mem="$(render_block "${line#?}")"
             ;;
         T*)
-            temp="$(render_block "${line#?}")"
+            IFS=$' ' read -ra args <<< "${line#?}"
+            temp="$(render_temps "${args[@]}")"
             ;;
         N*)
             mail="$(render_block "${line#?}")"
             ;;
         V*)
-            IFS=$' ' read -r speakers_vol speakers_mute headphones_vol headphones_mute mic_vol mic_mute <<< "${line#?}"
-            vspeakers="$(render_volume "speakers" "$speakers_vol" "$speakers_mute")"
-            vheadphones="$(render_volume "headphones" "$headphones_vol" "$headphones_mute")"
-            vmic="$(render_volume "mic" "$mic_vol" "$mic_mute")"
+            IFS=$' ' read -ra args <<< "${line#?}"
+            volumes="$(render_volumes "${args[@]}")"
             ;;
         B*)
             bat="$(render_block "${line#?}")"
