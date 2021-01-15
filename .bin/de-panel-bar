@@ -218,6 +218,8 @@ while read -r line ; do
         full)
             printf "%s\n" "%{l}${dl}${nl}${nf} ${ds} %{r}${volumes}${mail}${load}${mem}${temp}${bat}${disabled}${date}"
             ;;
-        *) printf "%s\n" "Unknown layout: $layout"
+        *) 
+            printf "%s\n" "Unknown layout: $layout"
+            ;;
     esac
 done
