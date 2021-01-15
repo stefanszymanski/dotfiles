@@ -25,3 +25,15 @@
     path = "/sys/class/hwmon/hwmon0/temp1_input"
     warn = 60000
     crit = 75000
+
+[fullscreen]
+
+    [fullscreen.full]
+    name = "Fullscreen"
+    area = "5120x1440+0+0"
+    overlaps = ["A", "B", "C"]
+
+    [fullscreen.partial]
+    name = "Partial Fullscreen"
+    area = "3072x1440+0+0"
+    overlaps = ["A", "B"]

@@ -42,16 +42,20 @@ super + space
 super + shift + {q,x}
     bspwm-node-close {close,kill}
 
+# toggle full
+super + c ; f
+    de-fullscreen toggle
+
 # set node state
 super + c ; s
     bspwm-node-menus state
 
 # set node flags
-super + c ; f
+super + c ; shift + f
     bspwm-node-menus flag
 
 # reset node flags (marked/locked/sticky/private)
-super + c ; f ; shift + {m,l,s,p}
+super + c ; shift + f ; shift + {m,l,s,p}
     flag={marked,locked,sticky,private}; \
     for node in $(bspc query --nodes --node ".$flag"); do \
         bspc node "$node" --flag "${flag}=off"; \

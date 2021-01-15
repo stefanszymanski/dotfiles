@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+
+# Toggle fullscreen for the focused window.
+# 
+# Available fullscreen modes are configured as `fullscreen.<key>`.
+# There must be following properties:
+# - `name` is the display name as shown in the rofi dialog.
+# - `area` is the area of the temporary monitor: WxH+X+Y.
+# - `overlaps` is a list of overlapped monitors. If one of them gets focused the fullscreen exits.
+# 
+# Example toml configuration:
+# 
+#   [fullscreen.example]
+#   name = "Example"
+#   area = "2560x1440+0+0"
+#   overlaps = ["A", "B"]
+
+STATE_FILE="$HOME/.fullscreen-state"
+TEMP_MONITOR="Fullscreen"
+
+config="$(de-config get "fullscreen")"
+if [ "$?" -gt 0 ]; then
+    printf "%s\n" "Configuration not found"
+    exit 1
+fi
+
+cfg() {
+    jq -r "$1" <<< "$config"
+}
+
+_usage() {
+    cat <<-END
+Usage: bspwm-node-fullscreen toggle [<wid>]
+END
+    exit 1
+}
+
+select_mode() {
+    # TODO check if only one mode is configured
+    IFS=$'\n' read -d "" -ra options <<< "$(cfg '.[] | .name')"
+    selection="$(printf "%s\n" "${options[@]}" | \
+        rofi \
+            -dmenu \
+            -i \
+            -lines 2 \
+            -format "i" \
+            -p "Choose mode" \
+        )"
+    [ -n "$selection" ] && printf "%s\n" "$(cfg "keys[$selection]")" || exit 1
+}
+
+create_fullscreen() {
+    local wid="$1"
+    local size="$2"
+    local desktop
+    # remember original desktop
+    desktop="$(bspc query --desktops --node "$wid")"
+    printf "%s\n" "$wid $desktop" > "$STATE_FILE"
+    # create a temporary monitor and move node to
+    bspc wm --add-monitor "$TEMP_MONITOR" "$size"
+    bspc node "$wid" --to-monitor "$TEMP_MONITOR"
+    bspc monitor "$TEMP_MONITOR" --focus
+}
+
+remove_fullscreen() {
+    local wid="$1"
+    local desktop="$2"
+    # move node back to its original desktop
+    bspc node "$wid" --to-desktop "$desktop"
+    bspc node "$wid" --focus
+    # remove temporary monitor
+    bspc monitor "$TEMP_MONITOR" --remove
+    # forget about previous fullscreen node
+    rm "$STATE_FILE"
+}
+
+is_active() {
+    local wid="$1"
+    [ -f "$STATE_FILE" ] || return 1
+    [ -z "$wid" ] && return 0
+    read -d "" -r pwid _ < "$STATE_FILE"
+    [ "$pwid" == "$wid" ] && return 0 || return 1
+}
+
+ 
+subscribe_focus() {
+    local wid="$1"
+    shift
+    local observed_monitors=("$@")
+    while read -r _ monitor ; do
+        # end subscription if not active anymore
+        is_active "$wid" || break
+        # end subscription if one of the observed monitors is focused
+        for observed_monitor in "${observed_monitors[@]}"; do
+            [ "$observed_monitor" == "$monitor" ] && break 2
+        done
+    done < <(bspc subscribe monitor_focus)
+}
+
+case "$1" in
+    toggle)
+        wid="${2:-$(pfw)}"
+        if is_active; then
+            # end current fullscreen
+            read -d "" -r pwid desktop < "$STATE_FILE"
+            remove_fullscreen "$pwid" "$desktop"
+            # restart fullscreen if another window is focused
+            [ "$pwid" != "$wid" ] && "$0" toggle "$wid"
+
+        else
+            # start fullscreen
+            mode="$(select_mode)"
+            [ -z "$mode" ] && exit 0
+            size="$(cfg ".${mode}.area")"
+            if [ -z "$size" ]; then
+                printf "%s\n" "Missing configuration: fullscreen.${mode}.area" >&2
+                exit 1
+            fi
+            create_fullscreen "$wid" "$size"
+            # subscribe to monitor focus events until an overlapped monitor is focused
+            # or another windows is switched to fullscreen
+            read -d "" -ra monitors <<< "$(cfg ".${mode}.overlaps | join(\"\\n\")" \
+                | xargs -I{} bspc query --monitors --monitor {})"
+            subscribe_focus "$wid" "${monitors[@]}"
+            # remove fullscreen if it's still active for the same window
+            read -d "" -r pwid desktop < "$STATE_FILE"
+            [ "$pwid" == "$wid" ] && remove_fullscreen "$wid" "$desktop"
+        fi
+        ;;
+    *)
+        _usage
+        ;;
+esac
