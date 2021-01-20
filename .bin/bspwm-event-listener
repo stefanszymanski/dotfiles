@@ -20,4 +20,4 @@ while read -r; do
             chwb -c "$color" "$wid"
         done
     done
-done < <(bspc subscribe node)
+done < <(bspc subscribe node_focus)
