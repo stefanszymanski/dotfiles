@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
-
-# Toggle fullscreen for the focused window.
+#
+# Toggle fullscreen mode for a window.
 # 
+# This script is part of my custom desktop environment. It may not work outside
+# of this context.
+#
+# This script requires `pfw`, `jq` and `bspc`.
+#
 # Available fullscreen modes are configured as `fullscreen.<key>`.
 # There must be following properties:
 # - `name` is the display name as shown in the rofi dialog.
@@ -14,13 +19,17 @@
 #   name = "Example"
 #   area = "2560x1440+0+0"
 #   overlaps = ["A", "B"]
+#
+# Author: Stefan Szymanski <stefan.szymanski@posteo.de>
+# Date: 2021-01-20
+# Licence: MIT
 
 STATE_FILE="$HOME/.fullscreen-state"
 TEMP_MONITOR="Fullscreen"
 
 config="$(de-config get "fullscreen")"
 if [ "$?" -gt 0 ]; then
-    printf "%s\n" "Configuration not found"
+    printf "%s\n" "Configuration not found" >&2
     exit 1
 fi
 
@@ -28,11 +37,15 @@ cfg() {
     jq -r "$1" <<< "$config"
 }
 
-_usage() {
-    cat <<-END
-Usage: de-fullscreen toggle [<wid>]
-END
-    exit 1
+usage() {
+    local prog="${0##*/}"
+    cat <<-EOF
+	Usage: $prog toggle [<wid>]
+	
+	Examples:
+	  $prog toggle              # toggle fullscreen for the focused window
+	  $prog toggle 0x01e00005   # toggle fullscreen for the given window
+	EOF
 }
 
 select_mode() {
@@ -127,7 +140,11 @@ case "$1" in
             [ "$pwid" == "$wid" ] && remove_fullscreen "$wid" "$desktop"
         fi
         ;;
+    help)
+        usage
+        ;;
     *)
-        _usage
+        usage >&2
+        exit 1
         ;;
 esac

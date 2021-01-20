@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+# 
+# Send a update message to all desktop panels.
+#
+# This script is part of my custom desktop environment. It may not work outside
+# of this context.
+#
+# Author: Stefan Szymanski <stefan.szymanski@posteo.de>
+# Date: 2021-01-20
+# Licence: MIT
 
 # TODO move this path to a shared file
 FIFO_BASE=/tmp/panel-fifo

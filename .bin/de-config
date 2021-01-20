@@ -1,9 +1,32 @@
 #!/usr/bin/env bash
+#
+# Get desktop environment configuration.
+#
+# This script is part of my custom desktop environment. It may not work outside
+# of this context.
+#
+# This script requires `toml` and `jq`.
+# It requires $DE_CONFIG to contain the path of a toml file.
+#
+# Author: Stefan Szymanski <stefan.szymanski@posteo.de>
+# Date: 2021-01-20
+# Licence: MIT
 
 if [ ! -r "$DE_CONFIG" ]; then
-    printf "%s\n" "Configuration not found: $$DE_CONFIG is not a readable file."
+    printf "%s\n" "Configuration not found: $$DE_CONFIG is not a readable file." >&2
     exit 1
 fi
+
+usage() {
+    local prog="${0##*/}"
+    cat <<-EOF
+	Usage: $prog get <args>
+
+	Examples:
+	  $prog get pulseaudio.source
+	  $prog get pulseaudio '.sink | to_entries[] | .value.name'
+	EOF
+}
 
 case "$1" in 
     get)
@@ -16,7 +39,11 @@ case "$1" in
             printf "%s\n" "$config"
         fi
         ;;
+    help)
+        usage
+        ;;
     *) 
+        usage >&2
         exit 1
         ;;
 esac

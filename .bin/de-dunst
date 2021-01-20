@@ -1,8 +1,36 @@
 #!/usr/bin/env bash
+#
+# Control dunst notifications.
+#
+# This script is part of my custom desktop environment. It may not work outside
+# of this context.
+#
+# This script requires `dunstctl`.
+#
+# Author: Stefan Szymanski <stefan.szymanski@posteo.de>
+# Date: 2021-01-20
+# Licence: MIT
+
+usage() {
+    local prog="${0##*/}"
+    cat <<-EOF
+	Usage: $prog toggle
+
+	Examples:
+	  $prog toggle  # toggle notifications on/off
+	EOF
+}
 
 case "$1" in
     toggle)
         dunstctl set-paused toggle
         de-panel-send "A$(dunstctl is-paused)"
+        ;;
+    help)
+        usage
+        ;;
+    *)
+        usage >&2
+        exit 1
         ;;
 esac

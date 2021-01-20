@@ -1,16 +1,35 @@
 #!/usr/bin/env bash
+#
+# Control monitor brightness.
+#
+# This script is part of my custom desktop environment. It may not work outside
+# of this context.
+#
+# This script requires `ddcutil`.
+# If you need root permissions to run `ddcutil`, run this script with `sudo`.
+#
+# Author: Stefan Szymanski <stefan.szymanski@posteo.de>
+# Date: 2021-01-20
+# Licence: MIT
 
-_usage() {
-    cat <<-END
-Usage: de-backlight [inc|dec|set|get] [<args>]
+usage() {
+    local prog="${0##*/}"
+    cat <<-EOF
+	Usage: $prog [<inc|dec|set|get|i|d|s|g>] [<args>]
 
-Commands:
-    inc [<value>]
-    dec [<value>]
-    set <value>
-    get
-END
-    exit 1
+	Commands:
+	  [inc|i] [<value>]
+	  [dec|d] [<value>]
+	  [set|s] <value>
+	  [get|g]
+      
+	Examples:
+	  $prog i 10    # increase by 10%
+	  $prog d 10    # decrease by 10%
+	  $prog s 50    # set to 50%
+	  $prog g       # get in percent
+	  $prog         # get in percent
+	EOF
 }
 
 change_brightness() {
@@ -25,30 +44,35 @@ get_brightness() {
 }
 
 case "$1" in
-    inc|dec)
+    inc|dec|i|d)
         step="${2:-10}"
         case "$1" in
-            inc)
+            inc|i)
                 change_brightness "$step" +
                 ;;
-            dec)
+            dec|d)
                 change_brightness "$step" -
                 ;;
         esac
         ;;
-    set)
+    set|s)
         value="$2"
         [ -z "$value" ] && _usage
         change_brightness "$value"
         ;;
-    get)
+    get|g|'')
         get_brightness
         exit
         ;;
     update)
         ;;
+    help)
+        usage
+        exit
+        ;;
     *)
-        _usage
+        usage >&2
+        exit 1
         ;;
 esac
 

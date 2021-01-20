@@ -1,4 +1,33 @@
 #!/usr/bin/env bash
+#
+# Control pulseaudio.
+#
+# This script is part of my custom desktop environment. It may not work outside
+# of this context.
+#
+# This script requires `jq`, `pactl` and `gawk`.
+#
+# Available sources and sinks are configured as `pulseaudio.[sink|source].<key>`.
+# There must be following properties:
+# - `name` is the pulseaudio name of the device.
+# - `title` is the display name of the device.
+#
+# Example toml configuration:
+#
+#   [pulseaudio]
+#       [pulseaudio.sink.speakers]
+#       name = "alsa_output.pci-0000_0a_00.1.hdmi-stereo-extra2"
+#       title = "Speakers"
+#       [pulseaudio.sink.headphones]
+#       name = "alsa_output.pci-0000_0c_00.4.analog-stereo"
+#       title = "Headphones"
+#       [pulseaudio.source.mic]
+#       name = "alsa_input.pci-0000_0c_00.4.analog-stereo"
+#       title = "Mic"
+#
+# Author: Stefan Szymanski <stefan.szymanski@posteo.de>
+# Date: 2021-01-20
+# Licence: MIT
 
 declare -A CMDS
 CMDS=(
@@ -10,36 +39,46 @@ CMDS=(
     [source-set-mute]="set-source-mute"
 )
 
-_usage() {
-    cat <<-END
-Usage: pa -t <command> <args...>
+usage() {
+    local prog="${0##*/}"
+    cat <<-EOF
+	Usage: $prog <command> [<args...>]
 
-Commands:
-    get-sink-names
-    get-sink-name     <sink-key>
-    get-sink-key      <sink-name>
-    get-sink-info     <sink-key>
-    get-sink-volume   <sink-key>
-    get-sink-mute     <sink-key>
-    get-source-names
-    get-source-name   <source-key>
-    get-source-key    <source-name>
-    get-source-info   <source-key>
-    get-source-volume <source-key>
-    get-source-mute   <source-key>
-    set-sink-volume   <sink-key>   <value>
-    set-sink-mute     <sink-key>   <value>
-    set-source-volume <source-key> <value>
-    set-source-mute   <source-key> <value>
+	Commands:
+	  # get sink information
+	  $prog get-sink-names
+	  $prog get-sink-name     <sink-key>
+	  $prog get-sink-key      <sink-name>
+	  $prog get-sink-info     <sink-key>
+	  $prog get-sink-volume   <sink-key>
+	  $prog get-sink-mute     <sink-key>
 
-Argument <value> is the same as for \`pactl set-{sink|souce}-{volume|mute}\`.
-END
-    exit 1
+	  # get source information
+	  $prog get-source-names
+	  $prog get-source-name   <source-key>
+	  $prog get-source-key    <source-name>
+	  $prog get-source-info   <source-key>
+	  $prog get-source-volume <source-key>
+	  $prog get-source-mute   <source-key>
+
+	  # set sink volume or mute state
+	  $prog set-sink-volume   <sink-key>   <value>
+	  $prog set-sink-mute     <sink-key>   <value>
+
+	  # set source volume or mute state
+	  $prog set-source-volume <source-key> <value>
+	  $prog set-source-mute   <source-key> <value>
+
+	  # generate input for desktop panel
+	  $prog panel
+
+	Argument <value> is the same as for \`pactl set-{sink|souce}-{volume|mute}\`.
+	EOF
 }
 
 config="$(de-config get "pulseaudio")"
 if [ "$?" -gt 0 ]; then
-    printf "%s\n" "Configuration not found"
+    printf "%s\n" "Configuration not found" >&2
     exit 1
 fi
 
@@ -171,7 +210,11 @@ case "$1" in
             printf "%s " "$(get_volume_and_mute source "$key")"
         done <<< "$(cfg '.source | to_entries[] | .value.name')"
         ;;
+    help)
+        usage
+        ;;
     *)
-        _usage
+        usage >&2
+        exit 1
         ;;
 esac
