@@ -82,7 +82,7 @@ c.downloads.location.directory = '~/downloads'
 c.downloads.location.prompt = False
 c.downloads.location.remember = True
 c.downloads.location.suggestion = 'filename'
-c.downloads.open_dispatcher = '{} -e "vifm --select {{}}"'.format(terminal)
+c.downloads.open_dispatcher = ' '.join([terminal, '-e', 'vifm', '--select {}'])
 c.downloads.position = 'bottom'
 c.downloads.remove_finished = -1
 
