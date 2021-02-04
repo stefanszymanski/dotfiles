@@ -51,7 +51,7 @@ get_username() {
 
 # Autotype given string.
 autotype() {
-    printf "%s" "$1" | xdotool type --delay 20 --clearmodifiers --file -
+    printf "%s" "$1" | xdotool type --delay 2 --clearmodifiers --file -
 }
 
 # Display a notification.
