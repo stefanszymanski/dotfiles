@@ -8,9 +8,9 @@ config.source(os.path.join(dir, 'settings.py'))
 config.source(os.path.join(dir, 'theme.py'))
 
 # load jmatrix plugin
-sys.path.append(os.path.join(dir, 'plugin/jmatrix'))
-config.source(os.path.join(
-    dir, 'plugin/jmatrix/jmatrix/integrations/qutebrowser.py'))
+# sys.path.append(os.path.join(dir, 'plugin/jmatrix'))
+# config.source(os.path.join(
+#     dir, 'plugin/jmatrix/jmatrix/integrations/qutebrowser.py'))
 
 # # load jblock plugin
 # sys.path.append(os.path.join(sys.path[0], 'plugin/jblock'))

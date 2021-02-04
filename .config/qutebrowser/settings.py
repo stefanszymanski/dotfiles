@@ -4,6 +4,9 @@ terminal = 'st'
 # Behaviour #
 #############
 
+# Disable loading autoconfig
+config.load_autoconfig(False)
+
 # caching and persistence
 c.content.cache.appcache = True
 c.content.cache.maximum_pages = 0
@@ -45,8 +48,9 @@ c.tabs.tabs_are_windows = False
 c.tabs.wrap = True
 
 # privacy and security
+c.content.blocking.enabled = True
+c.content.blocking.method = 'both'
 c.content.geolocation = 'ask'
-c.content.host_blocking.enabled = True
 c.content.hyperlink_auditing = False
 c.content.desktop_capture = False
 c.content.media.audio_capture = False
@@ -108,6 +112,11 @@ c.session.lazy_restore = True
 c.tabs.close_mouse_button = 'middle'
 c.tabs.close_mouse_button_on_bar = 'ignore'
 c.tabs.mousewheel_switching = False
+
+# file selection
+c.fileselect.handler = 'external'
+c.fileselect.single_file.command = [terminal, '-e', 'vifm', '--choose-files={}']
+c.fileselect.multiple_files.command = [terminal, '-e', 'vifm', '--choose-files={}']
 
 # search
 c.url.auto_search = 'naive'
