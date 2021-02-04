@@ -37,9 +37,9 @@ get_lines() {
     for input in "${inputs[@]}"; do
         IFS=$' ' read -r index sink volume muted name <<< "$input"
         name="${name:1:${#name}-2}"
-        sink="$(sink_key "$sink")"
+        sink="$(sink_title "$sink")"
         [ "$muted" == "yes" ] && muted="muted" || muted=""
-        printf  "%s\n" "$index^$name^$volume^$muted^${sink^}"
+        printf  "%s\n" "$index^$name^$volume^$muted^$sink"
     done
 }
 
@@ -62,6 +62,12 @@ sink_switch() {
 # Expects $1 to be wrapped in <>.
 sink_key() {
     de-pulseaudio get-sink-key "${1:1:${#1}-2}"
+}
+
+# Get the sink title by its pulseaudio name.
+# Expects $1 to be wrapped in <>.
+sink_title() {
+    de-pulseaudio get-sink-title "$(sink_key "$1")"
 }
 
 # Show help with rofi.

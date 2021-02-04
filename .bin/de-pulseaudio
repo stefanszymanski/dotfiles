@@ -46,16 +46,18 @@ usage() {
 
 	Commands:
 	  # get sink information
-	  $prog get-sink-names
+	  $prog get-sink-keys
 	  $prog get-sink-name     <sink-key>
+	  $prog get-sink-title    <sink-key>
 	  $prog get-sink-key      <sink-name>
 	  $prog get-sink-info     <sink-key>
 	  $prog get-sink-volume   <sink-key>
 	  $prog get-sink-mute     <sink-key>
 
 	  # get source information
-	  $prog get-source-names
+	  $prog get-source-keys
 	  $prog get-source-name   <source-key>
+	  $prog get-source-title  <source-key>
 	  $prog get-source-key    <source-name>
 	  $prog get-source-info   <source-key>
 	  $prog get-source-volume <source-key>
@@ -97,19 +99,6 @@ get_keys() {
     cfg ".${1} | keys_unsorted | to_entries[] | .value"
 }
 
-# Get the name of a sink or source.
-# Usage: get_name [sink|source] <key>
-get_name() {
-    local name
-    name="$(cfg ".${1}.${2}.name")"
-    if [ -n "$name" ]; then
-        printf "%s\n" "$name"
-    else
-        printf "%s\n" "Invalid label" >&2
-        exit 1
-    fi
-}
-
 # Get the key of a sink or source
 # Usage: get_key [sink|source] <name>
 get_key() {
@@ -119,6 +108,19 @@ get_key() {
         printf "%s\n" "$name"
     else
         printf "%s\n" "Unconfigured name" >&2
+        exit 1
+    fi
+}
+
+# Get a property of a sink or source
+# Usage: get_property [sink|source] <property> <name>
+get_property() {
+    local value
+    value="$(cfg ".${1}.${3}.${2}")"
+    if [ -n "$value" ]; then
+        printf "%s\n" "$value"
+    else
+        printf "%s\n" "Invalid label" >&2
         exit 1
     fi
 }
@@ -157,49 +159,55 @@ case "$1" in
         get_keys sink
         ;;
     get-sink-name)
-        get_name sink "$2"
+        get_property sink name "$2"
+        ;;
+    get-sink-title)
+        get_property sink title "$2"
         ;;
     get-sink-key)
         get_key sink "$2"
         ;;
     get-sink-info)
-        get_info sink "$(get_name sink "$2")"
+        get_info sink "$(get_property sink name "$2")"
         ;;
     get-sink-volume)
-        get_volume sink "$(get_name sink "$2")"
+        get_volume sink "$(get_property sink name "$2")"
         ;;
     get-sink-mute)
-        get_mute sink "$(get_name sink "$2")"
+        get_mute sink "$(get_property sink name "$2")"
         ;;
     get-source-keys)
         get_keys source
         ;;
     get-source-name)
-        get_name source "$2"
+        get_property source name "$2"
+        ;;
+    get-source-title)
+        get_property source title "$2"
         ;;
     get-source-key)
         get_key source "$2"
         ;;
     get-source-info)
-        get_info source "$(get_name source "$2")"
+        get_info source "$(get_property source name "$2")"
         ;;
     get-source-volume)
-        get_volume source "$(get_name source "$2")"
+        get_volume source "$(get_property source name "$2")"
         ;;
     get-source-mute)
-        get_mute source "$(get_name source "$2")"
+        get_mute source "$(get_property source name "$2")"
         ;;
     set-sink-volume)
-        set_volume sink "$(get_name sink "$2")" "$3"
+        set_volume sink "$(get_property sink name "$2")" "$3"
         ;;
     set-sink-mute)
-        set_mute sink "$(get_name sink "$2")" "$3"
+        set_mute sink "$(get_property sink name "$2")" "$3"
         ;;
     set-source-volume)
-        set_volume source "$(get_name source "$2")" "$3"
+        set_volume source "$(get_property source name "$2")" "$3"
         ;;
     set-source-mute)
-        set_mute source "$(get_name source "$2")" "$3"
+        set_mute source "$(get_property source name "$2")" "$3"
         ;;
     panel)
         # generate output for my lemonbar panel
