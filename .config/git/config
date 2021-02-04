@@ -243,7 +243,11 @@
 	b = branch
 	bv = branch --all -vv
 	bc = branch --contains
+    bm = branch --merged
 	bd = branch --delete --force
+
+    bdm = !git-delete-merged-branches
+    bdmr = !git-delete-merged-branches -r
 
 	cl = clone
 	p = pull

@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# Delete all merged branches.
+# Use -r to delete remote branches.
+
+remote=false
+
+while getopts "r" option; do
+  case "$option" in
+    r) remote=true;; 
+    *) printf "%s\n" "Invalid arguments" && exit 1;;
+  esac
+done
+
+if $remote; then
+    branches="$(git branch -r --merged | grep -v master | sed 's/origin\///')"
+else
+    branches="$(git branch --merged | grep -v master)"
+fi
+
+count="$(printf "%s\n" "$branches" | awk NF | wc -l)"
+
+if [ "$count" -eq 0 ]; then
+    printf "%s\n" "No merged branches. Abort"
+    exit
+fi
+
+printf "%s\n" "$branches"
+printf "%s" "Are you sure to delete these branches? [y/n]"
+read -r answer
+
+if [ "$answer" = "y" ]; then
+    if $remote; then
+        printf "%s\n" "$branches" | xargs -n 1 git push --delete origin
+    else
+        printf "%s\n" "$branches" | xargs -n 1 git branch --delete --force
+    fi
+    printf "%s\n" "Remote Branches deleted"
+else
+    printf "%s\n" "Aborted"
+fi
+
