@@ -9,8 +9,8 @@ config.load_autoconfig(False)
 
 # caching and persistence
 c.content.cache.appcache = True
-c.content.cache.maximum_pages = 0
-c.content.cache.size = None
+c.content.cache.maximum_pages = 50
+c.content.cache.size = 1 * 1024 * 1024 * 1024
 c.content.canvas_reading = True
 c.content.cookies.accept = 'no-3rdparty'
 c.content.cookies.store = True
