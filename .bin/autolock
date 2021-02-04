@@ -1,26 +1,5 @@
 #!/usr/bin/env bash
 
-lock_with_i3lock() {
-    local image icon offset monitors w h x y
-    image="$HOME/.cache/i3lock_background.png"
-    icon="$HOME/.config/i3lock/icon.png"
-    # Half the icon's dimensions
-    offset=16
-    # Take a screenshot
-    scrot -o "$image"
-    # Pixelate the screenshot
-    convert "$image" -scale 10% -scale 1000% "$image"
-    # Add a lock icon in the middle of each monitor
-    IFS=$'\n' read -d "" -ra monitors <<< "$(xrandr --current | awk '$2 ~ /connected/ && /[0-9]+x[0-9]+/ {print $3}')"
-    for monitor in "${monitors[@]}"; do
-        IFS=$' ' read -d "" -r w h x y <<< "$(awk -F'[x+]' '{print $1, $2, $3, $4}' <<< "$monitor")"
-        ix=$((x+(w/2)-offset))
-        iy=$((y+(h/2)-offset))
-        convert "$image" "$icon" -geometry "+$ix+$iy" -composite "$image"
-    done
-    exec i3lock -uti "$image" || "$0 lock"
-}
-
 lock_with_xsecurelock() {
     XSECURELOCK_BLANK_TIMEOUT=30 \
     XSECURELOCK_BLANK_DPMS_STATE=suspend \
@@ -63,7 +42,6 @@ get_xset_timeout() {
 
 case "$1" in
     lock) lock_with_xsecurelock;;
-    fancylock) lock_with_i3lock;;
     notify) notify;;
 esac
 
