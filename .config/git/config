@@ -182,6 +182,11 @@
 	lp = log --pretty=lt --graph --color --date=default --patch -c -M -C
 	ld = log --pretty=lt --graph --color --date=default --stat --summary
 
+    # log, current branch, with grep
+	lfg = log --pretty=lf --graph --color --date=default --grep
+	lpg = log --pretty=lt --graph --color --date=default --patch -c -M -C --grep
+    ldg = log --pretty=lt --graph --color --date=default --stat --summary --grep
+
 	# log, all branches+tags on all remotes
 	la = log --pretty=lt --graph --color --date=default --all
 	lao = log --pretty=lo --graph --color --date=default --all
@@ -235,11 +240,14 @@
 	ca = commit --verbose --amend
 	can = commit --verbose --amend --no-edit
 	car = commit --verbose --amend --all
+    cm = commit -m
 
 	co = checkout
 	com = checkout master
-	cod = checkout develop
 	cob = checkout -b
+    cot = checkout --theirs
+    coo = checkout --ours
+
 	b = branch
 	bv = branch --all -vv
 	bc = branch --contains
@@ -259,6 +267,7 @@
 	puu = "!f() { [ \"$#\" -gt 1 ] && REMOTE=$1 && shift; git push \"$@\" -u \"${REMOTE:-origin}\" \"$(git rev-parse --short --abbrev-ref HEAD)\"; }; f"
 	puf = push --force-with-lease
 	puff = push --force
+    put = push --tags
 
 	sub = submodule
 	subu = submodule update --init --recursive
