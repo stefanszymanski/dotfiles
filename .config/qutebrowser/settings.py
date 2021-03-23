@@ -131,6 +131,7 @@ c.url.searchengines = {
     'gitlab': 'https://gitlab.com/search?search={}',
     'amazon': 'https://www.amazon.de/s?k={}',
     'dhl': 'https://www.dhl.de/de/privatkunden/dhl-sendungsverfolgung.html?piececode={}',
+    'caniuse': 'https://caniuse.com/?search={}',
 }
 
 
