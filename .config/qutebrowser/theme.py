@@ -73,7 +73,7 @@ orange = bright_orange
 # Qutebrowser color settings #
 # ========================== #
 
-c.colors.webpage.prefers_color_scheme_dark = True
+c.colors.webpage.preferred_color_scheme = "dark"
 
 # Completion
 c.colors.completion.fg = fg2
