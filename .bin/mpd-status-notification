@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#
+# Display the MPD state and currently playing song as notification.
+#
+# This script requires `mpc`,`awk` and `notify-send`.
+
+notify() {
+    notify-send -h string:private-synchronous:mpd-notification "$1" "$2"
+}
+
+info="$(mpc status --format="[[%artist% - ]%title% [(%album%[, %date%])]]|[%name]|[%file%]")"
+
+if [[ "$?" -eq 0 ]]; then
+    if [[ "$(wc -l <<< "$info")" -gt 1 ]]; then
+        IFS=$'\n' read -rd '' -a lines <<< "$info"
+        state="$(cut -d ' ' -f 1 <<< "${lines[1]}")"
+        track="${lines[0]}"
+        number="$(awk -F ' +' '{print $2}' <<< "${lines[1]}")"
+        IFS='/' read -r position total <<< "$number"
+        position="${position:1}"
+        case "$state" in
+            "[playing]") subject="Now playing";;
+            "[paused]") subject="Playback is paused";;
+        esac
+        notify "$subject" "$track\nTrack $position of $total"
+    else
+        notify "Playback is stopped"
+    fi
+else
+    notify "MPD isn't running"
+fi

@@ -241,13 +241,13 @@ hyper + p ; c
 # cmus
 ######
 
-# pause/unpause cmus
+# pause/unpause mpc
 hyper + shift + l
-    cmus-remote --pause
+    mpc toggle
 
 # show cmus status
 hyper + l
-    cmus-status-notification
+    mpc-status-notification
 
 
 # other

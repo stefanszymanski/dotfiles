@@ -1,0 +1,61 @@
+# MPD
+mpd_music_dir = "~/music/"
+mpd_host = "127.0.0.1"
+mpd_port = "6600"
+mpd_crossfade_time = 0
+mpd_connection_timeout = 5
+
+# Colors
+colors_enabled = "yes"
+#state_line_color = "256"
+#main_window_color = "60"
+#main_window_highlight_color = "1"
+empty_tag_color = "white"
+color1 = "white"
+color2 = "white"
+main_window_color = "white"
+window_border_color = "white"
+
+current_item_prefix = "$r$(yellow)"
+current_item_suffix = "$/r$(white)"
+
+#current_item_inactive_column_prefix = "$(blue)"
+#current_item_inactive_column_suffix = "$(white)"
+#selected_item_prefix = "$(blue)"
+#selected_item_suffix = "$(white)"
+
+# Delays
+playlist_disable_highlight_delay = "1"
+message_delay_time= "1"
+
+search_engine_display_mode = "classic"
+
+media_library_albums_split_by_date = "no"
+media_library_primary_tag = "album_artist"
+media_library_sort_by_mtime = "no"
+
+block_search_constraints_change_if_items_found = "no"
+search_engine_default_search_mode = 1
+
+display_bitrate = "yes"
+autocenter_mode = "yes"
+centered_cursor = "yes"
+titles_visibility = "yes"
+statusbar_visibility = "yes"
+empty_tag_marker= " ??? "
+mouse_support = "yes"
+header_visibility = "yes"
+display_remaining_time = "no"
+ask_before_clearing_playlists = "yes"
+discard_colors_if_item_is_selected = "yes"
+
+# progress bar
+progressbar_look = "─╼"
+progressbar_color = "white"
+progressbar_elapsed_color = "yellow"
+
+song_list_format = "$(yellow)%a $(white)%t $R%b $(blue)%n$(9) • $(magenta)%l"
+#song_list_format = "%D | %f"
+song_columns_list_format = "(20)[white]{a} (20)[white]{b} (5)[white]{n} (45)[white]{t} (5)[white]{l}"
+#song_status_format = "$b $8%a $8•$3• $3%t $3•$5• $5%b $5•$2• $2%y"
+playlist_display_mode = "classic"
