@@ -4,9 +4,6 @@ terminal = 'st'
 # Behaviour #
 #############
 
-# Disable loading autoconfig
-config.load_autoconfig(False)
-
 # caching and persistence
 c.content.cache.appcache = True
 c.content.cache.maximum_pages = 50

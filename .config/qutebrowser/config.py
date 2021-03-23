@@ -1,6 +1,9 @@
 import os
 import sys
 
+# Disable loading autoconfig
+config.load_autoconfig(False)
+
 dir = os.path.expanduser('~/.config/qutebrowser/')
 
 # load general settings and theme
