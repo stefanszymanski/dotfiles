@@ -4,17 +4,19 @@
 #
 # This script is part of my custom desktop environment. It may not work outside
 # of this context.
-#
-# Author: Stefan Szymanski <stefan.szymanski@posteo.de>
-# Date: 2021-01-20
-# Licence: MIT
 
 # TODO move padding to a shared file
 
-pkill -xf "bash $(which de-panel)"
-if [ $? -eq 0 ]; then
+_sv() {
+    SVDIR=~/service.x sv "$1" de-panel
+}
+
+if [ "$(_sv status | cut -d ':' -f 1)" = "run" ]; then
+    echo "is up"
+    _sv down
     bspc config top_padding 0
 else
+    echo "is down"
+    _sv up
     bspc config top_padding 20
-    de-panel > /dev/null &
 fi

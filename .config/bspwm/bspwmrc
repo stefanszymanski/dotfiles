@@ -3,11 +3,6 @@
 xsetroot -solid "#282828"
 xsetroot -cursor_name left_ptr
 
-pkill -x sxhkd; sxhkd &
-pkill -xf "bash $(which de-panel)"; de-panel &
-pkill -xf "bash $(which bspwm-event-listener)"; bspwm-event-listener &
-dunst &
-
 # rename monitors
 IFS=$'\n' read -d "" -ra monitors <<< "$(bspc query --monitors)"
 names=(A B C D E F)
@@ -45,5 +40,3 @@ bspc config merge_overlapping_monitors false
 
 bspc rule --add nagstamon state=floating sticky=on focus=off private=on
 bspc rule --add Zathura state=tiled
-
-wait

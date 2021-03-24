@@ -7,28 +7,14 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
     done
 fi
 
-pulseaudio --start
-start-pulseaudio-x11
-autolock &
-unclutter -idle 3 &
-
-pkill --signal KILL -x redshift
-redshift -x
-redshift &
-
-sleep 1
-
 # load host specific configuration
 HOST_XINIT="$HOME/.config/x11/xinit.$(hostname)"
 if [ -e "$HOST_XINIT" ] ; then
     . "$HOST_XINIT"
 fi
 
-wm="${WM:-bspwm}"
-
 if [ -n "$DBUS_ENABLE" ]; then
-    exec dbus-launch --sh-syntax --exit-with-session "$wm"
+    exec dbus-run-session -- runsvdir -P ~/service.x
 else
-    exec "$wm"
+    exec runsvdir -P ~/service.x
 fi
-

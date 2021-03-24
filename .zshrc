@@ -298,6 +298,12 @@ function lt {
 # fasd
 alias o='fasd -a -e xdg-open'
 
+# runit user services
+function usv { SVDIR=~/service sv $@ }
+function uvsv { SVDIR=~/service vsv $@ }
+function uxsv { SVDIR=~/service.x sv $@ }
+function uxvsv { SVDIR=~/service.x vsv $@ }
+
 # backlightcontrol
 alias bl='de-backlight'
 alias bl0='de-backlight set 0'

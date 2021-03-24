@@ -1,0 +1,4 @@
+#!/bin/sh
+
+SVDIR=~/service.x sv check bspwm || exit 1
+exec bspwm-event-listener
