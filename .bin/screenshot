@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dir="${SCREENSHOT_DIR:-./screenshots}"
+dir="${SCREENSHOT_DIR:-~/screenshots}"
 cmd="$(basename "$0")"
 
 _usage() {
