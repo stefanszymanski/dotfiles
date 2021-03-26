@@ -162,9 +162,6 @@
 [column]
 	ui = auto,column
 
-[web]
-	browser = firefox
-
 [pretty]
 	lo = tformat:%C(auto)%h%C(reset)%C(auto)%d%C(reset) %s %C(italic blue)%ad%C(reset) %C(241)%aN%C(reset)
 	lt =  format:%C(auto)%h%C(reset) %C(white)-%C(reset) %C(italic blue)%aD%C(reset) %C(italic cyan)(%ad)%C(reset)%C(auto)%d%C(reset)%n %C(white)%C(reset) %s %C(241)- %aN <%aE>%C(reset)%n
