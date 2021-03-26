@@ -180,23 +180,27 @@ setopt share_history                # share history between sessions
 # enable vim mode
 bindkey -v
 
+autoload -U edit-command-line
+zle -N edit-command-line 
+bindkey -M vicmd '^v' edit-command-line
+
 # BINDINGS - READLINE
 
 # moving
-bindkey '^a'        beginning-of-line
-bindkey '^e'        end-of-line
-bindkey '^f'        forward-char
-bindkey '^b'        backward-char
-bindkey '^[f'       forward-word
-bindkey '^[b'       backward-word
+bindkey -M viins '^a'        beginning-of-line
+bindkey -M viins '^e'        end-of-line
+bindkey -M viins '^f'        forward-char
+bindkey -M viins '^b'        backward-char
+bindkey -M viins '^[f'       forward-word
+bindkey -M viins '^[b'       backward-word
 # history
 bindkey '^p'        up-history
 bindkey '^n'        down-history
 bindkey '^r'        history-incremental-search-backward
 bindkey '^s'        history-incremental-search-forward
 # text editing
-bindkey '^d'        delete-char
-bindkey '^w'        backward-kill-word
+bindkey -M viins '^d'        delete-char
+bindkey -M viins '^w'        backward-kill-word
 
 # OTHER BINDINGS
 
