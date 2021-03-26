@@ -187,6 +187,7 @@ super + comma
 {_,ctrl,shift} + XF86AudioMute
     de-pulseaudio {set-sink-mute speakers, set-sink-mute headphones, set-source-mute mic} toggle
 
+# open menu for managing sink inputs
 hyper + v
     de-pulseaudio-menu
 
