@@ -247,7 +247,7 @@ hyper + shift + l
 
 # show cmus status
 hyper + l
-    mpc-status-notification
+    mpd-status-notification
 
 
 # other
