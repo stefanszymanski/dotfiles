@@ -1,3 +1,5 @@
+#!/bin/sh
+
 [ -r ~/.profile ] && . ~/.profile
 [ -r ~/.xprofile ] && . ~/.xprofile
 
