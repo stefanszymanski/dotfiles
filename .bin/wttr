@@ -2,9 +2,9 @@
 
 wttr() {
     # change Paris to your default location
-    local request="wttr.in/berlin?lang=de&mFQ"
+    local request="wttr.in/$1?lang=de&mFQ"
     [ "$(tput cols)" -lt 125 ] && request+='n'
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
 
-wttr
+wttr "${1:-berlin}"
