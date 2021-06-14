@@ -198,6 +198,10 @@ hyper + v
 XF86MonBrightness{Up,Down}
     de-backlight {inc,dec}
 
+# set monitor backlight brightness
+super + {Next,Prior,Home,End}
+    de-backlight {dec,inc,set 100, set 0}
+
 
 # dunst
 #######
