@@ -55,10 +55,14 @@ c.content.media.video_capture = False
 c.content.media.audio_video_capture = False
 c.content.plugins = False
 c.content.mouse_lock = 'ask'
-c.content.notifications = False
 c.content.private_browsing = False
-c.content.ssl_strict = True
+c.content.tls.certificate_errors = 'ask-block-thirdparty'
 c.content.xss_auditing = True
+
+# notifications
+c.content.notifications.enabled = 'ask'
+c.content.notifications.presenter = 'libnotify'
+c.content.notifications.show_origin = True
 
 # javascript
 c.content.javascript.enabled = True
