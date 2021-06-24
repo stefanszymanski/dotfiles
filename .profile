@@ -15,6 +15,7 @@
 [ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
 [ -d "$HOME/.npm/bin" ] && PATH="$HOME/.npm/bin:$PATH"
 [ -d "$HOME/.composer-vendor/bin" ] && PATH="$HOME/.composer-vendor/bin:$PATH"
+[ -d "/usr/lib/ruby/gems/2.7.0/bin" ] && PATH="/usr/lib/ruby/gems/2.7.0/bin:$PATH"
 export PATH
 
 # set XDG_CONFIG_* variables
