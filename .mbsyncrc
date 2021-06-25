@@ -20,36 +20,36 @@ Inbox ~/.mail/posteo/inbox
 
 # Channels
 Channel posteo-inbox
-Master :posteo-remote:"INBOX"
-Slave :posteo-local:inbox
+Far :posteo-remote:"INBOX"
+Near :posteo-local:inbox
 Create Both
 Expunge Both
 SyncState *
 
 Channel posteo-archive
-Master :posteo-remote:"Archive"
-Slave :posteo-local:archive
+Far :posteo-remote:"Archive"
+Near :posteo-local:archive
 Create Both
 Expunge Both
 SyncState *
 
 Channel posteo-drafts
-Master :posteo-remote:"Drafts"
-Slave :posteo-local:drafts
+Far :posteo-remote:"Drafts"
+Near :posteo-local:drafts
 Create Both
 Expunge Both
 SyncState *
 
 Channel posteo-sent
-Master :posteo-remote:"Sent"
-Slave :posteo-local:sent
+Far :posteo-remote:"Sent"
+Near :posteo-local:sent
 Create Both
 Expunge Both
 SyncState *
 
 Channel posteo-trash
-Master :posteo-remote:"Trash"
-Slave :posteo-local:trash
+Far :posteo-remote:"Trash"
+Near :posteo-local:trash
 Create Both
 Expunge Both
 SyncState *
@@ -83,36 +83,36 @@ Inbox ~/.mail/gmail/inbox
 
 # Channels
 Channel gmail-inbox
-Master :gmail-remote:"INBOX"
-Slave :gmail-local:inbox
+Far :gmail-remote:"INBOX"
+Near :gmail-local:inbox
 Create Both
 Expunge Both
 SyncState *
 
 Channel gmail-trash
-Master :gmail-remote:"[Gmail]/Trash"
-Slave :gmail-local:trash
+Far :gmail-remote:"[Gmail]/Trash"
+Near :gmail-local:trash
 Create Both
 Expunge Both
 SyncState *
 
 Channel gmail-sent
-Master :gmail-remote:"[Gmail]/Sent Mail"
-Slave :gmail-local:sent
+Far :gmail-remote:"[Gmail]/Sent Mail"
+Near :gmail-local:sent
 Create Both
 Expunge Both
 SyncState *
 
 Channel gmail-archive
-Master :gmail-remote:"[Gmail]/All Mail"
-Slave :gmail-local:archive
+Far :gmail-remote:"[Gmail]/All Mail"
+Near :gmail-local:archive
 Create Both
 Expunge Both
 SyncState *
 
 Channel gmail-drafts
-Master :gmail-remote:"[Gmail]/Drafts"
-Slave :gmail-local:drafts
+Far :gmail-remote:"[Gmail]/Drafts"
+Near :gmail-local:drafts
 Create Both
 Expunge Both
 SyncState *
