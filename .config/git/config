@@ -11,12 +11,39 @@
 [core]
     editor = nvim
     whitespace = fix,trailing-space,cr-at-eol
-    pager = diff-so-fancy | less --tabs=4 -RFX
     excludesfile = ~/.config/git/ignore
 	autocrlf = input
 
 [gpg]
 	program = gpg2
+
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[delta]
+    features = side-by-side line-numbers decorations
+    syntax-theme = Dracula
+    plus-style = syntax "#003800"
+    minus-style = red bold ul "#3f0001"
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+    hunk-header-decoration-style = cyan box ul
+
+[delta "line-numbers"]
+    line-numbers = true
+    line-numbers-left-style = cyan
+    line-numbers-right-style = cyan
+    line-numbers-minus-style = 124
+    line-numbers-plus-style = 28
+
+[interactive]
+    diffFilter = delta --color-only
 
 [color]
 	advice = true
@@ -176,12 +203,12 @@
 	lo = log --pretty=lo --graph --color --date=default
 	lf = log --pretty=lf --graph --color --date=default
 	lff = log --pretty=fuller --graph --color --date=default --stat --summary
-	lp = log --pretty=lt --graph --color --date=default --patch -c -M -C
+	lp = log --pretty=lt --color --date=default --patch -c -M -C
 	ld = log --pretty=lt --graph --color --date=default --stat --summary
 
     # log, current branch, with grep
 	lfg = log --pretty=lf --graph --color --date=default --grep
-	lpg = log --pretty=lt --graph --color --date=default --patch -c -M -C --grep
+	lpg = log --pretty=lt --color --date=default --patch -c -M -C --grep
     ldg = log --pretty=lt --graph --color --date=default --stat --summary --grep
 
 	# log, all branches+tags on all remotes
@@ -189,7 +216,7 @@
 	lao = log --pretty=lo --graph --color --date=default --all
 	laf = log --pretty=lf --graph --color --date=default --all
 	laff = log --pretty=fuller --graph --color --date=default --stat --summary --all
-	lap = log --pretty=lt --graph --color --date=default --patch -c -M -C --all
+	lap = log --pretty=lt --color --date=default --patch -c -M -C --all
 	lad = log --pretty=lt --graph --color --date=default --stat --summary --all
 
 	# log, simplified by decoration
@@ -198,7 +225,7 @@
 	lso = log --pretty=lo --graph --color --date=default --all --simplify-by-decoration
 	lsf = log --pretty=lf --graph --color --date=default --all --simplify-by-decoration
 	lsff = log --pretty=fuller --graph --color --date=default --stat --summary --all --simplify-by-decoration
-	lsp = log --pretty=lt --graph --color --date=default --patch -c -M -C --all --simplify-by-decoration
+	lsp = log --pretty=lt --color --date=default --patch -c -M -C --all --simplify-by-decoration
 	lsd = log --pretty=lt --graph --color --date=default --stat --summary --all --simplify-by-decoration
 
 	sh = show --format=lf --stat --summary --patch
