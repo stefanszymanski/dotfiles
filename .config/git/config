@@ -329,6 +329,9 @@
 	res = reset --soft
 	reh = reset --hard
 
+    t = tag
+    td = tag --delete
+
 	mt = mergetool
 	dt = difftool
 
