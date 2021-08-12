@@ -38,6 +38,11 @@ def_key "ctrl-n"
 def_key "ctrl-p"
     previous
 
+def_key "alt-j"
+    move_selected_items_down
+def_key "alt-k"
+    move_selected_items_up
+
 def_key "+"
     volume_up
 def_key "-"
