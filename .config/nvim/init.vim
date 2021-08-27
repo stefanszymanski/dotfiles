@@ -79,7 +79,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     Plug 'vim-scripts/icalendar.vim'
     Plug 'neomutt/neomutt.vim'
     Plug 'stefanszymanski/vim.typoscript'
-
+    Plug 'rodjek/vim-puppet'
     " color preview
     Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase'}
 
