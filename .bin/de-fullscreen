@@ -19,10 +19,6 @@
 #   name = "Example"
 #   area = "2560x1440+0+0"
 #   overlaps = ["A", "B"]
-#
-# Author: Stefan Szymanski <stefan.szymanski@posteo.de>
-# Date: 2021-01-20
-# Licence: MIT
 
 STATE_FILE="$HOME/.fullscreen-state"
 TEMP_MONITOR="Fullscreen"

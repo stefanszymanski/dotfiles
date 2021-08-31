@@ -6,10 +6,6 @@
 # of this context.
 #
 # This script requires `dunstctl`.
-#
-# Author: Stefan Szymanski <stefan.szymanski@posteo.de>
-# Date: 2021-01-20
-# Licence: MIT
 
 usage() {
     local prog="${0##*/}"
