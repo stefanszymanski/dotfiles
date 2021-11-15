@@ -15,7 +15,7 @@
 	autocrlf = input
 
 [gpg]
-	program = gpg2
+	program = gpg
 
 [pager]
     diff = delta
@@ -273,6 +273,7 @@
     coo = checkout --ours
 
 	b = branch
+    br = branch --remotes
 	bv = branch --all -vv
 	bc = branch --contains
     bm = branch --merged
