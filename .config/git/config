@@ -5,9 +5,6 @@
 	email = stefan.szymanski@posteo.de
 	signingkey = 0xD202F413FC8BA7A8
 
-[includeIf "gitdir:~/work/"]
-    path = ~/.config/git/config-work
-
 [core]
     editor = nvim
     whitespace = fix,trailing-space,cr-at-eol
@@ -353,3 +350,6 @@
 
 	# hard reset and clean (unrecoverable)
 	nuke = !"git reset --hard HEAD && git clean -fd"
+
+[includeIf "gitdir:~/work/"]
+    path = ~/.config/git/config-work
