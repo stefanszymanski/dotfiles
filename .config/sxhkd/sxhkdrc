@@ -243,16 +243,24 @@ hyper + p ; c
     passmenu clear
 
 
-# cmus
+# mpc
 ######
 
 # pause/unpause mpc
 hyper + shift + l
     mpc toggle
 
-# show cmus status
-hyper + l
+# show mpd status
+hyper + l ; l
     mpd-status-notification
+
+# next track
+hyper + l ; n
+    mpc next; mpd-status-notification
+
+# previous track
+hyper + l ; p
+    mpc prev; mpd-status-notification
 
 
 # other
