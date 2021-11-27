@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 
+# TODO move to .xinitrc
 xsetroot -solid "#282828"
 xsetroot -cursor_name left_ptr
 
-# rename monitors
-IFS=$'\n' read -d "" -ra monitors <<< "$(bspc query --monitors)"
-names=(A B C D E F)
-for i in "${!monitors[@]}"; do
-    bspc monitor "${monitors[$i]}" --rename "${names[$i]}"
-done
+# TODO reliably initialize monitors. compare existing with configuration and add/resize/rename.
+# TODO initialize default desktops names.
+if [ "$(xrandr --listactivemonitors | tail -n +2 | wc -l)" -eq "$(bspc query --monitors | wc -l)" ]; then
+    IFS=$'\n' read -d "" -ra monitors <<< "$(bspc query --monitors)"
+    names=(A B C D E F)
+    for i in "${!monitors[@]}"; do
+        bspc monitor "${monitors[$i]}" --rename "${names[$i]}"
+    done
+fi
 
-# TODO move colors and widths to a another file that is shared with the panel script
 bspc config border_width 2
 bspc config window_gap 8
 
