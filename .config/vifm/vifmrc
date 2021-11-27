@@ -72,7 +72,9 @@ fileviewer *.zip,*.jar,*.war,*.ear zip -sf %c
 filetype *.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz tar -xf %f
 fileviewer *.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz tar -tf %f
 
-filextype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt,*.ods libreoffice &
+filextype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt,*.ods libreoffice &>/dev/null &
+
+filextype *.mpg,*.mpeg,*.avi,*.mkv,*.m4v,*.mp4,*.flv mpv %c &>/dev/null &
 
 
 " THEME
