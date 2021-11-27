@@ -51,6 +51,9 @@ def_key "-"
 def_key "d"
     delete_playlist_items
 
+def_key "0"
+  replay_song
+
 def_key "P"
     jump_to_position_in_song
 
