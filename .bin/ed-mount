@@ -13,7 +13,7 @@ keyfile="$2"
 mapname="crypt-${dev//\//-}"
 mountpath="$3"
 
-gpg2 --quiet --decrypt "$keyfile" 2> /dev/null | \
+gpg2 --quiet --decrypt "$keyfile" 2>/dev/null | \
     sudo cryptsetup \
         --verbose \
         --key-file=- \
