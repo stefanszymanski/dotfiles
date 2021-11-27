@@ -202,7 +202,7 @@ let g:pear_tree_ft_disabled = ['clap_input']
 " COC language client
 let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-vimtex',
     \ 'coc-json', 'coc-prettier', 'coc-python', 'coc-stylelint',
-    \ 'coc-phpls', 'coc-tslint', 'coc-tsserver', 'coc-yaml',
+    \ '@yaegassy/coc-intelephense', 'coc-tslint', 'coc-tsserver', 'coc-yaml',
     \ 'coc-vimlsp', 'coc-xml', 'coc-ultisnips', 'coc-lists',
     \ 'coc-go', 'coc-rls', 'coc-sh', 'coc-docker', 'coc-diagnostic']
 

@@ -54,6 +54,7 @@
   "signature.target": "float",
   "signature.triggerSignatureWait": 300,
 
+  "intelephense.enable": true,
   "intelephense.telemetry.enabled": false,
   "intelephense.phpdoc.returnVoid": true,
 
@@ -88,21 +89,5 @@
   "diagnostic-languageserver.filetypes": {
     "sh": "shellcheck",
     "typoscript": "typoscript-lint"
-  },
-
-  "languageserver": {
-    "phan": {
-        "command": "phan",
-        "args": [
-            "--quick",
- 			"--allow-polyfill-parser",
- 			"--language-server-on-stdin"
-        ],
-        "filetypes": ["php"],
-        "initializationOptions":
- 		{
- 			"storagePath": "/tmp/phan"
- 		}
-    }
   }
 }
