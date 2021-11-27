@@ -1,7 +1,12 @@
-let g:clap_layout = {'relative': 'editor', 'width': '80%', 'height': '60%', 'row': '10%', 'col': '10%'}
+let g:clap_layout = {'relative': 'editor', 'width': '80%', 'height': '50%', 'row': '10%', 'col': '10%'}
 let g:clap_open_action = {'ctrl-o': 'edit','ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
 let g:clap_insert_mode_only = v:true
 let g:clap_search_box_border_style = 'nil'
+
+let g:clap_open_preview = 'on_move'
+let g:clap_preview_delay = 250
+let g:clap_preview_direction = 'UD'
+let g:clap_preview_size = 20
 
 " disable any blinking
 let g:clap_provider_grep_blink = [0, 0]

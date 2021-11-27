@@ -45,7 +45,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     " searching and file browsing
     " Plug 'Shougo/denite.nvim'
     " Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
-    Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+    " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+    Plug 'liuchengxu/vim-clap', { 'do': { -> clap#installer#force_download() }}
     Plug 'scrooloose/nerdtree'
     "Plug 'tpope/vim-vinegar'
 
