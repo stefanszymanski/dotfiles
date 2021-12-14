@@ -10,5 +10,6 @@ configuration {
 	drun-display-format: "{name}";
 	case-sensitive: false;
 	matching: "fuzzy";
-	theme: "~/.config/rofi/gruvbox.rasi";
 }
+
+@theme "~/.config/rofi/gruvbox.rasi"
