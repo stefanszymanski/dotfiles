@@ -340,9 +340,15 @@ alias mcp='noglob zmb -C'
 if [ -r ~/.fzf.zsh ]; then
     source ~/.fzf.zsh
 else
-    source /usr/share/doc/fzf/key-bindings.zsh
-    source /usr/share/doc/fzf/completion.zsh
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+    source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
 eval "$(starship init zsh)"
 eval "$(fasd --init auto)"
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+alias luamake=/home/stefan/build/lua-language-server/3rd/luamake/luamake
