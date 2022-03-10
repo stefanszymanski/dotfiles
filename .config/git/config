@@ -7,6 +7,7 @@
 
 [core]
     editor = nvim
+    sshCommand = "ssh -i ~/.ssh/personal.pub -F /dev/null"
     whitespace = fix,trailing-space,cr-at-eol
     excludesfile = ~/.config/git/ignore
 	autocrlf = input
