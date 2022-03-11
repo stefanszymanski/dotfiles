@@ -40,8 +40,8 @@ M.config = function()
     }, {prefix = '<leader>', mode = 'v'})
 
     -- Hunk text object
-    whichkey.register({h = {'<cmd>Gitsigns select_hunk<cr>', 'Git hunk'}}, {prefix = 'i', mode = 'o'})
-    whichkey.register({h = {'<cmd>Gitsigns select_hunk<cr>', 'Git hunk'}}, {prefix = 'i', mode = 'x'})
+    -- whichkey.register({h = {'<cmd>Gitsigns select_hunk<cr>', 'Git hunk'}}, {prefix = 'i', mode = 'o'})
+    -- whichkey.register({h = {'<cmd>Gitsigns select_hunk<cr>', 'Git hunk'}}, {prefix = 'i', mode = 'x'})
 
     -- Hunk motions
     whichkey.register({h = {[[<cmd>Gitsigns next_hunk<cr>]], 'Next Git hunk (also <A-u>)'}}, {prefix = ']'})

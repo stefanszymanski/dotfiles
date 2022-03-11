@@ -29,9 +29,19 @@ local function lsp_client(msg)
     return "[" .. table.concat(buf_client_names, ", ") .. "]"
 end
 
+local function window()
+    return vim.api.nvim_win_get_number(0)
+end
+
+local diagnostics = {
+    "diagnostics",
+    sources = { "nvim_diagnostic" },
+    symbols = { error = " ", warn = " ", info = " ", hint = " " },
+    colored = false,
+}
+
 M.config = function()
     local lualine = require('lualine')
-    local gps = require('nvim-gps')
     local dap = require('dap')
 
     lualine.setup {
@@ -44,38 +54,53 @@ M.config = function()
             always_divide_middle = true,
         },
         sections = {
-            lualine_a = { 'mode' },
+            lualine_a = {
+                window,
+                'mode'
+            },
             lualine_b = {
                 'branch',
                 'diff',
-                {
-                  "diagnostics",
-                  sources = { "nvim_diagnostic" },
-                  symbols = { error = " ", warn = " ", info = " ", hint = " " },
-                  colored = false,
-                },
+                diagnostics
             },
             lualine_c = {
                 {
                     lsp_client,
                     icon = "",
-                    color = {fg = '#a9a1e1'},
+                    color = { fg = '#a9a1e1' },
                 },
                 {
-                    gps.get_location,
-                    cond = gps.is_available,
-                    color = {fg = '#98be65'},
+                    require('nvim-gps').get_location,
+                    cond = require('nvim-gps').is_available,
+                    color = { fg = '#98be65' },
                 },
                 {
                     dap.status,
-                    color = {fg = '#b51326'}
+                    color = { fg = '#b51326' }
                 },
             },
             lualine_x = { 'filename', 'encoding', 'fileformat', 'filetype' },
             lualine_y = { 'progress' },
             lualine_z = { 'location' }
         },
-        inactive_sections = {},
+        inactive_sections = {
+            lualine_a = {
+                window,
+            },
+            lualine_b = {
+                'diff',
+                diagnostics,
+            },
+            lualine_c = {
+                {
+                    require('nvim-gps').get_location,
+                    cond = require('nvim-gps').is_available,
+                },
+            },
+            lualine_x = { 'filename', 'encoding', 'fileformat', 'filetype' },
+            lualine_y = { 'progress' },
+            lualine_z = { 'location' }
+        },
         tabline = {},
         extensions = {}
     }

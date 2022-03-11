@@ -10,11 +10,9 @@ M.config = function()
     }
 
     whichkey.register({
-        ['<leader>'] = {
-            s = {':ISwapWith<cr>', 'Swap this'},
-            S = {':ISwap<cr>',     'Swap'}
-        }
-    }, {prefix = '<leader>'})
+        s = { ':ISwapWith<cr>', 'Swap this' },
+        ['<C-s>'] = { ':ISwap<cr>', 'Swap' }
+    }, { prefix = 'g' })
 end
 
 return M

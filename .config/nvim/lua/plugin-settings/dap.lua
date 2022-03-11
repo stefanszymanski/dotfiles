@@ -29,8 +29,7 @@ M.config = function()
     }
 
     whichkey.register({
-        d = {
-            name = 'Debug',
+        x = {
             s = {
                 name = 'Step',
                 v = {dap.step_over, 'Step over'},
@@ -38,7 +37,7 @@ M.config = function()
                 o = {dap.step_out,  'Step out'},
             },
             x = {':Telescope dap configurations<cr>',                                       'Select configuration'},
-            X = {dap.close,                                                                 'Close'},
+            q = {dap.close,                                                                 'Close'},
             c = {dap.continue,                                                              'Continue'},
             h = {dap.run_to_cursor,                                                         'Continue to cursor'},
             p = {dap.pause,                                                                 'Pause'},

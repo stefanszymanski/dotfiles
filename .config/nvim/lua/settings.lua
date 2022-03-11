@@ -4,7 +4,6 @@ vim.cmd [[
     set fileencoding=utf-8 		    " The encoding written to file.
 
     " General behaviour
-
     set nocompatible
     filetype plugin on
     syntax enable
@@ -21,9 +20,9 @@ vim.cmd [[
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     set nofoldenable                " Auto fold code
-    set mouse=a                     " Automatically enable mouse usage
+    set mouse=a                     " Enable mouse support
     set mousehide                   " Hide the mouse cursor while typing
-    set modeline                    " Enable modeline
+    set modeline                    " Enable modeline support
     set updatetime=300
     set cmdheight=2                 " Display the command bar 2 lines height
     set hidden                      " Allow hiding modified buffers
@@ -31,11 +30,12 @@ vim.cmd [[
     set shortmess+=c
     set signcolumn=yes              " Always display the sign column
     set synmaxcol=500               " Restrict syntax highlighting to 500 characters per line
+    set cursorline                  " Highlight the current line
     " set exrc
     set path+=**
     set termguicolors
 
-    " line numbering: relative in active buffer, absolute in inactive buffers
+    " Line numbering: relative in active buffer, absolute in inactive buffers
     set number relativenumber
     augroup NumberToggle
         autocmd!
@@ -45,18 +45,19 @@ vim.cmd [[
 
     highlight EndOfBuffer ctermfg=black ctermbg=black   " Hide empty line indicator ~
 
-    " wildmenu in popup
+    " Wildmenu in popup
     set wildmenu
     set wildmode=longest:full,full
     set wildoptions=pum
 
-    " disable netrw
+    " Disable netrw
     let g:loaded_netrw       = 1
     let g:loaded_netrwPlugin = 1
 
     " Formatting
-
     set wrap                        " Wrap long lines
+    set breakindent                 " Indent soft wrapped lines
+    let &showbreak='... '           " Prefix for soft wrapped lines
     set autoindent                  " Indent at the same level of the previous line
     set shiftwidth=4                " Use auto indents of 4 spaces
     set expandtab                   " Tabs are spaces, not tabs

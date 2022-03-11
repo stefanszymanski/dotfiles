@@ -58,19 +58,12 @@ M.config = function()
         },
         l = {
             a = {':Telescope lsp_code_actions<cr>',                    'Code actions'},
-            c = {':Telescope lsp_references<cr>',                      'References'},
             j = {':Telescope lsp_definitions<cr>',                     'Definitions'},
             i = {':Telescope lsp_implementations<cr>',                 'Implementations'},
             t = {':Telescope lsp_type_definitions<cr>',                'Type definitions'},
             s = {':Telescope lsp_document_symbols<cr>',                'Symbols in current buffer'},
             S = {':Telescope lsp_workspace_symbols<cr>',               'Symbols in workspace'},
             x = {':Telescope treesitter<cr>',                          'Treesitter symbols in current buffer'},
-            d = {
-                d = {':Telescope diagnostics bufnr=0<cr>',                  'In current buffer'},
-                b = {':Telescope diagnostics<cr>',                          'In open buffers'},
-                q = {':Telescope quickfix<cr>',                             'Quickfix'},
-                l = {':Telescope loclist<cr>',                              'Loclist'},
-            }
         },
         g = {
             B = {':Telescope git_branches<cr>',                        'Branches'},
@@ -80,9 +73,6 @@ M.config = function()
         },
         b = {
             b = {':Telescope buffers<cr>',                             'List open'},
-        },
-        i = {
-            s = {':Telescope symbols<cr>',                             'Symbol'}
         },
     }, {prefix = '<leader>'})
 

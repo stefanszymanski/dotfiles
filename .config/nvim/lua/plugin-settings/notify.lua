@@ -16,7 +16,6 @@ M.config = function()
     vim.notify = notify
 
     whichkey.register({
-        -- TODO restrict to certain file types 
         fn = {':Telescope notify<cr>',  'Notifications'},
     }, {prefix = '<leader>'})
 end

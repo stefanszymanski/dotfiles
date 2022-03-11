@@ -2,29 +2,7 @@ local M = {}
 
 M.config = function()
     local nullls = require('null-ls')
-
-    local on_attach = function(client, bufnr)
-        -- TODO this code is copied from lspconfig.lua, move it somewhere else, so it can be reused
-        local whichkey = require('which-key')
-
-        -- Define key bindings
-        local keymap_n = {}
-        local keymap_v = {}
-
-        if client.resolved_capabilities.document_formatting then
-            keymap_n.lf = { '<cmd>lua vim.lsp.buf.formatting()<cr>', 'Format document' }
-        end
-        if client.resolved_capabilities.document_range_formatting then
-            keymap_v.lf = { '<cmd>lua vim.lsp.buf.range_formatting()<cr>', 'Format' }
-        end
-
-        if next(keymap_n) then
-            whichkey.register(keymap_n, { prefix = '<leader>', buffer = bufnr })
-        end
-        if next(keymap_v) then
-            whichkey.register(keymap_v, { prefix = '<leader>', buffer = bufnr, mode = 'v' })
-        end
-    end
+    local on_attach = require('funcs.lsp_on_attach')
 
     -- Formatters
     -- TODO add prettier

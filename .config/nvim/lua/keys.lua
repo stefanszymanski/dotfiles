@@ -4,12 +4,6 @@ local whichkey = require('which-key')
 local opts = {silent = true, noremap = true}
 
 legendary.bind_keymaps {
-    -- Resize splits
-    {'<C-Up>',    ':resize +4<cr>',          opts = opts, description = 'Increase window height by 4'},
-    {'<C-Down>',  ':resize -4<cr>',          opts = opts, description = 'Decrease window height by 4'},
-    {'<C-Left>',  ':vertical resize +4<cr>', opts = opts, description = 'Increase window width by 4'},
-    {'<C-Right>', ':vertical resize -4<cr>', opts = opts, description = 'Decrease window width by 4'},
-
     -- Switch buffers
     {'<A-a>', ':bnext<cr>', opts = opts, description = 'Next buffer'},
     {'<A-x>', ':bprev<cr>', opts = opts, description = 'Previous buffer'},
@@ -49,23 +43,17 @@ whichkey.register({
         y = {':normal! ggVG"+y``<cr>',              'Yank buffer to clipboard'},
         p = {':normal! ggdG"+P<cr>',                'Replace buffer with clipboard'},
     },
-    v = {
-        name =                                  'Windows',
-        c = {':close<cr>',                          'Close window'},
-        h = {':hide<cr>',                           'Hide window'},
-        o = {':only<cr>',                           'Close other windows'},
-    },
-    ['<leader>'] = {
-        name = 'Misc'
-    },
     f = {
         name = 'Find'
     },
     l = {
         name = 'LSP',
-        d = {
-            name = 'Diagnostics'
-        }
+    },
+    d = {
+        name = 'Diagnostics'
+    },
+    x  = {
+        name = 'Debugging'
     },
     i = {
         name = 'Insert',
@@ -109,3 +97,7 @@ whichkey.register({
         m =         'Decrement to the previous named node',
     }
 } , {prefix = 'g', mode = 'v', noremap = false})
+
+whichkey.register({
+    o = {':only<cr>', 'Close other windows'}
+}, { prefix = '<C-W>'})
