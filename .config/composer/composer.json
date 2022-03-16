@@ -5,7 +5,11 @@
     "require": {
         "psy/psysh": "@stable",
         "phan/phan": "@stable",
-        "helmich/typo3-typoscript-lint": "@stable"
+        "helmich/typo3-typoscript-lint": "@stable",
+        "phpstan/phpstan": "^1.4",
+        "vimeo/psalm": "^4.21",
+        "squizlabs/php_codesniffer": "*",
+        "friendsofphp/php-cs-fixer": "^3.6"
     }
 
 }
