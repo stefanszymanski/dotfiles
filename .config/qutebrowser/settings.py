@@ -25,6 +25,7 @@ c.content.webgl = True
 c.content.mute = False
 c.content.print_element_backgrounds = False
 c.content.fullscreen.window = False
+c.content.prefers_reduced_motion = True
 c.keyhint.delay = 500
 c.prompt.filebrowser = True
 c.search.incremental = True
@@ -58,6 +59,7 @@ c.content.mouse_lock = 'ask'
 c.content.private_browsing = False
 c.content.tls.certificate_errors = 'ask-block-thirdparty'
 c.content.xss_auditing = True
+c.downloads.prevent_mixed_content = True
 
 # notifications
 c.content.notifications.enabled = 'ask'
