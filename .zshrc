@@ -40,7 +40,8 @@ zinit wait lucid light-mode for \
 
 zinit wait'0b' lucid light-mode for \
     zsh-vi-more/vi-increment \
-    zsh-vi-more/vi-motions
+    zsh-vi-more/vi-motions \
+    lukechilds/zsh-nvm
 
 zinit wait'1' lucid light-mode for \
     ael-code/zsh-colored-man-pages \
@@ -348,7 +349,5 @@ eval "$(starship init zsh)"
 eval "$(fasd --init auto)"
 
 export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-alias luamake=/home/stefan/build/lua-language-server/3rd/luamake/luamake
+export NVM_COMPLETION=true
+export NVM_LAZY_LOAD=true
