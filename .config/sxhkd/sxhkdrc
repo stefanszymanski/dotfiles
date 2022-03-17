@@ -180,12 +180,12 @@ super + comma
 ############
 
 # raise/lower sink/source volume
-{_,ctrl,shift} + XF86Audio{Raise,Lower}Volume
-    de-pulseaudio {set-sink-volume primary, set-sink-volume secondary, set-source-volume mic} {+,-}5%
+{_,ctrl,alt,shift} + XF86Audio{Raise,Lower}Volume
+    de-pulseaudio {set-sink-volume primary, set-sink-volume secondary, set-sink-volume tertiary, set-source-volume mic} {+,-}5%
 
 # toggle mute of sink/source
-{_,ctrl,shift} + XF86AudioMute
-    de-pulseaudio {set-sink-mute primary, set-sink-mute secondary, set-source-mute mic} toggle
+{_,ctrl,alt,shift} + XF86AudioMute
+    de-pulseaudio {set-sink-mute primary, set-sink-mute secondary, set-sink-mute tertiary, set-source-mute mic} toggle
 
 # open menu for managing sink inputs
 hyper + v
