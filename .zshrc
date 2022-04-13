@@ -314,6 +314,9 @@ alias bl='de-backlight'
 alias bl0='de-backlight set 0'
 alias bl1='de-backlight set 100'
 
+# web services
+alias share='nc termbin.com 9999 | xclip -in -selection clipboard && printf "%s\n" "Link copied to clipboard" || printf "%s\n" "An error occured"'
+
 # khal (wip)
 alias iwcal='ikhal -c $HOME/.config/khal/config-work'
 alias ipcal='ikhal'
