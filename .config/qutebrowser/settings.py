@@ -4,6 +4,10 @@ terminal = 'st'
 # Behaviour #
 #############
 
+# Workarounds
+# See https://github.com/qutebrowser/qutebrowser/issues/5634
+c.qt.workarounds.remove_service_workers = True
+
 # caching and persistence
 c.content.cache.appcache = True
 c.content.cache.maximum_pages = 50
