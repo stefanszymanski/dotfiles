@@ -280,6 +280,9 @@ alias nvim='PINENTRY_USER_DATA=gtk nvim'
 alias vim=nvim
 alias v=nvim
 
+# cal
+alias cal='ncal -bwM'
+
 # exa
 if type exa &> /dev/null; then
 	alias ls='exa'
