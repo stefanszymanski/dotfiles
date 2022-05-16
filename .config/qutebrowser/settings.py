@@ -193,6 +193,7 @@ c.bindings.commands = {
         ';w': 'hint links run :open -w {hint-url}',
         # open link in a new window
         ';p': 'hint links run :open -p {hint-url}',
+        ';v': 'spawn mpv {url}',
         # insert username and passwords
         '<Alt-p>p': 'spawn --userscript qute-pass',
         '<Alt-p>o': 'spawn --userscript qute-pass --username-only',
@@ -220,6 +221,8 @@ c.bindings.commands = {
         '<Ctrl-w>': 'fake-key <Ctrl-Backspace>',
         '<Alt-Backspace>': 'fake-key <Ctrl-Backspace>',
         '<Ctrl-y>': 'insert-text {primary}',
+        # misc
+        '<Ctrl-q>': 'edit-text',
     },
     'command': {
         '<Ctrl+j>': 'completion-item-focus next',
