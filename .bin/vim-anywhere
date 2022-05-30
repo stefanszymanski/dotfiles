@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+FILE="$HOME/.vim-anywhere.md"
+ACTIVE=/tmp/vim-anywhere-active
+
+if [ -f "$ACTIVE" ]; then
+    notify-send 'Floating editor is already open'
+else 
+    touch "$ACTIVE"
+    bspc rule --add '*' --one-shot state=floating focus=on sticky=on follow=on locked=on center=on rectangle=1400x900+0+0
+    st -e nvim --cmd "set noswapfile" "$FILE"
+    xclip -selection clipboard < "$FILE"
+    rm "$ACTIVE"
+fi
