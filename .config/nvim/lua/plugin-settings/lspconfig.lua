@@ -16,7 +16,7 @@ M.config = function()
         'lemminx',
         'puppet',
         'rust_analyzer',
-        'sqls',
+        'sqlls',
         'texlab',
         'vimls',
     }
