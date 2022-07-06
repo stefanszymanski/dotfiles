@@ -205,6 +205,7 @@
 	ld = log --pretty=lt --graph --color --date=default --stat --summary
 
     # log, current branch, with grep
+	lg = log --pretty=lt --graph --color --date=default --grep
 	lfg = log --pretty=lf --graph --color --date=default --grep
 	lpg = log --pretty=lt --color --date=default --patch -c -M -C --grep
     ldg = log --pretty=lt --graph --color --date=default --stat --summary --grep
@@ -216,6 +217,12 @@
 	laff = log --pretty=fuller --graph --color --date=default --stat --summary --all
 	lap = log --pretty=lt --color --date=default --patch -c -M -C --all
 	lad = log --pretty=lt --graph --color --date=default --stat --summary --all
+
+	# log, all branches+tags on all remotes, with grep
+	lag = log --pretty=lt --graph --color --date=default --all --grep
+	lafg = log --pretty=lf --graph --color --date=default --all --grep
+	lapg = log --pretty=lt --color --date=default --patch -c -M -C --all --grep
+	ladg = log --pretty=lt --graph --color --date=default --stat --summary --all --grep
 
 	# log, simplified by decoration
 	#    added: --all --simplify-by-decoration
