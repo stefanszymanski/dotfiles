@@ -5,15 +5,17 @@ M.config = function()
     local whichkey = require('which-key')
 
     dapui.setup {
-        sidebar = {
-            elements = {
-                { id = 'scopes', size = 0.45 },
-                { id = 'watches', size = 0.2 },
-                { id = 'breakpoints', size = 0.15 },
-                { id = 'stacks', size = 0.20 },
-            },
-            size = 100,
-            position = 'right'
+        layouts = {
+            {
+                elements = {
+                    { id = 'scopes', size = 0.45 },
+                    { id = 'watches', size = 0.2 },
+                    { id = 'breakpoints', size = 0.15 },
+                    { id = 'stacks', size = 0.20 },
+                },
+                size = 100,
+                position = 'right'
+            }
         }
     }
 

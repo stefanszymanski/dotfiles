@@ -269,6 +269,7 @@ require('packer').startup({function(use)
     -- Indentation guides
     use {
         'lukas-reineke/indent-blankline.nvim',
+        after = 'nvim-treesitter',
         config = function() require('plugin-settings.indent-blankline').config() end,
     }
 
