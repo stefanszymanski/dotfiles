@@ -337,6 +337,7 @@
 
     t = tag
     td = tag --delete
+    ts = tag --sign
 
 	mt = mergetool
 	dt = difftool
