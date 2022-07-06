@@ -84,22 +84,7 @@ M.config = function()
             lualine_z = { 'location' }
         },
         inactive_sections = {
-            lualine_a = {
-                window,
-            },
-            lualine_b = {
-                'diff',
-                diagnostics,
-            },
-            lualine_c = {
-                {
-                    require('nvim-gps').get_location,
-                    cond = require('nvim-gps').is_available,
-                },
-            },
-            lualine_x = { 'filename', 'encoding', 'fileformat', 'filetype' },
-            lualine_y = { 'progress' },
-            lualine_z = { 'location' }
+            lualine_a = { window },
         },
         tabline = {},
         extensions = {}
