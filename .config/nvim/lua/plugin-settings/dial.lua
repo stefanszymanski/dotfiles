@@ -26,6 +26,11 @@ M.config = function()
                 word = false,
                 cyclic = true,
             },
+            augend.constant.new {
+                elements = {'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eigth', 'nineth', 'tenth', 'eleventh', 'twelfth'},
+                word = false,
+                cyclic = false,
+            }
         }
     }
 
