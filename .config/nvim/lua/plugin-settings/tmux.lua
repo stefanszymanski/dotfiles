@@ -20,10 +20,10 @@ M.config = function()
         {'<C-j>', tmux.move_bottom, description =   'Move to bottom window'},
         {'<C-k>', tmux.move_top, description =      'Move to top window'},
 
-        {'<M-h>', tmux.resize_left, description =   'Resize to the left'},
-        {'<M-l>', tmux.resize_right, description =  'Resize to the right'},
-        {'<M-j>', tmux.resize_bottom, description = 'Resize to the bottom'},
-        {'<M-k>', tmux.resize_top, description =    'Resize to the top'},
+        -- {'<M-h>', tmux.resize_left, description =   'Resize to the left'},
+        -- {'<M-l>', tmux.resize_right, description =  'Resize to the right'},
+        -- {'<M-j>', tmux.resize_bottom, description = 'Resize to the bottom'},
+        -- {'<M-k>', tmux.resize_top, description =    'Resize to the top'},
     }
 end
 

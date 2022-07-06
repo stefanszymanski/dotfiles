@@ -44,11 +44,11 @@ M.config = function()
     -- whichkey.register({h = {'<cmd>Gitsigns select_hunk<cr>', 'Git hunk'}}, {prefix = 'i', mode = 'x'})
 
     -- Hunk motions
-    whichkey.register({h = {[[<cmd>Gitsigns next_hunk<cr>]], 'Next Git hunk (also <A-u>)'}}, {prefix = ']'})
-    whichkey.register({h = {[[<cmd>Gitsigns prev_hunk<cr>]], 'Previous Git hunk (also <A-d>)'}}, {prefix = '['})
+    whichkey.register({h = {':Gitsigns next_hunk<cr>', 'Next Git hunk (also <A-u>)'}}, {prefix = ']'})
+    whichkey.register({h = {':Gitsigns prev_hunk<cr>', 'Previous Git hunk (also <A-d>)'}}, {prefix = '['})
     legendary.bind_keymaps {
-        {'<A-u>', '[h', opts = opts, description = 'Next Git hunk'},
-        {'<A-d>', ']h', opts = opts, description = 'Previous Git hunk'},
+        {'<A-u>', ':Gitsigns next_hunk<cr>', opts = opts, description = 'Next Git hunk'},
+        {'<A-d>', ':Gitsigns prev_hunk<cr>', opts = opts, description = 'Previous Git hunk'},
     }
 end
 

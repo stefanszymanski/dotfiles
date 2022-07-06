@@ -62,8 +62,9 @@ M.config = function()
             i = {':Telescope lsp_implementations<cr>',                 'Implementations'},
             t = {':Telescope lsp_type_definitions<cr>',                'Type definitions'},
             s = {':Telescope lsp_document_symbols<cr>',                'Symbols in current buffer'},
-            S = {':Telescope lsp_workspace_symbols<cr>',               'Symbols in workspace'},
+            S = {':Telescope lsp_dynamic_workspace_symbols<cr>',       'Symbols in workspace'},
             x = {':Telescope treesitter<cr>',                          'Treesitter symbols in current buffer'},
+            m = {lsp_document_methods,                                 'Symbols in current buffer'},
         },
         g = {
             B = {':Telescope git_branches<cr>',                        'Branches'},
