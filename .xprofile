@@ -6,8 +6,8 @@ xmodmap -e "remove Mod4 = Hyper_L"
 xmodmap -e "add mod3 = Hyper_L"
 xcape -e "Hyper_L=Escape"
 
-# Configure my Logitech mouse: Swith buttons 2 and 8.
-for id in $(xinput list | grep "Logitech Gaming Mouse G402" | head -n 2 | sed -r 's/.*id=([0-9]+).*/\1/')
+# Configure my primary used mice: Swith buttons 2 and 8.
+for id in $(xinput list | grep "Logitech Gaming Mouse G402\|SINOWEALTH GXT 144 Gaming Mouse" | head -n 2 | sed -r 's/.*id=([0-9]+).*/\1/')
 do
   xinput --set-button-map $id 1 8 3 4 5 6 7 2 9 10
 done
