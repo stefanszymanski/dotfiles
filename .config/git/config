@@ -353,6 +353,9 @@
 	# initialize repository in current directory
 	this = "!git init && git commit --message='Initialize' --allow-empty"
 
+    # list dangling commits
+    dangling = !"git fsck --lost-found | grep \"^dangling commit\" | sed \"s/^dangling commit //g\" | xargs git show -s --oneline"
+
 	# regex checkout
 	#    git rco <regex> [<options>]
 	rco = "!f() { [ \"$#\" -gt 1 ] && REGEX=$1 && shift; git checkout \"$@\" \"$(git branch --all | cut -c 3- | sed 's|^remotes/.*/||' | grep -m 1 -iEe \"$REGEX\" )\"; }; f"
