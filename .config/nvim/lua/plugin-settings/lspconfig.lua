@@ -4,11 +4,19 @@ M.config = function()
     local lspconfig = require('lspconfig')
     local on_attach = require('funcs.lsp_on_attach')
 
+    local capabilities_with_snippet_support = vim.lsp.protocol.make_client_capabilities()
+    capabilities_with_snippet_support.textDocument.completion.completionItem.snippetSupport = true
+
+    -- TODO add grammarly, but do not automatically enable it, because the buffer gets sent to their web service
+    -- TODO evaluate ltex
+    -- TODO evaluate marksman
+    -- TODO evaluate prosemd_lsp
+
     -- Configure most languages
+    -- TODO add schemas for yamlls
     local servers = {
         'awk_ls',
         'bashls',
-        'cssls',
         'diagnosticls',
         'dockerls',
         'eslint',
@@ -16,32 +24,43 @@ M.config = function()
         'lemminx',
         'puppet',
         'rust_analyzer',
+        'stylelint_lsp',
+        'svelte',
         'sqlls',
+        'tailwindcss',
         'texlab',
+        'tsserver',
         'vimls',
+        'vuels',
+        'yamlls',
     }
-
     for _, lsp in pairs(servers) do
         lspconfig[lsp].setup {
             on_attach = on_attach,
         }
     end
 
+    -- Configure languages, which require to explictly enable snippet support
+    servers = {
+        'cssls',
+        'html',
+    }
+    for _, lsp in pairs(servers) do
+        lspconfig[lsp].setup {
+            on_attach = on_attach,
+            capabilities = capabilities_with_snippet_support,
+        }
+    end
+
     -- Configure JSON
     lspconfig.jsonls.setup {
         on_attach = on_attach,
+        capabilities = capabilities_with_snippet_support,
         settings = {
             json = {
                 schemas = require('schemastore').json.schemas(),
             }
         }
-    }
-
-    -- Configure HTML
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
-    lspconfig.html.setup {
-        capabilities = capabilities,
     }
 
     -- Configure PHP
@@ -98,6 +117,7 @@ M.config = function()
         update_in_insert = true,
         severity_sort = true,
     }
+
 
     -- Display messages as notifications
     vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
