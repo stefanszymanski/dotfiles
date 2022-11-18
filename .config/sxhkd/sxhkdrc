@@ -300,3 +300,6 @@ hyper + shift + c
 # show sxhkd help
 hyper + h
     sxhkd-help
+
+hyper + e
+    /home/stefan/.bin/vim-anywhere
