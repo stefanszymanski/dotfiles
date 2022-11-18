@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "diagnostic-languageserver": "^1.14.2",
+    "yaml-language-server": "^1.9.0"
+  }
+}
