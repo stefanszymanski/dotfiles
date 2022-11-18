@@ -182,7 +182,55 @@ setopt share_history                # share history between sessions
 bindkey -v
 
 autoload -U edit-command-line
-zle -N edit-command-line 
+zle -N edit-command-line
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node \
+
+zinit wait lucid light-mode for \
+    atinit"zicompinit; zicdreplay" \
+        zdharma/fast-syntax-highlighting \
+    atload"_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    blockf atpull'zinit creinstall -q .' \
+        zsh-users/zsh-completions
+
+zinit wait'0b' lucid light-mode for \
+    zsh-vi-more/vi-increment \
+    zsh-vi-more/vi-motions \
+    lukechilds/zsh-nvm
+
+zinit wait'1' lucid light-mode for \
+    ael-code/zsh-colored-man-pages \
+    peterhurford/up.zsh
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node \
+
+zinit wait lucid light-mode for \
+    atinit"zicompinit; zicdreplay" \
+        zdharma/fast-syntax-highlighting \
+    atload"_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    blockf atpull'zinit creinstall -q .' \
+        zsh-users/zsh-completions
+
+zinit wait'0b' lucid light-mode for \
+    zsh-vi-more/vi-increment \
+    zsh-vi-more/vi-motions \
+    lukechilds/zsh-nvm
+
+zinit wait'1' lucid light-mode for \
+    ael-code/zsh-colored-man-pages \
+    peterhurford/up.zsh
 bindkey -M vicmd '^v' edit-command-line
 
 # BINDINGS - READLINE
@@ -217,7 +265,7 @@ bindkey -M menuselect "k"       reverse-menu-complete
 #######
 
 # see https://dev.gnupg.org/T3412
-export GPG_TTY=$(tty)               
+export GPG_TTY=$(tty)
 
 # see https://www.gnupg.org/documentation/manuals/gnupg/Common-Problems.html
 function _gpg-agent-update-tty {
