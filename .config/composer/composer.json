@@ -9,7 +9,8 @@
         "phpstan/phpstan": "^1.4",
         "vimeo/psalm": "^4.21",
         "squizlabs/php_codesniffer": "*",
-        "friendsofphp/php-cs-fixer": "^3.6"
+        "friendsofphp/php-cs-fixer": "^3.6",
+        "bamarni/composer-bin-plugin": "^1.5"
     }
 
 }
