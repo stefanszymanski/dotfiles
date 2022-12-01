@@ -166,22 +166,6 @@ require('packer').startup({function(use)
     -- Readline bindings in insert mode
     use 'tpope/vim-rsi'
 
-    -- Explain regular expressions
-    use { 
-        'bennypowers/nvim-regexplainer',
-        after = 'nvim-treesitter',
-        config = function()
-            require('regexplainer').setup {
-                auto = true,
-                debug = true,
-            }
-        end,
-        requires = {
-            'nvim-lua/plenary.nvim',
-            'MunifTanjim/nui.nvim',
-        }
-    }
-
     -- Highlight text with different colors
     use {
         'azabiong/vim-highlighter',
