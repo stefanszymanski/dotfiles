@@ -15,6 +15,7 @@ M.config = function()
             augend.date.alias["%Y-%m-%d"],
             augend.date.alias["%H:%M:%S"],
             augend.date.alias["%H:%M"],
+            augend.date.alias["%d.%m.%Y"],
             augend.semver.alias.semver,
             augend.constant.new {
                 elements = {'private', 'protected', 'public'},
