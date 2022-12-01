@@ -1,5 +1,9 @@
 local M = {}
 
+local function lsp_document_methods()
+    require('telescope.builtin').lsp_document_symbols {symbols = 'method'}
+end
+
 M.config = function()
     local telescope = require('telescope')
     local extras = require('plugin-extras.telescope')
