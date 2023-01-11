@@ -1,3 +1,2 @@
 #!/bin/sh
-
-exec sxhkd
+[ -f "$HOME/.config/sxhkd/sxhkdrc-work" ] && exec sxhkd "$HOME/.config/sxhkd/sxhkdrc-work" || exec sxhkd
