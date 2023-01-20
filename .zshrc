@@ -243,8 +243,10 @@ bindkey -M viins '^b'        backward-char
 bindkey -M viins '^[f'       forward-word
 bindkey -M viins '^[b'       backward-word
 # history
-bindkey '^p'        up-history
-bindkey '^n'        down-history
+bindkey '^[p'       up-history
+bindkey '^[n'       down-history
+bindkey '^p'        history-beginning-search-backward
+bindkey '^n'        history-beginning-search-forward
 bindkey '^r'        history-incremental-search-backward
 bindkey '^s'        history-incremental-search-forward
 # text editing
