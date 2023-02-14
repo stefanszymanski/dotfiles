@@ -73,7 +73,7 @@ c.content.notifications.show_origin = True
 # javascript
 c.content.javascript.enabled = True
 c.content.javascript.alert = True
-c.content.javascript.can_access_clipboard = False
+c.content.javascript.clipboard = 'access-paste'
 c.content.javascript.can_close_tabs = False
 c.content.javascript.can_open_tabs_automatically = False
 c.content.javascript.modal_dialog = False
