@@ -137,6 +137,9 @@ if [ "x$COMPLETION_WAITING_DOTS" = "xtrue" ]; then
   bindkey "^I" expand-or-complete-with-dots
 fi
 
+# load completion for the gitlab cli tool
+source <(glab completion -s zsh); compdef _glab glab
+
 
 ##############
 # CORRECTION #
@@ -310,6 +313,7 @@ export KEYTIMEOUT=1                 # Set timeout of the escape key to 0.1 secon
 
 # shortening often used commands
 alias g='git'
+alias gl='glab'
 
 # dotfile versioning
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
