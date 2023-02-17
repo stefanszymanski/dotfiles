@@ -28,15 +28,21 @@ usage() {
 	EOF
 }
 
+_ddcutil_default_args() {
+    ddcutil --help | grep -q -- '--sleep-less' \
+        && echo '--sleep-less --sleep-multiplier .1' \
+        || echo '--sleep-multiplier .1'
+}
+
 change_brightness() {
     local value="$1"
     local prefix="$2"
     # shellcheck disable=SC2086
-    ddcutil --sleep-less --sleep-multiplier .1 --noverify setvcp 10 $prefix $value
+    ddcutil $(_ddcutil_default_args) --noverify setvcp 10 $prefix $value
 }
 
 get_brightness() {
-    ddcutil --sleep-less --sleep-multiplier .1  --terse getvcp 10 | cut -d" " -f4
+    ddcutil $(_ddcutil_default_args) --terse getvcp 10 | cut -d" " -f4
 }
 
 case "$1" in
