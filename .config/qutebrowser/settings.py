@@ -134,11 +134,12 @@ c.url.searchengines = {
     'leo': 'https://dict.leo.org/?search={}',
     'crate': 'https://crates.io/search?q={}',
     'ter': 'https://extensions.typo3.org/?tx_solr[q]={}',
-    'github': 'https://github.com/search?q={}',
-    'gitlab': 'https://gitlab.com/search?search={}',
-    'amazon': 'https://www.amazon.de/s?k={}',
+    'p': 'https://www.php.net/manual-lookup.php?pattern={}',
+    'gh': 'https://github.com/search?q={}',
+    'gl': 'https://gitlab.com/search?search={}',
+    'a': 'https://www.amazon.de/s?k={}',
     'dhl': 'https://www.dhl.de/de/privatkunden/dhl-sendungsverfolgung.html?piececode={}',
-    'caniuse': 'https://caniuse.com/?search={}',
+    'ciu': 'https://caniuse.com/?search={}',
 }
 
 
