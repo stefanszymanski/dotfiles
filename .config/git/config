@@ -363,5 +363,9 @@
 	# hard reset and clean (unrecoverable)
 	nuke = !"git reset --hard HEAD && git clean -fd"
 
+    # use some gitlab commands as git commands
+    mr = !glab mr
+    ci = !glab ci
+
 [includeIf "gitdir:~/work/"]
     path = ~/.config/git/config-work
