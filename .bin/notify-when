@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+msg="$1"
+cmd="$2"
+interval="5"
+
+while true
+do
+    eval "$cmd" &>/dev/null && notify-send -u critical "$msg" && exit
+    sleep "$interval"
+done
