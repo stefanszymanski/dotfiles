@@ -205,6 +205,8 @@ c.bindings.commands = {
         'eO': 'set-cmd-text -s :open -t {url}',
         # open developer tools
         '<F12>': 'devtools',
+        # format content
+        ';j': 'spawn --userscript format_json'
     },
     'insert': {
         # readline: moving
