@@ -16,7 +16,7 @@
 
     [temp.cpu]
     # k10tmp/tdie
-    path = "/sys/class/hwmon/hwmon3/temp2_input"
+    path = "/sys/class/hwmon/hwmon3/temp1_input"
     warn = 65000
     crit = 80000
 
@@ -38,6 +38,20 @@
     warn = 60000
     crit = 75000
 
+[monitors]
+
+     [monitors.left]
+     name = "A"
+     area = "1024x1440+0+0"
+
+     [monitors.middle]
+     name = "B"
+     area = "2048x1440+1024+0"
+
+     [monitors.right]
+     name = "C"
+     area = "2048x1440+3072+0"
+
 [fullscreen]
 
     [fullscreen.full]
@@ -54,6 +68,33 @@
     name = "Partial Fullscreen (Right)"
     area = "4096x1440+1024+0"
     overlaps = ["B", "C"]
+
+# TODO implement script to use the following configuration
+[display.layouts]
+
+    [display.layouts.122]
+    name = "3 Virtual Monitors (1024:2048:2048)"
+
+        [display.layouts.122.monitors]
+        left   = { name = "A", area = "1024x1440+0+0" }
+        middle = { name = "B", area = "2048x1440+1024+0" }
+        right  = { name = "C", area = "2048x1440+3072+0" }
+
+        [display.layouts.122.fullscreen]
+        full     = { name = "Full",            area= "5120x1440+0+0",    overlaps = ["A", "B", "C"] }
+        lpartial = { name = "Partial (left)",  area= "3072x1440+0+0",    overlaps = ["A", "B"] }
+        rpartial = { name = "Partial (right)", area= "4096x1440+1024+0", overlaps = ["B", "C"] }
+
+    [display.layouts.11]
+    name = "2 Virtual Monitors (2560:2560)"
+    
+        [display.layouts.11.monitors]
+        left  = { name = "A", area = "2560x1440+0+0" }
+        right = { name = "B", area = "2560x1440+2560+0" }
+
+        [display.layouts.11.fullscreen]
+        full = { name = "Full", area= "5120x1440+0+0", overlaps = ["A", "B"] }
+
 
 [panel]
 
