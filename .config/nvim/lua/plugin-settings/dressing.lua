@@ -5,8 +5,10 @@ M.config = function()
 
     dressing.setup {
         input = {
-            -- disable transparency
-            winblend = 100
+            win_options = {
+                -- disable transparency
+                winblend = 100
+            }
         },
     }
 end
