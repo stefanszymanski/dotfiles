@@ -10,7 +10,7 @@
 
 PANEL_FIFO=/tmp/panel-fifo
 PANEL_HEIGHT=18
-PANEL_FONT="monospace:size=10:weight=bold"
+PANEL_FONT="monospace:size=9"
 PANEL_WM_NAME=bspwm_panel
 
 # if xdo id -a "$PANEL_WM_NAME" > /dev/null ; then
