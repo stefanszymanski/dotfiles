@@ -7,5 +7,3 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 . "$HOME/.profile"
-
-export PATH="$HOME/.cargo/bin:$PATH"
