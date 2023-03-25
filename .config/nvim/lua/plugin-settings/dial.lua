@@ -41,7 +41,7 @@ M.config = function()
     }
 
     local opts = {silent = true, noremap = false}
-    legendary.bind_keymaps {
+    legendary.keymaps {
         {'<C-a>', '<Plug>(dial-increment)', opts = opts, mode = 'n'},
         {'<C-x>', '<Plug>(dial-decrement)', opts = opts, mode = 'n'},
         {'<C-a>', '<Plug>(dial-increment)', opts = opts, mode = 'v'},

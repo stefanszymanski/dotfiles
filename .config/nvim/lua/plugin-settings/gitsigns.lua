@@ -46,7 +46,7 @@ M.config = function()
     -- Hunk motions
     whichkey.register({h = {':Gitsigns next_hunk<cr>', 'Next Git hunk (also <A-u>)'}}, {prefix = ']'})
     whichkey.register({h = {':Gitsigns prev_hunk<cr>', 'Previous Git hunk (also <A-d>)'}}, {prefix = '['})
-    legendary.bind_keymaps {
+    legendary.keymaps {
         {'<A-u>', ':Gitsigns next_hunk<cr>', opts = opts, description = 'Next Git hunk'},
         {'<A-d>', ':Gitsigns prev_hunk<cr>', opts = opts, description = 'Previous Git hunk'},
     }

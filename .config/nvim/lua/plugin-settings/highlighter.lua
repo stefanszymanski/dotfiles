@@ -7,7 +7,7 @@ M.config = function()
         let HiClear = 'f<bs><bs>'
     ]]
 
-    legendary.bind_keymaps {
+    legendary.keymaps {
         {'f<cr>', description = 'Highlight word under cursor' },
         {'f<bs>', description = 'Remove highlighting word under cursor' },
         {'f<bs><bs>', description = 'Clear highlighting' },

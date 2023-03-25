@@ -3,7 +3,7 @@ local whichkey = require('which-key')
 
 local opts = {silent = true, noremap = true}
 
-legendary.bind_keymaps {
+legendary.keymaps {
     -- Switch buffers
     {'<A-a>', ':bnext<cr>', opts = opts, description = 'Next buffer'},
     {'<A-x>', ':bprev<cr>', opts = opts, description = 'Previous buffer'},

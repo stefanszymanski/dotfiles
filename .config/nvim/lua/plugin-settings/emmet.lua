@@ -4,7 +4,7 @@ M.config = function()
     local legendary = require('legendary')
     local whichkey = require('which-key')
     
-    legendary.bind_keymaps {
+    legendary.keymaps {
         {'<C-y>', description = 'Emmet'},
     }
 

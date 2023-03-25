@@ -32,7 +32,7 @@ local function on_attach(client, bufnr)
         keymap_v.lf = { '<cmd>lua vim.lsp.buf.range_formatting()<cr>', 'Format' }
     end
     if client.server_capabilities.hoverProvider then
-        legendary.bind_keymaps {
+        legendary.keymaps {
             { '-', ':lua vim.lsp.buf.hover()<cr>', opts = { noremap = true, silent = true }, description = 'Show LSP hover information' }
         }
     end

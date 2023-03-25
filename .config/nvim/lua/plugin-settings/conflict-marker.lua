@@ -9,7 +9,7 @@ M.config = function()
     vim.g.conflict_marker_enable_mappings = 0
 
     -- Cycle through conflict hunks
-    legendary.bind_keymaps {
+    legendary.keymaps {
         {'<A-D>', ':ConflictMarkerNextHunk<cr>', opts = opts, description = 'Next conflict hunk'},
         {'<A-U>', ':ConflictMarkerPrevHunk<cr>', opts = opts, description = 'Previous conflict hunk'},
         {'<A-D>', ':ConflictMarkerNextHunk<cr>', opts = opts, mode = 'v', description = 'Next conflict hunk'},

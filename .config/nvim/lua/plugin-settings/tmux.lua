@@ -17,7 +17,7 @@ M.config = function()
         }
     }
 
-    legendary.bind_keymaps {
+    legendary.keymaps {
         {'<C-h>', tmux.move_left, description =     'Move to left window'},
         {'<C-l>', tmux.move_right, description =    'Move to right window'},
         {'<C-j>', tmux.move_bottom, description =   'Move to bottom window'},
