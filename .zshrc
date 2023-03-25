@@ -143,7 +143,9 @@ if [ "x$COMPLETION_WAITING_DOTS" = "xtrue" ]; then
 fi
 
 # load completion for the gitlab cli tool
-source <(glab completion -s zsh); compdef _glab glab
+if (( $+commands[glab] )); then
+    source <(glab completion -s zsh); compdef _glab glab
+fi
 
 
 ##############
