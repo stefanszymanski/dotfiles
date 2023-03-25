@@ -38,6 +38,11 @@ zinit wait lucid light-mode for \
     blockf atpull'zinit creinstall -q .' \
         zsh-users/zsh-completions
 
+zinit light romkatv/zsh-defer
+
+zsh-defer -c 'eval "$(gulp --completion=zsh)"' -t 2
+
+
 zinit wait'0b' lucid light-mode for \
     zsh-vi-more/vi-increment \
     zsh-vi-more/vi-motions \
