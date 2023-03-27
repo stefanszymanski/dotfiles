@@ -323,12 +323,6 @@ require('packer').startup({function(use)
                 config = function() require('plugin-settings.telescope-file-browser').config() end,
             },
             {
-                -- List files from the arglist
-                'jgvw/telescope-arglist.nvim',
-                after = 'telescope.nvim',
-                config = function() require('plugin-settings.telescope-arglist').config() end,
-            },
-            {
                 -- Navigate in telescope with hop like motions
                 'nvim-telescope/telescope-hop.nvim',
                 after = 'telescope.nvim',
