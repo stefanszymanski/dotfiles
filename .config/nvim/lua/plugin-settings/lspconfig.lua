@@ -101,6 +101,13 @@ M.config = function()
       },
     }
 
+    -- Configure GDScript
+    lspconfig.gdscript.setup{
+      on_attach = on_attach,
+      flags = { debounce_text_changes = 150 },
+      filetypes = { "gd", "gdscript", "gdscript3" },
+    }
+
     -- -----------
     -- Diagnostics
     -- -----------

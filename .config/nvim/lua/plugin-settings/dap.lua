@@ -4,12 +4,12 @@ M.config = function()
     local dap = require('dap')
     local whichkey = require('which-key')
 
+    -- PHP
     dap.adapters.php = {
       type = 'executable',
       command = 'node',
       args = { '/home/stefan/.local/share/nvim/dapinstall/php/vscode-php-debug/out/phpDebug.js' }
     }
-
     dap.configurations.php74fpm = {
       {
         type = 'php',
@@ -18,13 +18,28 @@ M.config = function()
         port = 9000
       }
     }
-
     dap.configurations.php = {
       {
         type = 'php',
         request = 'launch',
         name = 'PHP',
         port = 9003
+      }
+    }
+
+    -- GDScript
+    dap.adapters.godot = {
+      type = "server",
+      host = '127.0.0.1',
+      port = 6006,
+    }
+    dap.configurations.gdscript = {
+      {
+        type = "godot",
+        request = "launch",
+        name = "Launch scene",
+        project = "${workspaceFolder}",
+        launch_scene = true,
       }
     }
 
