@@ -34,9 +34,14 @@ M.config = function()
             },
             augend.constant.new {
                 elements = {'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eigth', 'nineth', 'tenth', 'eleventh', 'twelfth'},
-                word = false,
+                word = true,
                 cyclic = false,
-            }
+            },
+            augend.constant.new {
+                elements = {'[ ]', '[x]', '[-]'},
+                word = false,
+                cyclic = true,
+            },
         }
     }
 
