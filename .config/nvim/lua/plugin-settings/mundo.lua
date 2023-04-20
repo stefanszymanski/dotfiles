@@ -9,7 +9,7 @@ M.config = function()
     vim.g.mundo_preview_bottom = 1
 
     whichkey.register({
-        u = {':MundoToggle<r>','Toggle undo history'},
+        u = {':MundoToggle<cr>','Toggle undo history'},
     }, {prefix = '<leader>'})
 end
 

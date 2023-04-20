@@ -1,9 +1,14 @@
-local M = {}
+local M = {
+    'monaqa/dial.nvim',
+    keys = {
+        {'<C-a>', '<Plug>(dial-increment)', mode = {'n', 'v'}},
+        {'<C-x>', '<Plug>(dial-decrement)', mode = {'n', 'v'}},
+    },
+}
 
 M.config = function()
     local augend = require('dial.augend')
     local dial = require('dial.config')
-    local legendary = require('legendary')
 
     dial.augends:register_group {
         default = {
@@ -43,16 +48,6 @@ M.config = function()
                 cyclic = true,
             },
         }
-    }
-
-    local opts = {silent = true, noremap = false}
-    legendary.keymaps {
-        {'<C-a>', '<Plug>(dial-increment)', opts = opts, mode = 'n'},
-        {'<C-x>', '<Plug>(dial-decrement)', opts = opts, mode = 'n'},
-        {'<C-a>', '<Plug>(dial-increment)', opts = opts, mode = 'v'},
-        {'<C-x>', '<Plug>(dial-decrement)', opts = opts, mode = 'v'},
-        {'g<C-a>', '<Plug>(dial-increment-additional)', opts = opts, mode = 'v'},
-        {'g<C-x>', '<Plug>(dial-decrement-additional)', opts = opts, mode = 'v'},
     }
 end
 

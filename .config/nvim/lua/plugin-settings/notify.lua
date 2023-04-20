@@ -15,6 +15,7 @@ M.config = function()
         max_height = 6,
     }
 
+    -- TODO move telescope loading
     telescope.load_extension('notify')
 
     -- Set as default notifier.

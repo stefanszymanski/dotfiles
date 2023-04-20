@@ -18,5 +18,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('settings')
-require('lazy').setup('plugins')
+require('lazy').setup({
+    spec = {
+        { import = 'plugins-old' },
+        { import = 'plugins' },
+    },
+})
 require('keys')
