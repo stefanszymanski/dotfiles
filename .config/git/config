@@ -7,6 +7,7 @@
 
 [core]
     editor = nvim
+    pager = delta
     sshCommand = "ssh -i ~/.ssh/personal.pub -F /dev/null"
     whitespace = fix,trailing-space,cr-at-eol
     excludesfile = ~/.config/git/ignore
@@ -26,6 +27,8 @@
     syntax-theme = Dracula
     plus-style = syntax "#003800"
     minus-style = red bold ul "#3f0001"
+    navigate = true
+    hyperlinks = true
 
 [delta "decorations"]
     commit-decoration-style = bold yellow box ul
@@ -126,7 +129,7 @@
 
 [merge]
 	ff = false
-	conflictStyle = merge
+	conflictStyle = diff3
 	tool = vimdiff
 
 [mergetool]
