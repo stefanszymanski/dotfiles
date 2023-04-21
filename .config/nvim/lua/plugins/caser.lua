@@ -1,4 +1,11 @@
-local M = {}
+local M = {
+    -- Change word casing
+    'arthurxavierx/vim-caser',
+    event = 'VeryLazy',
+    dependencies = {
+        'folke/which-key.nvim',
+    },
+}
 
 M.config = function()
     local whichkey = require('which-key')

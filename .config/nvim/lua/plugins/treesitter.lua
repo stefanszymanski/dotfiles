@@ -3,48 +3,7 @@ local M = {
     event = 'BufRead',
     build = ':TSUpdate',
     dependencies = {
-        {
-            -- Status line
-            'nvim-lualine/lualine.nvim',
-            dependencies = { 'kyazdani42/nvim-web-devicons' },
-            config = function() require('plugin-settings.lualine').config() end,
-        },
-        {
-            -- Additional text objects
-            'nvim-treesitter/nvim-treesitter-textobjects',
-            config = function() require('plugin-settings.treesitter-textobjects').config() end,
-        },
-        {
-            -- Swap list elements, e.g. arguments
-            'mizlan/iswap.nvim',
-            config = function() require('plugin-settings.iswap').config() end,
-        },
-        {
-            -- Create HTML with a emmet like syntax
-            'lukas-reineke/indent-blankline.nvim',
-            config = function() require('plugin-settings.indent-blankline').config() end,
-        },
-        {
-            -- Display LSP context in status line
-            'SmiteshP/nvim-gps',
-            config = function() require('nvim-gps').setup {} end,
-        },
-        {
-            -- Diagnostics dashboard
-            'folke/trouble.nvim',
-            cmd = 'Trouble',
-            dependencies = { 'kyazdani42/nvim-web-devicons' },
-            config = function() require('plugin-settings.trouble').config() end,
-        },
-        {
-            -- Toggle comments
-            'numToStr/Comment.nvim',
-            version = '*',
-            dependencies = {
-                'JoosepAlviste/nvim-ts-context-commentstring',
-            },
-            config = function() require('plugin-settings.comment').config() end,
-        },
+        'nvim-treesitter/nvim-treesitter-textobjects',
     }
 }
 
@@ -53,10 +12,6 @@ M.config = function()
       ensure_installed = "all",
       highlight = {
         enable = true,
-      },
-      context_commentstring = {
-        enable = true,
-        enable_autocmd = false,
       },
       incremental_selection = {
         enable = true,
@@ -69,6 +24,49 @@ M.config = function()
       },
       indent = {
         enable = true,
+      },
+      -- for nvim-treesitter-textobjects
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['ac'] = '@class.outer',
+            ['ic'] = '@class.inner',
+            ['aa'] = '@parameter.outer',
+            ['ia'] = '@parameter.inner',
+          },
+        },
+        move = {
+          enable = true,
+          set_jumps = true,
+          goto_next_start = {
+            [']m'] = '@function.outer',
+            [']]'] = '@class.outer',
+          },
+          goto_next_end = {
+            [']M'] = '@function.outer',
+            [']['] = '@class.outer',
+          },
+          goto_previous_start = {
+            ['[m'] = '@function.outer',
+            ['[['] = '@class.outer',
+          },
+          goto_previous_end = {
+            ['[M'] = '@function.outer',
+            ['[]'] = '@class.outer',
+          },
+        },
+        swap = {
+          enable = false,
+        },
+      },
+      -- for nvim-ts-context-commentstring
+      context_commentstring = {
+        enable = true,
+        enable_autocmd = false,
       },
     }
 end

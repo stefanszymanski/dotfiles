@@ -64,7 +64,22 @@ whichkey.register({
             name = 'Actions',
         }
     },
+    s = {
+        name = 'Sessions',
+    },
+    -- used by plugins/conflict-marker
+    r = {
+        name = 'Resolve conflict',
+    },
+
 } , {prefix = '<leader>', mode = 'n'})
+
+whichkey.register({
+    -- used by plugins/radical
+    r = {
+        name = 'Convert number',
+    }
+}, { prefix = 'c' })
 
 whichkey.register({
     l = {

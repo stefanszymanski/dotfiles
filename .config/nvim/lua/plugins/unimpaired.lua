@@ -1,4 +1,12 @@
-local M = {}
+local M = {
+    -- Bindings for en/disable/toggle features, en/decoding text, jumping
+    'tpope/vim-unimpaired',
+    event = 'VeryLazy',
+    dependencies = {
+        'tpope/vim-repeat',
+        'folke/which-key.nvim',
+    },
+}
 
 M.config = function()
     local whichkey = require('which-key')
@@ -104,7 +112,6 @@ M.config = function()
         y =             'C string decode',
         e =             'Move lines down',
     }, {prefix = ']', mode = 'v'})
-
 end
 
 return M

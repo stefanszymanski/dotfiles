@@ -1,9 +1,10 @@
-local M = {}
+local M = {
+    'folke/which-key.nvim',
+    event = 'BufReadPost',
+}
 
 M.config = function()
-    local whichkey = require('which-key')
-
-    whichkey.setup {
+    require('which-key').setup {
         plugins = {
             spelling = {
                 enabled = true,
@@ -11,7 +12,7 @@ M.config = function()
             },
         },
         layout = {
-            height = {min = 2, max = 12},
+            height = { min = 2, max = 12 },
             align = 'center',
         },
         ignore_missing = false,

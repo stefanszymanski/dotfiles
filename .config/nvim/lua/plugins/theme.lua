@@ -1,4 +1,7 @@
-local M = {}
+local M = {
+    'sainnhe/gruvbox-material',
+    lazy = false,
+}
 
 M.config = function()
     vim.opt.termguicolors = true

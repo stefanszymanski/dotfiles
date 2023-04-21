@@ -1,9 +1,15 @@
-local M = {}
+local M = {
+    'rcarriga/nvim-notify',
+    dependencies = 'nvim-telescope/telescope.nvim',
+    lazy = false,
+    keys = {
+        {'<leader>fn', ':Telescope notify<cr>', desc = 'Notifications'}
+    }
+}
 
 M.config = function()
     local notify = require('notify')
     local telescope = require('telescope')
-    local whichkey = require('which-key')
 
     notify.setup {
         stages = 'static',
@@ -15,15 +21,10 @@ M.config = function()
         max_height = 6,
     }
 
-    -- TODO move telescope loading
     telescope.load_extension('notify')
 
     -- Set as default notifier.
     vim.notify = notify
-
-    whichkey.register({
-        fn = {':Telescope notify<cr>',  'Notifications'},
-    }, {prefix = '<leader>'})
 end
 
 return M
