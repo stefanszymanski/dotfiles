@@ -13,8 +13,9 @@ local M = {
     }
 }
 
-M.config = function ()
-    require('neo-tree').setup({
+M.config = function()
+    local neotree = require('neo-tree')
+    neotree.setup({
         close_if_last_window = true,
         window = {
             width = 60,
@@ -23,6 +24,16 @@ M.config = function ()
                 ['<c-x>'] = 'open_split',
             }
         },
+        event_handlers = {
+          {
+            event = "file_opened",
+            handler = function()
+                --auto close
+                neotree.close_all()
+            end
+          },
+
+        }
     })
 end
 

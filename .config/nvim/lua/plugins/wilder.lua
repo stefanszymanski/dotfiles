@@ -1,6 +1,8 @@
 local M = {
     'gelguy/wilder.nvim',
     event = 'CmdlineEnter',
+    -- replaced by cmp
+    enabled = false,
     dependencies = { 'romgrk/fzy-lua-native' },
 }
 

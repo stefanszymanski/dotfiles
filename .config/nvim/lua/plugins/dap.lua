@@ -37,51 +37,46 @@ local M = {
 }
 
 M.config = function()
-    local languages = require('config.languages').enabled
     local dap = require('dap')
 
     -- PHP
-    if languages.php then
-        dap.adapters.php = {
-          type = 'executable',
-          command = 'node',
-          args = { '/home/stefan/.local/share/nvim/dapinstall/php/vscode-php-debug/out/phpDebug.js' }
-        }
-        dap.configurations.php74fpm = {
-          {
+    dap.adapters.php = {
+        type = 'executable',
+        command = 'node',
+        args = { '/home/stefan/.local/share/nvim/dapinstall/php/vscode-php-debug/out/phpDebug.js' }
+    }
+    dap.configurations.php74fpm = {
+        {
             type = 'php',
             request = 'launch',
             name = 'PHP 7.4 FPM',
             port = 9000
-          }
         }
-        dap.configurations.php = {
-          {
+    }
+    dap.configurations.php = {
+        {
             type = 'php',
             request = 'launch',
             name = 'PHP',
             port = 9003
-          }
         }
-    end
+    }
 
     -- GDScript
-    if languages.godot then
-        dap.adapters.godot = {
-          type = "server",
-          host = '127.0.0.1',
-          port = 6006,
-        }
-        dap.configurations.gdscript = {
-          {
+    dap.adapters.godot = {
+        type = "server",
+        host = '127.0.0.1',
+        port = 6006,
+    }
+    dap.configurations.gdscript = {
+        {
             type = "godot",
             request = "launch",
             name = "Launch scene",
             project = "${workspaceFolder}",
             launch_scene = true,
-          }
         }
-    end
+    }
 end
 
 return M

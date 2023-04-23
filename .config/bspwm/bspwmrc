@@ -42,4 +42,6 @@ bspc config remove_unplugged_monitors false
 bspc config merge_overlapping_monitors false
 
 bspc rule --add nagstamon state=floating sticky=on focus=off private=on
-bspc rule --add Zathura state=tiled
+bspc rule --add Zathura state=tile
+# Used by nvim plugin peek for markdown preview
+bspc rule --add 'Deno:*:Peek preview' state=tiled

@@ -1,4 +1,10 @@
-local M = {}
+local M = {
+    'neovim/nvim-lspconfig',
+    event = 'BufReadPre',
+    dependencies = {
+        'b0o/schemastore.nvim',
+    },
+}
 
 M.config = function()
     local lspconfig = require('lspconfig')

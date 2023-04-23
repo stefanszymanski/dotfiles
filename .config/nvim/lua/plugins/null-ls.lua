@@ -1,4 +1,10 @@
-local M = {}
+local M = {
+    'jose-elias-alvarez/null-ls.nvim',
+    event = 'BufReadPre',
+    dependencies = {
+        'nvim-lua/plenary.nvim',
+    },
+}
 
 M.config = function()
     local nullls = require('null-ls')
@@ -18,7 +24,7 @@ M.config = function()
     -- TODO add vimlint
     -- Code actions
     -- TODO add refactoring.nvim
-    nullls.setup {
+    nullls.setup({
         on_attach = on_attach,
         save_after_format = false,
         debounce = 150,
@@ -43,7 +49,7 @@ M.config = function()
             nullls.builtins.code_actions.proselint,
             nullls.builtins.code_actions.shellcheck,
         }
-    }
+    })
 end
 
 return M

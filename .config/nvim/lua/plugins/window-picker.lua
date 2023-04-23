@@ -1,6 +1,5 @@
 local M = {
     's1n7ax/nvim-window-picker',
-    tag = "v1.*",
     lazy = true,
 }
 
