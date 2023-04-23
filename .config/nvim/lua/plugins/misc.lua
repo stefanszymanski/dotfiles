@@ -8,6 +8,14 @@ local M = {
         'markonm/traces.vim',
         event = 'VeryLazy',
     },
+    {
+        -- TypoScript support
+        'stefanszymanski/vim.typoscript',
+    },
+    {
+        -- Puppet support
+        'rodjek/vim-puppet',
+    }
 }
 
 return M

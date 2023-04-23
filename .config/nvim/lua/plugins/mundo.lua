@@ -1,7 +1,9 @@
 local M = {
     -- Undo history
     'simnalamburt/vim-mundo',
-    keys = { '<leader>u', ':MundoToggle<cr>', desc = 'Toggle undo history' },
+    keys = {
+        { '<leader>u', '<cmd>MundoToggle<cr>', desc = 'Toggle undo history' },
+    },
 }
 
 M.config = function()

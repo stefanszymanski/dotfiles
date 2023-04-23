@@ -34,10 +34,10 @@ whichkey.register({
     W = {':wa<cr>',                             'Save all buffers'},
     q = {':wqa<cr>',                            'Quit'},
     Q = {':qa!<cr>',                            'Quit without saving'},
+    -- used by plugins: bufdel
     b = {
         name =                                  'Buffers',
         a = {':e#<cr>',                             'Switch to previous buffer'},
-        d = {':bdelete<cr>',                        'Close current buffer'},
         D = {':%bdelete<cr>',                       'Close all buffers'},
         o = {[[:%bdelete|edit #|normal `"<cr>]],    'Close other buffers'},
         y = {':normal! ggVG"+y``<cr>',              'Yank buffer to clipboard'},
@@ -52,24 +52,27 @@ whichkey.register({
     d = {
         name = 'Diagnostics'
     },
-    x  = {
+    x = {
         name = 'Debugging'
     },
     i = {
         name = 'Insert',
     },
+    -- used by plugins: fugitive, gitsigns, git-messenger, gitlinker, diffview
     g = {
         name = 'Git',
-        x = {
-            name = 'Actions',
-        }
     },
+    -- used by plugins: session
     s = {
         name = 'Sessions',
     },
-    -- used by plugins/conflict-marker
+    -- used by plugins: conflict-marker
     r = {
         name = 'Resolve conflict',
+    },
+    -- used by plugins: caser
+    c = {
+        name = 'Change casing',
     },
 
 } , {prefix = '<leader>', mode = 'n'})
@@ -84,6 +87,10 @@ whichkey.register({
 whichkey.register({
     l = {
         name = 'LSP',
+    },
+    -- used by plugins/caser
+    c = {
+        name = 'Change casing',
     },
 } , {prefix = '<leader>', mode = 'v'})
 

@@ -34,6 +34,7 @@ vim.cmd [[
     " set exrc
     set path+=**
     set termguicolors
+    set pumblend=10
 
     " Line numbering: relative in active buffer, absolute in inactive buffers
     set number relativenumber

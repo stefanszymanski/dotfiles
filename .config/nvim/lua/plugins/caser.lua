@@ -1,54 +1,38 @@
 local M = {
     -- Change word casing
     'arthurxavierx/vim-caser',
-    event = 'VeryLazy',
-    dependencies = {
-        'folke/which-key.nvim',
+    keys = {
+        { '<leader>c_', desc = '[m] to snake_case' },
+        { '<leader>cm', desc = '[m] to UpperCamelCase' },
+        { '<leader>cp', desc = '[m] to UpperCamelCase' },
+        { '<leader>cc', desc = '[m] to lowerCamelCase' },
+        { '<leader>cu', desc = '[m] to UPPER_CASE' },
+        { '<leader>cU', desc = '[m] to UPPER_CASE' },
+        { '<leader>c-', desc = '[m] to kebap-case' },
+        { '<leader>ck', desc = '[m] to kebap-case' },
+        { '<leader>cK', desc = '[m] to Upper-Kebap-Case' },
+        { '<leader>c.', desc = '[m] to dot.case' },
+        { '<leader>c<space>', desc = '[m] to space case' },
+        { '<leader>ct', desc = '[m] to Title Case' },
+        { '<leader>cs', desc = '[m] to Sentence case' },
+        { '<leader>c_', desc = 'To snake_case', mode = 'v' },
+        { '<leader>cm', desc = 'To UpperCamelCase', mode = 'v' },
+        { '<leader>cp', desc = 'To UpperCamelCase', mode = 'v' },
+        { '<leader>cc', desc = 'To lowerCamelCase', mode = 'v' },
+        { '<leader>cu', desc = 'To UPPER_CASE', mode = 'v' },
+        { '<leader>cU', desc = 'To UPPER_CASE', mode = 'v' },
+        { '<leader>c-', desc = 'To kebap-case', mode = 'v' },
+        { '<leader>ck', desc = 'To kebap-case', mode = 'v' },
+        { '<leader>cK', desc = 'To Upper-Kebap-Case', mode = 'v' },
+        { '<leader>c.', desc = 'To dot.case', mode = 'v' },
+        { '<leader>c<space>', desc = 'To space case', mode = 'v' },
+        { '<leader>ct', desc = 'To Title Case', mode = 'v' },
+        { '<leader>cs', desc = 'To Sentence case', mode = 'v' },
     },
 }
 
-M.config = function()
-    local whichkey = require('which-key')
-
+M.init = function()
     vim.g.caser_prefix = '<leader>c'
-
-    whichkey.register({
-        c = {
-            name = 'Case manipulation',
-            ['_'] = '[m] to snake_case',
-            m = '[m] to UpperCamelCase',
-            p = '[m] to UpperCamelCase',
-            c = '[m] to lowerCamelCase',
-            u = '[m] to UPPER_CASE',
-            U = '[m] to UPPER_CASE',
-            ['-'] = '[m] to kebap-case',
-            k = '[m] to kebap-case',
-            K = '[m] to Upper-Kebap-Case',
-            ['.'] = '[m] to dot.case',
-            ['<space>'] = '[m] to space case',
-            t = '[m] to Title Case',
-            s = '[m] to Sentence case',
-        }
-    }, {prefix = '<leader>'})
-
-    whichkey.register({
-        c = {
-            name = 'Case manipulation',
-            ['_'] = 'To snake_case',
-            m = 'To UpperCamelCase',
-            p = 'To UpperCamelCase',
-            c = 'To lowerCamelCase',
-            u = 'To UPPER_CASE',
-            U = 'To UPPER_CASE',
-            ['-'] = 'To kebap-case',
-            k = 'To kebap-case',
-            K = 'To Upper-Kebap-Case',
-            ['.'] = 'To dot.case',
-            ['<space>'] = 'To space case',
-            t = 'To Title Case',
-            s = 'To Sentence case',
-        }
-    }, {prefix = '<leader>', mode = 'v'})
 end
 
 return M
