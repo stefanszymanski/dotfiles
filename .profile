@@ -10,6 +10,9 @@
 [ -d "$HOME/.composer-vendor/bin" ] && PATH="$HOME/.composer-vendor/bin:$PATH"
 [ -d "/usr/lib/ruby/gems/2.7.0/bin" ] && PATH="/usr/lib/ruby/gems/2.7.0/bin:$PATH"
 [ -d "/var/lib/gems/2.7.0/bin/puppet-lint-2.5.2/bin" ] && PATH="/var/lib/gems/2.7.0/bin/puppet-lint-2.5.2/bin"
+[ -f "$HOME/.config/nvm/alias/default" ] \
+    && [ -d "$HOME/.config/nvm/versions/node/v$(cat "$HOME/.config/nvm/alias/default")/bin" ] \
+    && PATH="$HOME/.config/nvm/versions/node/v$(cat "$HOME/.config/nvm/alias/default")/bin:$PATH"
 export PATH
 
 # set XDG_CONFIG_* variables
