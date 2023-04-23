@@ -5,6 +5,7 @@ local M = {
 }
 
 M.config = function()
+    -- TODO change highlighting of floats in general
     require('dressing').setup()
 end
 

@@ -52,8 +52,15 @@ whichkey.register({
     d = {
         name = 'Diagnostics'
     },
+    -- used by plugins: dap, dap-ui
     x = {
-        name = 'Debugging'
+        name = 'Debugging',
+        e = {
+            name = 'Open in popup',
+        },
+        s = {
+            name = 'Step',
+        },
     },
     i = {
         name = 'Insert',

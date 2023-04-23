@@ -2,7 +2,7 @@ local M = {
     'nvim-lualine/lualine.nvim',
     dependencies = {
         'nvim-treesitter/nvim-treesitter',
-        'kyazdani42/nvim-web-devicons',
+        'nvim-tree/nvim-web-devicons',
         {
             -- Display LSP context in status line
             'SmiteshP/nvim-gps',
@@ -16,7 +16,7 @@ local M = {
 
 M.config = function()
     local lualine = require('lualine')
-    local dap = require('dap')
+    -- local dap = require('dap')
 
     local function lsp_client(msg)
         msg = msg or ""
@@ -89,7 +89,7 @@ M.config = function()
                     color = { fg = '#98be65' },
                 },
                 {
-                    dap.status,
+                    'dap',
                     color = { fg = '#b51326' }
                 },
             },

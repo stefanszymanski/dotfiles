@@ -3,7 +3,7 @@ local M = {
     dependencies = {
         'nvim-treesitter/nvim-treesitter',
         'nvim-telescope/telescope.nvim',
-        'kyazdani42/nvim-web-devicons',
+        'nvim-tree/nvim-web-devicons',
     },
     cmd = 'Trouble',
     keys = {
