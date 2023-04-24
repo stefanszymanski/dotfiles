@@ -6,17 +6,17 @@ local M = {
     dependencies = { 'nvim-lua/plenary.nvim' },
     event = 'BufReadPost',
     keys = {
-        { ']t', function() require('todo-comments').jump_next() end, desc = 'Next todo' },
-        { '[t', function() require('todo-comments').jump_prev() end, desc = 'Previous todo' },
+        { ']t', function() require('todo-comments').jump_next() end, desc = 'Next Todo' },
+        { '[t', function() require('todo-comments').jump_prev() end, desc = 'Previous Todo' },
         {
             '<leader>dt',
-            ':TodoTrouble  keywords=' .. keywords .. 'cwd=<C-R>=expand("%:p")<cr><cr>',
-            desc = 'Workspace Todos'
+            ':TodoTrouble  keywords=' .. keywords .. ' cwd=<C-R>=expand("%:p")<cr><cr>',
+            desc = 'Workspace Todos',
         },
         {
             '<leader>dT',
             ':TodoTrouble keywords=' .. keywords .. '<cr>',
-            desc = 'Workspace Todos'
+            desc = 'Workspace Todos',
         },
     },
 }
@@ -24,6 +24,7 @@ local M = {
 M.config = function()
     require('todo-comments').setup({
         highlight = {
+            -- only highlight the keyword, not the whole description
             keyword = "bg",
             after = "",
         },

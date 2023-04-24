@@ -38,14 +38,17 @@ whichkey.register({
     b = {
         name =                                  'Buffers',
         a = {':e#<cr>',                             'Switch to previous buffer'},
+        -- d is added by plugin bufdel
         D = {':%bdelete<cr>',                       'Close all buffers'},
         o = {[[:%bdelete|edit #|normal `"<cr>]],    'Close other buffers'},
         y = {':normal! ggVG"+y``<cr>',              'Yank buffer to clipboard'},
         p = {':normal! ggdG"+P<cr>',                'Replace buffer with clipboard'},
     },
+    -- used by plugins: telescope
     f = {
         name = 'Find'
     },
+    -- used by plugins: telescope
     l = {
         name = 'LSP',
     },
@@ -65,7 +68,7 @@ whichkey.register({
     i = {
         name = 'Insert',
     },
-    -- used by plugins: fugitive, gitsigns, git-messenger, gitlinker, diffview
+    -- used by plugins: fugitive, gitsigns, git-messenger, gitlinker, diffview, telescope
     g = {
         name = 'Git',
     },
