@@ -81,6 +81,10 @@ whichkey.register({
     c = {
         name = 'Change casing',
     },
+    -- used by plugins: copilot
+    p = {
+        name = 'Copilot',
+    },
 
 } , {prefix = '<leader>', mode = 'n'})
 
