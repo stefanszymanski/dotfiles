@@ -28,7 +28,7 @@
     plus-style = syntax "#003800"
     minus-style = red bold ul "#3f0001"
     navigate = true
-    hyperlinks = true
+    hyperlinks = false
 
 [delta "decorations"]
     commit-decoration-style = bold yellow box ul
