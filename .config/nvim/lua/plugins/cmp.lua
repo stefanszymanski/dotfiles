@@ -56,7 +56,7 @@ M.config = function()
             ['<C-b>'] = cmp.mapping.scroll_docs(-4),
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
             ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-e>'] = cmp.mapping.close(),
+            ['<C-q>'] = cmp.mapping.close(),
             ['<CR>'] = cmp.mapping.confirm {
               behavior = cmp.ConfirmBehavior.Replace,
               select = true,
@@ -79,6 +79,15 @@ M.config = function()
                     fallback()
                 end
             end,
+            ['<M-CR>'] = function(fallback)
+                -- see plugins.copilot
+                local copilot_keys = vim.fn["copilot#Accept"]()
+                if copilot_keys ~= "" then
+                    vim.api.nvim_feedkeys(copilot_keys, "i", true)
+                else
+                    fallback()
+                end
+            end
         },
     }
     cmp.setup.cmdline('/', {
