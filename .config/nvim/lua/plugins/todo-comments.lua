@@ -1,0 +1,33 @@
+-- keywords I'm interested in (that's all but WARN)
+local keywords = 'FIX,TODO,HACK,PERF,NOTE,TEST'
+
+local M = {
+    'folke/todo-comments.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    event = 'BufReadPost',
+    keys = {
+        { ']t', function() require('todo-comments').jump_next() end, desc = 'Next todo' },
+        { '[t', function() require('todo-comments').jump_prev() end, desc = 'Previous todo' },
+        {
+            '<leader>dt',
+            ':TodoTrouble  keywords=' .. keywords .. 'cwd=<C-R>=expand("%:p")<cr><cr>',
+            desc = 'Workspace Todos'
+        },
+        {
+            '<leader>dT',
+            ':TodoTrouble keywords=' .. keywords .. '<cr>',
+            desc = 'Workspace Todos'
+        },
+    },
+}
+
+M.config = function()
+    require('todo-comments').setup({
+        highlight = {
+            keyword = "bg",
+            after = "",
+        },
+    })
+end
+
+return M
