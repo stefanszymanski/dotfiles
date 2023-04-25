@@ -27,6 +27,7 @@ local M = {
     dependencies = {
         'nvim-lua/plenary.nvim',
         'nvim-lua/popup.nvim',
+        's1n7ax/nvim-window-picker',
         {
             'nvim-telescope/telescope-fzf-native.nvim',
             build = 'make',
@@ -63,9 +64,13 @@ M.config = function()
     local actions = require('telescope.actions')
     local actions_layout = require('telescope.actions.layout')
 
-    telescope.setup {
+    telescope.setup({
       defaults = {
         buffer_previewer_maker = buffer_previewer_maker,
+        -- select window to open a file in
+        get_selection_window = function()
+            return require('window-picker').pick_window() or vim.api.nvim_get_current_win()
+        end,
         sorting_strategy = 'ascending',
         vimgrep_arguments = {
           'rg',
