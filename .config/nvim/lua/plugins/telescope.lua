@@ -104,15 +104,9 @@ M.config = function()
             theme = 'cursor'
         },
       },
-    }
+    })
 
     telescope.load_extension('fzf')
-
-    -- whichkey.register({
-    --     l = {
-    --         a = { [[:'<,'>Telescope lsp_range_code_actions<cr>]], 'Code actions' },
-    --     },
-    -- }, { prefix = '<leader>', mode = 'v' })
 end
 
 return M
