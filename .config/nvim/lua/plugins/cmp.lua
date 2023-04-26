@@ -51,17 +51,15 @@ M.config = function()
             },
         },
         mapping = {
-            ['<C-p>'] = cmp.mapping.select_prev_item(),
-            ['<C-n>'] = cmp.mapping.select_next_item(),
             ['<C-b>'] = cmp.mapping.scroll_docs(-4),
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-q>'] = cmp.mapping.close(),
-            ['<CR>'] = cmp.mapping.confirm {
+            ['<C-CR>'] = cmp.mapping.confirm {
               behavior = cmp.ConfirmBehavior.Replace,
               select = true,
             },
-            ['<Tab>'] = function(fallback)
+            ['<C-n>'] = function(fallback)
                 if cmp.visible() then
                     cmp.select_next_item()
                 elseif luasnip.expand_or_jumpable() then
@@ -70,7 +68,7 @@ M.config = function()
                     fallback()
                 end
             end,
-            ['<S-Tab>'] = function(fallback)
+            ['<C-p>'] = function(fallback)
                 if cmp.visible() then
                     cmp.select_prev_item()
                 elseif luasnip.jumpable(-1) then

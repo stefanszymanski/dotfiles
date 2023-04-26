@@ -29,10 +29,10 @@ M.config = function()
         defaults = {
             mappings = {
               i = {
-                    ["<c-t>"] = actions.open_with_trouble
+                    ["<C-r>"] = actions.open_with_trouble
               },
               n = {
-                    ["<c-t>"] = actions.open_with_trouble
+                    ["<C-r>"] = actions.open_with_trouble
               },
             },
         },

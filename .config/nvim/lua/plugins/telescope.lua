@@ -43,6 +43,7 @@ local M = {
         { '<leader>fs', ':Telescope search_history<cr>', desc = 'Search history' },
         { '<leader>fc', ':Telescope command_history<cr>', desc = 'Command history' },
         { '<leader>fw', ':Telescope grep_string<cr>', desc = 'Word in workspace' },
+        { '<leader>fh', ':Telescope help_tags<cr>', desc = 'Help tags' },
         { '<leader>la', function() vim.lsp.buf.code_action() end, desc = 'Code actions' },
         { '<leader>lj', ':Telescope lsp_definitions<cr>', desc = 'Definitions' },
         { '<leader>li', ':Telescope lsp_implementations<cr>', desc = 'Implementations' },

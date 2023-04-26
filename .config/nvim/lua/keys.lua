@@ -4,29 +4,37 @@ local whichkey = require('which-key')
 local opts = {silent = true, noremap = true}
 
 legendary.keymaps {
-    -- Switch buffers
-    {'<A-a>', ':bnext<cr>', opts = opts, description = 'Next buffer'},
-    {'<A-x>', ':bprev<cr>', opts = opts, description = 'Previous buffer'},
+    -- Cycle through buffers
+    {'<M-a>', ':bnext<cr>', opts = opts, description = 'Next buffer'},
+    {'<M-x>', ':bprev<cr>', opts = opts, description = 'Previous buffer'},
 
-    -- Switch tabs
-    {'<A-A>', ':tabnext<cr>', opts = opts, description = 'Next tab'},
-    {'<A-X>', ':tabprev<cr>', opts = opts, description = 'Previous tab'},
+    -- Cycle though tabs
+    {'<M-A>', ':tabnext<cr>', opts = opts, description = 'Next tab'},
+    {'<M-X>', ':tabprev<cr>', opts = opts, description = 'Previous tab'},
 
     -- Display diagnostics
     {'+', ':lua vim.diagnostic.open_float({scope = "cursor"})<cr>', opts = opts, description = 'Show diagnostics for cursor'},
 
     -- Cycle through diagnostics
-    {'<A-n>', ':lua vim.diagnostic.goto_next()<cr>', opts = opts, description = 'Next dianostic'},
-    {'<A-p>', ':lua vim.diagnostic.goto_prev()<cr>', opts = opts, description = 'Previous diagnostic'},
+    {'<M-n>', ':lua vim.diagnostic.goto_next()<cr>', opts = opts, description = 'Next dianostic'},
+    {'<M-p>', ':lua vim.diagnostic.goto_prev()<cr>', opts = opts, description = 'Previous diagnostic'},
     -- Cycle through errors
-    {'<A-N>', ':lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<cr>', opts = opts, description = 'Next error'},
-    {'<A-P>', ':lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<cr>', opts = opts, description = 'Previous error'},
+    {'<M-N>', ':lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<cr>', opts = opts, description = 'Next error'},
+    {'<M-P>', ':lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<cr>', opts = opts, description = 'Previous error'},
 
     -- x,X,s,S without yanking
     {'x', '"_x', opts = opts, mode = {'n', 'v'}},
     {'X', '"_X', opts = opts, mode = {'n', 'v'}},
     {'s', '"_s', opts = opts, mode = {'n', 'v'}},
     {'S', '"_S', opts = opts, mode = {'n', 'v'}},
+
+    -- move lines in visual mode
+    { "<C-M-j>", ":m '>+1<CR>gv=gv", mode = 'v'},
+    { "<C-M-k>", ":m '<-2<CR>gv=gv", mode = 'v'},
+
+    -- indent in visual mode without leaving visual mode
+    { '<', '<gv', mode = 'v'},
+    { '>', '>gv', mode = 'v'},
 }
 
 whichkey.register({
@@ -38,7 +46,7 @@ whichkey.register({
     b = {
         name =                                  'Buffers',
         a = {':e#<cr>',                             'Switch to previous buffer'},
-        -- d is added by plugin bufdel
+        -- d is added by plugins/bufdel.lua
         D = {':%bdelete<cr>',                       'Close all buffers'},
         o = {[[:%bdelete|edit #|normal `"<cr>]],    'Close other buffers'},
         y = {':normal! ggVG"+y``<cr>',              'Yank buffer to clipboard'},
