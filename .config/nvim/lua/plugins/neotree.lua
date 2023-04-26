@@ -8,8 +8,8 @@ local M = {
         's1n7ax/nvim-window-picker',
     },
     keys = {
-        { '<leader>n', '<cmd>NeoTreeFocusToggle<cr>', desc = 'Toggle file tree' },
-        { '<leader>N', '<cmd>NeoTreeRevealToggle<cr>', desc = 'Reveal current document in file tree' },
+        { '<leader>n', '<cmd>NeoTreeFocusToggle<CR>', desc = 'Toggle file tree' },
+        { '<leader>N', '<cmd>NeoTreeRevealToggle<CR>', desc = 'Reveal current document in file tree' },
     }
 }
 
@@ -20,15 +20,15 @@ M.config = function()
         window = {
             width = 60,
             mappings = {
-                ['<c-v>'] = 'open_vsplit',
-                ['<c-x>'] = 'open_split',
+                ['<C-v>'] = 'open_vsplit',
+                ['<C-x>'] = 'open_split',
             }
         },
         event_handlers = {
           {
+            -- Close neotree when opening a file
             event = "file_opened",
             handler = function()
-                --auto close
                 neotree.close_all()
             end
           },

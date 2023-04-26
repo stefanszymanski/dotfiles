@@ -19,21 +19,21 @@ local function on_attach(client, bufnr)
 
     if client.server_capabilities.renameProvider then
         -- TODO remove transparency from input dialog
-        keymap_n.lr = { '<cmd>lua vim.lsp.buf.rename()<cr>', 'Rename (suc)' }
+        keymap_n.lr = { '<cmd>lua vim.lsp.buf.rename()<CR>', 'Rename (suc)' }
     end
     if client.server_capabilities.callHierarchyProvider then
-        keymap_n.lI = { '<cmd>lua vim.lsp.buf.incoming_calls()<cr>', 'Incoming calls' }
-        keymap_n.lO = { '<cmd>lua vim.lsp.buf.outgoing_calls()<cr>', 'Outgoing calls' }
+        keymap_n.lI = { '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', 'Incoming calls' }
+        keymap_n.lO = { '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', 'Outgoing calls' }
     end
     if client.server_capabilities.documentFormattingProvider then
-        keymap_n.lf = { '<cmd>lua vim.lsp.buf.format({async = true})<cr>', 'Format document' }
+        keymap_n.lf = { '<cmd>lua vim.lsp.buf.format({async = true})<CR>', 'Format document' }
     end
     if client.server_capabilities.documentRangeFormattingProvider then
-        keymap_v.lf = { '<cmd>lua vim.lsp.buf.format({silent = true, buffer = 0, normal = true})<cr>', 'Format' }
+        keymap_v.lf = { '<cmd>lua vim.lsp.buf.format({silent = true, buffer = 0, normal = true})<CR>', 'Format' }
     end
     if client.server_capabilities.hoverProvider then
         legendary.keymaps {
-            { '-', ':lua vim.lsp.buf.hover()<cr>', opts = { noremap = true, silent = true }, description = 'Show LSP hover information' }
+            { '-', ':lua vim.lsp.buf.hover()<CR>', opts = { noremap = true, silent = true }, description = 'Show LSP hover information' }
         }
     end
 

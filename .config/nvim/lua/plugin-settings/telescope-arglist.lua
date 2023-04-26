@@ -7,8 +7,8 @@ M.config = function()
     telescope.load_extension('arglist')
 
     whichkey.register({
-        fa = {':Telescope arglist window<cr>', 'Arglist window'},
-        fA = {':Telescope arglist global<cr>', 'Arglist global'},
+        fa = {':Telescope arglist window<CR>', 'Arglist window'},
+        fA = {':Telescope arglist global<CR>', 'Arglist global'},
     }, {prefix = '<leader>'})
 end
 

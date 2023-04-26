@@ -3,8 +3,8 @@ local M = {
     'sindrets/diffview.nvim',
     dependencies = 'nvim-lua/plenary.nvim',
     keys = {
-        { '<leader>gS', '<cmd>DiffviewOpen<cr>', desc = 'Status' },
-        { '<leader>gh', '<cmd>DiffviewFileHistory<cr>', desc = 'Document history' },
+        { '<leader>gS', '<cmd>DiffviewOpen<CR>', desc = 'Status' },
+        { '<leader>gh', '<cmd>DiffviewFileHistory<CR>', desc = 'Document history' },
     },
 }
 

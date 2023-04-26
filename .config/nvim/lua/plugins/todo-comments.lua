@@ -10,12 +10,12 @@ local M = {
         { '[t', function() require('todo-comments').jump_prev() end, desc = 'Previous Todo' },
         {
             '<leader>dt',
-            ':TodoTrouble  keywords=' .. keywords .. ' cwd=<C-R>=expand("%:p")<cr><cr>',
+            ':TodoTrouble  keywords=' .. keywords .. ' cwd=<C-R>=expand("%:p")<CR><CR>',
             desc = 'Workspace Todos',
         },
         {
             '<leader>dT',
-            ':TodoTrouble keywords=' .. keywords .. '<cr>',
+            ':TodoTrouble keywords=' .. keywords .. '<CR>',
             desc = 'Workspace Todos',
         },
     },

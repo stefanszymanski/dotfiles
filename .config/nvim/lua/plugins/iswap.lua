@@ -5,8 +5,8 @@ local M = {
         'nvim-treesitter/nvim-treesitter'
     },
     keys = {
-        { 'gs', ':ISwapWith<cr>', desc = 'Swap this' },
-        { 'gS', ':ISwap<cr>', desc = 'Swap' },
+        { 'gs', ':ISwapWith<CR>', desc = 'Swap this' },
+        { 'gS', ':ISwap<CR>', desc = 'Swap' },
     },
 }
 

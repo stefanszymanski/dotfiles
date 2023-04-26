@@ -13,16 +13,16 @@ M.keys = function()
         { '[oD', util.enable_diff, desc = 'Git diff' },
         { ']oD', util.disable_diff, desc = 'Git diff' },
         -- show blame of current line as virtual text
-        { 'yoB', '<cmd>Gitsigns toggle_current_line_blame<cr>', desc = 'Git line blame' },
+        { 'yoB', '<cmd>Gitsigns toggle_current_line_blame<CR>', desc = 'Git line blame' },
         -- hunk actions
-        { '<leader>ga', '<cmd>Gitsigns stage_hunk<cr>', desc = 'Stage hunk', mode = { 'n', 'v' } },
-        { '<leader>gu', '<cmd>Gitsigns reset_hunk<cr>', desc = 'Reset hunk', mode = { 'n', 'v' } },
-        { '<leader>gp', '<cmd>Gitsigns preview_hunk<cr>', desc = 'Preview hunk' },
+        { '<leader>ga', '<cmd>Gitsigns stage_hunk<CR>', desc = 'Stage hunk', mode = { 'n', 'v' } },
+        { '<leader>gu', '<cmd>Gitsigns reset_hunk<CR>', desc = 'Reset hunk', mode = { 'n', 'v' } },
+        { '<leader>gp', '<cmd>Gitsigns preview_hunk<CR>', desc = 'Preview hunk' },
         -- hunk motions
-        { ']h', ':Gitsigns next_hunk<cr>', desc = 'Next Git hunk (also <A-u>)' },
-        { '[h', ':Gitsigns prev_hunk<cr>', desc = 'Previous Git hunk (also <A-d>)' },
-        { '<A-u>', ':Gitsigns next_hunk<cr>', desc = 'Next Git hunk' },
-        { '<A-d>', ':Gitsigns prev_hunk<cr>', desc = 'Previous Git hunk' },
+        { ']h', ':Gitsigns next_hunk<CR>', desc = 'Next Git hunk (also <M-u>)' },
+        { '[h', ':Gitsigns prev_hunk<CR>', desc = 'Previous Git hunk (also <M-d>)' },
+        { '<M-u>', ':Gitsigns next_hunk<CR>', desc = 'Next Git hunk' },
+        { '<M-d>', ':Gitsigns prev_hunk<CR>', desc = 'Previous Git hunk' },
     }
     return keys
 end

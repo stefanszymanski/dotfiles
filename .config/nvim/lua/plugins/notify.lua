@@ -3,7 +3,7 @@ local M = {
     dependencies = 'nvim-telescope/telescope.nvim',
     lazy = false,
     keys = {
-        {'<leader>fn', ':Telescope notify<cr>', desc = 'Notifications'}
+        {'<leader>fn', ':Telescope notify<CR>', desc = 'Notifications'}
     }
 }
 

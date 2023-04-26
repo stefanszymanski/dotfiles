@@ -25,9 +25,9 @@ local M = {
                 'nvim-telescope/telescope.nvim',
             },
             keys = {
-                { '<leader>xx', '<cmd>Telescope dap configurations<cr>', desc = 'Select configuration' },
-                { '<leader>xl', '<cmd>Telescope dap list_breakpoints<cr>', desc = 'List breakpoints' },
-                { '<leader>xf', '<cmd>Telescope dap frames<cr>', desc = 'List frames' },
+                { '<leader>xx', '<cmd>Telescope dap configurations<CR>', desc = 'Select configuration' },
+                { '<leader>xl', '<cmd>Telescope dap list_breakpoints<CR>', desc = 'List breakpoints' },
+                { '<leader>xf', '<cmd>Telescope dap frames<CR>', desc = 'List frames' },
             },
             config = function()
                 require('telescope').load_extension('dap')

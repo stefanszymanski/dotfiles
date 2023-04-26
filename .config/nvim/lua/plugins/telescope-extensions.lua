@@ -4,7 +4,7 @@ local M = {
         'nvim-telescope/telescope-media-files.nvim',
         dependencies = 'nvim-telescope/telescope.nvim',
         keys = {
-            { '<leader>fm', ':Telescope media_files<cr>', desc = 'Media files in workspace' },
+            { '<leader>fm', ':Telescope media_files<CR>', desc = 'Media files in workspace' },
         },
         config = function()
             local telescope = require('telescope')
@@ -24,7 +24,7 @@ local M = {
         'nvim-telescope/telescope-symbols.nvim',
         dependencies = 'nvim-telescope/telescope.nvim',
         keys = {
-            { 'gI', ':Telescope symbols<cr>', desc = 'insert symbol' },
+            { 'gI', ':Telescope symbols<CR>', desc = 'insert symbol' },
         },
         config = function()
             require('telescope').load_extension('symbols')
@@ -36,7 +36,7 @@ local M = {
         'crispgm/telescope-heading.nvim',
         dependencies = 'nvim-telescope/telescope.nvim',
         keys = {
-            { '<leader>fh', ':Telescope heading<cr>', desc = 'Headings in buffer' },
+            { '<leader>fh', ':Telescope heading<CR>', desc = 'Headings in buffer' },
         },
         config = function()
             require('telescope').load_extension('heading')

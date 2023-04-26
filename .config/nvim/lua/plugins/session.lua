@@ -4,8 +4,8 @@ local M = {
         'rmagatti/auto-session',
         lazy = false,
         keys = {
-            {'<leader>sw', ':SaveSession<cr>', desc = 'Save session'},
-            {'<leader>sd', ':DeleteSession<cr>', desc = 'Delete session'},
+            {'<leader>sw', ':SaveSession<CR>', desc = 'Save session'},
+            {'<leader>sd', ':DeleteSession<CR>', desc = 'Delete session'},
         },
         config = function()
             require('auto-session').setup({
@@ -18,7 +18,7 @@ local M = {
         'rmagatti/session-lens',
         dependencies = { 'rmagatti/auto-session', 'nvim-telescope/telescope.nvim' },
         keys = {
-            { '<leader>ss', ':SearchSession<cr>', desc = 'List sessions' }
+            { '<leader>ss', ':SearchSession<CR>', desc = 'List sessions' }
         },
         config = function()
             require('session-lens').setup()

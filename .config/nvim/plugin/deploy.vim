@@ -119,25 +119,25 @@
 " " === Mappings === "
 
 " " with target selection, dispatch in background
-" nnoremap <silent> <leader>dt :<c-u>DeployCurrentInteractive!<cr>
-" nnoremap <silent> <leader>da :<c-u>DeployAllInteractive!<cr>
-" nnoremap <silent> <leader>dc :<c-u>DeployChangedInteractive!<cr>
+" nnoremap <silent> <leader>dt :<c-u>DeployCurrentInteractive!<CR>
+" nnoremap <silent> <leader>da :<c-u>DeployAllInteractive!<CR>
+" nnoremap <silent> <leader>dc :<c-u>DeployChangedInteractive!<CR>
  
 " " with target selection, dispatch in foreground
-" nnoremap <silent> <leader>dT :<c-u>DeployCurrentInteractive<cr>
-" nnoremap <silent> <leader>dA :<c-u>DeployAllInteractive<cr>
-" nnoremap <silent> <leader>dC :<c-u>DeployChangedInteractive<cr>
+" nnoremap <silent> <leader>dT :<c-u>DeployCurrentInteractive<CR>
+" nnoremap <silent> <leader>dA :<c-u>DeployAllInteractive<CR>
+" nnoremap <silent> <leader>dC :<c-u>DeployChangedInteractive<CR>
 
 " " with file and target selection
 " nnoremap <silent> <leader>df  :<C-u>Clap deploy_files +silent<CR>
 " nnoremap <silent> <leader>dF  :<C-u>Clap deploy_files<CR>
 
 " " to default target, dispacth in background
-" nnoremap <silent> <leader>Dt :<c-u>DeployCurrentDefault!<cr>
-" nnoremap <silent> <leader>Da :<c-u>DeployAllDefault!<cr>
-" nnoremap <silent> <leader>Dc :<c-u>DeployChangedDefault!<cr>
+" nnoremap <silent> <leader>Dt :<c-u>DeployCurrentDefault!<CR>
+" nnoremap <silent> <leader>Da :<c-u>DeployAllDefault!<CR>
+" nnoremap <silent> <leader>Dc :<c-u>DeployChangedDefault!<CR>
 
 " " to default target, dispacth in foreground
-" nnoremap <silent> <leader>DT :<c-u>DeployCurrentDefault<cr>
-" nnoremap <silent> <leader>DA :<c-u>DeployAllDefault<cr>
-" nnoremap <silent> <leader>DC :<c-u>DeployChangedDefault<cr>
+" nnoremap <silent> <leader>DT :<c-u>DeployCurrentDefault<CR>
+" nnoremap <silent> <leader>DA :<c-u>DeployAllDefault<CR>
+" nnoremap <silent> <leader>DC :<c-u>DeployChangedDefault<CR>

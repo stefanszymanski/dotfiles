@@ -7,7 +7,7 @@ M.config = function()
     legendary.setup {}
 
     whichkey.register({
-        fk = {':Legendary keymaps<cr>', 'Key bindings'}
+        fk = {':Legendary keymaps<CR>', 'Key bindings'}
     }, {prefix = '<leader>'})
 end
 

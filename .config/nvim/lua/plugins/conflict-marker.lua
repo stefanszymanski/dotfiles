@@ -3,14 +3,14 @@ local M = {
     event = 'VeryLazy',
     keys = {
         -- Cycle through conflict hunks
-        { '<A-D>', ':ConflictMarkerNextHunk<cr>', desc = 'Next conflict hunk', mode = {'n', 'v'}},
-        { '<A-U>', ':ConflictMarkerPrevHunk<cr>', desc = 'Previous conflict hunk', mode = {'n', 'v'} },
+        { '<M-D>', ':ConflictMarkerNextHunk<CR>', desc = 'Next conflict hunk', mode = {'n', 'v'}},
+        { '<M-U>', ':ConflictMarkerPrevHunk<CR>', desc = 'Previous conflict hunk', mode = {'n', 'v'} },
         -- Resolve conflicts
-        { '<leader>rt', ':ConflictMarkerThemselves<cr>', desc = 'Theirs' },
-        { '<leader>ro', ':ConflictMarkerOurselves<cr>', desc = 'Ours' },
-        { '<leader>rb', ':ConflictMarkerBoth<cr>', desc = 'Both' },
-        { '<leader>rB', ':ConflictMarkerBoth!<cr>', desc = 'Both, reversed' },
-        { '<leader>rn', ':ConflictMarkerNone<cr>', desc = 'None' },
+        { '<leader>rt', ':ConflictMarkerThemselves<CR>', desc = 'Theirs' },
+        { '<leader>ro', ':ConflictMarkerOurselves<CR>', desc = 'Ours' },
+        { '<leader>rb', ':ConflictMarkerBoth<CR>', desc = 'Both' },
+        { '<leader>rB', ':ConflictMarkerBoth!<CR>', desc = 'Both, reversed' },
+        { '<leader>rn', ':ConflictMarkerNone<CR>', desc = 'None' },
     },
 }
 

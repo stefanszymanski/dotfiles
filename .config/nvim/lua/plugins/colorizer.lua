@@ -3,9 +3,9 @@ local M = {
     'norcalli/nvim-colorizer.lua',
     ft = {'css', 'less', 'scss', 'javascript'},
     keys = {
-        { 'yoC', '<cmd>ColorizerToggle<cr>', desc = 'Colorizer' },
-        { '[oC', '<cmd>ColorizerAttachToBuffer<cr>', desc = 'Colorizer' },
-        { ']oC', '<cmd>ColorizerDetachFromBuffer<cr>', desc = 'Colorizer' },
+        { 'yoC', '<cmd>ColorizerToggle<CR>', desc = 'Colorizer' },
+        { '[oC', '<cmd>ColorizerAttachToBuffer<CR>', desc = 'Colorizer' },
+        { ']oC', '<cmd>ColorizerDetachFromBuffer<CR>', desc = 'Colorizer' },
     },
 }
 

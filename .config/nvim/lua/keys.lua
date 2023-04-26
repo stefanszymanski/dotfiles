@@ -5,22 +5,22 @@ local opts = {silent = true, noremap = true}
 
 legendary.keymaps {
     -- Cycle through buffers
-    {'<M-a>', ':bnext<cr>', opts = opts, description = 'Next buffer'},
-    {'<M-x>', ':bprev<cr>', opts = opts, description = 'Previous buffer'},
+    {'<M-a>', ':bnext<CR>', opts = opts, description = 'Next buffer'},
+    {'<M-x>', ':bprev<CR>', opts = opts, description = 'Previous buffer'},
 
     -- Cycle though tabs
-    {'<M-A>', ':tabnext<cr>', opts = opts, description = 'Next tab'},
-    {'<M-X>', ':tabprev<cr>', opts = opts, description = 'Previous tab'},
+    {'<M-A>', ':tabnext<CR>', opts = opts, description = 'Next tab'},
+    {'<M-X>', ':tabprev<CR>', opts = opts, description = 'Previous tab'},
 
     -- Display diagnostics
-    {'+', ':lua vim.diagnostic.open_float({scope = "cursor"})<cr>', opts = opts, description = 'Show diagnostics for cursor'},
+    {'+', ':lua vim.diagnostic.open_float({scope = "cursor"})<CR>', opts = opts, description = 'Show diagnostics for cursor'},
 
     -- Cycle through diagnostics
-    {'<M-n>', ':lua vim.diagnostic.goto_next()<cr>', opts = opts, description = 'Next dianostic'},
-    {'<M-p>', ':lua vim.diagnostic.goto_prev()<cr>', opts = opts, description = 'Previous diagnostic'},
+    {'<M-n>', ':lua vim.diagnostic.goto_next()<CR>', opts = opts, description = 'Next dianostic'},
+    {'<M-p>', ':lua vim.diagnostic.goto_prev()<CR>', opts = opts, description = 'Previous diagnostic'},
     -- Cycle through errors
-    {'<M-N>', ':lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<cr>', opts = opts, description = 'Next error'},
-    {'<M-P>', ':lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<cr>', opts = opts, description = 'Previous error'},
+    {'<M-N>', ':lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>', opts = opts, description = 'Next error'},
+    {'<M-P>', ':lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>', opts = opts, description = 'Previous error'},
 
     -- x,X,s,S without yanking
     {'x', '"_x', opts = opts, mode = {'n', 'v'}},
@@ -28,29 +28,32 @@ legendary.keymaps {
     {'s', '"_s', opts = opts, mode = {'n', 'v'}},
     {'S', '"_S', opts = opts, mode = {'n', 'v'}},
 
-    -- move lines in visual mode
-    { "<C-M-j>", ":m '>+1<CR>gv=gv", mode = 'v'},
-    { "<C-M-k>", ":m '<-2<CR>gv=gv", mode = 'v'},
-
     -- indent in visual mode without leaving visual mode
     { '<', '<gv', mode = 'v'},
     { '>', '>gv', mode = 'v'},
+
+    -- move lines in normal mode
+    { "<C-M-j>", ":m .+1<CR>==", mode = 'n'},
+    { "<C-M-k>", ":m .-2<CR>==", mode = 'n'},
+    -- move lines in visual mode
+    { "<C-M-j>", ":m '>+1<CR>gv=gv", mode = 'v'},
+    { "<C-M-k>", ":m '<-2<CR>gv=gv", mode = 'v'},
 }
 
 whichkey.register({
-    w = {':w<cr>',                              'Save buffer'},
-    W = {':wa<cr>',                             'Save all buffers'},
-    q = {':wqa<cr>',                            'Quit'},
-    Q = {':qa!<cr>',                            'Quit without saving'},
+    w = {':w<CR>',                              'Save buffer'},
+    W = {':wa<CR>',                             'Save all buffers'},
+    q = {':wqa<CR>',                            'Quit'},
+    Q = {':qa!<CR>',                            'Quit without saving'},
     -- used by plugins: bufdel
     b = {
         name =                                  'Buffers',
-        a = {':e#<cr>',                             'Switch to previous buffer'},
+        a = {':e#<CR>',                             'Switch to previous buffer'},
         -- d is added by plugins/bufdel.lua
-        D = {':%bdelete<cr>',                       'Close all buffers'},
-        o = {[[:%bdelete|edit #|normal `"<cr>]],    'Close other buffers'},
-        y = {':normal! ggVG"+y``<cr>',              'Yank buffer to clipboard'},
-        p = {':normal! ggdG"+P<cr>',                'Replace buffer with clipboard'},
+        D = {':%bdelete<CR>',                       'Close all buffers'},
+        o = {[[:%bdelete|edit #|normal `"<CR>]],    'Close other buffers'},
+        y = {':normal! ggVG"+y``<CR>',              'Yank buffer to clipboard'},
+        p = {':normal! ggdG"+P<CR>',                'Replace buffer with clipboard'},
     },
     -- used by plugins: telescope
     f = {
@@ -143,5 +146,5 @@ whichkey.register({
 } , {prefix = 'g', mode = 'v', noremap = false})
 
 whichkey.register({
-    o = {':only<cr>', 'Close other windows'}
+    o = {':only<CR>', 'Close other windows'}
 }, { prefix = '<C-W>'})
