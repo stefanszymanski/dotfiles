@@ -78,7 +78,7 @@ M.config = function()
                 end
             end,
             ['<M-CR>'] = function(fallback)
-                -- see plugins.copilot
+                -- see plugins/copilot.lua
                 local copilot_keys = vim.fn["copilot#Accept"]()
                 if copilot_keys ~= "" then
                     vim.api.nvim_feedkeys(copilot_keys, "i", true)
