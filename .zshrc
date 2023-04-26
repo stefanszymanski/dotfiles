@@ -284,7 +284,11 @@ alias wconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-work/ --work-tree=$HOME'
 alias wdeployconfig='/usr/bin/git --git-dir=$HOME/work/projects/deploy.confd/.git --work-tree=$HOME/work/projects/deploy.confd'
 
 # work password store
-alias wpass='PASSWORD_STORE_DIR=$HOME/.password-store-work/ pass'
+compdef _pass wpass
+zstyle ':completion::complete:wpass::' prefix "$HOME/.password-store-work/"
+wpass() {
+  PASSWORD_STORE_DIR=$HOME/.password-store-work pass $@
+}
 
 # vim as pager
 alias vless='/usr/share/nvim/runtime/macros/less.sh'
