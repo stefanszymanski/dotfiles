@@ -20,17 +20,6 @@ local M = {
         end
     },
     {
-        -- Search and insert Unicode symbols
-        'nvim-telescope/telescope-symbols.nvim',
-        dependencies = 'nvim-telescope/telescope.nvim',
-        keys = {
-            { 'gI', ':Telescope symbols<CR>', desc = 'insert symbol' },
-        },
-        config = function()
-            require('telescope').load_extension('symbols')
-        end
-    },
-    {
         -- Browse headings
         -- TODO restrict to certain filetypes
         'crispgm/telescope-heading.nvim',
