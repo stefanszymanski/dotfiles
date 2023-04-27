@@ -21,7 +21,6 @@ require('settings')
 require('lazy').setup({
     spec = {
         {
-            'lewis6991/impatient.nvim',
             'dstein64/vim-startuptime',
         },
         { import = 'plugins-old' },
@@ -43,5 +42,4 @@ require('lazy').setup({
     }
 })
 
-require('impatient')
 require('keys')
