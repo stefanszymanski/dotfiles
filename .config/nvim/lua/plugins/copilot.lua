@@ -1,27 +1,24 @@
 local M = {
-    'github/copilot.vim',
-    event = 'VeryLazy',
-    keys = {
-        { '<leader>pe', '<cmd>Copilot enable<CR>', desc = 'Enable' },
-        { '<leader>pd', '<cmd>Copilot disable<CR>', desc = 'Disable' },
-        { '<leader>ps', '<cmd>Copilot status<CR>', desc = 'Status' },
-        { '<leader>pp', '<cmd>Copilot panel<CR>', desc = 'Panel' },
-        { '<M-n>', '<Plug>(copilot-next)', mode = 'i' },
-        { '<M-p>', '<Plug>(copilot-previous)', mode = 'i' },
-        { '<M-q>', '<Plug>(copilot-dismiss)', mode = 'i' },
-        { '<M-Space>', '<Plug>(copilot-suggest)', mode = 'i' },
-        -- <M-CR> for confirming a suggestion is defined in plugins/cmp.lua
+    'zbirenbaum/copilot.lua',
+    event = 'InsertEnter',
+    dependencies = {
+        {
+            'zbirenbaum/copilot-cmp',
+            dependencies = 'hrsh7th/nvim-cmp',
+        },
     },
 }
 
-M.init = function()
-    vim.g.copilot_no_tab_map = true
-    vim.g.copilot_assume_mapped = true
-    vim.g.copilot_tab_fallback = ""
-end
-
 M.config = function()
-    vim.api.nvim_set_hl(0, "CopilotSuggestion", { link = 'Substitute' })
+    require('copilot').setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+    })
+    require('copilot_cmp').setup({
+        formatters = {
+            insert_text = require("copilot_cmp.format").remove_existing
+          },
+    })
 end
 
 return M
