@@ -7,6 +7,7 @@ M.config = function()
     vim.opt.termguicolors = true
     vim.g.gruvbox_material_palette = 'mix'
     vim.g.gruvbox_material_background = 'medium'
+    vim.g.gruvbox_material_menu_selection_background = 'yellow'
 
     vim.cmd [[colorscheme gruvbox-material]]
 
