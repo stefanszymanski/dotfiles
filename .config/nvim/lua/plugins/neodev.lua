@@ -1,5 +1,6 @@
 local M = {
     'folke/neodev.nvim',
+    event = 'VeryLazy',
 }
 
 M.config = function()
