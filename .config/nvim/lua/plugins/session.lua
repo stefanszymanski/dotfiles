@@ -4,8 +4,8 @@ local M = {
         'rmagatti/auto-session',
         lazy = false,
         keys = {
-            {'<leader>sw', ':SaveSession<CR>', desc = 'Save session'},
-            {'<leader>sd', ':DeleteSession<CR>', desc = 'Delete session'},
+            {'<leader>sw', ':SessionSave<CR>', desc = 'Save session'},
+            {'<leader>sd', ':SessionDelete<CR>', desc = 'Delete session'},
         },
         config = function()
             require('auto-session').setup({
