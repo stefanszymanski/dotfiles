@@ -72,27 +72,30 @@ M.config = function()
             { name = 'path' },
             { name = 'emoji' },
             { name = 'greek' },
-            { name = 'dynamic', trigger_characters = {':'} },
+            { name = 'dynamic' },
         }, {
             { name = 'buffer', keyword_length = 3 },
         }),
         formatting = {
-            fields = { 'abbr', 'kind', 'menu' },
-            format = lspkind.cmp_format({
-                mode = 'symbol',
-                menu = menu_types,
-            }),
+            fields = { 'kind', 'abbr', 'menu' },
+            format = function(entry, vim_item)
+                local kind = lspkind.cmp_format({ mode = "symbol", menu = menu_types })(entry, vim_item)
+                kind.kind = " " .. (kind.kind or " ") .. " "
+                return kind
+            end,
         },
         mapping = {
-            ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-c>'] = cmp.mapping.complete(),
-            ['<C-q>'] = cmp.mapping.abort(),
-            ['<C-j>'] = cmp.mapping.confirm({
-                behavior = cmp.ConfirmBehavior.Replace,
-                select = true,
-            }),
-            ['<C-n>'] = function(fallback)
+            ['<C-b>'] = cmp.mapping(function() cmp.scroll_docs(-4) end, { 'i', 'c', 's' }),
+            ['<C-f>'] = cmp.mapping(function() cmp.scroll_docs(4) end, { 'i', 's', 'c' }),
+            ['<C-c>'] = cmp.mapping(function() cmp.complete() end, { 'i', 's', 'c' }),
+            ['<C-q>'] = cmp.mapping(function() cmp.abort() end, { 'i', 's', 'c' }),
+            ['<C-j>'] = cmp.mapping(function()
+                cmp.confirm({
+                    behavior = cmp.ConfirmBehavior.Replace,
+                    select = true,
+                })
+            end, {'i', 'c', 's'}),
+            ['<C-n>'] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_next_item()
                 elseif luasnip.expand_or_jumpable() then
@@ -100,8 +103,8 @@ M.config = function()
                 else
                     fallback()
                 end
-            end,
-            ['<C-p>'] = function(fallback)
+            end, { 'i', 's', 'c' }),
+            ['<C-p>'] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_prev_item()
                 elseif luasnip.jumpable(-1) then
@@ -109,7 +112,7 @@ M.config = function()
                 else
                     fallback()
                 end
-            end,
+            end, { 'i', 's', 'c' }),
             ['<C-k>'] = cmp.mapping.complete({
                 config = {
                     sources = {
