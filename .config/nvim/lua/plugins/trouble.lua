@@ -17,12 +17,19 @@ local M = {
 
 M.config = function()
     local trouble = require('trouble')
-    local actions = require('trouble.providers.telescope')
-    local telescope = require('telescope')
+    -- local actions = require('trouble.providers.telescope')
+    -- local telescope = require('telescope')
 
-    trouble.setup {
+    trouble.setup({
         height = 18,
-    }
+        signs = {
+            error = "",
+            warning = "",
+            hint = "",
+            information = "",
+            other = "﫠"
+        },
+    })
 
     -- FIXME setup() gets already called in plugins/telescope.lua, calling it a second time overrides the previous setup
     -- telescope.setup {
