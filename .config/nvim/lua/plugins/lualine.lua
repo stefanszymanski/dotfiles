@@ -1,5 +1,6 @@
 local M = {
     'nvim-lualine/lualine.nvim',
+    event = "BufReadPost",
     dependencies = {
         'nvim-treesitter/nvim-treesitter',
         'nvim-tree/nvim-web-devicons',
@@ -11,12 +12,11 @@ local M = {
             end,
         },
     },
-    event = 'VeryLazy',
 }
 
 M.config = function()
     local lualine = require('lualine')
-    -- local dap = require('dap')
+    local theme = require('lualine.themes.gruvbox-material')
 
     local function lsp_client(msg)
         msg = msg or ""
@@ -44,23 +44,49 @@ M.config = function()
             table.insert(buf_client_names, source.name)
         end
 
-        return "[" .. table.concat(buf_client_names, ", ") .. "]"
+        -- TODO remove duplicates from `buf_client_names`
+        return table.concat(buf_client_names, ", ")
     end
 
     local function window()
         return vim.api.nvim_win_get_number(0)
     end
 
+    -- define highlights for the diagnostics section
+    local function register_diagnostic_highlights(bg)
+        for _, kind in pairs({ 'Error', 'Warn', 'Info', 'Hint' }) do
+            local hl = vim.api.nvim_get_hl_by_name('DiagnosticSign' .. kind, true)
+            hl['bg'] = bg
+            vim.api.nvim_set_hl(0, 'LualineDiagnostic' .. kind, hl)
+        end
+    end
+
+    register_diagnostic_highlights(theme.normal.c.bg)
+
     local diagnostics = {
         "diagnostics",
         sources = { "nvim_diagnostic" },
-        symbols = { error = " ", warn = " ", info = " ", hint = " " },
-        colored = false,
+        sections = { 'error', 'warn', 'info', 'hint' },
+        symbols = {
+            error = " ",
+            warn = " ",
+            info = " ",
+            hint = " "
+        },
+        diagnostics_color = {
+            error = 'LualineDiagnosticError',
+            warn = 'LuaLineDiagnosticWarn',
+            info = 'LuaLineDiagnosticInfo',
+            hint = 'LuaLineDiagnosticHint',
+        },
+        colored = true,
+        update_in_insert = false,
+        always_visible = false,
     }
 
     lualine.setup {
         options = {
-            theme = 'auto',
+            theme = theme,
             icons_enabled = true,
             component_separators = { left = '|', right = '|' },
             section_separators = { left = '', right = '' },
@@ -75,9 +101,9 @@ M.config = function()
             lualine_b = {
                 'branch',
                 'diff',
-                diagnostics
             },
             lualine_c = {
+                diagnostics,
                 {
                     lsp_client,
                     icon = "",
