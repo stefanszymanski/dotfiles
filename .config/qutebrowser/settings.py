@@ -200,9 +200,9 @@ c.bindings.commands = {
         '<Alt-p>o': 'spawn --userscript qute-pass --username-only',
         '<Alt-p>l': 'spawn --userscript qute-pass --password-only',
         # edit URL
-        'eo': 'set-cmd-text -s :open {url}',
+        'eo': 'cmd-set-text -s :open {url}',
         # edit URL and open in new tab
-        'eO': 'set-cmd-text -s :open -t {url}',
+        'eO': 'cmd-set-text -s :open -t {url}',
         # open developer tools
         '<F12>': 'devtools',
         # format content

@@ -1,10 +1,10 @@
 [pulseaudio]
     
-    [pulseaudio.sink.speakers]
-    name = "alsa_output.pci-0000_0b_00.1.hdmi-stereo-extra2"
+    [pulseaudio.sink.primary]
+    name = "alsa_output.pci-0000_0d_00.1.hdmi-stereo"
     title = "Speakers"
 
-    [pulseaudio.sink.headphones]
+    [pulseaudio.sink.secondary]
     name = "alsa_output.pci-0000_0d_00.4.analog-stereo"
     title = "Headphones"
 
