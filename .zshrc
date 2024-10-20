@@ -279,17 +279,6 @@ alias gl='glab'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias pconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-private/ --work-tree=$HOME'
 
-# work dotfiles
-alias wconfig='/usr/bin/git --git-dir=$HOME/.dotfiles-work/ --work-tree=$HOME'
-alias wdeployconfig='/usr/bin/git --git-dir=$HOME/work/projects/deploy.confd/.git --work-tree=$HOME/work/projects/deploy.confd'
-
-# work password store
-compdef _pass wpass
-zstyle ':completion::complete:wpass::' prefix "$HOME/.password-store-work/"
-wpass() {
-  PASSWORD_STORE_DIR=$HOME/.password-store-work pass $@
-}
-
 # vim as pager
 alias vless='/usr/share/nvim/runtime/macros/less.sh'
 
@@ -339,7 +328,6 @@ alias bl1='de-backlight set 100'
 alias share='nc termbin.com 9999 | xclip -in -selection clipboard && printf "%s\n" "Link copied to clipboard" || printf "%s\n" "An error occured"'
 
 # khal (wip)
-alias iwcal='ikhal -c $HOME/.config/khal/config-work'
 alias ipcal='ikhal'
 alias pcal='khal list'
 
