@@ -151,14 +151,14 @@ M.config = function()
     cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
     require("cmp_dynamic").register({
-        { label = ":today", insertText = function() return os.date("%Y-%m-%d") end, },
-        { label = ":today-de", insertText = function() return os.date("%d.%m.%Y") end, },
-        { label = ":today-utc", insertText = function() return os.date("!%Y-%m-%d") end, },
-        { label = ":now", insertText = function() return os.date("%H:%M:%S") end, },
-        { label = ":now-timestamp", insertText = function() return os.date("%s") end, },
-        { label = ":today-de-utc", insertText = function() return os.date("!%d.%m.%Y") end, },
-        { label = ":now-utc", insertText = function() return os.date("!%H:%M:%S") end, },
-        { label = ":now-timestamp-utc", insertText = function() return os.date("!%s") end, },
+        { label = "today", insertText = function() return os.date("%Y-%m-%d") end, },
+        { label = "today-de", insertText = function() return os.date("%d.%m.%Y") end, },
+        { label = "today-utc", insertText = function() return os.date("!%Y-%m-%d") end, },
+        { label = "now", insertText = function() return os.date("%H:%M:%S") end, },
+        { label = "now-timestamp", insertText = function() return os.date("%s") end, },
+        { label = "today-de-utc", insertText = function() return os.date("!%d.%m.%Y") end, },
+        { label = "now-utc", insertText = function() return os.date("!%H:%M:%S") end, },
+        { label = "now-timestamp-utc", insertText = function() return os.date("!%s") end, },
     })
 end
 
