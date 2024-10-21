@@ -374,3 +374,5 @@
 
 [includeIf "gitdir:~/work/"]
     path = ~/.config/git/config-work
+[init]
+	defaultBranch = main
