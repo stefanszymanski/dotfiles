@@ -40,6 +40,9 @@ legendary.keymaps {
     { "<C-M-k>", ":m '<-2<CR>gv=gv", mode = 'v'},
 }
 
+-- TODO update to current spec version
+-- TODO change conflicting bindings, see :checkhealth which-key
+
 whichkey.register({
     w = {':w<CR>',                              'Save buffer'},
     W = {':wa<CR>',                             'Save all buffers'},

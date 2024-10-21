@@ -35,7 +35,7 @@ M.config = function()
         'sqlls',
         'tailwindcss',
         'texlab',
-        'tsserver',
+        'ts_ls',
         'vimls',
         'vuels',
         'yamlls',
@@ -85,7 +85,6 @@ M.config = function()
     table.insert(runtime_path, "lua/?/init.lua")
     lspconfig.lua_ls.setup {
       on_attach = on_attach,
-      cmd = { '/home/stefan/build/lua-language-server/bin/lua-language-server' },
       settings = {
         Lua = {
           runtime = {

@@ -35,7 +35,7 @@ M.config = function()
             nullls.builtins.formatting.phpcsfixer,
             nullls.builtins.formatting.sqlformat,
             -- Linters
-            nullls.builtins.diagnostics.codespell, -- TODO why aren't errors linted, but fixed?
+            -- nullls.builtins.diagnostics.codespell, -- TODO why aren't errors linted, but fixed?
             nullls.builtins.diagnostics.eslint,
             nullls.builtins.diagnostics.gitlint,
             nullls.builtins.diagnostics.hadolint,
