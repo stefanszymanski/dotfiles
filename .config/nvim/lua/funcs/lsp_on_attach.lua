@@ -1,6 +1,7 @@
 local function on_attach(client, bufnr)
     local legendary = require('legendary')
     local whichkey = require('which-key')
+    -- local navic = require('nvim-navic')
 
     -- Highlight symbol occurences
     if client.server_capabilities.documentHighlightProvider then
@@ -12,6 +13,10 @@ local function on_attach(client, bufnr)
             augroup END
         ]]
     end
+
+    -- if client.server_capabilities.documentSymbolProvider then
+    --     navic.attach(client, bufnr)
+    -- end
 
     -- Define key bindings
     local keymap_n = {}

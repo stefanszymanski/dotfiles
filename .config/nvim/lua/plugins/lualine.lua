@@ -6,9 +6,16 @@ local M = {
         'nvim-tree/nvim-web-devicons',
         {
             -- Display LSP context in status line
-            'SmiteshP/nvim-gps',
+            'SmiteshP/nvim-navic',
+            dependencies = {
+                'neovim/nvim-lspconfig',
+            },
             config = function()
-                require('nvim-gps').setup {}
+                require('nvim-navic').setup({
+                    lsp = {
+                        auto_attach = true,
+                    },
+                })
             end,
         },
     },
@@ -17,6 +24,7 @@ local M = {
 M.config = function()
     local lualine = require('lualine')
     local theme = require('lualine.themes.gruvbox-material')
+    local navic = require('nvim-navic')
 
     local function lsp_client(msg)
         msg = msg or ""
@@ -110,8 +118,8 @@ M.config = function()
                     color = { fg = '#a9a1e1' },
                 },
                 {
-                    require('nvim-gps').get_location,
-                    cond = require('nvim-gps').is_available,
+                    navic.get_location,
+                    cond = navic.is_available,
                     color = { fg = '#98be65' },
                 },
                 {
