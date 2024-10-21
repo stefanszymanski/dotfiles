@@ -8,6 +8,7 @@
 [ -d "$HOME/.npm/bin" ] && PATH="$HOME/.npm/bin:$PATH"
 [ -d "$HOME/.yarn/bin" ] && PATH="$HOME/.yarn/bin:$PATH"
 [ -d "$HOME/.composer-vendor/bin" ] && PATH="$HOME/.composer-vendor/bin:$PATH"
+[ -d "$HOME/.gem/ruby/2.7.0/bin" ] && PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 [ -d "/usr/lib/ruby/gems/2.7.0/bin" ] && PATH="/usr/lib/ruby/gems/2.7.0/bin:$PATH"
 [ -d "/var/lib/gems/2.7.0/bin/puppet-lint-2.5.2/bin" ] && PATH="/var/lib/gems/2.7.0/bin/puppet-lint-2.5.2/bin"
 [ -d "$HOME/.deno/bin" ] && PATH="$HOME/.deno/bin:$PATH"

@@ -344,6 +344,9 @@ alias zmv='noglob zmv'
 alias mmv='noglob zmv -W'
 alias mcp='noglob zmb -C'
 
+# wolfram alpha
+alias wa='WOLFRAM_APPID="$(cat ~/.wolframalpha-appid)" wolfram'
+
 
 ########################
 # SHELL INITIALISATION #
