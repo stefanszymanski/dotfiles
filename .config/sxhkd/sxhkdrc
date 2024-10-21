@@ -73,6 +73,10 @@ super + ctrl + {1-9,0}
 super + ctrl + {n,p}
     bspc node --to-monitor {next,prev} --follow
 
+# move node to given desktop on next/previous monitor
+super + c ; {n,p} ; {1-9,0}
+    bspc node --to-desktop '{next,prev}:^{1-9,10}' --follow
+
 # move node to a new desktop
 super + c ; d
     bspwm-node-menus move-to-new-desktop
@@ -120,6 +124,10 @@ super + {1-9,0}
 # focus last/next/previous desktop
 super + shift + {space,n,p}
     bspc desktop --focus {last,next.local,prev.local}
+
+# focus given desktop on next/previous monitor
+super + g ; {n,p} ; {1-9,0}
+    bspc desktop --focus '{next,prev}:^{1-9,10}'
 
 # bubble desktop left/right
 super + shift + {h,l}
