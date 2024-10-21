@@ -5,19 +5,17 @@ local M = {
 
 M.config = function()
     require('window-picker').setup({
-        autoselect_one = true,
-        include_current_win = true,
         filter_rules = {
-          -- filter using buffer options
-          bo = {
-            -- if the file type is one of following, the window will be ignored
-            filetype = { 'neo-tree', "neo-tree-popup", "notify" },
-            -- if the buffer type is one of following, the window will be ignored
-            buftype = { 'terminal', "quickfix" },
-          },
+            autoselect_one = true,
+            include_current_win = true,
+            -- filter using buffer options
+            bo = {
+                -- if the file type is one of following, the window will be ignored
+                filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+                -- if the buffer type is one of following, the window will be ignored
+                buftype = { 'terminal', "quickfix" },
+            },
         },
-        other_win_hl_color = '#d79921',
-        fg_color = '#282828',
     })
 end
 

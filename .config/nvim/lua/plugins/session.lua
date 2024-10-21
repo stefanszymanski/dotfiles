@@ -18,6 +18,7 @@ local M = {
         'rmagatti/session-lens',
         dependencies = { 'rmagatti/auto-session', 'nvim-telescope/telescope.nvim' },
         keys = {
+            -- FIXME the command SessionSearch doesn't exist
             { '<leader>ss', ':SearchSession<CR>', desc = 'List sessions' }
         },
         config = function()
