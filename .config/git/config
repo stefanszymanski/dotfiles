@@ -306,6 +306,8 @@
 	subu = submodule update --init --recursive
 
 	m = merge
+    mso = merge --strategy=ours
+    mst = merge --strategy=theirs
 	ma = merge --abort
 	mc = merge --continue
 	mff = merge --ff-only
